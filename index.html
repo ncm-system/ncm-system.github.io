@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zKo4VpFjkfv0frUXGpxWv7TzYM5TRy7xiVe8Ekh0W6Q=' 'sha256-fD63cZGLslFw3/tRwhZFa+ZCZ6xezjral+WcS4zWRvM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zKo4VpFjkfv0frUXGpxWv7TzYM5TRy7xiVe8Ekh0W6Q=' 'sha256-EobIRMCnNyM2UkTQtp4OEPdBdDNcvOpSMFauTVts1kY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1712,7 +1712,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "4";                           // bump to sign every device out
-const BUILD = "dff1b1f1fa1d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "6d4a2f4d7fb9";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 const PIN_LEN = 8;
@@ -1776,7 +1776,7 @@ const I18N = {
     pinAria:"الرقم السري", userAria:"المستخدم", chooseUser:"اختر اسم المستخدم", back:"رجوع", wrongLogin:"رمز غير صحيح", checking:"جارٍ التحقق", signOut:"خروج",
     locked:n => "استنى " + n + " ثانية", idleOut:"اتقفل لعدم الاستخدام",
     sessionEnded:"الدخول اتلغى — ادخل تاني", srcSheet:"شيت جوجل", srcDb:"قاعدة البيانات", srcBucket:"من قاعدة البيانات",
-    connected:"متصل", noConn:"تعذر الاتصال", noConnMini:"— تعذر الاتصال", retry:"إعادة المحاولة", lastRead:"آخر قراية", fallbackPill:"قراية بديلة",
+    connected:"متصل", noConn:"تعذر الاتصال", noConnMini:"— تعذر الاتصال", retry:"إعادة المحاولة", lastRead:"آخر قراية", fallbackPill:"قراية بديلة", fallbackMini:"— قراية ناقصة · المنع ممكن ميظهرش",
     miniPer:"التصاريح", miniEmp:"الموظفين", notYet:"— لسه", pickFiles:"اختيار الملفات",
     openList:"فتح القائمة ←",
     tActive:"الموظفون الموجودون", tResigned:"الاستقالات", tExpiring:"تصاريح قرب الانتهاء", tExpired:"تصاريح منتهية",
@@ -1802,7 +1802,7 @@ const I18N = {
     csvEmp:"الموظفين", csvInd:"تصاريح-الأفراد", csvVeh:"تصاريح-المركبات", csvSearch:"بحث", csvMiss:"مش موجود",
     segPeople:"أفراد", segVehicles:"مركبات", search:"بحث", clear:"مسح", lines:n => "سطور: " + n,
     ariaNids:"الأرقام القومية، رقم في كل سطر", ariaPlates:"أرقام السيارات، رقم في كل سطر",
-    sumAsked:"مطلوب", sumFound:"موجود", sumMiss:"مش موجود", sumDup:"متكرر في القايمة",
+    sumAsked:"مطلوب", sumFound:"موجود", sumMiss:"مش موجود", without:x => "من غير " + x, searchLacks:x => x + " مش متحمّل دلوقتي — النتايج دي من غيره، و«مش موجود» مش أكيدة", sumDup:"متكرر في القايمة",
     missRow:"مش موجود في الشيت", moreNames:(term, n) => "«" + term + "» — " + n + " كمان · اكتب اسم كمان معاه", moreRow:(term, n) => "«" + term + "» — " + n + " نتيجة كمان", typed:"المكتوب: ",
     infoOnly:"للعلم بس", clean:"سليم", first400:n => "دول أول 400 من " + n,
     place:"المكان", live:"تحديث تلقائي", cached:"آخر قراية محفوظة", notYetPill:"لسه",
@@ -1842,7 +1842,7 @@ const I18N = {
     pinAria:"PIN", userAria:"User", chooseUser:"Select user name", back:"Back", wrongLogin:"Incorrect PIN", checking:"Checking", signOut:"Sign out",
     locked:n => "Wait " + n + " s", idleOut:"Locked after inactivity",
     sessionEnded:"Signed out — sign in again", srcSheet:"Google Sheet", srcDb:"Database", srcBucket:"From the database",
-    connected:"Connected", noConn:"Cannot connect", noConnMini:"— no connection", retry:"Try again", lastRead:"Last read", fallbackPill:"Fallback read",
+    connected:"Connected", noConn:"Cannot connect", noConnMini:"— no connection", retry:"Try again", lastRead:"Last read", fallbackPill:"Fallback read", fallbackMini:"— partial read · bans may be missing",
     miniPer:"Permits", miniEmp:"Employees", notYet:"— not yet", pickFiles:"Choose files",
     openList:"Open list ←",
     tActive:"Active employees", tResigned:"Resignations", tExpiring:"Expiring permits", tExpired:"Expired permits",
@@ -1868,7 +1868,7 @@ const I18N = {
     csvEmp:"Employees", csvInd:"Individual-permits", csvVeh:"Vehicle-permits", csvSearch:"Search", csvMiss:"Not found",
     segPeople:"People", segVehicles:"Vehicles", search:"Search", clear:"Clear", lines:n => "Lines: " + n,
     ariaNids:"National IDs, one per line", ariaPlates:"Plate numbers, one per line",
-    sumAsked:"Asked", sumFound:"Found", sumMiss:"Not found", sumDup:"Repeated in the list",
+    sumAsked:"Asked", sumFound:"Found", sumMiss:"Not found", without:x => "Without: " + x, searchLacks:x => x + " is not loaded right now — these answers are without it, and a “Not found” is not certain", sumDup:"Repeated in the list",
     missRow:"Not in the sheet", moreNames:(term, n) => "“" + term + "” — " + n + " more · add another name", moreRow:(term, n) => "“" + term + "” — " + n + " more", typed:"Typed: ",
     infoOnly:"For information", clean:"Clean", first400:n => "First 400 of " + n,
     place:"Location", live:"Live", cached:"Last saved read", notYetPill:"Not yet",
@@ -2271,15 +2271,23 @@ async function cloudPermits(key, at){
     }
   }catch(e){}
   let fallback = false;
+  /* What comes back has to be the tab's rows. Google sometimes answers with a
+     web page instead — an error page, a sign-in page — and says 200 all the
+     same; read as rows, that page emptied the permits and every search said
+     "not in the sheet". A page, or nothing at all, is a read that failed: what
+     is on screen stays, and the sheet is shown as out of reach. */
+  const isRows = text => !!text.trim() && !/^\s*</.test(text);
   const tab = async name => {
     if(gids[name]){
       const r = await fetch(SHEET + "/export?format=csv&gid=" + gids[name] + "&_=" + Date.now(), { cache: "no-store" });
-      if(r.ok) return r.text();
+      if(r.ok){ const text = await r.text(); if(isRows(text)) return text; }
     }
     fallback = true;
     const g = await fetch(SHEET + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(name) + "&_=" + Date.now(), { cache: "no-store" });
     if(!g.ok) throw new Error("sheet " + g.status);
-    return g.text();
+    const text = await g.text();
+    if(!isRows(text)) throw new Error("the sheet answered with a page, not rows");
+    return text;
   };
   const texts = await Promise.all([tab(CLOUD.tabs.ind), tab(CLOUD.tabs.veh)]);
   const shape = (text, maxCol) => {
@@ -2305,6 +2313,7 @@ async function cloudEmployees(key, at){
     recs.push(...part);
     if(part.length < PAGE_ROWS) break;
   }
+  if(!recs.length) throw new Error("the database answered with no rows");
   const header = Object.keys(NCM.EMP_COLS);
   const text = v => (v === null || v === undefined) ? "" : String(v);
   return { kind: "emp", cloud: true, fileName: "employees", lastModified: Date.now(), loadedAt: Date.now(), size: recs.length,
@@ -2321,6 +2330,8 @@ async function cloudSync(first){
     try{
       const payload = await job[1](key, at);
       if(gen !== cloudGen) return;           // signed out while this was on its way: none of it is kept
+      // a read that could only be had the poor way — it blanks the text cells of the permit column, the bans among them — never replaces a complete one
+      if(payload.fallback && DATA[kind] && !DATA[kind].fallback) throw new Error("only the fallback read answered; the complete read on screen is kept");
       if(net[kind] !== true){ net[kind] = true; moved = true; }
       const f = fingerprint(JSON.stringify(payload.sheets));
       if(f !== sig[kind]){ sig[kind] = f; DATA[kind] = payload; fresh.push(kind); }
@@ -2485,6 +2496,7 @@ async function startOnline(){
    redrawn where they stand, and a box someone is typing in is left alone —
    redrawing the whole page would take the cursor out of his hands. */
 function rebuild(quiet){
+  builtDay = NCM.today0().getTime();
   M = NCM.buildModel(DATA);
   if(st.multi.res) runMulti();          // the list stays; its answers come from the new sheets
   paintShell();
@@ -2494,6 +2506,17 @@ function rebuild(quiet){
   if(quiet && listPage && sndState().open === null && $("tbl")){ buildSenders(); return (st.view === "rnw" ? paintRenew : paintSenders)(); }
   if(quiet && listPage && $("tbl")){ const at = rowsAt($("tbl")); render(); return rowsTo($("tbl"), at); }
   render();
+}
+/* A NEW DAY. Every status — valid, about to run out, run out — and every count
+   of days left is worked out against today's date at the moment the sheets are
+   read. A window left open past midnight went on showing yesterday's: a permit
+   that ran out at midnight stayed valid on screen until a sheet happened to
+   change. The day the figures were worked out for is remembered; when it is no
+   longer today they are worked out again, where they stand. */
+let builtDay = NCM.today0().getTime();
+function newDay(){
+  if(NCM.today0().getTime() === builtDay || (!DATA.emp && !DATA.per)) return;
+  rebuild(true);
 }
 
 /* ============================================================
@@ -2526,8 +2549,8 @@ function paintShell(){
   nb.className = "nb" + (M.issues ? " alert" : "");
   // on this PC the time shown is when the sheet was last saved; online it is when it was last read
   const mini = ONLINE
-    ? (kind, label) => '<div><span class="dot' + (net[kind] === false ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
-        (net[kind] === false ? t("noConnMini") : DATA[kind] ? num(stamp(DATA[kind].loadedAt)) : t("notYet")) + "</div>"
+    ? (kind, label) => '<div><span class="dot' + (net[kind] === false || (DATA[kind] && DATA[kind].fallback) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
+        (net[kind] === false ? t("noConnMini") : DATA[kind] && DATA[kind].fallback ? t("fallbackMini") : DATA[kind] ? num(stamp(DATA[kind].loadedAt)) : t("notYet")) + "</div>"
     : (kind, label) => '<div><span class="dot' + (lost(kind) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
         (lost(kind) ? t("lostMini") : DATA[kind] ? num(stamp(DATA[kind].lastModified)) : t("notYet")) + "</div>";
   $("src-mini").innerHTML = mini("per", "miniPer") + mini("emp", "miniEmp");
@@ -3134,6 +3157,8 @@ function renderRenew(){
   page(
     pgHead(t("navRnw")) +
     '<div class="toolbar">' + pill("warn", t("rnwWindow", NCM.EXPIRY_WINDOW)) +
+      // the list draws on both sheets: with one of them not loaded, it says which it is without
+      ((M.ind || M.veh) && M.emp ? "" : pill("bad", t("without", sheetName(M.emp ? "per" : "emp")))) +
       '<input class="field" id="sq" type="text" placeholder="' + t("filter") + '" value="' + esc(st.rnw.q) + '" autocomplete="off"><span class="count" id="count"></span></div>',
     '<div class="pg-table"><section class="panel" id="tbl"></section></div>');
   paintRenew();
@@ -3470,7 +3495,12 @@ function paintMulti(keep){
     (res.dup ? '<span class="pill">' + t("sumDup") + " " + num(res.dup) + "</span>" : "") +
     Object.keys(CAT_PILL).filter(k => cats[k]).map(k => '<span class="pill ' + CAT_PILL[k] + '">' + t(CAT_TILE[k][0]) + " " + num(cats[k]) + "</span>").join("") +
     "</div>";
+  /* An answer is only as whole as the sheets behind it. With the permits not
+     loaded, a man who is banned comes back "not found" (or as an employee and
+     nothing more) — so the answers say which sheet they are without. */
+  const lacking = res.mode === "veh" ? (M.veh ? [] : ["per"]) : [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
   box.innerHTML =
+    (lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "") +
     '<section class="panel"><div class="panel-h">' + sum +
       '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="multi-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos">#</th>' +
@@ -3948,6 +3978,9 @@ document.addEventListener("mousemove", e => {
    are asked whether they have been saved since, and from there on every few
    seconds, and again the moment this window is looked at — which is exactly
    when someone has just come back from saving in Excel. */
+setInterval(() => { if(!document.hidden) newDay(); }, 60000);
+window.addEventListener("focus", newDay);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) newDay(); });
 if(ONLINE){
   /* Online: nothing is drawn and nothing is fetched until someone has signed
      in. A browser that signed in before is let straight through — the key it

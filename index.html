@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zKo4VpFjkfv0frUXGpxWv7TzYM5TRy7xiVe8Ekh0W6Q=' 'sha256-EobIRMCnNyM2UkTQtp4OEPdBdDNcvOpSMFauTVts1kY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-f2JXMOAvAxDNEbgD8jkztnS422ALKtWIQZaBX4gGjO4=' 'sha256-BYbuZMKOhRt05FZu3ns/jQamiSaSmMaO63ACjshwLCg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -118,6 +118,7 @@ html,body{height:100%;overflow:hidden;}
   padding:1px 8px;border-radius:999px;background:var(--tint);color:var(--blue);
 }
 .nav .nb.alert{background:var(--bad-bg);color:var(--bad);}
+.nav .nb:empty{display:none;}                 /* a badge with nothing to say takes no room */
 .nav button.on .nb{background:rgba(255,255,255,.22);color:#fff;}
 .nav .sep{height:1px;background:var(--line-2);opacity:.7;margin:8px 6px;}
 
@@ -235,6 +236,31 @@ html,body{height:100%;overflow:hidden;}
 }
 .gate-err{color:var(--bad);font-size:14.5px;min-height:22px;margin:8px 0 0;font-weight:800;}
 .gate-err.busy{color:var(--muted);}
+/* opened from a bare link: no box of users, no PIN boxes — one line saying where it opens from */
+.gate-note{margin:10px 0 4px;font-size:16.5px;font-weight:800;line-height:1.9;color:var(--muted);}
+.upick[hidden],.pinboxes[hidden]{display:none;}
+/* ---------- the admin's pages, the «تجديد» button, the box that connects this PC's own copy ---------- */
+.nav button[hidden]{display:none;}
+.urole{font-style:normal;font-size:11.5px;font-weight:800;letter-spacing:0;padding:2px 9px;border-radius:999px;background:#fff;border:1px solid var(--line-2);color:var(--navy);margin-inline-start:auto;}
+#dr-renew{flex:none;}
+#dr-renew[hidden]{display:none;}
+#dr-renew.on{background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
+.pg-acts{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.pg-acts .field{width:auto;min-width:200px;}
+.today-state{display:flex;justify-content:center;margin:4px 0 12px;}
+.today-p,.logv{margin-bottom:14px;}
+.tbl td.act{width:1%;white-space:nowrap;text-align:end;}
+.logv .panel-h{padding:11px 16px;}
+.logv .tbl td{padding-block:7px;}
+.logdev{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--muted);direction:ltr;unicode-bidi:embed;margin-inline-start:6px;}
+.logwhen{font-size:14px;font-weight:800;color:var(--navy);}
+.logwhen i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--muted);}
+#linkbox{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(11,17,20,.38);}
+#linkbox[hidden]{display:none;}
+#linkbox .gate-card{gap:12px;padding:30px 28px 24px;max-width:420px;}
+#link-pin{width:100%;text-align:center;font-family:var(--mono);font-size:22px;letter-spacing:.3em;direction:ltr;}
+.logv.gate{border-color:var(--bad-br);}
+.logv.gate .panel-h{background:rgba(251,227,227,.45);}
 .gate-card .credit{padding:6px 0 0;}
 .shake{animation:shake .36s;}
 @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
@@ -336,7 +362,7 @@ html,body{height:100%;overflow:hidden;}
   backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);
   transition:transform .12s,box-shadow .18s;
 }
-.tile:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 8px 20px rgba(21,101,192,.16);}
+.tile:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 8px 20px rgba(21,101,192,.16);}
 .tile:active{transform:scale(.98);}
 .tile-k{font-size:13px;font-weight:800;color:var(--muted);}
 .tile-v{font-size:26px;font-weight:700;color:var(--text);line-height:1;}
@@ -361,6 +387,31 @@ html,body{height:100%;overflow:hidden;}
   55%    {box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 6px 16px rgba(31,78,121,.07), 0 0 0 6px var(--pulse);}
 }
 
+/* ---------- boxes arriving ----------
+   When a page is OPENED its boxes come in with one small movement: the tiles
+   one after another, the panels under them, the bars growing to their length.
+   A page that is only redrawn where it stands (a sheet changed under it, the
+   language was switched) stays still — the class is on the page for the
+   moment of opening and no longer. Each movement fills backwards only, so
+   once it is over the box is exactly as it is drawn, hover and press included.
+   Whoever asked their system for less motion gets none (the rule at the top). */
+@keyframes boxIn{from{opacity:0;transform:translateY(14px) scale(.95);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}}
+@keyframes barGrow{from{transform:scaleX(0);}}
+@keyframes colGrow{from{transform:scaleY(0);}}
+.enter .tile{animation:boxIn .48s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards;}
+.enter .tile.pulse{animation:boxIn .48s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards, tilePulse 1.9s ease-in-out .9s infinite;}
+.enter .tiles > :nth-child(2){--d:.05s;} .enter .tiles > :nth-child(3){--d:.1s;} .enter .tiles > :nth-child(4){--d:.15s;}
+.enter .tiles > :nth-child(5){--d:.2s;} .enter .tiles > :nth-child(6){--d:.25s;} .enter .tiles > :nth-child(7){--d:.3s;}
+.enter .tiles > :nth-child(8){--d:.35s;} .enter .tiles > :nth-child(n+9){--d:.4s;}
+.enter .sect-h,.enter .toolbar,.enter .note,.enter .chk,.enter .empty,.enter .dropcard{animation:fadeUp .4s ease-out backwards;}
+.enter .panel{animation:fadeUp .46s ease-out .06s backwards;}
+.enter .bar-fill{transform-origin:right center;animation:barGrow .7s cubic-bezier(.2,.8,.2,1) .18s backwards;}
+.enter .col-bar,.grow .col-bar{transform-origin:center bottom;animation:colGrow .6s cubic-bezier(.2,.8,.2,1) var(--d,.1s) backwards;}
+.cols > :nth-child(2){--d:.13s;} .cols > :nth-child(3){--d:.16s;} .cols > :nth-child(4){--d:.19s;} .cols > :nth-child(5){--d:.22s;}
+.cols > :nth-child(6){--d:.25s;} .cols > :nth-child(7){--d:.28s;} .cols > :nth-child(8){--d:.31s;} .cols > :nth-child(9){--d:.34s;}
+.cols > :nth-child(10){--d:.37s;} .cols > :nth-child(11){--d:.4s;} .cols > :nth-child(12){--d:.43s;}
+
 /* ---------- panels ---------- */
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px;margin-top:14px;}
 .panel{
@@ -375,12 +426,16 @@ html,body{height:100%;overflow:hidden;}
 .panel-b{padding:16px 18px;}
 
 /* horizontal bars: one hue, value at the end, hover names the row */
-.bars{display:flex;flex-direction:column;gap:9px;}
-.bar-row{display:grid;grid-template-columns:140px minmax(0,1fr) 46px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;}
+.bars{display:flex;flex-direction:column;gap:3px;}
+.bar-row{display:grid;grid-template-columns:140px minmax(0,1fr) 46px;align-items:center;gap:10px;padding:3px 6px;border-radius:8px;font-size:13.5px;font-weight:700;}
 .bar-l{color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .bar-track{height:12px;border-radius:4px;background:var(--tint);overflow:hidden;}
 .bar-fill{display:block;height:100%;border-radius:4px;background:var(--blue);min-width:3px;}
 .bar-row:hover .bar-fill{background:var(--blue-deep);}
+/* a bar that stands for one thing — a department, a company — is a button: it opens the list of that thing */
+button.bar-row{width:100%;margin:0;border:none;background:none;color:inherit;text-align:start;transition:background .15s;}
+button.bar-row:hover{background:var(--tint);}
+button.bar-row:hover .bar-l{color:var(--blue);}
 .bar-v{font-size:13.5px;font-weight:700;color:var(--text);text-align:end;}
 
 /* monthly columns */
@@ -390,6 +445,16 @@ html,body{height:100%;overflow:hidden;}
 .col-bar{width:62%;max-width:34px;border-radius:4px 4px 0 0;background:var(--blue);min-height:2px;}
 .col:hover .col-bar{background:var(--blue-deep);}
 .col.zero .col-bar{background:var(--line-2);}
+/* a month with permits in it is a button: pressed, its list opens under the chart */
+button.col{margin:0;padding:0;border:none;border-radius:8px 8px 0 0;background:none;color:inherit;font:inherit;cursor:pointer;transition:background .15s;}
+button.col:hover{background:var(--tint);}
+.col.on{background:rgba(21,101,192,.11);}
+.col.on .col-bar{background:var(--blue-deep);}
+.col.on .col-v{color:var(--blue-deep);}
+.cols-x span.on{color:var(--blue);font-weight:800;}
+.monthlist{margin-top:14px;}
+.monthlist .tblwrap{max-height:440px;overflow:auto;}
+.monthlist.arrive{animation:fadeUp .36s ease-out backwards;}
 .cols-x{display:flex;gap:2px;margin-top:7px;}
 .cols-x span{flex:1;text-align:center;font-size:11.5px;font-weight:600;color:var(--muted);}
 .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;overflow:hidden;background:var(--panel-2);}
@@ -460,6 +525,34 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .tbl td small{display:block;font-family:var(--cond);font-size:13px;font-weight:700;letter-spacing:.03em;color:var(--muted);text-transform:uppercase;direction:ltr;text-align:end;}
 .dim{color:var(--muted);font-weight:500;}        /* the dash that stands for "nothing here" */
 .tbl td.nowrap{white-space:nowrap;}
+/* A TABLE OF EVERY COLUMN is wider than the window whatever is done to it, so
+   it is not squeezed: squeezed, an address runs to four lines and every row
+   grows tall. Each cell keeps to one line; the long texts — an address, a
+   note — keep to a set width and may take a second line; and the table moves
+   sideways under its frozen columns (below). */
+.tbl.full th,.tbl.full td{padding-inline:9px;white-space:nowrap;}
+.tbl.full td.wide{min-width:240px;max-width:320px;white-space:normal;line-height:1.5;}
+/* a text that is long when it is there, and mostly is not there (a note, the reason for a ban): room for a short one, a second line for a long one */
+.tbl.full td.txt{min-width:150px;max-width:320px;white-space:normal;line-height:1.5;}
+/* FROZEN COLUMNS. In any table the columns that say whose row it is — the code
+   and the name, a plate, the serial — stay where they are while everything
+   beside them moves sideways (asked for, 4 October 2026), so a row far along
+   is still known for whose it is. Each frozen cell sticks at the width of the
+   frozen ones before it: the page measures those once the table is drawn
+   (freeze(), in the script) and hands them over as --fz1, --fz2. A frozen cell
+   needs a ground of its own, or the cells passing under it would show through:
+   it wears the row's colour, whatever state the row is in. */
+.tbl .fz{position:sticky;z-index:1;background:#fafcfd;}
+.tbl th.fz{z-index:3;background:var(--tint);}
+.tbl .fz0{inset-inline-start:0;}
+.tbl .fz1{inset-inline-start:var(--fz1,0px);}
+.tbl .fz2{inset-inline-start:var(--fz2,0px);}
+.tbl .fzl{box-shadow:-7px 0 9px -8px rgba(21,101,192,.35);}
+.tbl tbody tr:hover .fz{background:#ecf3f9;}
+.tbl tr.banrow .fz{background:#f8c4c4;}
+.tbl tr.banrow:hover .fz{background:#f4b4b4;}
+.tbl tr.miss .fz,.tbl tr.miss:hover .fz{background:#fbeeee;}
+.tbl tr.more .fz,.tbl tr.more:hover .fz{background:var(--panel-2);}
 .empty{text-align:center;padding:46px 20px;color:var(--muted);}
 .empty h3{margin:0 0 6px;font-size:16px;font-weight:800;color:var(--text-2);}
 .empty p{margin:0;font-size:14px;line-height:1.9;}
@@ -550,6 +643,92 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   font-size:26px;font-weight:900;color:var(--blue-deep);border:4px dashed var(--blue);
 }
 #dropveil.on{display:flex;}
+
+/* ---------- قارئ البطاقات ----------
+   The box a file is dropped on; under it each file on its way, as a row of
+   steps (done · the one it is at · still to come) with a light running under
+   the one being read; and the last file read, as figures, the name of its
+   sheet, and the people in it — a line the reader was not sure of is amber,
+   and what it could not make out stands marked where it is. */
+.cards{max-width:1240px;margin:0 auto;}
+.cards-drop{max-width:720px;margin:14px auto 16px;padding:28px 26px 30px;text-align:center;}
+.cards-job,.cards-res,.cards-hist{margin-bottom:14px;}
+.cards-job{max-width:820px;margin-inline:auto;}
+/* a run of Latin letters and digits inside a file's name: one piece, read left to right (see fileName) */
+.ltr{direction:ltr;unicode-bidi:isolate;}
+/* once there is a file to show, the drop box is one line: the mark, its title and the button side by side */
+.cards-drop.small{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:13px 20px;}
+.cards-drop.small svg{width:30px;height:30px;}
+.cards-drop.small h2{margin:0;font-size:17px;}
+.steps{display:flex;gap:0;list-style:none;margin:4px 0 0;padding:0;counter-reset:step;}
+.steps li{flex:1;position:relative;padding:36px 4px 0;text-align:center;font-size:13px;font-weight:800;line-height:1.5;color:var(--muted);counter-increment:step;}
+.steps li::before{
+  content:counter(step);position:absolute;top:0;left:50%;margin-left:-14px;width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;font-weight:700;
+  background:var(--tint);border:1px solid var(--line-2);color:var(--muted);z-index:1;
+}
+/* the line from a step to the one after it */
+.steps li::after{content:"";position:absolute;top:13px;inset-inline-start:50%;width:100%;height:2px;background:var(--line-2);}
+.steps li:last-child::after{display:none;}
+.steps li.done{color:var(--ok);}
+.steps li.done::before{content:"✓";background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
+.steps li.done::after{background:var(--ok-br);}
+.steps li.on{color:var(--blue);}
+.steps li.on::before{background:var(--blue);border-color:var(--blue);color:#fff;animation:stepPulse 1.5s ease-in-out infinite;}
+.steps small{display:block;font-size:12px;font-weight:700;color:var(--muted);}
+@keyframes stepPulse{50%{box-shadow:0 0 0 7px rgba(21,101,192,.16);}}
+.scan{position:relative;height:4px;margin:18px 0 2px;border-radius:999px;background:var(--tint);overflow:hidden;}
+.scan span{position:absolute;top:0;bottom:0;width:34%;border-radius:999px;background:linear-gradient(90deg,transparent,var(--blue),transparent);animation:scanMove 1.6s ease-in-out infinite;}
+@keyframes scanMove{from{left:-34%;}to{left:100%;}}
+.cards-res .tiles{max-width:880px;margin:0 auto;}
+.cards-res div.tile{cursor:default;}
+.cards-res div.tile:hover{transform:none;}
+.cards-out{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px;font-size:14.5px;font-weight:800;}
+.cards-out b{color:var(--navy);}
+.cards-out > span{font-size:13px;font-weight:700;color:var(--muted);}
+.cards-res .tblwrap{max-height:520px;overflow:auto;border-top:1px solid var(--line);}
+.cards-res .tbl tbody tr[data-open]{cursor:pointer;}
+.cards-flags{display:flex;flex-wrap:wrap;gap:5px;}
+.tbl tr.flag td{background:rgba(252,235,213,.55);}
+.tbl tr.flag .fz,.tbl tr.flag:hover .fz{background:#fdf2e2;}
+.tbl mark.unclear{padding:0 4px;border-radius:5px;background:#ffd24d;color:#5c4500;}
+.arrive{animation:fadeUp .42s ease-out backwards;}
+
+/* ---------- الشيتات: التحديث ----------
+   Under the sheets themselves, what this PC can be asked to do with them: two
+   boxes side by side for the two daily routines and one across for the ASE
+   export — each with its button, and under it where the last asking stands:
+   a clock and a running light while it is on its way, then how it ended. */
+.desk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.desk .desk-ase{grid-column:1 / -1;}
+@media (max-width:900px){ .desk{grid-template-columns:minmax(0,1fr);} }
+.desk-card .panel-b{min-height:78px;display:flex;flex-direction:column;justify-content:center;gap:12px;}
+.desk-line{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;}
+.desk-end{display:inline-flex;align-items:center;gap:10px;}
+.desk-file{font-size:14.5px;font-weight:800;color:var(--navy);}
+.desk-said{margin:0;font-size:14px;font-weight:700;line-height:1.8;color:var(--text-2);}
+.desk-said.bad{color:var(--bad);}
+.desk-said small{display:block;font-size:12px;font-weight:600;color:var(--muted);text-align:start;}
+.desk-none{text-align:center;font-size:18px;}
+/* what a routine said of its own end, one line each: done · an aside, nothing to do · worth a look · wrong */
+.desk-facts,.desk-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;}
+.desk-facts li{position:relative;padding-inline-start:24px;font-size:14px;font-weight:700;line-height:1.75;color:var(--text-2);}
+.desk-facts li::before{content:"✓";position:absolute;inset-inline-start:2px;top:0;font-weight:900;color:var(--ok);}
+.desk-facts li.aside{color:var(--muted);}
+.desk-facts li.aside::before{content:"·";font-size:22px;line-height:1.1;color:var(--muted);}
+.desk-facts li.warn{color:#7a4703;}
+.desk-facts li.warn::before{content:"!";color:var(--warn);}
+.desk-facts li.bad{color:var(--bad);}
+.desk-facts li.bad::before{content:"✕";color:var(--bad);}
+.desk-rows{padding-inline-start:24px;}
+.desk-rows li{font-size:13px;font-weight:600;line-height:1.7;color:var(--text-2);}
+.desk-card .scan{margin:2px 0;}
+.desk-card .steps{margin:2px 0 0;}
+.desk-card div.tile{cursor:default;}
+.desk-card div.tile:hover{transform:none;}
+.desk-card .cards-out{margin-top:0;}
+.desk-card .btn[disabled]{opacity:.45;cursor:default;pointer-events:none;}
+#desk-state:empty{display:none;}
 
 /* ---------- checks ---------- */
 /* a list of one-line items reads badly stretched the full width; it is a
@@ -737,9 +916,14 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       <button data-view="veh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2a2 2 0 0 1 1.9 1.5L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/></svg><span data-i18n="navVeh">تصاريح المركبات</span><em class="nb" id="nb-veh"></em></button>
       <button data-view="snd"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.300 14.500L12 17l2.700-2.500"/></svg><span data-i18n="navSnd">تصدير بيانات</span></button>
       <button data-view="rnw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.300-5.600"/><path d="M20 4v4h-4"/><path d="M12 8v4l2.500 2"/></svg><span data-i18n="navRnw">كشف التجديد</span><em class="nb" id="nb-rnw"></em></button>
+      <!-- the admin's two pages: the list both users feed with «تجديد», and who did what in the system -->
+      <button data-view="today" id="nav-today" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17M9 15l2 2 4-4"/></svg><span data-i18n="navToday"></span><em class="nb" id="nb-today"></em></button>
+      <button data-view="log" id="nav-log" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="navLog"></span><em class="nb alert" id="nb-log"></em></button>
+      <!-- the admin's, on this PC's own copy only: a file of card photos in, the permits form filled in out -->
+      <button data-view="cards" id="nav-cards" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg><span data-i18n="navCards"></span><em class="nb" id="nb-cards"></em></button>
       <div class="sep"></div>
       <button data-view="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5.2c0 4.6-3.2 8-8 9.3-4.8-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg><span data-i18n="navCheck">فحص الداتا</span><em class="nb" id="nb-check"></em></button>
-      <button data-view="src"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span></button>
+      <button data-view="src" id="nav-src" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span><em class="nb" id="nb-src"></em></button>
     </nav>
     <!-- Same button as the app's: it names the language it switches TO. Only the
          interface changes — names, jobs and everything else read from the
@@ -754,6 +938,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       <!-- who is signed in, and the way out — the online edition only -->
       <div class="side-user" id="side-user" hidden>
         <span id="user-name"></span>
+        <em class="urole" id="user-role"></em>
         <button class="fab" id="logout" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
       </div>
       <div class="src-mini" id="src-mini"></div>
@@ -784,6 +969,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       <span class="hr"></span>
       <span class="appname">SYSTEM</span>
     </div>
+    <p class="gate-note" id="gate-note" data-i18n="iconOnly" hidden></p>
     <div class="upick" id="upick">
       <button type="button" class="upick-btn" id="gate-user" aria-haspopup="listbox" aria-expanded="false">
         <span class="uav" id="gate-av"></span>
@@ -802,11 +988,21 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   </div>
 </div>
 
+<!-- This PC's own copy: the admin's PIN connects it to the shared renewal list and to the activity log. -->
+<div id="linkbox" hidden>
+  <div class="gate-card">
+    <p class="gate-note" data-i18n="connectT"></p>
+    <input id="link-pin" class="field" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    <p class="gate-err" id="link-err" role="alert"></p>
+    <div style="display:flex;gap:8px;justify-content:center"><button type="button" class="btn primary" id="link-go" data-i18n="connectBtn"></button><button type="button" class="btn" id="link-no" data-i18n="cancel"></button></div>
+  </div>
+</div>
 <div id="veil"></div>
 <aside id="drawer" aria-hidden="true">
   <div class="dr-top">
     <button class="fab" id="dr-x" aria-label="إغلاق"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
     <h2 id="dr-t"></h2>
+    <button type="button" class="btn sm" id="dr-renew" hidden></button>
   </div>
   <div class="dr-body" id="dr-b"></div>
 </aside>
@@ -817,6 +1013,8 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 <div id="toast" role="status"></div>
 <div id="tip"></div>
 <input type="file" id="pick" accept=".xlsx" multiple hidden>
+<input type="file" id="cards-pick" accept=".docx,.docm,.pdf" hidden>
+<input type="file" id="ase-pick" accept=".xlsx" hidden>
 
 <!-- ============================================================
      CORE — no DOM in here. Reads an .xlsx with nothing but the
@@ -1430,18 +1628,19 @@ async function deflateRaw(bytes){
   const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate-raw"));
   return new Uint8Array(await new Response(stream).arrayBuffer());
 }
-async function zip(files){                       // files: [[name, text or bytes]]
+async function zip(files){                       // files: [[name, text or bytes, kept as it is (not squeezed)?]]
   const enc = new TextEncoder(), parts = [], dir = [];
   let at = 0;
   for(const f of files){
-    const name = enc.encode(f[0]), raw = typeof f[1] === "string" ? enc.encode(f[1]) : f[1], data = await deflateRaw(raw), crc = crc32(raw);
+    // a file that is already squeezed (a Word file, a PDF) goes in as it is: squeezing it again buys nothing and takes time
+    const name = enc.encode(f[0]), raw = typeof f[1] === "string" ? enc.encode(f[1]) : f[1], how = f[2] ? 0 : 8, data = f[2] ? raw : await deflateRaw(raw), crc = crc32(raw);
     const head = new DataView(new ArrayBuffer(30));
-    head.setUint32(0, 0x04034b50, true); head.setUint16(4, 20, true); head.setUint16(6, 0x0800, true); head.setUint16(8, 8, true);
+    head.setUint32(0, 0x04034b50, true); head.setUint16(4, 20, true); head.setUint16(6, 0x0800, true); head.setUint16(8, how, true);
     head.setUint16(10, 0, true); head.setUint16(12, 0x21, true);            // a fixed stamp: 1980-01-01
     head.setUint32(14, crc, true); head.setUint32(18, data.length, true); head.setUint32(22, raw.length, true);
     head.setUint16(26, name.length, true); head.setUint16(28, 0, true);
     const cen = new DataView(new ArrayBuffer(46));
-    cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint16(8, 0x0800, true); cen.setUint16(10, 8, true);
+    cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint16(8, 0x0800, true); cen.setUint16(10, how, true);
     cen.setUint16(12, 0, true); cen.setUint16(14, 0x21, true);
     cen.setUint32(16, crc, true); cen.setUint32(20, data.length, true); cen.setUint32(24, raw.length, true);
     cen.setUint16(28, name.length, true); cen.setUint32(42, at, true);
@@ -1636,8 +1835,72 @@ async function writeXLSX(sheets){
   return zip(files);
 }
 
+/* THE RENEWAL FORMS. The two sheets that go out with a request to renew — one
+   for people, one for vehicles — are forms with a look of their own (handed
+   over as they are used, 4 October 2026). A file made here IS that form,
+   filled in: its columns and their widths, its row height, the grey head and
+   the grey serial column, thin black borders, everything centred, Calibri 11,
+   the sheet right to left, the third column a plain number where it is one,
+   and Excel's own colouring of a value written twice in that column. No logo
+   and none of the system's colours: it is their form, not our report. */
+async function writeForm(form){              // { header: [..], widths: [..], rows: [[serial, ..], ..] }
+  const X = XML_HEAD, rows = form.rows.length;
+  const cell = (r, c, v, s) => {
+    const ref = colName(c) + r;
+    if(typeof v === "number") return '<c r="' + ref + '" s="' + s + '"><v>' + v + "</v></c>";
+    if(v === "" || v === null || v === undefined) return '<c r="' + ref + '" s="' + s + '"/>';
+    return '<c r="' + ref + '" s="' + s + '" t="inlineStr"><is><t xml:space="preserve">' + xmlOut(v) + "</t></is></c>";
+  };
+  const row = (r, cells) => '<row r="' + r + '" ht="21.75" customHeight="1">' + cells + "</row>";
+  const body = row(1, form.header.map((hd, c) => cell(1, c, hd, 2)).join("")) +
+    form.rows.map((vals, i) => row(i + 2, vals.map((v, c) => {
+      if(c === 0) return cell(i + 2, c, v, 2);                                  // the serial: grey, like the head
+      // the third column is a number when it is one (a national id) and text when it is not (a passport, a plate)
+      if(c === 2) return cell(i + 2, c, /^[1-9]\d{0,14}$/.test(String(v)) ? +v : v, 4);
+      return cell(i + 2, c, v, 3);
+    }).join(""))).join("");
+  const sheetXML = X + '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+    '<dimension ref="A1:' + colName(form.header.length - 1) + (rows + 1) + '"/>' +
+    '<sheetViews><sheetView rightToLeft="1" tabSelected="1" workbookViewId="0"/></sheetViews>' +
+    '<sheetFormatPr defaultRowHeight="15"/>' +
+    "<cols>" + form.widths.map((w, i) => '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" style="1" customWidth="1"/>').join("") + "</cols>" +
+    "<sheetData>" + body + "</sheetData>" +
+    '<conditionalFormatting sqref="C1:C' + (rows + 1) + '"><cfRule type="duplicateValues" dxfId="0" priority="1"/></conditionalFormatting>' +
+    '<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>';
+  const edge = '<color indexed="64"/>', centred = '<alignment horizontal="center" vertical="center"/></xf>';
+  const stylesXML = X + '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+    '<fonts count="1"><font><sz val="11"/><color rgb="FF000000"/><name val="Calibri"/><family val="2"/></font></fonts>' +
+    '<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>' +
+      '<fill><patternFill patternType="solid"><fgColor rgb="FFD9D9D9"/><bgColor indexed="64"/></patternFill></fill></fills>' +
+    '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>' +
+      '<border><left style="thin">' + edge + '</left><right style="thin">' + edge + '</right><top style="thin">' + edge + '</top><bottom style="thin">' + edge + "</bottom><diagonal/></border></borders>" +
+    '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+    '<cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
+      '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1">' + centred +
+      '<xf numFmtId="0" fontId="0" fillId="2" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1">' + centred +
+      '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1">' + centred +
+      '<xf numFmtId="1" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1">' + centred + "</cellXfs>" +
+    '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>' +
+    '<dxfs count="1"><dxf><font><color rgb="FF9C0006"/></font><fill><patternFill><bgColor rgb="FFFFC7CE"/></patternFill></fill></dxf></dxfs>' +
+    "</styleSheet>";
+  const REL = '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">', TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/";
+  return zip([
+    ["[Content_Types].xml", X + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+      '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+    ["_rels/.rels", X + REL + '<Relationship Id="rId1" Type="' + TYPE + 'officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+    ["xl/workbook.xml", X + '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+      '<bookViews><workbookView/></bookViews><sheets><sheet name="Sheet1" sheetId="1" r:id="rId1"/></sheets></workbook>'],
+    ["xl/_rels/workbook.xml.rels", X + REL + '<Relationship Id="rId1" Type="' + TYPE + 'worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="' + TYPE + 'styles" Target="styles.xml"/></Relationships>'],
+    ["xl/styles.xml", stylesXML],
+    ["xl/worksheets/sheet1.xml", sheetXML]
+  ]);
+}
+
 return { EXPIRY_WINDOW, normalize, digitsOnly, foldArabic, toLatinDigits, fmt, today0,
-         parseStrict, nidInfo, readFile, buildModel, EMP_COLS, writeXLSX };
+         parseStrict, nidInfo, readFile, buildModel, EMP_COLS, writeXLSX, writeForm, zip };
 })();
 </script>
 
@@ -1711,22 +1974,141 @@ const CLOUD = {
   every: 120000                                  // how often the two sources are read again while the page is open
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
-const SESSION_V = "4";                           // bump to sign every device out
-const BUILD = "6d4a2f4d7fb9";                             // tools/build-online.js writes the published copy's own stamp here
+const SESSION_V = "5";                           // bump to sign every device out
+const BUILD = "50bfa235b150";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
-const PIN_LEN = 8;
-const USERS = [
-  { name: "KHALED SABRY", salt: "xaI27ykM/8AOt4qJDbYQiA==", iv: "pp6ol25s/tixg2+n",
-    data: "w2/NnB4s+fy4lXTFuuhr350MGycKAmO68T8FQ73Yrmdx/psBKO0XgFJxtiRVcPCfv2MzCXfqicmq8EbfpcybRne8Vt13hOOIJXgGyuqSdhR6WOACgpmmkqIbj43N/Xe9sG72xdL+pAUH4c0DhWEpAMIGIuRffysnZZHqFEH2DLnx3oOMz6dfFmfNFgiBHBda3hUc6HqujkuSrBRFfq40smNMhLejwpz5tFRXwcpTx6WP0cHVDMIE6c5BjrZk1Iun6hRiExJ77p4ElFbmADckQPrwvEQJr7hybuyahLhBvLc/Ljg0aMsY0YMVYejdJm6SI+6FKUlqdjNJ1TRT7RF5zIsAwib37qjMddOY8t/DelkDIXk7FLbT/mO41Yp8mUVuj69x1HemRf5wLMf7wdkbNa7rTK/vMpGk8PvXCk3eTd+wxFyrFBkSCaelRBLU3NK+xXxoYrMMDjOyzBb2+ZBRhQFKQWTzO4DHN2YnL4YHd0VRBzUvCCSQfz9tlFh1EDjRzeJwmvyl3xpN535yQDQ0tbs=" },
-  { name: "AHMED SHALABY", salt: "+CWvj8Mh5L+4q85GKl9GMQ==", iv: "tiEUlZGwyXGQGJLk",
-    data: "x5kAQdvedOfu1gGuzJu/UUqOg+wWh5Eci4ssyiyJbd1L/cjjG/zj8/6N4F+WpWYM+5RzE2kGC2foiRGVN5N1eLWrgIZsoVNqFem3UYKJQeenTjdiL32EjhpYy5vJVo5+0HcTRpuyzTsZ4ffC0LDCGuY/mIHZznhNev/1OG/RaJHeg0SgUH0426hplO8nsOzC5QbLAAUCuX91on5BRT6hG9GSxe6i9l0/M3ylDrQ0Ex7CMR7IWA6AJfRgnEvPPpXQBIcyzFzfEijiptPyDbcYziQEGx0p0dA+mRuCgB904V3INnDaKyRkI5B/X/Q4F9pGRk/Y/GeMsnwojSSc6Thp0R2M6Yv5txqnDrq9YqLVkRkLKegmezo9e7dSg+xYJsuxLk7h5JyvYj0yqA385JVAvZj5DI5LR9fWCPWC3ARvErFrGUKqiOG6rp7zJYUoeidT4JNUYSPp7LIS05CzqP7SpYEhH1/rpsi16LH6iiqTi9W5PrUCROFij2Z/WrQnTNxjxbGaIJNxwEgIkxVtHMW1PAQ=" }
-];
+let PIN_LEN = 0;
+let USERS = [];
+const USERS_BOX = { iv: "yU/PresF+VX9COM3",
+  data: "VfPD0BeWKIccfHZsXmmitxnlwkE/vmnsrKXh9bjah6DnkERWkATdePdt2VwYh68+STi0Gg6R+r7MWL4vssp5/Fci5YGCK9bigs7ddMO4ypabfiEXyNwU85b7gAeC3N0g/mDfB/RXznoN7idcuCCrlZCyljFj5Kvxy6ncdBrqw9FwwZwQZwxiXeqHUilMFdwR5pp3uEdpJpJ0vaK4pJFevViac9ll10h7VohwpGbNXvk0fTKeeroCMDanJCBey3dVP91+cL3CHrDkm7JF3LKhZaDxEme3u80IK82udHJJhAxEFmLGNhVQz59olFbEQcUtvRTnXWJwFhXi0GsN4MmfwnyCELk6yqiNF1ApNjoZMqiG9qvBki/RFBHyLfWzTX2yv4ZP+MevSK/qZfj0c6Xk5/WbCAwUQex61ZxRrvE01mGovmtxXDUvm+Twb1FtqBDHtM7FU/L1/SSq6T2nnnZfRWzavK1nt18/AK9o8S0D/e/DYbsMQC6Xe3xhmeSpWqSRGGHZaKQkf19fdL2z/Lu+2oRA7GxXRnXmeythfUd9XcrlM+wzzy3eywNp2pi9YrY3us9I+MU6RwUzvyyinoPazxulwbyJ4diZQp2gTLRSy9pOB5nYXxjL5Ds2Y4QDztBvYETEEm4uk/tngViy3BvvgSz5BFs4jvJTV2r2R0gvVT4i45WgTw5l+95IiWTxqRN53fLocr+/hCAlo2n/KwBf2wJRxvAAVIfpPpgRHaDCCUR2xr5YXmr3FxAwjjZaD7WjlvwsaSeojp+KQ+eRHTzIRP0ZXyaJWCZILOiKnliCuflJPfhxpp8dIv1b0d0NEFZYLAQoLjn/hoFwwkCxWu7AoU5xyatFvzJyBwBzw7i4eBuaNDjJNyqtUppheO+nDNsH4XfTtSnvHRfzv6wyJLSF3I6fsgUn8H504HJWeAIgfBqBm2U7JZ6Ywq2AFUQA2FrwrtF5Cc5L14VfE3uRPIN5RRxmWbFgFAitaHMR3hL+jHxiPa15qRigTMMWa/Py5Ih08iZOxBek/tvF929z7rTOa1mSwp8FUmn/tIZRubBk+okIyx89Ui38JvWob/durWtFCd59um0YgJPOdOjTTi9pCJfTeYWfklaYF1vVNlKLqOLhoqM+g/khBWWOMSZDSpORFy9yw3nV17FxrdlPtxdmxYIWqPdpmoL129jNYVrp+JM3v5u44tB2clX89J3BOw2kUUDW/ZpDaqrO2AoKCxwo4VVAIRNeuE6nHv8X05ieBwtwkaJVGK5MxpzayGUcN5JgvUVyeWeGNehpLdSVno40QJHu+RTpDg4y7n2NN2vOHs4mp8YqWdKNu0gqAfmvvmEYR1Py14KVkIBgJwKny+yJ8ZMjbQEG8V42+J7EfH5nQK7/l7297kHkek/FpPicUEmVg+lt+sQCU5e4VclmC11vy6CSQ4qPMXwLjXqOBwkzXRx91kQ2n3aFGT37a8mEMHDz68uWXOu0qWw72JRzHBmAotmjG5mnQSHi001plqveZ744B3s9EYBHtDpyBfEy++Ecnnk7XmSfrA3OHR4qxzzdzHP0fW5bxKKhK+gD5Q8mjiWZ9LRsbl1VthtXjqvEIwi1/rFYW/md3tPaE/ecV7pg4Gj91fD2Emgxz6v3fDdOQmaXMT3+g20onoW4VlZBcthPW/Qext9nKSCnryPWsdEwwbpIHFL+ycsGFY9QPa0ySRTyUL93nDUDbPZuA0LrS87Na+8+VLm6z1yEpG7xgBl9YCZ1B90vzvO+kFOGiT5KEXlrAHQrU0C30oHVHDyVeb1ob2lWV5xxZC+rz4oav2e3YSi3SzltUyf5eDMHKCglymzXdxsnTSSdGobdi2YB3gJKYimXGa/QEFGb0dZ2dgLke16S3ame7J9SJ8EdEjALPyaMG9VCqisTIJrOKcSU+DjNzodvS2pVJWZV1h/Y7KocNbT2Q0ngasfy1w9UZYatM2jCQjHlcDAVBIR0QqeiYNlcaE6SbME7yrweGyU7+WKSaduDH6IE3AzSH7mjXSzTLqNSbx06sJ8WS/ca+a8hRpgSPncjgS57FywRWCmCLZ37WCpcvqjDaoeCwEsDDMfOPw6ht2kKQUtW0WRSFn86t67SpJaMJ0PeCcIUMmzWr5zW0Aci1jsl0vc=" };
+const GATE_BOX = { iv: "8QGbMZzP4xW4uwrw", data: "zZAll+ZP5v4mVyakgponOX1cZzFJFInFmz7Z1+JLpnshOliUq5bcYaHiDFJnSR7mpXb/TKBWl9LZEM5K/AZdYwD3Qqp+BhJWJmIKlnl7DuQ/pwhdvT/M4cAyw5nUiHjFKwE2U7YdIjGE7pf99M3ux81q7hKf5vno5nZzOs4QTFjfas4mzW5FF8fi08+TnK+SxiCiKsmPnF/xtx2raxtc8qKTq2qb/RNGF7g5uiglkLDuE2JaG9ja3oSKuaoq3Wye92FxQwyUgnbJf0HZg3ZvubUNfvnzD7idzeTBLpY45vJoOGxfDihrQw/Iycs5FeyNRmG5wC4SL7Q/N4HjsTiQhVpxblrEIlHCcvAoT6cTLvceRkUINjTy9oviPDs+nJGf3FHxUnl6OolFF5QommQZOBwhz/nextdkBixGbsECieMnqmaczwMW3b6I" };
 /*USERS-END*/
 /* In the published copy the three addresses above are blank (the build takes
    them out): they come out of the seal with the key, are put in place for the
    length of the session, and are taken away again at sign-out. */
 const SEALED_SOURCES = ONLINE && !CLOUD.db;
+/* THE ICON'S KEY. The published page does not carry its users in the open: the
+   list — the names, and each one's sealed key — is locked in USERS_BOX under a
+   long random key that only the system's icon has. The icon opens the address
+   with that key after the #, the one part of an address that is never sent to
+   any server. Opened from a bare link the page has nobody to show and nothing
+   to try a PIN against: it says it opens from its icon, and that is all. The
+   key is kept on the device the icon opened it on (so the page can load itself
+   again) and is taken out of the address. */
+const ICON_KEY = "ncm_system_icon", ICON_RE = /^[A-Za-z0-9_-]{43}$/;
+/* THE GATE AND THE DATABASE. A wrong PIN is told to the database the moment
+   it is typed — which user it was tried for, on which device — so the admin's
+   activity log shows it at once. The database counts: the third in a row
+   locks the device, and a locked device shows nobody at its gate and takes
+   no PIN until the admin lets it back in from his log page (he can also lock
+   a device himself, whenever he likes). Whether this device is locked is
+   asked when the page opens, and every minute while it is open.
+   For that the page has to reach the database before anyone has signed in.
+   What it needs — the address, the key, and a token that can do those two
+   things and nothing else — is locked in GATE_BOX under the icon's key, as
+   the users are: opened from a bare link the page still knows nothing.
+   What this is and is not: the count and the lock are the database's, and
+   the admin sees every try. But the PIN itself is checked by the page, so
+   someone who holds the icon and wipes the browser's data is a new device
+   with three tries more — each of them in the admin's log. */
+const BLOCK_KEY = "ncm_system_blocked", FAIL_KEY = "ncm_system_fail", DEVICE_KEY = "ncm_system_device", MAX_WRONG = 3;
+let GATE = null;                                    // { db, k, t } once the icon's key has opened the box
+const blocked = () => { try{ return !!localStorage.getItem(BLOCK_KEY); }catch(e){ return false; } };
+// what the address carries after the # — the icon's key (i) — read once and taken out of the address
+const ARGS = (() => {
+  const o = {};
+  if(!ONLINE || !location.hash) return o;
+  location.hash.slice(1).split("&").forEach(p => { const i = p.indexOf("="); if(i > 0) o[p.slice(0, i)] = p.slice(i + 1); });
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+  return o;
+})();
+// This browser, to the database: a random name it gives itself once and keeps.
+let deviceMemo = "";
+function deviceId(){
+  if(deviceMemo) return deviceMemo;
+  let id = "";
+  try{ id = localStorage.getItem(DEVICE_KEY) || ""; }catch(e){}
+  if(!/^[0-9a-f]{16}$/.test(id)){
+    id = [].map.call(crypto.getRandomValues(new Uint8Array(8)), x => x.toString(16).padStart(2, "0")).join("");
+    try{ localStorage.setItem(DEVICE_KEY, id); }catch(e){}
+  }
+  return deviceMemo = id;
+}
+function deviceTag(){
+  const ua = navigator.userAgent;
+  const os = /Windows/.test(ua) ? "Windows" : /Android/.test(ua) ? "Android" : /iPhone|iPad/.test(ua) ? "iOS" : /Mac OS/.test(ua) ? "Mac" : /Linux/.test(ua) ? "Linux" : "?";
+  const br = /Edg\//.test(ua) ? "Edge" : /Chrome\//.test(ua) ? "Chrome" : /Firefox\//.test(ua) ? "Firefox" : /Safari\//.test(ua) ? "Safari" : "?";
+  return os + " · " + br + " · " + deviceId().slice(-6);
+}
+async function gateCall(fn, args){
+  if(!GATE) throw new Error("the gate has nothing to call with");
+  const stop = new AbortController(), timer = setTimeout(() => stop.abort(), 7000);       // a database out of reach must not hold the gate up
+  try{
+    const r = await fetch(GATE.db + "/rest/v1/rpc/system_gate_" + fn, { method: "POST", cache: "no-store", signal: stop.signal,
+      headers: { apikey: GATE.k, Authorization: "Bearer " + GATE.k, "Content-Type": "application/json" },
+      body: JSON.stringify(Object.assign({ p_token: GATE.t, p_device: deviceId() }, args)) });
+    if(!r.ok) throw new Error("the gate was answered " + r.status);
+    return await r.json();
+  }finally{ clearTimeout(timer); }
+}
+/* Is this device locked? The database says. Wrong PINs typed while it was out
+   of reach are told first, so that going offline to guess gains nothing. If
+   it cannot be asked, what the device remembers stands. */
+async function gateState(){
+  if(!GATE) return;
+  try{
+    let owed = 0;
+    try{ owed = +localStorage.getItem(FAIL_KEY) || 0; }catch(e){}
+    for(let i = 0; i < owed; i++) await gateCall("wrong", { p_tag: deviceTag(), p_user: "" });
+    if(owed) try{ localStorage.removeItem(FAIL_KEY); }catch(e){}
+    const s = await gateCall("state", {});
+    try{ if(s && s.blocked) localStorage.setItem(BLOCK_KEY, String(Date.now())); else localStorage.removeItem(BLOCK_KEY); }catch(e){}
+  }catch(e){}
+}
+async function unboxUsers(){
+  if(!USERS_BOX) return;                            // this PC's own copy: the list is written out above
+  let k = "";
+  if(ICON_RE.test(ARGS.i || "")){ k = ARGS.i; try{ localStorage.setItem(ICON_KEY, k); }catch(e){} }
+  else try{ k = localStorage.getItem(ICON_KEY) || ""; }catch(e){}
+  if(!ICON_RE.test(k)) return;
+  let list = null;
+  try{
+    const raw = Uint8Array.from(atob(k.replace(/-/g, "+").replace(/_/g, "/") + "="), c => c.charCodeAt(0));
+    const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+    const open = async box => JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(box.iv) }, key, b64(box.data))));
+    list = await open(USERS_BOX);
+    if(GATE_BOX) GATE = await open(GATE_BOX);
+  }catch(e){ return; }                              // not this system's key (an icon made before the key was changed): nothing opens
+  await gateState();
+  if(blocked()) return;                             // locked: the gate shows nobody, and says why
+  PIN_LEN = list.pinLen; USERS = list.users;
+}
+function blockHere(){
+  try{ localStorage.setItem(BLOCK_KEY, String(Date.now())); }catch(e){}
+  USERS = []; PIN_LEN = 0;
+}
+// A wrong PIN. It answers how many tries are left; at none, the device has just been locked.
+async function noteFail(name){
+  let left;
+  try{ const r = await gateCall("wrong", { p_tag: deviceTag(), p_user: name }); left = r.blocked ? 0 : +r.left || 0; }
+  catch(e){                                         // the database is out of reach: counted here, and told as soon as it can be
+    let n = 1;
+    try{ n = (+localStorage.getItem(FAIL_KEY) || 0) + 1; localStorage.setItem(FAIL_KEY, String(n)); }catch(x){}
+    left = Math.max(0, MAX_WRONG - n);
+  }
+  if(left > 0) return left;
+  blockHere();
+  return 0;
+}
+// While someone is signed in: has the admin locked this device meanwhile?
+async function deviceCheck(){
+  if(!ONLINE || !session) return;
+  try{
+    const s = await dbCall("system_gate_state", { p_device: deviceId() });
+    if(s && s.blocked){ blockHere(); signOut(); }
+  }catch(e){}
+}
 function useSources(){
   const s = session && session.src;
   if(s) ["sheet", "db", "bucket"].forEach(k => { if(s[k]) CLOUD[k] = s[k]; });
@@ -1773,8 +2155,55 @@ const I18N = {
     errNotXlsx:n => "«" + n + "» مش ملف إكسيل xlsx سليم",
     lostMini:"— مش في مكانه", lostPill:"الملف مش في مكانه", fileLabel:"الملف",
     navRnw:"كشف التجديد", rnwWindow:n => "خلال " + n + " يوم", daysLeft:"المتبقي (يوم)", navSnd:"تصدير بيانات", sndPermits:"تصاريح", allEmployees:"كل الموظفين", colIndOk:"أفراد ساري", colIndBan:"أفراد منع", colVehOk:"مركبات ساري", colVehBan:"مركبات منع", colTotal:"الإجمالي", colSerial:"م",
-    pinAria:"الرقم السري", userAria:"المستخدم", chooseUser:"اختر اسم المستخدم", back:"رجوع", wrongLogin:"رمز غير صحيح", checking:"جارٍ التحقق", signOut:"خروج",
-    locked:n => "استنى " + n + " ثانية", idleOut:"اتقفل لعدم الاستخدام",
+    pinAria:"الرقم السري", userAria:"المستخدم", chooseUser:"اختر اسم المستخدم", back:"رجوع", checking:"جارٍ التحقق", signOut:"خروج",
+    wrongLeft:n => "رمز غير صحيح — باقي " + (n === 1 ? "محاولة واحدة" : "محاولتين") + " والجهاز يتقفل", blockedNote:"الجهاز ده مقفول — ارجع لمسؤول السيستم",
+    roleAdmin:"أدمن", roleViewer:"مشاهد", connectT:"اكتب رقمك السري عشان الجهاز ده يتصل", connectBtn:"اتصال", connectBad:"الرقم غلط، أو مش رقم الأدمن", cancel:"إلغاء",
+    navToday:"تجديد اليوم", renew:"تجديد", renewOn:"في تجديد اليوم ✓", renewAdded:"اتضاف لتجديد اليوم ✓", renewUndone:"اتشال من تجديد اليوم",
+    renewKept:"ده مضاف من الأدمن — مايتشالش من هنا", renewFail:"العملية ما تمتش — جرّب تاني",
+    todayFilePer:"تصدير تجديد افراد", todayFileVeh:"تصدير تجديد مركبات", todayClear:"مسح الكل", todayClearSure:n => "تمسح الـ " + n + " اللي في تجديد اليوم كلهم؟",
+    todayBy:"اتضاف", todayDel:"شيل من القايمة", todayMissing:"مش موجود في الشيتات على الجهاز ده", todayNone:"مفيش حد في تجديد اليوم",
+    todayHint:"افتح كارت أي شخص أو مركبة واضغط «تجديد»", todayRead:x => "آخر قراية " + x, todayOffline:"تعذر الاتصال بقاعدة البيانات",
+    navCards:"قارئ البطاقات", cdDrop:"اسحب ملف البطايق هنا",
+    cdPick:"اختيار ملف", cdDropHere:"افلت ملف البطايق هنا", cdBadType:"الملف لازم يكون وورد \u200E.docx أو PDF", cdEmptyFile:"الملف ده فاضي", cdSent:"اتبعت للقارئ ✓",
+    cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
+    cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
+    cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
+    cdColSt:"الحالة", cdClear:"مسح السجل", cdClearSure:"تمسح سجل قارئ البطاقات؟", cdCleared:"اتمسح السجل ✓",
+    cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر التصدير",
+    cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
+    cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
+    cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
+    dkTitle:"التحديث", dkSources:"مصادر البيانات", dkEmp:"قاعدة بيانات الموظفين والصور", dkSheet:"work sheet على الدرايف", dkAse:"ASE Data",
+    dkRun:"تحديث", dkAsePick:"رفع ملف ASE", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
+    dkQueued:"مستني القارئ", dkRunning:"شغّال", dkDone:"تم", dkDoneWarn:"تم — فيه ملاحظات", dkDoneBad:"تم — فيه مشكلة", dkFailed:"ماتمّش", dkBusy:"القارئ مشغول", dkLost:"الطلب ما وصلش فولدر التصدير",
+    dkA1:"اتبعت", dkA2:"استلام", dkA3:"إكسيل", dkA4:"فحص", dkA5:"تبديل", dkE3:"الداتا", dkE4:"مراجعة الصور", dkE5:"رفع الصور", dkS3:"الرفع", dkS4:"الفحص",
+    dkRows:"صفوف ASE", dkAdded:"الجديد", dkLetter:"آخر خطاب", dkFound:"موجودين في ASE", dkMissing:"مش موجودين", dkRoom:"باقي في الشيت",
+    dkBackupIn:"النسخة القديمة، في فولدر النسخ الاحتياطية", dkUntouched:"work sheet زي ما هو",
+    dkDoneToast:n => n + " — تم ✓", dkBadToast:n => n + " — تم وفيه مشكلة", dkFailToast:n => n + " — ماتمّش",
+    dkF_emp_same:"الشيت مطابق لقاعدة البيانات", dkF_emp_found:v => "تعديلات " + v[0] + " · إضافات " + v[1], dkF_emp_skipped:v => v[0] + " اتخطّى — النوع مش blue/white",
+    dkF_emp_failed:v => v[0] + " ما اتكتبش في القاعدة", dkF_emp_unverified:v => v[0] + " لسه مختلف بعد الكتابة", dkF_emp_blank:v => v[0] + " خانة فاضية في الشيت — اللي في القاعدة اتساب زي ما هو",
+    dkF_emp_missing:v => v[0] + " في القاعدة ومش في الشيت",
+    dkF_emp_dup:v => "رقم قومي متكرر على أكتر من كود — " + v[0], dkF_emp_odd:v => "رقم قومي طوله مش 14 — كود " + v[0],
+    dkF_ph_up:v => v[0] + " صورة اترفعت", dkF_ph_failed:v => v[0] + " صورة ما اترفعتش", dkF_ph_refused:v => "صور مش بتاعة صاحب الكود — ماترفعش ولا صورة: " + v[0],
+    dkF_ph_unknown:v => "صور باسم مش كود موظف — ماترفعش ولا صورة: " + v[0], dkF_ph_unchecked:v => v[0] + " صورة ما اتراجعتش — ماترفعتش", dkF_ph_changed:v => "الصور اتغيّرت بعد المراجعة — ماترفعتش",
+    dkF_ph_unclear:v => "صور مش واضحة (اترفعت): " + v[0],
+    dkF_ph_differs:v => "اترفعت، بس بيانات صاحبها في الشيت مش زي البطاقة — راجع: " + v[0], dkF_ph_twice:v => "صورة موجودة مرتين (‎.jpeg و ‎.jpg) — ماترفعش ولا صورة: " + v[0],
+    dkF_ph_other:v => "ملفات مش صور اتسابت مكانها: " + v[0],
+    dkF_sh_same:"مفيش جديد — الملف زي آخر رفع", dkF_sh_up:v => "اترفع: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
+    dkF_sh_ids:v => v[0] + " رقم قومي كان مكتوب نص واتحوّل رقم", dkF_vf_ok:v => "الفحص سليم — الشيت والتطبيق" + (v[0] || v[1] ? " (" + v[0] + " صف أفراد · " + v[1] + " صف مركبات)" : ""), dkF_vf_bad:v => "الفحص لقى " + v[0] + " ملاحظة", dkF_vf_none:"الفحص ما اشتغلش",
+    dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
+    dkEEmpOpen:"شيت الموظفين مفتوح في إكسيل", dkEEmpMissing:"شيت الموظفين مش في مكانه", dkEDb:"قاعدة البيانات مش بترد", dkEEmpSync:"سكربت الموظفين وقف",
+    dkEShCols:"ترتيب الأعمدة اتغيّر — ماترفعش", dkEShRows:"الملف فيه صفوف غلط — ماترفعش", dkEShAfter:"اترفع، بس الشيت بيتقري غلط", dkEShSmall:"الملف أصغر بكتير من الشيت — ماترفعش",
+    dkEShTabs:"تابات ناقصة في الملف — ماترفعش", dkEShFailed:"الرفع وقف",
+    dkEOpen:"work sheet مفتوح في إكسيل", dkEMissing:"work sheet مش في مكانه", dkEChanged:"work sheet اتحفظ أثناء التحديث", dkEHeld:"work sheet ماسكه برنامج تاني", dkENotAse:"الملف مش تصدير ASE", dkECols:"أعمدة ملف ASE اتغيّرت",
+    dkESheetCols:"أعمدة شيت ASE Data اتغيّرت", dkEEmpty:"الملف فاضي", dkESmall:"الملف أصغر بكتير من اللي في الشيت", dkERoom:"الملف أكبر من سعة الشيت",
+    dkEPass:"باسورد شيت ASE Data مش هو", dkECheck:"الفحص ما عدّاش",
+    navLog:"سجل النشاط", lgIn:"دخل السيستم", lgOut:"خرج", lgIdle:"اتقفل لعدم الاستخدام", lgWrong:"رمز غلط", lgBlocked:"الجهاز اتقفل", lgUnblocked:"اتفك قفل الجهاز", lgByThree:"بعد 3 محاولات غلط", lgByAdmin:"من الأدمن", roleGate:"قبل الدخول",
+    devT:"الأجهزة", devName:"الجهاز", devLast:"آخر مستخدم", devSeen:"آخر مرة", devState:"الحالة", devOpen:"شغال", devLocked:"مقفول", devWrong:n => n + " رمز غلط", devUnlock:"فك القفل", devLock:"قفل الجهاز", devThis:"جهازك ده",
+    devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.",
+    lgPage:"فتح صفحة", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
+    lgEveryone:"كل المستخدمين", lgRefresh:"تحديث", lgNone:"مفيش نشاط متسجّل", lgMore:"الأقدم", lgUntil:"لحد",
+    idleOut:"اتقفل لعدم الاستخدام", iconOnly:"السيستم بيفتح من الأيقونة بتاعته بس",
     sessionEnded:"الدخول اتلغى — ادخل تاني", srcSheet:"شيت جوجل", srcDb:"قاعدة البيانات", srcBucket:"من قاعدة البيانات",
     connected:"متصل", noConn:"تعذر الاتصال", noConnMini:"— تعذر الاتصال", retry:"إعادة المحاولة", lastRead:"آخر قراية", fallbackPill:"قراية بديلة", fallbackMini:"— قراية ناقصة · المنع ممكن ميظهرش",
     miniPer:"التصاريح", miniEmp:"الموظفين", notYet:"— لسه", pickFiles:"اختيار الملفات",
@@ -1787,7 +2216,7 @@ const I18N = {
     deptChart:"الأقسام — الموجودون", noDept:"بدون قسم", unitEmp:"موظف",
     compChart:"الشركات — تصاريح الأفراد", unspecified:"غير محدد", otherCompanies:"شركات أخرى", unitPerson:"شخص",
     monthsTitle:"تصاريح هتنتهي في الـ 12 شهر الجايين", segEmp:"الموظفين", segInd:"الأفراد", segVeh:"المركبات",
-    monthTip:(m, y, n) => m + " " + y + " — " + n + " تصريح ينتهي",
+    monthTip:(m, y, n) => m + " " + y + " — " + n + " تصريح ينتهي", monthListT:(m, y, k) => "تصاريح هتنتهي في " + m + " " + y + " — " + k,
     soonTitle:"أقرب تصاريح الموظفين انتهاءً — 60 يوم", noSoon:"مفيش تصريح موظف هينتهي خلال 60 يوم",
     colCode:"الكود", colName:"الاسم", colJob:"الوظيفة", colDept:"القسم", colPermitDate:"تاريخ التصريح", colStatus:"الموقف",
     colType:"النوع", colNid:"الرقم القومي", colLeft:"المتبقي", colCompany:"الشركة", colPermit:"التصريح",
@@ -1839,8 +2268,55 @@ const I18N = {
     errNotXlsx:n => "“" + n + "” is not a valid Excel .xlsx file",
     lostMini:"— not found", lostPill:"File not where it should be", fileLabel:"File",
     navRnw:"Renewals", rnwWindow:n => "Within " + n + " days", daysLeft:"Days left", navSnd:"Data export", sndPermits:"Permits", allEmployees:"All employees", colIndOk:"People valid", colIndBan:"People banned", colVehOk:"Vehicles valid", colVehBan:"Vehicles banned", colTotal:"Total", colSerial:"#",
-    pinAria:"PIN", userAria:"User", chooseUser:"Select user name", back:"Back", wrongLogin:"Incorrect PIN", checking:"Checking", signOut:"Sign out",
-    locked:n => "Wait " + n + " s", idleOut:"Locked after inactivity",
+    pinAria:"PIN", userAria:"User", chooseUser:"Select user name", back:"Back", checking:"Checking", signOut:"Sign out",
+    wrongLeft:n => "Incorrect PIN — " + n + (n === 1 ? " try" : " tries") + " left before this device is locked", blockedNote:"This device is locked — see the system's administrator",
+    roleAdmin:"Admin", roleViewer:"Viewer", connectT:"Enter your PIN to connect this PC", connectBtn:"Connect", connectBad:"Wrong PIN, or not the admin's", cancel:"Cancel",
+    navToday:"Today's renewals", renew:"Renew", renewOn:"In today's renewals ✓", renewAdded:"Added to today's renewals ✓", renewUndone:"Taken off today's renewals",
+    renewKept:"The admin put this one on the list — it cannot be taken off from here", renewFail:"It did not go through — try again",
+    todayFilePer:"Export people form", todayFileVeh:"Export vehicles form", todayClear:"Clear all", todayClearSure:n => "Clear all " + n + " from today's renewals?",
+    todayBy:"Added", todayDel:"Take off the list", todayMissing:"Not in the sheets on this device", todayNone:"Nobody in today's renewals",
+    todayHint:"Open anyone's card, or a vehicle's, and press “Renew”", todayRead:x => "Last read " + x, todayOffline:"Cannot reach the database",
+    navCards:"Card reader", cdDrop:"Drop the cards file here",
+    cdPick:"Choose a file", cdDropHere:"Drop the cards file here", cdBadType:"The file must be Word \u200E.docx or PDF", cdEmptyFile:"This file is empty", cdSent:"Sent to the reader ✓",
+    cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
+    cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
+    cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
+    cdColSt:"Status", cdClear:"Clear the record", cdClearSure:"Clear the card reader's record?", cdCleared:"Record cleared ✓",
+    cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the export folder",
+    cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
+    cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
+    cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
+    dkTitle:"Updates", dkSources:"Data sources", dkEmp:"Employees database and photos", dkSheet:"Work sheet on the Drive", dkAse:"ASE Data",
+    dkRun:"Update", dkAsePick:"Upload ASE file", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
+    dkQueued:"Waiting for the reader", dkRunning:"Running", dkDone:"Done", dkDoneWarn:"Done — with notes", dkDoneBad:"Done — with a problem", dkFailed:"Not done", dkBusy:"Reader busy", dkLost:"The request did not reach the export folder",
+    dkA1:"Sent", dkA2:"Received", dkA3:"Excel", dkA4:"Checking", dkA5:"Replacing", dkE3:"Data", dkE4:"Checking photos", dkE5:"Uploading photos", dkS3:"Upload", dkS4:"Check",
+    dkRows:"ASE rows", dkAdded:"New", dkLetter:"Latest letter", dkFound:"Found in ASE", dkMissing:"Not found", dkRoom:"Room left",
+    dkBackupIn:"the old one, in the backups folder", dkUntouched:"the work sheet is as it was",
+    dkDoneToast:n => n + " — done ✓", dkBadToast:n => n + " — done, with a problem", dkFailToast:n => n + " — not done",
+    dkF_emp_same:"The sheet matches the database", dkF_emp_found:v => v[0] + " changed · " + v[1] + " added", dkF_emp_skipped:v => v[0] + " skipped — type is not blue/white",
+    dkF_emp_failed:v => v[0] + " could not be written to the database", dkF_emp_unverified:v => v[0] + " still differ after writing", dkF_emp_blank:v => v[0] + (v[0] === 1 ? " empty cell" : " empty cells") + " in the sheet — the database's value was kept",
+    dkF_emp_missing:v => v[0] + " in the database but not in the sheet",
+    dkF_emp_dup:v => "A national id on more than one code — " + v[0], dkF_emp_odd:v => "A national id that is not 14 digits — code " + v[0],
+    dkF_ph_up:v => v[0] + (v[0] === 1 ? " photo uploaded" : " photos uploaded"), dkF_ph_failed:v => v[0] + (v[0] === 1 ? " photo was not uploaded" : " photos were not uploaded"), dkF_ph_refused:v => "Photos that are not the card of the code's owner (none was uploaded) — " + v[0],
+    dkF_ph_unknown:v => "Photos not named by an employee code (none was uploaded) — " + v[0], dkF_ph_unchecked:v => v[0] + (v[0] === 1 ? " photo was not checked — not uploaded" : " photos were not checked — not uploaded"), dkF_ph_changed:v => "The photos changed after the check — not uploaded",
+    dkF_ph_unclear:v => "Unclear photos (uploaded all the same) — " + v[0],
+    dkF_ph_differs:v => "Uploaded, but the sheet does not say what the card says — look at " + v[0], dkF_ph_twice:v => "A photo is there twice (.jpeg and .jpg), none was uploaded — " + v[0],
+    dkF_ph_other:v => "Files that are not photos were left where they are — " + v[0],
+    dkF_sh_same:"Nothing new — the file is as last uploaded", dkF_sh_up:v => "Uploaded — " + v[0] + " people rows · " + v[1] + " vehicle rows" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
+    dkF_sh_ids:v => v[0] + " national ids typed as text were turned into numbers", dkF_vf_ok:v => "Check passed — the sheet and the app" + (v[0] || v[1] ? " (" + v[0] + " people rows · " + v[1] + " vehicle rows)" : ""), dkF_vf_bad:v => "The check found " + v[0] + (v[0] === 1 ? " problem" : " problems"), dkF_vf_none:"The check could not run",
+    dkEBusy:"Already running", dkECut:"Cut short before its end", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
+    dkEEmpOpen:"The employees sheet is open in Excel", dkEEmpMissing:"The employees sheet is not in its place", dkEDb:"The database is not answering", dkEEmpSync:"The employees script stopped",
+    dkEShCols:"The column order has changed — not uploaded", dkEShRows:"The file has wrong rows — not uploaded", dkEShAfter:"Uploaded, but the sheet reads back wrong", dkEShSmall:"The file is far smaller than the sheet — not uploaded",
+    dkEShTabs:"Tabs are missing from the file — not uploaded", dkEShFailed:"The upload stopped",
+    dkEOpen:"The work sheet is open in Excel", dkEMissing:"The work sheet is not in its place", dkEChanged:"The work sheet was saved during the update", dkEHeld:"Another program is holding the work sheet", dkENotAse:"Not an ASE export", dkECols:"The export's columns have changed",
+    dkESheetCols:"The ASE Data sheet's columns have changed", dkEEmpty:"The file is empty", dkESmall:"Far smaller than what the sheet holds", dkERoom:"More rows than the sheet has room for",
+    dkEPass:"The ASE Data sheet's password is not the one known", dkECheck:"The check did not pass",
+    navLog:"Activity log", lgIn:"Signed in", lgOut:"Signed out", lgIdle:"Locked after inactivity", lgWrong:"Wrong PIN", lgBlocked:"Device locked", lgUnblocked:"Device unlocked", lgByThree:"after 3 wrong PINs", lgByAdmin:"by the admin", roleGate:"Before sign-in",
+    devT:"Devices", devName:"Device", devLast:"Last user", devSeen:"Last seen", devState:"State", devOpen:"Open", devLocked:"Locked", devWrong:n => n + " wrong " + (n === 1 ? "PIN" : "PINs"), devUnlock:"Unlock", devLock:"Lock device", devThis:"This device",
+    devLockSure:"Lock this device? It will not open the system until you unlock it.",
+    lgPage:"Opened page", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
+    lgEveryone:"All users", lgRefresh:"Refresh", lgNone:"No activity recorded", lgMore:"Older", lgUntil:"until",
+    idleOut:"Locked after inactivity", iconOnly:"This system opens from its own icon only",
     sessionEnded:"Signed out — sign in again", srcSheet:"Google Sheet", srcDb:"Database", srcBucket:"From the database",
     connected:"Connected", noConn:"Cannot connect", noConnMini:"— no connection", retry:"Try again", lastRead:"Last read", fallbackPill:"Fallback read", fallbackMini:"— partial read · bans may be missing",
     miniPer:"Permits", miniEmp:"Employees", notYet:"— not yet", pickFiles:"Choose files",
@@ -1853,7 +2329,7 @@ const I18N = {
     deptChart:"Departments — active staff", noDept:"No department", unitEmp:"employees",
     compChart:"Companies — individual permits", unspecified:"Unspecified", otherCompanies:"Other companies", unitPerson:"people",
     monthsTitle:"Permits expiring in the next 12 months", segEmp:"Employees", segInd:"Individuals", segVeh:"Vehicles",
-    monthTip:(m, y, n) => m + " " + y + " — " + n + (n === 1 ? " permit expires" : " permits expire"),
+    monthTip:(m, y, n) => m + " " + y + " — " + n + (n === 1 ? " permit expires" : " permits expire"), monthListT:(m, y, k) => "Permits expiring in " + m + " " + y + " — " + k,
     soonTitle:"Employee permits ending soonest — 60 days", noSoon:"No employee permit ends within 60 days",
     colCode:"Code", colName:"Name", colJob:"Job", colDept:"Department", colPermitDate:"Permit date", colStatus:"Status",
     colType:"Type", colNid:"National ID", colLeft:"Remaining", colCompany:"Company", colPermit:"Permit",
@@ -1968,7 +2444,8 @@ const HANDLES = { emp: null, per: null };
 let M = NCM.buildModel(DATA);
 
 const st = {
-  view: "multi", chart: "ind",                                 // the search page is the home page
+  view: "multi", chart: "emp",                                 // the search page is the home page; the months chart opens on the employees (asked for, 4 October 2026)
+  month: "",                                                    // the month of the chart whose list is open under it ("year-month"), or none
   multi: { text: "", mode: "ind", res: null },
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "name", d: 1 } },
@@ -2375,6 +2852,7 @@ function paintUser(){
   [].forEach.call($("gate-list").children, (b, i) => { b.classList.toggle("on", i === gateIdx); b.setAttribute("aria-selected", i === gateIdx); });
 }
 function openUsers(open){
+  if(open && !USERS.length) return;               // opened without the icon: there is no list to open
   $("gate-list").hidden = !open;
   $("upick").classList.toggle("open", open);
   $("gate-user").setAttribute("aria-expanded", open);
@@ -2392,24 +2870,15 @@ function paintBoxes(){
     b.textContent = i < n ? "•" : "";
   });
 }
-/* Five wrong PINs in a row and the gate stops taking any for a while, longer
-   each time. This is a brake on someone guessing AT THE SCREEN. It is no
-   defence against someone who copies the page and tries PINs on his own
-   machine — nothing in a page can be; that is what the PIN's length is for. */
-const FAIL_KEY = "ncm_system_fail";
-const failState = () => { try{ return JSON.parse(localStorage.getItem(FAIL_KEY) || "null") || { n: 0, until: 0 }; }catch(e){ return { n: 0, until: 0 }; } };
-const lockedFor = () => Math.max(0, Math.ceil((failState().until - Date.now()) / 1000));
-function noteFail(){
-  const f = failState();
-  f.n++;
-  if(f.n >= 5) f.until = Date.now() + Math.min(600, 30 * Math.pow(2, f.n - 5)) * 1000;
-  try{ localStorage.setItem(FAIL_KEY, JSON.stringify(f)); }catch(e){}
-}
 function showGate(message){
   gateIdx = -1;
   $("gate-list").innerHTML = USERS.map((u, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) +
     '</span><span class="uname">' + esc(u.name) + '</span><svg class="ucheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join("");
   paintUser(); openUsers(false);
+  const nobody = !USERS.length;                   // opened without the icon's key: nobody to pick, nothing to type
+  $("upick").hidden = $("pinboxes").hidden = nobody; $("gate-note").hidden = !nobody;
+  // nobody, because it was opened without the icon — or because three wrong PINs locked this device
+  $("gate-note").dataset.i18n = blocked() ? "blockedNote" : "iconOnly"; $("gate-note").textContent = t($("gate-note").dataset.i18n);
   $("pinboxes").innerHTML = new Array(PIN_LEN + 1).join("<i></i>");
   $("pinboxes").classList.toggle("many", PIN_LEN > 6); $("gate-form").classList.toggle("long", PIN_LEN > 6);
   $("gate-err").className = "gate-err"; $("gate-err").textContent = message || "";
@@ -2418,29 +2887,41 @@ function showGate(message){
   setTimeout(() => $("gate-user").focus(), 80);
 }
 async function submitPin(){
-  const pin = $("pin"), err = $("gate-err"), user = gateUser(), wait = lockedFor();
+  const pin = $("pin"), err = $("gate-err"), user = gateUser();
   if(gateBusy || !user || pin.value.length !== PIN_LEN) return;
-  if(wait){ err.className = "gate-err"; err.textContent = t("locked", wait); pin.value = ""; paintBoxes(); return; }
   gateBusy = true;
   err.className = "gate-err busy"; err.textContent = t("checking");     // the key-stretching takes a moment; the line says so
   try{
-    // what the PIN opens: the key, and with it where the data is kept
-    const got = JSON.parse(await unseal(user, pin.value));
-    session = { v: SESSION_V, u: user.name, k: got.k, src: { sheet: got.sheet || "", db: got.db || "", bucket: got.bucket || "" }, at: Date.now(), seen: Date.now() };
+    // what the PIN opens: the key, and with it where the data is kept. A PIN that opens nothing is a wrong try — that, and nothing else, is counted
+    let got = null;
+    try{ got = JSON.parse(await unseal(user, pin.value)); }catch(x){}
+    if(!got){
+      const left = await noteFail(user.name);
+      if(!left){ pin.value = ""; return showGate(); }      // the third wrong PIN: the device is locked, and the gate says so
+      err.className = "gate-err"; err.textContent = t("wrongLeft", left);
+      const card = $("gate-form");
+      card.classList.add("shake"); setTimeout(() => card.classList.remove("shake"), 400);
+      pin.value = ""; paintBoxes(); pin.focus();
+      return;
+    }
+    // …and what this user is, the salt and token of the lists kept in the database, and a name for this visit in the activity log
+    session = { v: SESSION_V, u: user.name, k: got.k, src: { sheet: got.sheet || "", db: got.db || "", bucket: got.bucket || "" },
+                role: got.role === "admin" ? "admin" : "viewer", rs: got.rs || "", rt: got.rt || "",
+                sid: [].map.call(crypto.getRandomValues(new Uint8Array(8)), x => x.toString(16).padStart(2, "0")).join(""), at: Date.now(), seen: Date.now() };
     lastTouch = session.seen;
     keepSession();
     try{ localStorage.removeItem(FAIL_KEY); }catch(x){}
+    // the device is made known — and one the admin has locked is refused even with the right PIN
+    let dev = null;
+    const mine = session;
+    try{ dev = await dbCall("system_gate_ok", { p_device: deviceId(), p_tag: deviceTag(), p_user: user.name }); }catch(x){}
+    if(session !== mine) return;                    // signed out again while the database was being told: that sign-in is over
+    if(dev && dev.blocked){ blockHere(); session = null; try{ sessionStorage.removeItem(SESSION_KEY); }catch(x){} pin.value = ""; return showGate(); }
+    logAct("in");
     pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
     $("gate").hidden = true;
     startOnline();
-  }catch(x){
-    noteFail();
-    const left = lockedFor();
-    err.className = "gate-err"; err.textContent = left ? t("locked", left) : t("wrongLogin");
-    const card = $("gate-form");
-    card.classList.add("shake"); setTimeout(() => card.classList.remove("shake"), 400);
-    pin.value = ""; paintBoxes(); pin.focus();
   }finally{ gateBusy = false; }
 }
 /* The unsealed key lives in sessionStorage: it survives a reload of the tab
@@ -2453,10 +2934,11 @@ let lastTouch = Date.now();
 function keepSession(){ try{ sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)); }catch(e){} }
 const idleTooLong = () => !!session && Date.now() - lastTouch > IDLE_MS;
 // A touch after too long a silence does not count as a touch: it closes the session instead.
-function touched(){ if(idleTooLong()) signOut(t("idleOut")); else lastTouch = Date.now(); }
+function idleOut(){ logAct("idle"); signOut(t("idleOut")); }
+function touched(){ if(idleTooLong()) idleOut(); else lastTouch = Date.now(); }
 function idleTick(){
   if(!session) return;
-  if(idleTooLong()) return signOut(t("idleOut"));
+  if(idleTooLong()) return idleOut();
   if(session.seen !== lastTouch){ session.seen = lastTouch; keepSession(); }
 }
 function signOut(message){
@@ -2468,7 +2950,10 @@ function signOut(message){
   DATA.emp = DATA.per = null; sig.per = sig.emp = ""; net.per = net.emp = null;
   st.multi.text = ""; st.multi.res = null;
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
+  st.month = "";
+  RENEW = []; renewAt = 0; hashes.clear(); renewIndex = new Map(); indexFor = null; LOG = []; DEVICES = []; logWho = ""; $("nb-log").textContent = "";
   HIST = [];                                        // out of the page; what is kept on the device stays sealed
+  shownPage = "";                                   // whoever signs in next sees his first page arrive
   if(SEALED_SOURCES) CLOUD.sheet = CLOUD.db = CLOUD.bucket = "";
   // the card that was last open is emptied, not just hidden: it holds a person and the address of his photos
   $("dr-b").innerHTML = ""; $("dr-t").textContent = ""; $("zoom-img").removeAttribute("src"); $("zoom").classList.remove("on");
@@ -2482,12 +2967,14 @@ function signOut(message){
 async function startOnline(){
   useSources();
   $("user-name").textContent = session.u; $("side-user").hidden = false;
+  $("user-role").textContent = t(isAdmin() ? "roleAdmin" : "roleViewer");
   histLoad();
   busy(true, t("reading"));
   await cloudSync(true);
   busy(false);
   if(!session) return;                       // the key was refused: back at the gate
   render();
+  renewSync(); devicesSync();
   clearInterval(cloudTimer);
   cloudTimer = setInterval(() => { if(!document.hidden) cloudSync(); }, CLOUD.every);
 }
@@ -2532,12 +3019,20 @@ function applyLang(){
   [].forEach.call(document.querySelectorAll("[data-i18n-ph]"), el => { el.placeholder = t(el.dataset.i18nPh); });
   $("lang-t").textContent = isEN() ? "AR" : "EN";            // the language it switches TO, as in the app
   $("dr-x").setAttribute("aria-label", t("close"));
+  if(session) $("user-role").textContent = t(isAdmin() ? "roleAdmin" : "roleViewer");
+  paintRenewBtn();
   $("logout").title = t("signOut"); $("logout").setAttribute("aria-label", t("signOut"));
   $("pin").setAttribute("aria-label", t("pinAria")); $("pinboxes").setAttribute("aria-label", t("pinAria"));
   paintUser();
 }
 function paintShell(){
   const any = DATA.emp || DATA.per;
+  // the admin's two pages are in the admin's menu only
+  $("nav-today").hidden = $("nav-log").hidden = !isAdmin();
+  $("nav-cards").hidden = ONLINE || !isAdmin();              // the reader runs on this PC: its page is this PC's alone
+  $("nav-src").hidden = !isAdmin();                          // «الشيتات» is the admin's page (asked for, 5 October 2026)
+  cardsNav(); deskNav();
+  $("nb-today").textContent = isAdmin() && RENEW.length ? RENEW.length : "";
   $("nb-emp").textContent = M.emp ? countBy(M.emp.list, e => !e.resigned) : "";    // the figure the page opens on
   $("nb-ind").textContent = M.ind ? M.ind.list.length : "";
   $("nb-veh").textContent = M.veh ? M.veh.list.length : "";
@@ -2594,16 +3089,51 @@ const BRAND =
     '<span class="hr"></span>' +
     '<span class="appname">SYSTEM</span>' +
   "</div>";
+let shownPage = "", enterTimer = null;
 function page(head, body){
   out.innerHTML = '<div class="pg-fixed">' + BRAND + head + "</div>" + body;
+  /* Opened, or only redrawn? The page is the same page while it is the same
+     view, showing the same sender's sheet (or none), with something read or
+     nothing. Only a page that was not on screen a moment ago arrives with
+     movement (see "boxes arriving" in the styles). */
+  const key = [st.view, st.snd.kind, st.snd.open, st.rnw.open, DATA.emp || DATA.per ? 1 : 0].join("|");
+  const opened = key !== shownPage;
+  shownPage = key;
+  freeze();
+  clearTimeout(enterTimer);
+  out.classList.toggle("enter", opened);
+  if(!opened) return;
+  enterTimer = setTimeout(() => out.classList.remove("enter"), 1200);
+  countUp();
+  logAct("page", { v: st.view, o: st.view === "snd" || st.view === "rnw" ? (sndState().open || "") : "" });
+}
+/* The figures in the boxes run up to their value as the boxes arrive. The
+   value itself is what the box was drawn with: the run is set by the clock,
+   not by counting frames, so a window that was not being looked at shows the
+   true figure the moment it is, and a box that has left the page is let be. */
+function countUp(){
+  if(document.hidden || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  const els = [].filter.call(out.querySelectorAll(".tile-v"), el => /^\d+$/.test(el.textContent) && +el.textContent > 0);
+  if(!els.length) return;
+  const ends = els.map(el => +el.textContent), t0 = performance.now(), RUN = 700;
+  const put = k => els.forEach((el, i) => { if(el.isConnected) el.textContent = k >= 1 ? ends[i] : Math.round(ends[i] * k); });
+  const step = now => {
+    const x = Math.min(1, (now - t0) / RUN);
+    put(x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
+    if(x < 1) requestAnimationFrame(step);
+  };
+  put(0);
+  requestAnimationFrame(step);
+  setTimeout(() => put(1), RUN + 400);          // whatever became of the frames, the true figure is there in the end
 }
 const pgHead = (title, extra) => '<div class="pg-head"><div><h1 class="pg-t">' + title + "</h1></div>" + (extra || "") + "</div>";
 const scrollPart = h => '<div class="pg-scroll">' + h + "</div>";
 function render(){
-  const blank = !DATA.emp && !DATA.per && st.view !== "src";
+  if(st.view === "src" && !isAdmin()){ st.view = "multi"; paintShell(); }       // «الشيتات» is the admin's page: anyone else lands on the search
+  const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards";      // the card reader needs no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -2663,36 +3193,77 @@ const PER_CHIPS = [["all","chAll"],["ok","cOk"],["soon","cSoon"],["expired","cEx
 const countBy = (list, pick) => { let n = 0; for(const x of list) if(pick(x)) n++; return n; };
 const catCount = list => { const c = {}; list.forEach(g => { c[g.p.cat] = (c[g.p.cat] || 0) + 1; }); return c; };
 
-function barsHTML(pairs, unit){
+/* `opens` — where a bar leads: the list and the standing it opens on, the
+   filter the bar's own name goes into, and the bars that are not one thing
+   (those with no name; several lumped into one), which lead nowhere. */
+function barsHTML(pairs, unit, opens){
   const max = Math.max(1, ...pairs.map(p => p[1]));
-  return '<div class="bars">' + pairs.map(p =>
-    '<div class="bar-row" data-tip="' + esc(p[0] + " — " + p[1] + " " + unit) + '">' +
+  return '<div class="bars">' + pairs.map(p => {
+    const on = opens && opens.not.indexOf(p[0]) === -1;
+    return "<" + (on ? 'button type="button" data-go="' + opens.to + '" data-f="' + opens.f + '" data-fv="' + esc(p[0]) + '"' : "div") +
+      ' class="bar-row" data-tip="' + esc(p[0] + " — " + p[1] + " " + unit) + '">' +
       '<span class="bar-l">' + esc(p[0]) + "</span>" +
       '<span class="bar-track"><span class="bar-fill" style="width:' + (p[1] / max * 100).toFixed(1) + '%"></span></span>' +
-      '<span class="bar-v num">' + p[1] + "</span></div>").join("") + "</div>";
+      '<span class="bar-v num">' + p[1] + "</span></" + (on ? "button" : "div") + ">";
+  }).join("") + "</div>";
 }
-function expiryDates(kind){
-  if(kind === "emp") return M.emp ? M.emp.list.filter(e => !e.resigned && e.pdate && e.permit_status === "ساري").map(e => e.pdate) : [];
+/* Every permit the months chart counts, with the day it ends: [date, record].
+   The columns of the chart and the list a column opens are both made from
+   this, so a column and its list are always the same permits. */
+function expiring(kind){
+  if(kind === "emp") return M.emp ? M.emp.list.filter(e => !e.resigned && e.pdate && e.permit_status === "ساري").map(e => [e.pdate, e]) : [];
   const src = kind === "ind" ? M.ind : M.veh;
-  return src ? src.list.filter(g => g.p.date).map(g => g.p.date) : [];
+  return src ? src.list.filter(g => g.p.date).map(g => [g.p.date, g]) : [];
 }
+const monthKey = d => d.getFullYear() + "-" + d.getMonth();
 function monthsHTML(){
   const now = NCM.today0(), buckets = [];
   for(let i = 0; i < 12; i++){
     const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
     buckets.push({ y: d.getFullYear(), m: d.getMonth(), n: 0 });
   }
-  expiryDates(st.chart).forEach(d => {
+  // a month that has dropped off the front of the chart takes its list with it
+  if(st.month && !buckets.some(b => b.y + "-" + b.m === st.month)) st.month = "";
+  expiring(st.chart).forEach(x => {
+    const d = x[0];
     if(d < now) return;
     const i = (d.getFullYear() - now.getFullYear()) * 12 + d.getMonth() - now.getMonth();
     if(i >= 0 && i < 12) buckets[i].n++;
   });
   const max = Math.max(1, ...buckets.map(b => b.n));
-  return '<div class="cols">' + buckets.map(b =>
-      '<div class="col' + (b.n ? "" : " zero") + '" data-tip="' + esc(t("monthTip", MONTHS[lang][b.m], b.y, b.n)) + '">' +
+  // a month with permits in it is a button (its list opens under the chart); an empty month is not
+  return '<div class="cols">' + buckets.map(b => {
+      const k = b.y + "-" + b.m, tag = b.n ? "button" : "div";
+      return "<" + tag + (b.n ? ' type="button" data-month="' + k + '"' : "") + ' class="col' + (b.n ? "" : " zero") + (st.month === k ? " on" : "") +
+        '" data-tip="' + esc(t("monthTip", MONTHS[lang][b.m], b.y, b.n)) + '">' +
         (b.n ? '<span class="col-v num">' + b.n + "</span>" : "") +
-        '<span class="col-bar" style="height:' + (b.n / max * 100).toFixed(1) + '%"></span></div>').join("") + "</div>" +
-    '<div class="cols-x">' + buckets.map(b => '<span class="num">' + String(b.m + 1).padStart(2, "0") + "/" + String(b.y).slice(2) + "</span>").join("") + "</div>";
+        '<span class="col-bar" style="height:' + (b.n / max * 100).toFixed(1) + '%"></span></' + tag + ">";
+    }).join("") + "</div>" +
+    '<div class="cols-x">' + buckets.map(b => '<span class="num' + (st.month === b.y + "-" + b.m ? " on" : "") + '" data-m="' + b.y + "-" + b.m + '">' +
+      String(b.m + 1).padStart(2, "0") + "/" + String(b.y).slice(2) + "</span>").join("") + "</div>";
+}
+/* THE MONTH'S LIST. A column of the chart is the permits that run out in one
+   month. Pressed, it lists them under the chart in a box of its own — the
+   nearest end first — and every row opens its card, as the rows of the box
+   below it do. Pressing the column again, or the ✕, puts the list away; the
+   other two kinds (people, vehicles, staff) show the same month of theirs. */
+function monthListHTML(arrive){
+  if(!st.month) return "";
+  const now = NCM.today0(), kind = st.chart, ym = st.month.split("-");
+  const rows = expiring(kind).filter(x => x[0] >= now && monthKey(x[0]) === st.month).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  return '<section class="panel monthlist' + (arrive ? " arrive" : "") + '"><div class="panel-h"><h3 class="panel-t">' +
+      esc(t("monthListT", MONTHS[lang][+ym[1]], ym[0], t(kind === "emp" ? "segEmp" : kind === "ind" ? "segInd" : "segVeh"))) + "</h3>" +
+      '<div style="display:flex;align-items:center;gap:10px"><span class="count">' + t("rows", rows.length) + "</span>" +
+      '<button class="btn sm" data-act="month-x" aria-label="' + t("close") + '">✕</button></div></div>' +
+    (rows.length ? boxTable(kind, rows, true) : '<div class="empty"><h3>' + t("none") + "</h3></div>") + "</section>";
+}
+// the chart shows which month is open; the list is drawn under it — and, when a column was just pressed, brought into view
+function paintMonth(arrive){
+  [].forEach.call($("months").querySelectorAll("[data-month],[data-m]"), el => el.classList.toggle("on", (el.dataset.month || el.dataset.m) === st.month));
+  const box = $("monthlist");
+  box.innerHTML = monthListHTML(arrive);
+  freeze();
+  if(arrive && st.month) box.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 /* One box per standing, each a count of its own — «في انتظار الرد» and
    «غير محدد» are separate boxes, never one sum. A standing the row does not
@@ -2735,10 +3306,11 @@ function renderHome(){
   h += '<div class="grid2">';
   if(M.emp){
     const by = new Map();
-    M.emp.list.forEach(e => { if(!e.works) return; const k = e.department || t("noDept"); by.set(k, (by.get(k) || 0) + 1); });
+    // who is here, exactly as the «الموجودون» box counts them: a bar and the list it opens are then the same people
+    M.emp.list.forEach(e => { if(!EMP_PICK.active(e)) return; const k = e.department || t("noDept"); by.set(k, (by.get(k) || 0) + 1); });
     const pairs = [...by.entries()].sort((a, b) => b[1] - a[1]);
     h += '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + t("deptChart") + "</h3></div>" +
-         '<div class="panel-b">' + barsHTML(pairs, t("unitEmp")) + "</div></section>";
+         '<div class="panel-b">' + barsHTML(pairs, t("unitEmp"), { to: "emp:active", f: "dept", not: [t("noDept")] }) + "</div></section>";
   }
   if(M.ind){
     const by = new Map();
@@ -2746,7 +3318,7 @@ function renderHome(){
     let pairs = [...by.entries()].sort((a, b) => b[1] - a[1]);
     if(pairs.length > 9){ const rest = pairs.slice(8).reduce((n, p) => n + p[1], 0); pairs = pairs.slice(0, 8).concat([[t("otherCompanies"), rest]]); }
     h += '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + t("compChart") + "</h3></div>" +
-         '<div class="panel-b">' + barsHTML(pairs, t("unitPerson")) + "</div></section>";
+         '<div class="panel-b">' + barsHTML(pairs, t("unitPerson"), { to: "ind:all", f: "company", not: [t("unspecified"), t("otherCompanies")] }) + "</div></section>";
   }
   h += "</div>";
 
@@ -2754,19 +3326,14 @@ function renderHome(){
   if(!kinds.some(k => k[0] === st.chart)) st.chart = kinds[0][0];
   h += '<section class="panel" style="margin-top:14px"><div class="panel-h"><h3 class="panel-t">' + t("monthsTitle") + "</h3>" +
        '<div class="seg">' + kinds.map(k => '<button data-chart="' + k[0] + '" class="' + (st.chart === k[0] ? "on" : "") + '">' + t(k[1]) + "</button>").join("") + "</div></div>" +
-       '<div class="panel-b" id="months">' + monthsHTML() + "</div></section>";
+       '<div class="panel-b" id="months">' + monthsHTML() + "</div></section>" +
+       '<div id="monthlist">' + monthListHTML() + "</div>";
 
   if(M.emp){
     const soon = M.emp.list.filter(e => !e.resigned && e.permit_status === "ساري" && e.dl !== null && e.dl <= 60)
                            .sort((a, b) => a.dl - b.dl).slice(0, 12);
     h += '<section class="panel" style="margin-top:14px"><div class="panel-h"><h3 class="panel-t">' + t("soonTitle") + "</h3></div>";
-    h += soon.length
-      ? '<div class="tblwrap"><table class="tbl"><thead><tr>' +
-        ["colCode", "colName", "colJob", "colDept", "colPermitDate", "colStatus"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
-        soon.map(e => '<tr data-open="emp:' + esc(e.emp_code) + '"><td>' + num(e.emp_code) + "</td><td>" + esc(e.full_name) + "</td><td>" + esc(e.job_title) +
-          "</td><td>" + esc(e.department) + "</td><td>" + num(fmt(e.pdate)) + "</td><td>" + pill(e.dl < 0 ? "bad" : e.dl <= EXPIRY_WINDOW ? "warn" : "ok", countdown(e.dl)) + "</td></tr>").join("") +
-        "</tbody></table></div>"
-      : '<div class="empty"><h3>' + t("noSoon") + "</h3></div>";
+    h += soon.length ? boxTable("emp", soon) : '<div class="empty"><h3>' + t("noSoon") + "</h3></div>";
     h += "</section>";
   }
   page(pgHead(t("navHome")), scrollPart(h));
@@ -2778,6 +3345,11 @@ function renderHome(){
    ============================================================ */
 const sortText = s => foldArabic(s);
 const dimDash = '<span class="dim">—</span>';
+// a date kept as text in the sheet: shown as a date when it is one, as written when it is not («غير محدد»); sorted as a date, the rest last
+const dateCell = s => { const d = NCM.parseStrict(s); return !s ? dimDash : d ? num(fmt(d)) : esc(s); };
+const dateSort = s => { const d = NCM.parseStrict(s); return d ? d.getTime() : Infinity; };
+// «موجود» in an employee's notes says only that he is here — which the page says already: it is shown nowhere (asked for, 4 October 2026)
+const empNote = e => normalize(e.notes) === "موجود" ? "" : e.notes;
 const LISTS = {
   emp: {
     tk: "navEmp", need: "emp", csv: "csvEmp",
@@ -2789,12 +3361,14 @@ const LISTS = {
     ],
     match: (r, f) => (!f.dept || r.department === f.dept) && (!f.collar || r.category === f.collar),
     open: r => "emp:" + r.emp_code,
+    // every column the employees table has: first in the order asked for the employees' sheets, then what that order leaves out
     cols: [
-      { k:"code", tk:"colCode", h:r => num(r.emp_code), sv:r => parseInt(r.emp_code, 10) || 0, x:r => r.emp_code },
-      { k:"name", tk:"colName", h:r => esc(r.full_name) + (r.full_name_en ? "<small>" + esc(r.full_name_en) + "</small>" : ""), sv:r => sortText(r.full_name), x:r => r.full_name, cls:"name" },
+      { k:"code", fz:true, tk:"colCode", h:r => num(r.emp_code), sv:r => parseInt(r.emp_code, 10) || 0, x:r => r.emp_code },
+      { k:"name", fz:true, tk:"colName", h:r => esc(r.full_name) + (r.full_name_en ? "<small>" + esc(r.full_name_en) + "</small>" : ""), sv:r => sortText(r.full_name), x:r => r.full_name, cls:"name" },
       { k:"job", tk:"colJob", h:r => esc(dash(r.job_title)), sv:r => sortText(r.job_title), x:r => r.job_title, cls:"mid" },
       { k:"dept", tk:"colDept", h:r => esc(dash(r.department)), sv:r => sortText(r.department), x:r => r.department },
       { k:"nid", tk:"colNid", h:r => num(r.national_id), sv:r => r.national_id, x:r => r.national_id, cls:"nowrap" },
+      { k:"addr", tk:"address", h:r => r.address ? esc(r.address) : dimDash, sv:r => sortText(r.address), x:r => r.address, cls:"wide" },
       { k:"cat", tk:"colType", h:r => r.category === "blue" ? pill("blue", "BLUE") : r.category === "white" ? pill("white", "WHITE") : esc(dash(r.category)), sv:r => r.category, x:r => r.category },
       { k:"st", tk:"colStatus", h:r => pill(r.st.k, stLabel(r)) + (r.resigned ? " " + pill("bad", t("resigned")) : ""), sv:r => r.st.label, x:r => stLabel(r) + (r.resigned ? " (" + t("resigned") + ")" : ""), tone:r => r.resigned ? "bad" : r.st.k, cls:"nowrap" },
       { k:"pdate", tk:"colPermitDate", h:r => r.pdate ? num(fmt(r.pdate)) : esc(dash(r.permit_date)), sv:r => r.pdate ? r.pdate.getTime() : Infinity, x:r => r.pdate ? fmt(r.pdate) : r.permit_date, cls:"nowrap" },
@@ -2802,7 +3376,12 @@ const LISTS = {
       { k:"letter", tk:"letterNo", h:r => r.letter_number ? num(r.letter_number) : dimDash, sv:r => r.letter_number, x:r => r.letter_number, cls:"nowrap" },
       { k:"ldate", tk:"letterDate", h:r => r.letter_date ? num(r.letter_date) : dimDash, sv:r => { const d = NCM.parseStrict(r.letter_date); return d ? d.getTime() : Infinity; }, x:r => r.letter_date, cls:"nowrap" },
       { k:"lco", tk:"colCompany", h:r => esc(dash(r.letter_company)), sv:r => sortText(r.letter_company), x:r => r.letter_company, cls:"nowrap" },
-      { k:"lnote", tk:"letterNote", h:r => r.letter_note ? esc(r.letter_note) : dimDash, sv:r => sortText(r.letter_note), x:r => r.letter_note }
+      { k:"lnote", tk:"letterNote", h:r => r.letter_note ? esc(r.letter_note) : dimDash, sv:r => sortText(r.letter_note), x:r => r.letter_note },
+      { k:"phone", tk:"phone", h:r => r.phone ? num(fmtPhone(r.phone)) : dimDash, sv:r => digitsOnly(r.phone), x:r => r.phone, cls:"nowrap" },
+      { k:"hire", tk:"hireDate", h:r => dateCell(r.hire_date), sv:r => dateSort(r.hire_date), x:r => r.hire_date, cls:"nowrap" },
+      { k:"ban", tk:"banReason", h:r => r.ban_reason ? esc(r.ban_reason) : dimDash, sv:r => sortText(r.ban_reason), x:r => r.ban_reason, cls:"txt", only:r => r.permit_status === "ممنوع" },
+      { k:"rend", tk:"resignEnd", h:r => dateCell(r.resignation_end_date), sv:r => dateSort(r.resignation_end_date), x:r => r.resignation_end_date, cls:"nowrap", only:r => r.resigned },
+      { k:"notes", tk:"notes", h:r => empNote(r) ? esc(empNote(r)) : dimDash, sv:r => sortText(empNote(r)), x:r => empNote(r) }
     ]
   },
   ind: {
@@ -2815,14 +3394,22 @@ const LISTS = {
     ],
     match: (r, f) => (!f.company || r.cur.company === f.company) && (!f.mail || r.cur.mail === f.mail),
     open: r => "ind:" + r.key,
+    xk: ["name", "nid", "job", "company", "permit", "day", "mail", "n", "emp"],      // what the Excel file of this list holds — unchanged by what the page shows
+    // every column the individuals sheet has, in the order asked for (the search page's order); the Excel file keeps its own columns — `xk` below
     cols: [
-      { k:"name", tk:"colName", h:r => esc(dash(r.name)), sv:r => sortText(r.name), x:r => r.name, cls:"name" },
-      { k:"nid", tk:"colNid", h:r => r.nationalId ? num(r.nationalId) : '<span class="dim">' + t("notRegistered") + "</span>", sv:r => r.nid, x:r => r.nationalId, cls:"nowrap" },
+      { k:"name", fz:true, tk:"colName", h:r => esc(dash(r.name)), sv:r => sortText(r.name), x:r => r.name, cls:"name" },
       { k:"job", tk:"colJob", h:r => esc(dash(r.cur.job)), sv:r => sortText(r.cur.job), x:r => r.cur.job, cls:"mid" },
-      { k:"company", tk:"colCompany", h:r => esc(dash(r.cur.company)), sv:r => r.cur.company, x:r => r.cur.company },
+      { k:"nid", tk:"colNid", h:r => r.nationalId ? num(r.nationalId) : '<span class="dim">' + t("notRegistered") + "</span>", sv:r => r.nid, x:r => r.nationalId, cls:"nowrap" },
+      { k:"addr", tk:"address", h:r => r.cur.address ? esc(r.cur.address) : dimDash, sv:r => sortText(r.cur.address), x:r => r.cur.address, cls:"wide" },
       { k:"permit", tk:"colPermit", h:r => permitPill(r.p), sv:r => r.p.date ? r.p.date.getTime() : Infinity, x:r => permitText(r.p), tone:r => r.p.cls, cls:"nowrap" },
       { k:"day", tk:"colSent", h:r => r.cur.dayText ? num(r.cur.dayText) : esc(dash(r.cur.day)), sv:r => r.cur.dayDate ? r.cur.dayDate.getTime() : 0, x:r => r.cur.dayText || r.cur.day, cls:"nowrap" },
       { k:"mail", tk:"colMail", h:r => esc(dash(r.cur.mail)), sv:r => r.cur.mail, x:r => r.cur.mail },
+      { k:"letter", tk:"letterNo", h:r => r.cur.letter ? num(r.cur.letter) : dimDash, sv:r => r.cur.letter, x:r => r.cur.letter, cls:"nowrap" },
+      { k:"ldate", tk:"letterDate", h:r => r.cur.ldate ? num(r.cur.ldate) : dimDash, sv:r => dateSort(r.cur.ldate), x:r => r.cur.ldate, cls:"nowrap" },
+      { k:"company", tk:"colCompany", h:r => esc(dash(r.cur.company)), sv:r => r.cur.company, x:r => r.cur.company },
+      { k:"sender", tk:"sender", h:r => r.cur.sender ? esc(r.cur.sender) : dimDash, sv:r => sortText(r.cur.sender), x:r => r.cur.sender, cls:"nowrap" },
+      { k:"note", tk:"notes", h:r => r.cur.note ? esc(r.cur.note) : dimDash, sv:r => sortText(r.cur.note), x:r => r.cur.note, cls:"txt" },
+      { k:"anote", tk:"aseNote", h:r => r.cur.anote ? esc(r.cur.anote) : dimDash, sv:r => sortText(r.cur.anote), x:r => r.cur.anote, cls:"txt" },
       { k:"n", tk:"colCount", h:r => num(r.records.length), sv:r => r.records.length, x:r => r.records.length },
       { k:"emp", tk:"colEmp", h:r => r.emp ? r.emp.map(e => pill("link", t("codeN", e.emp_code))).join(" ") : dimDash, sv:r => r.emp ? parseInt(r.emp[0].emp_code, 10) : Infinity, x:r => r.emp ? r.emp.map(e => e.emp_code).join(" ") : "", cls:"nowrap" }
     ]
@@ -2835,7 +3422,7 @@ const LISTS = {
     match: (r, f) => !f.mail || r.cur.mail === f.mail,
     open: r => "veh:" + r.key,
     cols: [
-      { k:"plate", tk:"colPlate", h:r => "<b>" + esc(r.plate) + "</b>", sv:r => r.key, x:r => r.plate, cls:"nowrap" },
+      { k:"plate", fz:true, tk:"colPlate", h:r => "<b>" + esc(r.plate) + "</b>", sv:r => r.key, x:r => r.plate, cls:"nowrap" },
       { k:"type", tk:"colType", h:r => esc(dash(r.cur.type)), sv:r => sortText(r.cur.type), x:r => r.cur.type, cls:"mid" },
       { k:"owner", tk:"colOwner", h:r => esc(dash(r.cur.owner)), sv:r => sortText(r.cur.owner), x:r => r.cur.owner, cls:"mid" },
       { k:"permit", tk:"colPermit", h:r => permitPill(r.p), sv:r => r.p.date ? r.p.date.getTime() : Infinity, x:r => permitText(r.p), tone:r => r.p.cls, cls:"nowrap" },
@@ -2857,20 +3444,65 @@ function sortRows(rows, cols, sort){
     return (x > y ? 1 : -1) * sort.d;
   });
 }
+/* A dozen columns or more are set a little closer, so that they still fit the
+   width of the window. A table of every column cannot fit whatever is done:
+   it is laid out to be moved sideways instead (see .tbl.full in the styles). */
+const tblKind = n => n >= 14 ? " full" : n >= 12 ? " dense" : "";
+/* A COLUMN IS SHOWN ONLY WHEN SOMETHING IS WRITTEN IN IT. A column that is
+   empty on every row on screen is left out — the reason for a ban in a list
+   of people who are not banned, the end of a resignation among those who are
+   still here (asked for, 4 October 2026). What decides is what the sheet
+   holds (`e` where the page shows less than the sheet, else `x`), not the
+   dash the page puts in an empty cell. This is for the screen only: the
+   Excel files keep every column that was asked for them. */
+/* FROZEN COLUMNS (see the styles). `frozen` gives each column of a table its
+   classes — fz0, fz1, fz2: which of the frozen ones it is — and whether it is the last of
+   them, the one that casts the shadow; `freeze` measures the frozen heads of
+   every table on the page and tells each table where its second and third
+   frozen columns stand. It is called whenever a table is drawn, when the
+   window changes size, and once the fonts have arrived. */
+function frozen(flags){
+  let n = 0;
+  const last = flags.lastIndexOf(true);
+  return flags.map((f, i) => f ? " fz fz" + (n++) + (i === last ? " fzl" : "") : "");
+}
+function freeze(){
+  [].forEach.call(document.querySelectorAll("#out table.tbl"), tb => {
+    let at = 0;
+    [].forEach.call(tb.querySelectorAll("thead th.fz"), (th, i) => { if(i) tb.style.setProperty("--fz" + i, at + "px"); at += th.offsetWidth; });
+  });
+}
+const hasCell = v => !(v === "" || v === null || v === undefined);
+/* A column that belongs to one kind of row only (`only`) — the reason for a
+   ban, the end of a resignation — is shown when every row on screen is of
+   that kind, and not otherwise: in a list where two of four hundred are
+   banned it would be a column of dashes with two cells in it («يظهر للى
+   عندهم منع بس», 4 October 2026). The banned are still told by their red
+   pill, and their reason is in their card and in the list of the banned. */
+const written = (cols, rows) => cols.filter(c => (!c.only || rows.every(c.only)) && (!(c.e || c.x) || rows.some(r => hasCell((c.e || c.x)(r)))));
 function tableHTML(cols, rows, state, open){
   if(!rows.length) return '<div class="empty"><h3>' + t("none") + "</h3></div>";
-  const sorted = sortRows(rows, cols, state.sort);
-  // a table of a dozen columns or more is set a little closer, so that it still fits the width of the window
-  return '<div class="tblwrap"><table class="tbl' + (cols.length >= 12 ? " dense" : "") + '"><thead><tr>' +
-    cols.map(c => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + '">' +
+  const sorted = sortRows(rows, cols, state.sort), shown = written(cols, rows), fz = frozen(shown.map(c => !!c.fz));
+  return '<div class="tblwrap"><table class="tbl' + tblKind(shown.length) + '"><thead><tr>' +
+    shown.map((c, i) => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + fz[i] + '">' +
       t(c.tk) + "<i>" + (state.sort.k === c.k && state.sort.d < 0 ? "▼" : "▲") + "</i></th>").join("") +
     "</tr></thead><tbody>" +
-    sorted.map(r => '<tr data-open="' + esc(open(r)) + '">' + cols.map(c => '<td class="' + (c.cls || "") + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
+    sorted.map(r => '<tr data-open="' + esc(open(r)) + '">' + shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
     "</tbody></table></div>";
 }
 function listRows(view){
   const L = LISTS[view], f = st[view];
   return scoped(view).filter(r => L.pick(r, f.status));
+}
+/* A box that lists records shows what the list page of their kind shows: every
+   column the sheet has, in the same order. `left` adds how long is left,
+   straight after the permit, for the two kinds whose list has no such column. */
+function boxTable(kind, rows, left){
+  const L = LISTS[kind], cols = L.cols.slice();
+  if(left && kind !== "emp") cols.splice(cols.findIndex(c => c.k === "permit") + 1, 0, { tk: "colLeft", cls: "nowrap", h: g => g.p.dl === null ? dimDash : esc(countdown(g.p.dl)) });
+  const shown = written(cols, rows), fz = frozen(shown.map(c => !!c.fz));
+  return '<div class="tblwrap"><table class="tbl' + tblKind(shown.length) + '"><thead><tr>' + shown.map((c, i) => '<th class="nos' + fz[i] + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    rows.map(r => '<tr data-open="' + esc(L.open(r)) + '">' + shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>";
 }
 function paintTable(view, keep){
   const L = LISTS[view], f = st[view], base = scoped(view), at = keep ? rowsAt($("tbl")) : 0;
@@ -2882,6 +3514,7 @@ function paintTable(view, keep){
   const rows = base.filter(r => L.pick(r, f.status));
   $("count").innerHTML = t("rows", rows.length);
   $("tbl").innerHTML = tableHTML(L.cols, rows, f, L.open);
+  freeze();
   rowsTo($("tbl"), at);
 }
 function renderList(view){
@@ -3169,14 +3802,20 @@ function renderSenderSheet(e){
   const name = esc(sndName(e));
   if(!tab) return page(pgHead(name), scrollPart('<div class="empty"><h3>' + t("none") + "</h3></div>"));
   const cellHTML = c => c && typeof c === "object" ? c.h : (c === "" || c === null || c === undefined) ? dimDash : esc(c);
+  // on screen a column with nothing in it on any row is left out; the serial always stays
+  const keep = tab.header.map((x, ci) => ci === 0 || tab.rows.some(row => hasCell(row[ci] && typeof row[ci] === "object" ? row[ci].v : row[ci])));
+  const banAt = tab.header.indexOf(t("banReason"));
+  if(banAt > 0 && !tab.red.every(Boolean)) keep[banAt] = false;       // «سبب المنع»: for a sheet of the banned, and no other
+  const kept = list => list.filter((x, ci) => keep[ci]);
+  const lead = tab.kind === "emp" ? 3 : 2, fz = frozen(tab.header.map((x, ci) => ci < lead)), fzKept = kept(fz);
   page(
     pgHead(name, '<div style="display:flex;gap:8px"><button class="btn sm primary" data-snd="' + esc(e.k) + '">' + t("exportExcel") + "</button></div>") +
     '<div class="toolbar"><div class="seg">' + sheets.map(s =>
         '<button data-snd-tab="' + s.kind + '" class="' + (s === tab ? "on" : "") + '">' + s.name + " " + num(s.rows.length) + "</button>").join("") +
       '</div><span class="count" id="count">' + t("rows", tab.rows.length) + "</span></div>",
-    '<div class="pg-table"><section class="panel" id="tbl"><div class="tblwrap"><table class="tbl' + (tab.header.length >= 13 ? " dense" : "") + '"><thead><tr>' +
-      tab.header.map(x => '<th class="nos">' + esc(x) + "</th>").join("") + "</tr></thead><tbody>" +
-      tab.rows.map((row, i) => '<tr' + (tab.red[i] ? ' class="banrow"' : "") + ' data-open="' + esc(tab.open[i]) + '">' + row.map((c, ci) => '<td class="' + tab.cls[ci] + '">' + cellHTML(c) + "</td>").join("") + "</tr>").join("") +
+    '<div class="pg-table"><section class="panel" id="tbl"><div class="tblwrap"><table class="tbl' + (kept(tab.header).length >= 13 ? " dense" : "") + '"><thead><tr>' +
+      kept(tab.header).map((x, i) => '<th class="nos' + fzKept[i] + '">' + esc(x) + "</th>").join("") + "</tr></thead><tbody>" +
+      tab.rows.map((row, i) => '<tr' + (tab.red[i] ? ' class="banrow"' : "") + ' data-open="' + esc(tab.open[i]) + '">' + row.map((c, ci) => keep[ci] ? '<td class="' + tab.cls[ci] + fz[ci] + '">' + cellHTML(c) + "</td>" : "").join("") + "</tr>").join("") +
     "</tbody></table></div></section></div>");
 }
 function renderSenders(){
@@ -3215,8 +3854,9 @@ const permitBan = g => !!g && g.p.cat === "ban";
 const empBan = e => !!e && e.permit_status === "ممنوع";
 const xcell = (c, r) => c.tone ? { v: c.x(r), tone: XTONE[c.tone(r)] || "" } : c.x(r);
 const today = () => stamp(Date.now()).slice(0, 10);
-async function saveXLSX(sheet, name){
-  const bytes = await NCM.writeXLSX(sheet);
+async function saveXLSX(sheet, name){ saveBytes(await NCM.writeXLSX(sheet), name); }
+function saveBytes(bytes, name){
+  logAct("export", { f: name });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   a.download = name + " " + today().replace(/\//g, "-") + ".xlsx";
@@ -3231,11 +3871,13 @@ async function exportList(view){
     await saveXLSX(sheet, t(L.csv));
     return toast(t("exported", rows.length));
   }
+  // the file holds the columns that were asked for it; the page shows every column the sheet has
+  const cols = L.xk ? L.xk.map(k => L.cols.find(c => c.k === k)) : L.cols;
   await saveXLSX({
     name: t(L.csv), rtl: !isEN(),
-    header: L.cols.map(c => t(c.tk)),
-    text: L.cols.map((c, i) => c.k === "nid" || c.k === "plate" || c.k === "letter" ? i : -1).filter(i => i >= 0),
-    rows: rows.map(r => L.cols.map(c => xcell(c, r))),
+    header: cols.map(c => t(c.tk)),
+    text: cols.map((c, i) => c.k === "nid" || c.k === "plate" || c.k === "letter" ? i : -1).filter(i => i >= 0),
+    rows: rows.map(r => cols.map(c => xcell(c, r))),
     red: rows.map(view === "emp" ? empBan : permitBan)
   }, t(L.csv));
   toast(t("exported", rows.length));
@@ -3459,7 +4101,8 @@ const MULTI_COLS = {
     { tk:"letterDate", cls:"nowrap", h:r => letterOf(r, "ldate", "letter_date") ? num(letterOf(r, "ldate", "letter_date")) : dimDash, x:r => letterOf(r, "ldate", "letter_date") },
     { tk:"colCompany", cls:"nowrap", h:r => esc(dash(r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM"))), x:r => r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM") },
     { tk:"sender", cls:"nowrap", h:r => cur(r, "sender"), x:r => r.g ? r.g.cur.sender : "" },
-    { tk:"notes", cls:"wide", h:r => esc(letterOf(r, "note", "notes")) || dimDash, x:r => letterOf(r, "note", "notes") },
+    // (on screen an employee's «موجود» is not shown — `e`; the search's file keeps the cell as the table has it — `x`)
+    { tk:"notes", cls:"wide", h:r => esc(r.g ? r.g.cur.note : empNote(r.emps[0])) || dimDash, e:r => r.g ? r.g.cur.note : empNote(r.emps[0]), x:r => letterOf(r, "note", "notes") },
     { tk:"aseNote", cls:"wide", h:r => esc(letterOf(r, "anote", "letter_note")) || dimDash, x:r => letterOf(r, "anote", "letter_note") },
     { tk:"colCount", h:r => r.g ? num(r.g.records.length) : dimDash, x:r => r.g ? r.g.records.length : "" },
     { tk:"colEmp", cls:"nowrap", h:r => r.emps.length ? r.emps.map(e => pill("link", t("codeN", e.emp_code)) + " " + pill(e.st.k, empTag(e))).join(" ") : dimDash,
@@ -3485,7 +4128,7 @@ function paintMulti(keep){
   if(!box) return;
   if(!res || !res.terms){ box.innerHTML = ""; return; }      // nothing asked, nothing shown
   const at = keep ? rowsAt(box) : 0;
-  const cols = MULTI_COLS[res.mode];
+  const found = res.rows.filter(r => !r.miss && !r.more), cols = found.length ? written(MULTI_COLS[res.mode], found) : MULTI_COLS[res.mode];
   const cats = {};
   res.rows.forEach(r => { if(r.g) cats[r.g.p.cat] = (cats[r.g.p.cat] || 0) + 1; });
   const sum = '<div class="sum">' +
@@ -3503,10 +4146,10 @@ function paintMulti(keep){
     (lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "") +
     '<section class="panel"><div class="panel-h">' + sum +
       '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="multi-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
-    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos">#</th>' +
-      cols.map(c => '<th class="nos">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
     res.rows.map(r => {
-      const lead = '<td class="ix">' + r.n + "</td>", term = '<span class="term">' + esc(r.term) + "</span>";
+      const lead = '<td class="ix fz fz0">' + r.n + "</td>", term = '<span class="term">' + esc(r.term) + "</span>";
       if(r.miss) return '<tr class="miss">' + lead + '<td colspan="' + cols.length + '">' + term + pill("bad", t("missRow")) + "</td></tr>";
       if(r.more) return '<tr class="more">' + lead + '<td colspan="' + cols.length + '">' + esc(t(r.names ? "moreNames" : "moreRow", r.term, r.more)) + "</td></tr>";
       /* What was typed is only repeated when it is not already sitting in the
@@ -3515,8 +4158,9 @@ function paintMulti(keep){
       const typed = (res.mode === "veh" ? foldArabic(r.term) : r.term) !== key
         ? '<span class="typed">' + t("typed") + esc(r.term) + "</span>" : "";
       return '<tr data-open="' + esc(multiOpen(r)) + '">' + lead +
-        cols.map((c, i) => '<td class="' + (c.cls || "") + '">' + c.h(r) + (i === 0 ? typed : "") + "</td>").join("") + "</tr>";
+        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + '">' + c.h(r) + (i === 0 ? typed : "") + "</td>").join("") + "</tr>";
     }).join("") + "</tbody></table></div></section>";
+  freeze();
   rowsTo(box, at);
 }
 function multiLines(){
@@ -3552,6 +4196,7 @@ function goMulti(){
   if(ta) st.multi.text = ta.value;
   runMulti(); paintMulti(); multiLines();      // a new answer starts at its first row
   histAdd();
+  if(st.multi.res && st.multi.res.terms) logAct("search", { m: st.multi.res.mode, n: st.multi.res.terms, f: st.multi.res.found });
 }
 async function exportMulti(){
   const res = st.multi.res;
@@ -3616,6 +4261,7 @@ function fillCheck(el){
    SOURCES
    ============================================================ */
 function renderSources(){
+  if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }        // the page is the admin's
   if(ONLINE){
     const cloudCard = (p, kind, title, where, lines) =>
       '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + title + "</h3>" +
@@ -3646,7 +4292,10 @@ function renderSources(){
   page(
     pgHead(t("navSrc"), '<div style="display:flex;gap:8px"><button class="btn primary" data-act="refresh">' + t("refreshSheets") + "</button>" +
       (live ? "" : '<button class="btn" data-act="pick">' + t("chooseFiles") + "</button>") + "</div>"),
-    scrollPart('<div class="grid2" style="margin-top:6px">' +
+    scrollPart(
+      // first what this PC can be asked to do with the sheets — the two daily routines, a new ASE export (see the desk, below) — then the sheets themselves
+      '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk" id="desk"></div>' +
+      '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2" style="margin-top:6px">' +
       card(DATA.per, "per", t("sheetPer"), M.ind ? [[t("rPeople"), M.ind.list.length], [t("rIndRows"), M.ind.list.reduce((n, g) => n + g.records.length, 0)],
                                                     [t("rVeh"), M.veh.list.length], [t("rVehRows"), M.veh.list.reduce((n, g) => n + g.records.length, 0)]] : []) +
       card(DATA.emp, "emp", t("sheetEmp"), M.emp ? [[t("rEmp"), M.emp.list.length]] : []) +
@@ -3655,6 +4304,9 @@ function renderSources(){
     "</div>" +
     // with the live link on there is nothing to wipe: the sheets would be read straight back
     ((DATA.emp || DATA.per) && !live ? '<div style="margin-top:16px;text-align:center"><button class="btn danger" data-act="wipe">' + t("wipe") + "</button></div>" : "")));
+  deskSig = "";
+  paintDesk();
+  cardsSync(); deskSync();
 }
 
 /* ============================================================
@@ -3688,7 +4340,7 @@ function permitRecHTML(r, i, total, veh){
     '<div class="occ-n">' + t("permitNofM", num(i + 1), num(total)) + (i === total - 1 ? ' <span class="cur">' + t("shownInApp") + "</span>" : "") +
       '<span style="margin-inline-start:auto;color:var(--muted)">' + t("rowN") + " " + num(r.row) + "</span></div>" +
     bannerHTML(r.p) +
-    group("NCM DATA", rowHTML(t("colSent"), send || t("notSpecified")) +
+    group("NCM DATA", rowHTML(t("colSent"), send) +
       (veh ? rowHTML(t("colType"), r.type) + rowHTML(t("colOwner"), r.owner)
            : rowHTML(t("colJob"), r.job) + rowHTML(t("address"), r.address) + rowHTML(t("sender"), r.sender) + rowHTML(t("notes"), r.note)) +
       rowHTML(t("colMail"), r.mail)) +
@@ -3710,7 +4362,7 @@ function empCardHTML(e){
       rowHTML(t("phone"), fmtPhone(e.phone), "", true) + rowHTML(t("address"), e.address)) +
     group(t("grpWork"), rowHTML(t("colJob"), e.job_title) + rowHTML(t("colDept"), e.department) +
       rowHTML(t("hireDate"), NCM.parseStrict(e.hire_date) ? fmt(NCM.parseStrict(e.hire_date)) : e.hire_date, "", true) +
-      rowHTML(t("notes"), e.notes)) +
+      rowHTML(t("notes"), empNote(e))) +
     group(t("grpLetter"), rowHTML(t("letterNo"), e.letter_number, "", true) + rowHTML(t("letterDate"), e.letter_date, "", true) +
       rowHTML(t("colCompany"), e.letter_company) + rowHTML(t("letterNote"), e.letter_note)) +
     group(t("grpSecurity"), rowHTML(t("banReason"), e.ban_reason, "bad") +
@@ -3755,14 +4407,944 @@ function openDrawer(ref){
         g.records.map((r, n, a) => permitRecHTML(r, n, a.length, true)).reverse().join("");
   }else return;
   $("dr-t").textContent = title;
+  $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn();
+  logCard(ref);
   $("dr-b").innerHTML = h;
   $("dr-b").scrollTop = 0;
   $("drawer").classList.add("on"); $("veil").classList.add("on");
   $("drawer").setAttribute("aria-hidden", "false");
 }
 function closeDrawer(){
+  drawerRef = "";
   $("drawer").classList.remove("on"); $("veil").classList.remove("on");
   $("drawer").setAttribute("aria-hidden", "true");
+}
+
+/* ============================================================
+   «تجديد اليوم» — the one list both users feed and the admin alone sees.
+   A «تجديد» button sits on every card. Pressed — by the admin or by a
+   viewer — it puts that person or vehicle on a list kept in the database,
+   so that a press on one PC shows on the other. The list has a page of its
+   own, in the admin's menu only: the two renewal forms as they will be
+   written — people (name, national id, NCM, job) and vehicles (type, plate,
+   NCM) — and a file of each, named for the form and the day.
+   WHAT THE DATABASE HOLDS is not who was pressed but a salted hash of it
+   (the national id, the employee's code, the plate): the page that asks for
+   the list finds each hash again among the people and vehicles it has read
+   itself. Two tokens guard the list and the database tells them apart, so
+   taking rows out is the admin's and nobody else's however a page is
+   rewritten. Token and salt arrive sealed with the user's key.
+   ON THIS PC'S OWN COPY nobody signs in, so nothing has unsealed them: the
+   admin gives his PIN once per window — on the page, or at the first press —
+   and the copy is connected until that window is closed.
+   ============================================================ */
+const FORMS = {
+  // their words and their widths, as the forms have them — the same in both languages
+  per: { file: "تجديد افراد", header: ["مسلسل", "الاسم", "الرقم القومي", "الشركة", "الوظيفة"], widths: [6.5703125, 39.28515625, 21.28515625, 14.85546875, 23.5703125] },
+  veh: { file: "تجديد مركبات", header: ["مسلسل", "موديل المركبة - اللون", "الحروف - الأرقام", "الشركة"], widths: [6.5703125, 39.28515625, 31.42578125, 14.85546875] }
+};
+const FORM_COMPANY = "NCM";                         // the company column says this for everyone, as asked
+const LINK_KEY = "ncm_system_link";
+let RENEW = [], renewAt = 0, renewBusy = false, renewErr = false, todaySig = "";
+let localLink = null;
+try{ if(!ONLINE) localLink = JSON.parse(sessionStorage.getItem(LINK_KEY) || "null"); }catch(e){}
+// what the list is reached with: where the database is, its key, the salt of the hashes, this user's token, and who he is
+const link = () => ONLINE ? (session && session.rt && session.src.db ? { db: session.src.db, k: session.k, rs: session.rs, rt: session.rt, u: session.u } : null) : localLink;
+const isAdmin = () => ONLINE ? !!session && session.role === "admin" : true;        // this PC's own copy is the admin's
+async function sha256hex(s){
+  const b = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)));
+  return [].map.call(b, x => x.toString(16).padStart(2, "0")).join("");
+}
+// one of the system's own functions in the database, called with this user's token
+async function dbCall(fn, args){
+  const l = link();
+  if(!l) throw new Error("not connected");
+  const r = await fetch(l.db + "/rest/v1/rpc/" + fn, { method: "POST", cache: "no-store",
+    headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
+    body: JSON.stringify(Object.assign({ p_token: l.rt }, args)) });
+  if(!r.ok) throw new Error(fn + " answered " + r.status);
+  return r.status === 204 ? null : r.json();
+}
+const renewCall = (fn, args) => dbCall("system_renew_" + fn, args);
+// What a card stands for on the list. A person is his national id wherever he is written — so the employee and the
+// permit holder who are one man are one line — and failing that the employee's code, or the name the sheet groups him by.
+const empId = e => !e.foreign && e.nid ? "N:" + e.nid : "E:" + e.emp_code;
+const indId = g => g.nid ? "N:" + g.nid : "K:" + g.key;
+function renewWho(ref){
+  const i = ref.indexOf(":"), type = ref.slice(0, i), key = ref.slice(i + 1);
+  if(type === "emp" && M.emp){ const e = M.emp.byCode.get(key); return e ? { src: "emp", id: empId(e) } : null; }
+  if(type === "ind" && M.ind){ const g = M.ind.groups.get(key); return g ? { src: "ind", id: indId(g) } : null; }
+  if(type === "veh" && M.veh){ const g = M.veh.groups.get(key); return g ? { src: "veh", id: "V:" + g.key } : null; }
+  return null;
+}
+const hashes = new Map();                           // what a card stands for -> its hash, worked out once
+async function renewHash(id){
+  if(!hashes.has(id)) hashes.set(id, await sha256hex(link().rs + "|" + id));
+  return hashes.get(id);
+}
+async function renewSync(){
+  const l = link();
+  if(!l || renewBusy) return;
+  renewBusy = true;
+  try{
+    const rows = await renewCall("list", {});
+    if(!link() || link().rt !== l.rt) return;       // signed out while this was on its way: none of it is kept
+    RENEW = Array.isArray(rows) ? rows : [];
+    renewAt = Date.now(); renewErr = false;
+  }catch(e){
+    renewErr = true;
+    console.warn("[NCM SYSTEM] the renewal list could not be read", e);
+  }finally{ renewBusy = false; }
+  renewPaint();
+}
+function renewPaint(){
+  $("nb-today").textContent = isAdmin() && RENEW.length ? RENEW.length : "";
+  paintRenewBtn();
+  if(st.view === "today" && $("today")) paintToday();
+}
+/* The button on the card says where the card stands: «تجديد» to put it on the
+   list, «في تجديد اليوم ✓» when it is there — pressed then, it takes it back. */
+let drawerRef = "";
+async function paintRenewBtn(){
+  const b = $("dr-renew"), ref = drawerRef, who = ref && renewWho(ref);
+  // no button where there is nothing to renew, nor online before the sign-in has brought the token
+  if(!who || (ONLINE && !link())){ b.hidden = true; return; }
+  const h = link() ? await renewHash(who.id) : "";
+  if(drawerRef !== ref) return;                     // another card was opened meanwhile
+  const on = !!h && RENEW.some(r => r.ref === h);
+  b.hidden = false;
+  b.className = "btn sm " + (on ? "on" : "primary");
+  b.textContent = t(on ? "renewOn" : "renew");
+}
+async function renewPress(){
+  const ref = drawerRef, who = ref && renewWho(ref), b = $("dr-renew");
+  if(!who || b.disabled) return;
+  if(!link()) return connectAsk(renewPress);        // this PC's own copy, not connected yet: the PIN first, then the press
+  b.disabled = true;
+  try{
+    const h = await renewHash(who.id), was = RENEW.some(r => r.ref === h);
+    await renewCall(was ? "undo" : "add", was ? { p_ref: h } : { p_ref: h, p_src: who.src, p_by: link().u });
+    renewBusy = false;
+    await renewSync();
+    const now = RENEW.some(r => r.ref === h);
+    if(was !== now) logAct(now ? "renew" : "unrenew", { s: who.src, h });
+    // a viewer cannot take back what the admin put on the list: the list says so by keeping it
+    toast(t(was ? (now ? "renewKept" : "renewUndone") : (now ? "renewAdded" : "renewFail")), was ? now : !now);
+  }catch(e){ toast(t("renewFail"), true); }
+  finally{ b.disabled = false; }
+}
+/* This PC's own copy is connected with the admin's PIN: it opens the admin's
+   sealed data in the page — the same data a sign-in online opens — and what
+   comes out is kept for as long as this window is. A viewer's PIN opens a
+   viewer's data, which this copy has no use for. */
+let linkThen = null;
+function connectAsk(then){
+  linkThen = typeof then === "function" ? then : null;
+  $("link-err").className = "gate-err"; $("link-err").textContent = ""; $("link-pin").value = "";
+  $("linkbox").hidden = false;
+  setTimeout(() => $("link-pin").focus(), 60);
+}
+function connectClose(){ $("linkbox").hidden = true; linkThen = null; }
+let linkBusy = false;
+async function connectGo(){
+  const box = $("link-pin"), err = $("link-err"), pin = NCM.toLatinDigits(box.value).replace(/\D/g, "");
+  if(!pin || linkBusy) return;
+  linkBusy = true;
+  err.className = "gate-err busy"; err.textContent = t("checking");
+  let got = null, name = "";
+  for(const u of USERS){
+    try{ const o = JSON.parse(await unseal(u, pin)); if(o && o.role === "admin" && o.rt && o.db){ got = o; name = u.name; break; } }catch(e){}
+  }
+  linkBusy = false;
+  if(!got){ err.className = "gate-err"; err.textContent = t("connectBad"); box.value = ""; return box.focus(); }
+  localLink = { db: got.db, k: got.k, rs: got.rs, rt: got.rt, u: name };
+  try{ sessionStorage.setItem(LINK_KEY, JSON.stringify(localLink)); }catch(e){}
+  const then = linkThen;
+  connectClose();
+  await renewSync();
+  devicesSync();
+  if(then) then(); else if(st.view === "today") render();
+}
+/* Whose hash is whose: every person and vehicle this page has read, under the
+   hash he would have on the list. Worked out once for each reading of the
+   sheets (a hash already worked out is not worked out again). */
+let indexFor = null, renewIndex = new Map();
+async function renewResolve(){
+  if(indexFor === M || !link()) return;
+  const model = M, idx = new Map(), jobs = [];
+  const put = async (id, k, rec) => { const h = await renewHash(id), o = idx.get(h) || {}; o[k] = rec; idx.set(h, o); };
+  if(model.emp) model.emp.list.forEach(e => jobs.push(() => put(empId(e), "emp", e)));
+  if(model.ind) model.ind.list.forEach(g => jobs.push(() => put(indId(g), "ind", g)));
+  if(model.veh) model.veh.list.forEach(g => jobs.push(() => put("V:" + g.key, "veh", g)));
+  for(let i = 0; i < jobs.length; i += 400) await Promise.all(jobs.slice(i, i + 400).map(f => f()));
+  renewIndex = idx; indexFor = model;
+}
+// The list as the two forms will hold it. `cells` is null for a line this page cannot find in what it has read.
+function todayLists(){
+  const per = [], veh = [];
+  RENEW.forEach(r => {
+    const hit = renewIndex.get(r.ref) || {};
+    if(r.src === "veh"){
+      const g = hit.veh;
+      return veh.push({ r, open: g ? "veh:" + g.key : "", cells: g ? [g.cur.type, g.plate] : null });
+    }
+    // the card it was pressed on comes first; the same man's other sheet stands in when that one is not among what was read
+    const e = hit.emp, g = hit.ind, from = r.src === "emp" ? (e ? "emp" : g ? "ind" : "") : (g ? "ind" : e ? "emp" : "");
+    per.push({ r, open: from === "emp" ? "emp:" + e.emp_code : from === "ind" ? "ind:" + g.key : "",
+               cells: from === "emp" ? [e.full_name, e.national_id, e.job_title] : from === "ind" ? [g.name, g.nationalId, g.cur.job] : null });
+  });
+  return { per, veh };
+}
+function renderToday(){
+  if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }       // the page is the admin's: anyone else lands on the search
+  todaySig = "";
+  page(pgHead(t("navToday"), '<div class="pg-acts" id="today-acts"></div>'), scrollPart('<div id="today"></div>'));
+  paintToday();
+  if(link() && Date.now() - renewAt > 5000) renewSync();
+}
+async function paintToday(){
+  if(!$("today")) return;
+  if(!link()){                                      // this PC's own copy, before the PIN was given
+    $("today-acts").innerHTML = "";
+    $("today").innerHTML = '<div class="empty"><h3>' + t("connectT") + '</h3><p style="margin-top:14px"><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
+    return;
+  }
+  await renewResolve();
+  const box = $("today"), acts = $("today-acts");
+  if(!box || st.view !== "today") return;           // the page was left while the hashes were being worked out
+  // drawn again only when something on it has changed: the list, the reading of the sheets, the language, the state of the line to the database
+  const sig = [RENEW.map(r => r.id).join(","), lang, renewErr, indexFor === M].join("|");
+  if(sig === todaySig && box.firstChild){ const s = $("today-read"); if(s) s.innerHTML = t("todayRead", num(stamp(renewAt))); return; }
+  todaySig = sig;
+  const L = todayLists(), ready = k => L[k].some(x => x.cells);
+  acts.innerHTML =
+    '<button class="btn sm primary" data-act="today-per"' + (ready("per") ? "" : " disabled") + ">" + t("todayFilePer") + "</button>" +
+    '<button class="btn sm primary" data-act="today-veh"' + (ready("veh") ? "" : " disabled") + ">" + t("todayFileVeh") + "</button>" +
+    '<button class="btn sm danger" data-act="today-clear"' + (RENEW.length ? "" : " disabled") + ">" + t("todayClear") + "</button>";
+  const state = '<div class="today-state">' + (renewErr ? pill("bad", t("todayOffline")) : '<span class="count" id="today-read">' + t("todayRead", num(stamp(renewAt))) + "</span>") + "</div>";
+  if(!RENEW.length){ box.innerHTML = state + '<div class="empty"><h3>' + t("todayNone") + "</h3><p>" + t("todayHint") + "</p></div>"; return; }
+  const table = (kind, list) => {
+    const form = FORMS[kind];
+    let n = 0;
+    return '<section class="panel today-p"><div class="panel-h"><h3 class="panel-t">' + esc(form.file) + '</h3><span class="count">' + t("rows", list.length) + "</span></div>" +
+      (list.length
+        ? '<div class="tblwrap"><table class="tbl"><thead><tr>' + form.header.map(x => '<th class="nos">' + esc(x) + "</th>").join("") +
+            '<th class="nos">' + t("todayBy") + '</th><th class="nos"></th></tr></thead><tbody>' +
+          list.map(x => {
+            const by = '<td class="nowrap">' + esc(x.r.added_by) + " · " + num(stamp(Date.parse(x.r.added_at))) + "</td>" +
+              '<td class="act"><button class="btn sm" data-today-del="' + (+x.r.id) + '" aria-label="' + t("todayDel") + '">✕</button></td>';
+            // a line this page cannot find among what it has read stays on the list and out of the file
+            if(!x.cells) return '<tr class="miss"><td class="ix">—</td><td colspan="' + (form.header.length - 1) + '">' + pill("bad", t("todayMissing")) + "</td>" + by + "</tr>";
+            const c = kind === "per"
+              ? [esc(dash(x.cells[0])), x.cells[1] ? num(x.cells[1]) : dimDash, esc(FORM_COMPANY), esc(dash(x.cells[2]))]
+              : [esc(dash(x.cells[0])), "<b>" + esc(x.cells[1]) + "</b>", esc(FORM_COMPANY)];
+            return '<tr data-open="' + esc(x.open) + '"><td class="ix">' + (++n) + "</td>" + c.map(v => "<td>" + v + "</td>").join("") + by + "</tr>";
+          }).join("") + "</tbody></table></div>"
+        : '<div class="empty"><h3>' + t("none") + "</h3></div>") + "</section>";
+  };
+  box.innerHTML = state + table("per", L.per) + table("veh", L.veh);
+}
+/* The file is the form itself, filled in (NCM.writeForm): serial, the columns
+   the form asks for, «NCM» for the company. It is named for the form and for
+   today — «تجديد افراد 04-10-2026» — as asked. */
+async function exportToday(kind){
+  await renewResolve();
+  const list = todayLists()[kind].filter(x => x.cells), form = FORMS[kind];
+  if(!list.length) return toast(t("none"), true);
+  // a national id goes in as its digits (the form keeps that column as a number); anything else as it is written
+  const idOf = v => { const d = NCM.toLatinDigits(String(v || "")).replace(/\s+/g, ""); return /^\d+$/.test(d) ? d : String(v || ""); };
+  const rows = list.map((x, i) => kind === "per" ? [i + 1, x.cells[0], idOf(x.cells[1]), FORM_COMPANY, x.cells[2]] : [i + 1, x.cells[0], x.cells[1], FORM_COMPANY]);
+  saveBytes(await NCM.writeForm({ header: form.header, widths: form.widths, rows }), form.file);
+  toast(t("exported", rows.length));
+}
+async function todayRemove(ids){
+  if(!ids.length) return;
+  try{ await renewCall("remove", { p_ids: ids }); }catch(e){ toast(t("renewFail"), true); }
+  renewBusy = false;
+  await renewSync();
+}
+/* ============================================================
+   «سجل النشاط» — who came in to the system, when, and what he did there;
+   and the devices it is opened on, with the lock on each.
+   Every sign-in online begins a VISIT; what is done in it — a page opened,
+   a search run, a card looked at, a file exported, «تجديد» pressed — is
+   written to the database as it happens, with the visit it belongs to. The
+   admin's page (his menu only; the database hands the log to the admin's
+   token and no other) shows each visit on its own, under the day and the
+   hour it began. A wrong PIN is written by the database itself the moment
+   the gate reports it, under the name it was tried for: those lines make a
+   visit of their own, marked «قبل الدخول».
+   A card is written as the same salted hash the renewal list uses — never a
+   name or a number — and found again by the admin's page among what it has
+   read. Nothing typed into the search is written: only how many lines were
+   asked for and how many were found. This PC's own copy — the admin's desk —
+   is not logged at all.
+   THE DEVICES sit at the top of the page: every browser the system was
+   opened in, who used it last, and whether it is locked. A device locked by
+   three wrong PINs waits there for the admin to let it back in — or not —
+   and any device can be locked by him on the spot.
+   ============================================================ */
+// one line of the log; never waited for, and never allowed to get in the way of what is being done
+function logAct(act, detail){
+  if(!ONLINE || !session || !session.rt || !session.sid) return;
+  const l = link();
+  if(!l) return;
+  try{
+    fetch(l.db + "/rest/v1/rpc/system_log_add", { method: "POST", keepalive: true,
+      headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_token: l.rt, p_who: l.u, p_device: deviceTag(), p_session: session.sid, p_act: act,
+                             p_detail: detail === undefined ? "" : typeof detail === "string" ? detail : JSON.stringify(detail) }) }).catch(() => {});
+  }catch(e){}
+}
+async function logCard(ref){
+  if(!ONLINE || !session) return;
+  const who = renewWho(ref);
+  if(who) logAct("card", { s: who.src, h: await renewHash(who.id) });
+}
+
+let LOG = [], DEVICES = [], logAt = 0, logErr = false, logBusy = false, logMore = false, logWho = "", logSig = "";
+// the devices alone: asked for every minute, so that a device that has just locked itself shows on the menu at once
+async function devicesSync(){
+  if(!link() || !isAdmin()) return;
+  try{
+    const rows = await dbCall("system_device_list", {});
+    if(Array.isArray(rows)) DEVICES = rows;
+  }catch(e){}
+  const n = DEVICES.filter(d => d.blocked).length;
+  $("nb-log").textContent = isAdmin() && n ? n : "";
+  if(st.view === "log" && $("logv")) paintLog();
+}
+async function logSync(older){
+  if(!link() || logBusy) return;
+  logBusy = true;
+  try{
+    const rows = await dbCall("system_log_list", older && LOG.length ? { p_limit: 400, p_before: LOG[LOG.length - 1].id } : { p_limit: 400 });
+    if(Array.isArray(rows)){
+      // newer lines go in front of what is already here; older ones (asked for with «الأقدم») behind it
+      if(older){ LOG = LOG.concat(rows); logMore = rows.length === 400; }
+      else{
+        const had = LOG.length, cut = rows.length ? rows[rows.length - 1].id : Infinity;
+        LOG = rows.concat(LOG.filter(r => r.id < cut));
+        if(!had) logMore = rows.length === 400;
+      }
+    }
+    logAt = Date.now(); logErr = false;
+  }catch(e){
+    logErr = true;
+    console.warn("[NCM SYSTEM] the activity log could not be read", e);
+  }finally{ logBusy = false; }
+  await devicesSync();
+  if(st.view === "log" && $("logv")) paintLog();
+}
+async function deviceSet(id, lock){
+  if(lock && !confirm(t("devLockSure"))) return;
+  try{ await dbCall("system_device_set", { p_device: id, p_blocked: !!lock, p_who: link().u }); }catch(e){ toast(t("renewFail"), true); }
+  logBusy = false;
+  logSync();
+}
+function renderLog(){
+  if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }        // the page is the admin's
+  logSig = "";
+  page(pgHead(t("navLog"), '<div class="pg-acts" id="log-acts"></div>'), scrollPart('<div id="logv"></div>'));
+  paintLog();
+  if(link()) logSync();
+}
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards" };
+// one line of a visit, in words
+function logLine(r){
+  let d = {};
+  try{ d = r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ d = { text: r.detail }; }
+  const whose = () => {            // the card behind a hash, among what this page has read
+    const hit = renewIndex.get(d.h) || {}, e = hit.emp, g = d.s === "veh" ? hit.veh : hit.ind;
+    if(d.s === "veh") return g ? "<b>" + esc(g.plate) + "</b>" : dimDash;
+    const first = d.s === "emp" ? (e || g) : (g || e);
+    return first ? esc(first === e ? e.full_name : first.name) : dimDash;
+  };
+  const pageName = v => esc(VIEW_NAME[v] ? t(VIEW_NAME[v]) : dash(v));
+  switch(r.act){
+    case "in": return [pill("ok", t("lgIn")), ""];
+    case "out": return [pill("mute", t("lgOut")), ""];
+    case "idle": return [pill("mute", t("lgIdle")), ""];
+    case "wrong": return [pill("bad", t("lgWrong")), ""];
+    case "blocked": return [pill("ban", t("lgBlocked")), esc(t(d.text === "admin" ? "lgByAdmin" : "lgByThree"))];
+    case "unblocked": return [pill("ok", t("lgUnblocked")), esc(t("lgByAdmin"))];
+    case "page": return [pill("white", t("lgPage")), pageName(d.v) + (d.o ? " — " + esc(d.o) : "")];
+    case "search": return [pill("link", t("lgSearch")), esc(t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
+    case "card": return [pill("white", t("lgCard")), whose()];
+    case "export": return [pill("warn", t("lgExport")), esc(dash(d.f))];
+    case "print": return [pill("warn", t("lgPrint")), pageName(d.v)];
+    case "renew": return [pill("ok", t("lgRenew")), whose()];
+    case "unrenew": return [pill("bad", t("lgUnrenew")), whose()];
+    default: return [pill("mute", r.act), esc(d.text || "")];
+  }
+}
+async function paintLog(){
+  if(!$("logv")) return;
+  if(!link()){                                      // this PC's own copy, before the PIN was given
+    $("log-acts").innerHTML = "";
+    $("logv").innerHTML = '<div class="empty"><h3>' + t("connectT") + '</h3><p style="margin-top:14px"><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
+    return;
+  }
+  await renewResolve();
+  const box = $("logv"), acts = $("log-acts");
+  if(!box || st.view !== "log") return;
+  // drawn again only when something on it has changed
+  const sig = [LOG.length ? LOG[0].id : 0, LOG.length, logWho, lang, logErr, indexFor === M, DEVICES.map(d => d.device + d.blocked + d.wrong + d.last_at).join(",")].join("|");
+  if(sig === logSig && box.firstChild) return;
+  logSig = sig;
+  const names = [...new Set(LOG.map(r => r.who).filter(Boolean))].sort();
+  acts.innerHTML =
+    '<select class="field" id="log-who"><option value="">' + t("lgEveryone") + "</option>" + names.map(n => '<option value="' + esc(n) + '"' + (n === logWho ? " selected" : "") + ">" + esc(n) + "</option>").join("") + "</select>" +
+    '<button class="btn sm" data-act="log-refresh">' + t("lgRefresh") + "</button>";
+  const state = '<div class="today-state">' + (logErr ? pill("bad", t("todayOffline")) : '<span class="count">' + t("todayRead", num(stamp(logAt))) + "</span>") + "</div>";
+  // the devices: the locked ones first — they are what is waiting for the admin
+  const mine = ONLINE ? deviceId() : "";
+  const devices = !DEVICES.length ? "" :
+    '<section class="panel logv"><div class="panel-h"><h3 class="panel-t">' + t("devT") + '</h3><span class="count">' + t("rows", DEVICES.length) + "</span></div>" +
+    '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["devName", "devLast", "devSeen", "devState"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + '<th class="nos"></th></tr></thead><tbody>' +
+    DEVICES.map(d => '<tr' + (d.blocked ? ' class="banrow"' : "") + '><td class="nowrap"><span class="logdev">' + esc(d.tag || d.device.slice(-6)) + "</span>" + (d.device === mine ? " " + pill("link", t("devThis")) : "") + "</td>" +
+      "<td>" + esc(dash(d.last_user)) + '</td><td class="nowrap">' + num(stamp(Date.parse(d.last_at))) + "</td>" +
+      "<td>" + (d.blocked ? pill("ban", t("devLocked")) : pill("ok", t("devOpen"))) + (d.wrong && !d.blocked ? " " + pill("warn", t("devWrong", d.wrong)) : "") + "</td>" +
+      '<td class="act">' + (d.blocked ? '<button class="btn sm primary" data-dev-set="' + esc(d.device) + '|0">' + t("devUnlock") + "</button>"
+                          : d.device === mine ? "" : '<button class="btn sm danger" data-dev-set="' + esc(d.device) + '|1">' + t("devLock") + "</button>") + "</td></tr>").join("") +
+    "</tbody></table></div></section>";
+  // every visit on its own: the lines of one sign-in together, the newest visit first, and inside a visit the lines as they happened
+  const visits = new Map();
+  LOG.forEach(r => { if(logWho && r.who !== logWho) return; const k = r.session || "?" + r.who + r.device; if(!visits.has(k)) visits.set(k, []); visits.get(k).push(r); });
+  box.innerHTML = state + devices + (!visits.size ? '<div class="empty"><h3>' + t("lgNone") + "</h3></div>" : [...visits.values()].map(rows => {
+    const list = rows.slice().reverse(), first = list[0], last = list[list.length - 1], a = Date.parse(first.at), z = Date.parse(last.at);
+    const gate = list.every(r => r.role === "gate" || r.act === "blocked" || r.act === "unblocked");         // what happened at the gate, with nobody signed in
+    const role = gate ? pill("bad", t("roleGate")) : pill(first.role === "admin" ? "link" : "white", t(first.role === "admin" ? "roleAdmin" : "roleViewer"));
+    return '<section class="panel logv' + (gate ? " gate" : "") + '"><div class="panel-h"><h3 class="panel-t">' + esc(first.who || "—") + " " + role + ' <span class="logdev">' + esc(first.device) + "</span></h3>" +
+        '<span class="logwhen">' + num(stamp(a)) + (z - a > 59000 ? " <i>" + t("lgUntil") + "</i> " + num(stamp(z).slice(11)) : "") + "</span></div>" +
+      '<div class="tblwrap"><table class="tbl plain"><tbody>' + list.map(r => { const w = logLine(r);
+        return '<tr><td class="ix">' + num(stamp(Date.parse(r.at)).slice(11)) + '</td><td class="nowrap">' + w[0] + "</td><td>" + (r.who !== first.who && r.who ? esc(r.who) + (w[1] ? " · " : "") : "") + (w[1] || "") + "</td></tr>"; }).join("") +
+      "</tbody></table></div></section>";
+  }).join("")) + (logMore ? '<p style="text-align:center;margin:6px 0 14px"><button class="btn" data-act="log-more">' + t("lgMore") + "</button></p>" : "");
+}
+
+/* ============================================================
+   «قارئ البطاقات» — the admin's page, on this PC's own copy only.
+   A Word or PDF file of ID-card photos is handed to the reader that runs on
+   this PC (a scheduled Claude task, in the card reader's own folder); the
+   sheet it makes — the permits form, filled in — lands in the export folder
+   with every other export.
+
+   A page cannot put a file where it likes: it can only download one. So the
+   file is DOWNLOADED into the export folder under a name the reader knows
+   («وارد قارئ البطاقات [id] name.zip»): a box holding the file as it is, byte
+   for byte, and beside it a paper saying whom the system already knows (see
+   cardsKnownList). The reader takes it from there. «مسح السجل» goes the same
+   way, as a line of text under a name the reader knows for an order. What
+   the reader is doing is read back from two small files it keeps beside this
+   page — cards/watcher.json (is it awake) and cards/state.json (the files it
+   has taken, where each one stands, and what it read in the last few) —
+   asked for every few seconds while this page is open or a file is on its
+   way.
+
+   Nothing of this leaves the PC: the photos, the names and the numbers stay
+   on its disk. The online edition has no such page — there is no reader
+   behind it.
+   ============================================================ */
+const CARDS_KEY = "ncm_system_cards", CARDS_SEEN_KEY = "ncm_system_cards_seen", CARDS_CLEARED_KEY = "ncm_system_cards_cleared";
+const CARDS_CLEAR = "مسح السجل";                     // the reader knows an order to clear its record by this name
+const CARDS_PREFIX = "وارد قارئ البطاقات";              // the reader knows a file of ours by this name
+const CARDS_DIR = "cards/", CARDS_EXPORT = "التصدير/";
+const CARDS_ALIVE = 20000;                           // a reader not heard from for this long is not waiting any more
+// sent: what this page handed over and the reader has not taken yet · jobs: the reader's own list · watcher: its last sign of life ·
+// owed: the files whose end this window has still to announce
+const CARD = { sent: [], jobs: [], watcher: null, stamp: 0, owed: new Set() };
+let cardsSig = "", cardsBusy = false, cardsSeen = 0, cardsCleared = 0;
+try{ const kept = JSON.parse(localStorage.getItem(CARDS_KEY) || "[]"); if(Array.isArray(kept)) CARD.sent = kept; }catch(e){}
+try{ cardsSeen = +localStorage.getItem(CARDS_SEEN_KEY) || 0; cardsCleared = +localStorage.getItem(CARDS_CLEARED_KEY) || 0; }catch(e){}
+const cardsKeep = () => { try{ localStorage.setItem(CARDS_KEY, JSON.stringify(CARD.sent)); }catch(e){} };
+// a file beside this page, read (or only asked whether it is there)
+function beside(path, only){
+  return new Promise(resolve => {
+    const x = new XMLHttpRequest();
+    try{
+      x.open("GET", new URL(path, location.href.split(/[?#]/)[0]).href);
+      // only asked whether it is there: its first piece is answer enough — an export of fifteen megabytes is not read to the end for that
+      if(only){ x.setRequestHeader("Range", "bytes=0-0"); x.onprogress = () => { resolve(true); try{ x.abort(); }catch(e){} }; }
+      x.onload = () => resolve(only ? true : x.responseText);
+      x.onerror = () => resolve(null);
+      x.send();
+    }catch(e){ resolve(null); }
+  });
+}
+// every file there is to show, the newest first: the reader's list, and above it what it has not taken yet
+function cardsList(){
+  // what had finished when «مسح السجل» was pressed is off the page at once; the reader takes it off its own list when it next looks
+  const list = CARD.jobs.filter(j => j.status === "reading" || (j.finished_at || j.received_at || 0) > cardsCleared);
+  CARD.sent.forEach(x => list.push({ id: x.id, file: x.file, received_at: x.at, status: x.lost ? "lost" : "queued" }));
+  return list.sort((a, b) => (b.received_at || 0) - (a.received_at || 0));
+}
+const cardsGoing = () => CARD.sent.some(x => !x.lost) || CARD.jobs.some(j => j.status === "reading");
+// busy: a file is being read · desk: an order of «الشيتات» is being seen through · on: awake and waiting · off: nobody there
+function cardsReader(){
+  if(CARD.jobs.some(j => j.status === "reading" && (j.lease_until || 0) > Date.now())) return "busy";
+  // seeing something «الشيتات» asked for through — a worker beside its wait, or card photos it is looking at
+  if(DESK.orders.some(o => o.status === "running" && o.step !== "queued" && !deskStale(o))) return "desk";
+  return CARD.watcher && Date.now() - (+CARD.watcher.alive_at || 0) < CARDS_ALIVE ? "on" : "off";
+}
+async function cardsSync(){
+  if(ONLINE || cardsBusy) return;
+  cardsBusy = true;
+  try{
+    const [s, w] = await Promise.all([beside(CARDS_DIR + "state.json"), beside(CARDS_DIR + "watcher.json")]);
+    // a file caught while it is being written does not parse: what is on screen stays until the next asking
+    try{ const state = s ? JSON.parse(s) : null; CARD.jobs = state && Array.isArray(state.jobs) ? state.jobs : []; CARD.stamp = state ? +state.updated_at || 0 : 0; }catch(e){}
+    try{ CARD.watcher = w ? JSON.parse(w) : null; }catch(e){}
+    // what was handed over and is now on the reader's list needs remembering no longer; what is neither on the
+    // list nor in the export folder went somewhere the reader does not look
+    CARD.sent.forEach(x => CARD.owed.add(x.id));
+    const known = new Set(CARD.jobs.map(j => j.id));
+    let changed = false;
+    for(const x of CARD.sent.slice()){
+      if(known.has(x.id)){ CARD.sent.splice(CARD.sent.indexOf(x), 1); changed = true; continue; }
+      if(Date.now() - x.at < 2500) continue;          // the browser is still putting it down
+      const lost = !(await beside(CARDS_EXPORT + x.name, true));
+      if(lost && !x.lost){
+        // taken between the two askings? the list is asked once more before the file is called lost
+        const again = await beside(CARDS_DIR + "state.json");
+        try{ const st2 = again ? JSON.parse(again) : null; if(st2 && Array.isArray(st2.jobs) && st2.jobs.some(j => j.id === x.id)){ CARD.jobs = st2.jobs; CARD.stamp = +st2.updated_at || 0; CARD.sent.splice(CARD.sent.indexOf(x), 1); changed = true; continue; } }catch(e){}
+      }
+      if(!!x.lost !== lost){ x.lost = lost; changed = true; }
+    }
+    if(changed) cardsKeep();
+    // a file of ours that has come to its end says so, once, wherever the admin is — its own page shows it without being told
+    CARD.jobs.forEach(j => {
+      if(j.status === "reading") return CARD.owed.add(j.id);
+      if(!CARD.owed.delete(j.id) || st.view === "cards") return;
+      toast(j.status === "done" ? t("cdDoneToast", j.file, j.people || 0) : t("cdFailToast", j.file), j.status !== "done");
+    });
+  }finally{ cardsBusy = false; }
+  cardsNav();
+  if(st.view === "cards" && $("cards")) paintCards();
+}
+// the menu: how many files are on their way, or a tick for one that finished and has not been looked at
+function cardsNav(){
+  const nb = $("nb-cards");
+  if(!nb) return;
+  const list = cardsList(), going = list.filter(j => j.status === "queued" || j.status === "reading").length;
+  const fresh = list.filter(j => (j.status === "done" || j.status === "failed") && (j.finished_at || 0) > cardsSeen);
+  nb.textContent = going ? going : fresh.length ? "✓" : "";
+  nb.className = "nb" + (!going && fresh.some(j => j.status === "failed") ? " alert" : "");
+}
+// a thing of ours gets its name from the moment it is sent
+function cardsId(){
+  const d = new Date(), p = n => String(n).padStart(2, "0");
+  return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()) + "-" +
+         (Math.random().toString(36).slice(2, 5) + "000").slice(0, 3);
+}
+// put down in the export folder, the only way a page can put anything down: as a download
+function cardsPut(blob, name){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+}
+/* WHOM THE SYSTEM ALREADY KNOWS travels with the file, so that the reader can
+   write «R» — a renewal — in the status column against a card whose national
+   id is on a permit or on the staff list (asked for, 5 October 2026). Someone
+   under a ban is marked as such and gets no letter: that one is for the admin
+   to decide. It is this page's own reading of the sheets that says who is
+   known — the same reading its «في السيستم» column shows. The ids are not
+   written down: each goes as a salted hash, and the reader hashes what it has
+   read the same way and looks for it. With no sheet read, the paper says so
+   and nobody is given a letter. */
+async function cardsKnownList(){
+  if(!M.ind && !M.emp) return { v: 1, loaded: false };
+  const ids = new Map();                             // national id -> under a ban?
+  if(M.ind) M.ind.byNid.forEach((g, id) => { if(/^[0-9]{14}$/.test(id)) ids.set(id, permitBan(g)); });
+  if(M.emp) M.emp.byNid.forEach((list, id) => { if(/^[0-9]{14}$/.test(id)) ids.set(id, !!ids.get(id) || list.some(empBan)); });
+  const salt = [].map.call(crypto.getRandomValues(new Uint8Array(12)), x => x.toString(16).padStart(2, "0")).join("");
+  const known = [], banned = [];
+  await Promise.all([...ids].map(async pair => { const mark = (await sha256hex(salt + "|" + pair[0])).slice(0, 20); known.push(mark); if(pair[1]) banned.push(mark); }));
+  return { v: 1, loaded: true, salt, size: 20, known, banned };
+}
+/* «مسح السجل». The page cannot rub out the reader's list itself; it puts an
+   order down for the reader, and meanwhile stops showing what had finished by
+   now. The sheets in the export folder are no part of the record and stay. */
+function cardsClear(){
+  if(!confirm(t("cdClearSure"))) return;
+  cardsPut(new Blob(["clear"], { type: "text/plain" }), CARDS_PREFIX + " [" + cardsId() + "] " + CARDS_CLEAR + ".txt");
+  cardsCleared = Date.now();
+  try{ localStorage.setItem(CARDS_CLEARED_KEY, String(cardsCleared)); }catch(e){}
+  CARD.sent = CARD.sent.filter(x => !x.lost);
+  cardsKeep(); cardsNav(); paintCards();
+  toast(t("cdCleared"));
+}
+/* HANDING A FILE OVER. The file is not read here and not changed: it is put
+   down in the export folder, in its box, under the reader's name for it. Its
+   id is the moment it was sent. One file at a time — a browser asks before it
+   lets a page download several. */
+async function cardsSend(file){
+  if(ONLINE || !isAdmin() || !file) return;
+  if(!/\.(docx|docm|pdf)$/i.test(file.name)) return toast(t("cdBadType"), true);
+  if(!file.size) return toast(t("cdEmptyFile"), true);
+  const id = cardsId();
+  const clean = file.name.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").replace(/\s+/g, " ").trim();
+  const name = CARDS_PREFIX + " [" + id + "] " + clean + ".zip";
+  let box;
+  try{ box = await NCM.zip([["file.bin", new Uint8Array(await file.arrayBuffer()), true], ["known.json", JSON.stringify(await cardsKnownList())]]); }
+  catch(e){ return toast(t("cdUnread", file.name), true); }
+  cardsPut(new Blob([box], { type: "application/zip" }), name);
+  CARD.sent.unshift({ id, file: clean, name, size: file.size, at: Date.now() });
+  cardsKeep();
+  toast(t("cdSent"));
+  cardsNav();
+  if(st.view === "cards" && $("cards")) paintCards();
+  [3200, 9000].forEach(ms => setTimeout(cardsSync, ms));          // has it landed where the reader looks, and has it been taken
+}
+function renderCards(){
+  if(ONLINE || !isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }      // the page is the admin's, on this PC
+  cardsSig = "";
+  page(pgHead(t("navCards"), '<div class="pg-acts" id="cards-state"></div>'), scrollPart(
+    '<div class="cards">' +
+      '<div class="dropcard cards-drop">' +
+        '<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/><path d="M9.500 11h2.500M9.500 13.200h4"/></svg>' +
+        "<h2>" + t("cdDrop") + "</h2>" +
+        '<button class="btn primary" data-act="cards-pick">' + t("cdPick") + "</button>" +
+      "</div>" +
+      '<div id="cards"></div>' +
+    "</div>"));
+  paintCards();
+  countUp();          // the figures of a result that is already there run up, as every page's do
+  cardsSync();
+}
+/* A file's name on a right-to-left page. Left to itself, a date after Arabic words is laid out back to front
+   (04-10-2026 shows as 2026-10-04) and the ending jumps to the front. So every run of Latin letters and digits in
+   an Arabic name is kept as one left-to-right piece; a name with no Arabic in it is simply left-to-right. */
+function fileName(s){
+  s = String(s === null || s === undefined ? "" : s);
+  if(!/[\u0600-\u06FF]/.test(s)) return '<span class="ltr">' + esc(s) + "</span>";
+  return "<bdi>" + s.split(/([A-Za-z0-9.(][A-Za-z0-9.\-_:()]*[A-Za-z0-9)]|[A-Za-z0-9])/).map((x, i) => i % 2 ? '<span class="ltr">' + esc(x) + "</span>" : esc(x)).join("") + "</bdi>";
+}
+// a run of «؟» is what the reader could not make out: it is shown for what it is
+const unclear = s => esc(s).replace(/؟+/g, m => '<mark class="unclear">' + m + "</mark>");
+// who a read card is, among what the system has read from the sheets: a permit holder, an employee, or nobody yet
+function cardsKnown(nid){
+  const g = nid && M.ind ? M.ind.byNid.get(nid) || null : null, es = nid && M.emp ? M.emp.byNid.get(nid) || [] : [];
+  const e = es.find(x => !x.resigned) || es[0] || null;
+  return { g, e, ban: permitBan(g) || empBan(e), open: g ? "ind:" + g.key : e ? "emp:" + e.emp_code : "" };
+}
+const cardsWhen = ms => num(stamp(ms));
+const CARDS_STEPS = ["cdS1", "cdS2", "cdS3", "cdS4", "cdS5"];
+// which step a file is at: 1 sent and waiting to be taken · 2 its photos being taken out · 3 being read · 4 the sheet being written
+const cardsStep = j => j.status === "queued" || j.status === "lost" ? 1 : j.step === "extract" ? 2 : j.step === "write" ? 4 : 3;
+function cardsJobHTML(j){
+  if(j.status === "lost")
+    return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
+      '<button class="btn sm" data-cards-drop="' + esc(j.id) + '">' + t("cdDismiss") + '</button></div><div class="panel-b"><p class="note warn" style="margin:0">' + t("cdLost") + "</p></div></section>";
+  const at = cardsStep(j);
+  // under a step, what is known of it: how many photos came out, how many people have been read so far
+  const sub = i => i === 2 && j.images ? "<small>" + t("cdImages", j.images) + "</small>" :
+    i === 3 && (j.read || j.tries > 1) ? "<small>" + [j.read ? t("cdRead", j.read) : "", j.tries > 1 ? t("cdTry", j.tries) : ""].filter(Boolean).join(" · ") + "</small>" : "";
+  return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
+      '<span class="count"><span class="num" data-since="' + (+j.received_at || 0) + '"></span></span></div>' +
+    '<div class="panel-b"><ol class="steps">' + CARDS_STEPS.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + sub(i) + "</li>").join("") + "</ol>" +
+      (j.status === "reading" ? '<div class="scan"><span></span></div>' : "") +
+    "</div></section>";
+}
+function cardsResultHTML(j){
+  const head = '<div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + '</h3><span class="logwhen">' + cardsWhen(j.finished_at || j.received_at) + "</span></div>";
+  if(j.status === "failed")
+    return '<section class="panel cards-res arrive">' + head + '<div class="panel-b"><p class="note warn" style="margin:0">' + pill("bad", t("cdFailed")) + " " + esc(j.error || "") + "</p></div></section>";
+  const rows = j.rows || [], known = rows.map(r => cardsKnown(r.nid)), anySheet = !!(M.ind || M.emp);
+  const banned = known.filter(k => k.ban).length;
+  const box = (label, value, tone, pulse) => '<div class="tile' + (tone ? " " + tone : "") + (pulse ? " pulse" : "") + '"><span class="tile-k">' + esc(label) + '</span><span class="tile-v num">' + value + "</span></div>";
+  const tiles = '<div class="tiles" style="--n:' + (banned ? 5 : 4) + '">' +
+    box(t("cdPeople"), j.people || rows.length, "job") + box(t("cdClean"), (j.people || rows.length) - (j.flagged || 0), "ok") +
+    box(t("cdFlagged"), j.flagged || 0, j.flagged ? "warn" : "mute", !!j.flagged) + box(t("cdExpired"), j.expired || 0, j.expired ? "bad" : "mute") +
+    (banned ? box(t("cdBanned"), banned, "ban", true) : "") + "</div>";
+  const file = '<div class="cards-out"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#12874f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9.500 12.500l5 5M14.500 12.500l-5 5"/></svg>' +
+    "<b>" + fileName(j.output) + "</b><span>" + t("cdInExport") + "</span></div>";
+  const notes = (j.notes || []).map(n => '<p class="note warn">' + esc(n) + "</p>").join("");
+  if(!rows.length) return '<section class="panel cards-res arrive">' + head + '<div class="panel-b">' + tiles + file + notes + "</div></section>";
+  // `e`: what the column holds for a row — a column that holds nothing for anyone is not shown, as on every page
+  const all = [
+    { h: t("colSerial"), c: "ix", v: r => r.n },
+    { h: t("colName"), c: "name", v: r => unclear(dash(r.name)) },
+    { h: t("cdColSt"), c: "nowrap", e: r => r.status, v: r => r.status ? pill("blue", r.status) : dimDash },
+    { h: t("colNid"), c: "nowrap", e: r => r.nid, v: r => r.nid ? '<span class="num">' + unclear(r.nid) + "</span>" : dimDash },
+    { h: t("birth"), c: "nowrap", e: r => r.birth, v: (r, i) => i ? num(i.birth) : r.birth ? num(r.birth) : dimDash },
+    { h: t("birthGov"), c: "nowrap", e: r => r.gov, v: (r, i) => i ? esc(isEN() ? (GOV_EN[i.govCode] || i.gov) : i.gov) : esc(dash(r.gov)) },
+    { h: t("gender"), c: "nowrap", e: r => r.gender, v: (r, i) => i ? t(i.male ? "male" : "female") : esc(dash(r.gender)) },
+    { h: t("address"), c: "wide", e: r => r.address, v: r => unclear(dash(r.address)) },
+    { h: t("cdColQual"), c: "txt", e: r => r.qualification, v: r => unclear(dash(r.qualification)) },
+    { h: t("cdColExpiry"), c: "nowrap", e: r => r.expiry, v: r => r.expiry ? '<span class="num">' + unclear(r.expiry) + "</span>" + (r.expired ? " " + pill("bad", t("cdExpiredPill")) : "") : dimDash }
+  ];
+  const cols = all.filter(c => !c.e || rows.some(r => hasCell(c.e(r))));
+  if(anySheet) cols.push({ h: t("cdColSys"), c: "nowrap", v: (r, i, k) => !k.g && !k.e ? '<span class="dim">' + t("cdNotIn") + "</span>" :
+    (k.g ? permitPill(k.g.p) : "") + (k.e ? " " + (empBan(k.e) ? pill("ban", t("cdEmp", k.e.emp_code)) : pill("link", t("cdEmp", k.e.emp_code))) : "") });
+  cols.push({ h: t("cdColNotes"), c: "", v: r => r.flags && r.flags.length ? '<div class="cards-flags">' + r.flags.map(f => pill("warn", f)).join("") + "</div>" : pill("ok", t("cdClean")) });
+  const fz = frozen(cols.map((c, i) => i < 2));
+  return '<section class="panel cards-res arrive">' + head + '<div class="panel-b">' + tiles + file + notes + "</div>" +
+    '<div class="tblwrap"><table class="tbl full plain"><thead><tr>' + cols.map((c, i) => '<th class="nos' + fz[i] + '">' + c.h + "</th>").join("") + "</tr></thead><tbody>" +
+    rows.map((r, n) => {
+      const d = /^\d{14}$/.test(r.nid || "") ? NCM.nidInfo(r.nid) : null, k = known[n];
+      return "<tr" + (k.ban ? ' class="banrow"' : r.flags && r.flags.length ? ' class="flag"' : "") + (k.open ? ' data-open="' + esc(k.open) + '"' : "") + ">" +
+        cols.map((c, i) => '<td class="' + c.c + fz[i] + '">' + c.v(r, d, k) + "</td>").join("") + "</tr>";
+    }).join("") + "</tbody></table></div></section>";
+}
+function paintCards(){
+  const box = $("cards");
+  if(!box) return;
+  const list = cardsList(), reader = cardsReader();
+  const going = list.filter(j => j.status === "queued" || j.status === "reading" || j.status === "lost");
+  const ended = list.filter(j => j.status === "done" || j.status === "failed");
+  // looked at: the tick on the menu goes
+  const newest = ended.reduce((m, j) => Math.max(m, j.finished_at || 0), 0);
+  if(newest > cardsSeen){ cardsSeen = newest; try{ localStorage.setItem(CARDS_SEEN_KEY, String(cardsSeen)); }catch(e){} cardsNav(); }
+  $("cards-state").innerHTML = pill(reader === "off" ? "mute" : reader === "on" ? "ok" : "blue", t(reader === "off" ? "cdOff" : reader === "busy" ? "cdBusy" : reader === "desk" ? "dkBusy" : "cdOn")) +
+    (ended.length ? '<button class="btn sm danger" data-act="cards-clear">' + t("cdClear") + "</button>" : "");
+  // drawn again only when something on it has changed — the clock of a file on its way runs in its own place
+  const sig = JSON.stringify([lang, reader, CARD.stamp, cardsCleared, M.ind ? M.ind.list.length : 0, M.emp ? M.emp.list.length : 0,
+    list.map(j => [j.id, j.status, j.step, j.images, j.read, j.tries, j.people, j.flagged, j.output, j.error, j.rows ? j.rows.length : 0])]);
+  if(sig === cardsSig && box.firstChild) return cardsTick();
+  const arrived = cardsSig !== "" && ended[0] && !box.querySelector('[data-job="' + ended[0].id + '"]');
+  cardsSig = sig;
+  const at = box.querySelector(".cards-res .tblwrap"), y = at ? at.scrollTop : 0, x = at ? at.scrollLeft : 0;
+  const drop = document.querySelector(".cards-drop");
+  if(drop) drop.classList.toggle("small", list.length > 0);          // with something to show, the drop box makes room for it
+  const history = ended.slice(1);
+  box.innerHTML =
+    going.map(j => cardsJobHTML(j)).join("") +
+    (ended.length ? '<div data-job="' + esc(ended[0].id) + '">' + cardsResultHTML(ended[0]) + "</div>" : "") +
+    (!list.length ? '<div class="empty"><h3>' + t("cdNone") + "</h3></div>" : "") +
+    (history.length ? '<section class="panel cards-hist"><div class="panel-h"><h3 class="panel-t">' + t("cdHistory") + '</h3><span class="count">' + t("rows", history.length) + "</span></div>" +
+      '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["cdColWhen", "cdColFile", "cdPeople", "cdColState", "cdOut"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
+      history.map(j => '<tr><td class="nowrap">' + cardsWhen(j.finished_at || j.received_at) + '</td><td>' + fileName(j.file) + "</td><td>" + (j.people ? num(j.people) : dimDash) + "</td>" +
+        "<td>" + (j.status === "done" ? pill(j.flagged ? "warn" : "ok", j.flagged ? t("cdFlagged") + " " + j.flagged : t("cdDone")) : pill("bad", t("cdFailed"))) + "</td>" +
+        "<td>" + (j.status === "done" ? fileName(dash(j.output)) : esc(dash(j.error))) + "</td></tr>").join("") +
+      "</tbody></table></div></section>" : "");
+  if(!arrived) [].forEach.call(box.querySelectorAll(".arrive"), el => el.classList.remove("arrive"));
+  freeze();
+  const now = box.querySelector(".cards-res .tblwrap");
+  if(now && !arrived){ now.scrollTop = y; now.scrollLeft = x; }
+  if(arrived) countUp();
+  cardsTick();
+}
+// how long each file on its way has been on its way
+function cardsTick(){
+  if(st.view !== "cards") return;
+  [].forEach.call(document.querySelectorAll("#cards [data-since]"), el => {
+    const s = Math.max(0, Math.floor((Date.now() - +el.dataset.since) / 1000)), m = Math.floor(s / 60);
+    el.textContent = (m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m) + ":" + String(s % 60).padStart(2, "0");
+  });
+}
+
+/* ============================================================
+   «الشيتات» — what the admin can ask of this PC from here (5 October 2026).
+   Three things: the employees' sheet put into the database with the card
+   photos that are waiting, the work sheet uploaded to the Drive and checked
+   — the two daily routines, done now instead of at eight — and a new ASE
+   export put in the place of the work sheet's «ASE Data» sheet. That last
+   one has no day of its own (a new export comes every week or ten days):
+   it is done when the admin hands the file over here, and only then.
+
+   Asked the one way a page can ask anything of the PC it runs on: a small
+   file put down in the export folder under a name the desk knows («أمر
+   السيستم [id] موظفين.txt», «أمر السيستم [id] شيت.txt», «وارد ASE [id]
+   name.xlsx»). The reader that waits there for card files hands them to
+   the desk (tools/desk.py), which runs the routines' own programs; where
+   each order stands is read back from cards/desk.json, as the card
+   reader's page does with its own files. What comes back is figures and
+   file names — never a person's name or number.
+   ============================================================ */
+const DESK_KEY = "ncm_system_desk";
+const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE";          // the desk knows a thing of ours by these names
+const DESK_WORD = { employees: "موظفين", sheet: "شيت" };
+const DESK_KINDS = ["employees", "sheet", "ase"];
+const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse" };
+// the steps an order goes through, by kind: sent · taken up · then its own
+const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5"] };
+const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
+// why an order was not done, in the desk's word for it -> ours
+const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_long: "dkELong", program_missing: "dkEProgram",
+  emp_sheet_open: "dkEEmpOpen", emp_sheet_missing: "dkEEmpMissing", emp_table_unreadable: "dkEDb", emp_sync_failed: "dkEEmpSync",
+  sh_column_order_changed: "dkEShCols", sh_file_has_problems: "dkEShRows", sh_sheet_has_problems_after_upload: "dkEShAfter",
+  sh_file_much_smaller_than_sheet: "dkEShSmall", sh_tabs_missing: "dkEShTabs", sh_failed: "dkEShFailed",
+  work_sheet_open: "dkEOpen", work_sheet_missing: "dkEMissing", work_sheet_changed: "dkEChanged", work_sheet_busy: "dkEHeld", not_an_export: "dkENotAse",
+  export_columns_changed: "dkECols", sheet_columns_changed: "dkESheetCols", export_empty: "dkEEmpty", export_much_smaller: "dkESmall", no_room: "dkERoom",
+  wrong_password: "dkEPass", excel_check_failed: "dkECheck", file_check_failed: "dkECheck" };
+// what a routine says of its own end -> how it is to be taken (ok · aside: said, nothing to do · warn · bad) and the words for it
+const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp_found"], emp_skipped: ["warn", "dkF_emp_skipped"], emp_failed: ["bad", "dkF_emp_failed"],
+  emp_unverified: ["bad", "dkF_emp_unverified"], emp_blank: ["aside", "dkF_emp_blank"], emp_missing: ["aside", "dkF_emp_missing"],
+  emp_dup: ["warn", "dkF_emp_dup"], emp_odd: ["warn", "dkF_emp_odd"],
+  ph_up: ["ok", "dkF_ph_up"], ph_failed: ["bad", "dkF_ph_failed"], ph_refused: ["bad", "dkF_ph_refused"], ph_unknown: ["bad", "dkF_ph_unknown"], ph_twice: ["bad", "dkF_ph_twice"],
+  ph_unchecked: ["warn", "dkF_ph_unchecked"], ph_changed: ["warn", "dkF_ph_changed"], ph_differs: ["warn", "dkF_ph_differs"], ph_unclear: ["warn", "dkF_ph_unclear"],
+  ph_other: ["aside", "dkF_ph_other"],
+  sh_same: ["ok", "dkF_sh_same"], sh_up: ["ok", "dkF_sh_up"], sh_ids: ["aside", "dkF_sh_ids"], vf_ok: ["ok", "dkF_vf_ok"], vf_bad: ["bad", "dkF_vf_bad"], vf_none: ["bad", "dkF_vf_none"] };
+// sent: asked for here and not yet taken by the desk · orders: the desk's own list · owed: what this window has still to announce the end of
+const DESK = { sent: [], orders: [], stamp: 0, owed: new Set() };
+let deskSig = "", deskBusy = false;
+try{ const kept = JSON.parse(localStorage.getItem(DESK_KEY) || "[]"); if(Array.isArray(kept)) DESK.sent = kept; }catch(e){}
+const deskKeep = () => { try{ localStorage.setItem(DESK_KEY, JSON.stringify(DESK.sent)); }catch(e){} };
+const deskLive = o => !!o && (o.status === "queued" || o.status === "running");
+/* An order nobody is telling of any more: the worker seeing it through says it is there every few seconds, and the
+   reader looking at card photos is given twenty minutes. Past that the page stops waiting — the desk says the same
+   the next time a reader looks. Nothing is ever left half-done by it: each program finishes or leaves things as
+   they were. */
+const deskStale = o => o.status === "running" && o.step !== "queued" && (DESK_WITH_READER.indexOf(o.step) !== -1
+  ? Date.now() - (+o.asked_at || +o.beat || +o.at || 0) > 20 * 60000
+  : Date.now() - (+o.beat || +o.started_at || +o.at || 0) > 180000);
+// where a thing of one kind stands: the one on its way if there is one, else the last that came to an end
+function deskNow(kind){
+  const all = DESK.sent.filter(x => x.kind === kind).map(x => ({ id: x.id, kind, file: x.file, at: x.at, status: x.lost ? "lost" : "queued" }))
+    .concat(DESK.orders.filter(o => o.kind === kind).map(o => deskStale(o) ? Object.assign({}, o, { status: "failed", error: "interrupted", finished_at: 0 }) : o))
+    .sort((a, b) => (b.at || 0) - (a.at || 0));
+  return all.find(deskLive) || all[0] || null;
+}
+const deskGoing = () => DESK.sent.some(x => !x.lost) || DESK.orders.some(o => o.status === "running" && !deskStale(o));
+const deskFacts = o => ((o.result || {}).facts || []).filter(f => Array.isArray(f) && DESK_FACT[f[0]]);
+// how an order that ran to its end is to be taken: by the worst thing it said
+function deskTone(o){
+  const tones = deskFacts(o).map(f => DESK_FACT[f[0]][0]);
+  return tones.indexOf("bad") !== -1 ? "bad" : tones.indexOf("warn") !== -1 ? "warn" : "ok";
+}
+async function deskSync(){
+  if(ONLINE || !isAdmin() || deskBusy) return;
+  deskBusy = true;
+  try{
+    const [d, w] = await Promise.all([beside(CARDS_DIR + "desk.json"), beside(CARDS_DIR + "watcher.json")]);
+    // a file caught while it is being written does not parse: what is on screen stays until the next asking.
+    // An order of a rehearsal that asked not to be seen (the desk's own trial runs) is not this page's business.
+    const mine = list => list.filter(o => o && !o.hidden);
+    try{ const state = d ? JSON.parse(d) : null; DESK.orders = state && Array.isArray(state.orders) ? mine(state.orders) : []; DESK.stamp = state ? +state.updated_at || 0 : 0; }catch(e){}
+    try{ CARD.watcher = w ? JSON.parse(w) : null; }catch(e){}
+    // what was asked for and is now on the desk's list needs remembering no longer; what is neither on the list
+    // nor in the export folder went somewhere the desk does not look
+    DESK.sent.forEach(x => DESK.owed.add(x.id));
+    const known = new Set(DESK.orders.map(o => o.id));
+    let changed = false;
+    for(const x of DESK.sent.slice()){
+      if(known.has(x.id)){ DESK.sent.splice(DESK.sent.indexOf(x), 1); changed = true; continue; }
+      if(Date.now() - x.at < (x.kind === "ase" ? 9000 : 2500)) continue;          // the browser is still putting it down
+      const lost = !(await beside(CARDS_EXPORT + x.name, true));
+      if(lost && !x.lost){
+        // taken between the two askings? the list is asked once more before the thing is called lost
+        const again = await beside(CARDS_DIR + "desk.json");
+        try{ const s2 = again ? JSON.parse(again) : null; if(s2 && Array.isArray(s2.orders) && s2.orders.some(o => o.id === x.id)){ DESK.orders = mine(s2.orders); DESK.stamp = +s2.updated_at || 0; DESK.sent.splice(DESK.sent.indexOf(x), 1); changed = true; continue; } }catch(e){}
+      }
+      if(!!x.lost !== lost){ x.lost = lost; changed = true; }
+    }
+    if(changed) deskKeep();
+    // a thing of ours that has come to its end says so, once, wherever the admin is — its own page shows it without being told
+    DESK.orders.forEach(o => {
+      if(o.status === "running") return DESK.owed.add(o.id);
+      if(!DESK.owed.delete(o.id) || st.view === "src") return;
+      const well = o.status === "done" && deskTone(o) !== "bad";
+      toast(t(well ? "dkDoneToast" : o.status === "done" ? "dkBadToast" : "dkFailToast", t(DESK_TITLE[o.kind] || "navSrc")), !well);
+    });
+  }finally{ deskBusy = false; }
+  deskNav();
+  if(st.view === "src" && $("desk")) paintDesk();
+}
+// the menu: how many things asked for here are on their way
+function deskNav(){
+  const nb = $("nb-src");
+  if(!nb) return;
+  const going = ONLINE || !isAdmin() ? 0 : DESK_KINDS.filter(k => deskLive(deskNow(k))).length;
+  nb.textContent = going ? going : "";
+}
+/* ASKING. Nothing is run from here and no sheet is touched from here: the order — or the export, as it is, byte
+   for byte — is put down in the export folder, and the desk takes it from there. A thing already on its way is
+   not asked for twice. */
+function deskAsk(kind){
+  if(ONLINE || !isAdmin() || !DESK_WORD[kind] || deskLive(deskNow(kind))) return;
+  const id = cardsId(), name = DESK_ORDER + " [" + id + "] " + DESK_WORD[kind] + ".txt";
+  cardsPut(new Blob(["run"], { type: "text/plain" }), name);
+  DESK.sent.unshift({ id, kind, name, at: Date.now() });
+  deskKeep(); deskNav(); paintDesk();
+  [3200, 9000].forEach(ms => setTimeout(deskSync, ms));          // has it landed where the desk looks, and has it been taken
+}
+function deskAse(file){
+  if(ONLINE || !isAdmin() || !file) return;
+  if(!/\.xlsx$/i.test(file.name)) return toast(t("needXlsx"), true);
+  if(!file.size) return toast(t("cdEmptyFile"), true);
+  if(deskLive(deskNow("ase"))) return toast(t("dkAseBusy"), true);
+  const id = cardsId();
+  const clean = file.name.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").replace(/\s+/g, " ").trim();
+  const name = DESK_ASE + " [" + id + "] " + clean;
+  cardsPut(file, name);
+  DESK.sent.unshift({ id, kind: "ase", file: clean, name, at: Date.now() });
+  deskKeep(); deskNav(); paintDesk();
+  [4200, 11000].forEach(ms => setTimeout(deskSync, ms));
+}
+const deskWhen = ms => ms ? num(stamp(ms)) : "";
+const deskCount = n => esc(Number(n || 0).toLocaleString("en-US"));
+// which step an order is at — the one being done: 1 sent, waiting to be taken up · from 2 on, its own steps
+function deskStep(o){
+  if(o.status !== "running" || o.step === "queued") return 1;
+  if(o.kind === "sheet") return o.step === "verify" ? 3 : 2;
+  if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
+  return o.step === "verify" ? 3 : o.step === "swap" ? 4 : 2;
+}
+function deskCardHTML(kind){
+  const o = deskNow(kind), live = deskLive(o), ase = kind === "ase";
+  const btn = ase
+    ? '<button class="btn primary sm" data-act="desk-ase"' + (live ? " disabled" : "") + ">" + t("dkAsePick") + "</button>"
+    : '<button class="btn primary sm" data-act="desk-run" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t("dkRun") + "</button>";
+  const name = o && ase ? '<b class="desk-file">' + fileName(o.file) + "</b>" : "";
+  const end = (tone, word) => '<span class="desk-end">' + pill(tone, t(word)) + '<span class="logwhen">' + deskWhen(o.finished_at) + "</span></span>";
+  let body;
+  if(!o) body = '<div class="desk-none">' + dimDash + "</div>";
+  else if(o.status === "lost")
+    body = '<div class="desk-line"><p class="note warn" style="margin:0">' + t("dkLost") + '</p><button class="btn sm" data-desk-drop="' + esc(o.id) + '">' + t("cdDismiss") + "</button></div>";
+  else if(live){
+    const at = deskStep(o);
+    body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
+        '<span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span></div>' +
+      '<ol class="steps">' + DESK_STEPS[kind].map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>" +
+      (at > 1 ? '<div class="scan"><span></span></div>' : "");
+  }
+  else if(o.status === "done" && ase){
+    const r = o.result || {}, left = (+r.room || 0) - (+r.rows_after || 0);
+    const box = (label, value, tone) => '<div class="tile' + (tone ? " " + tone : "") + '"><span class="tile-k">' + esc(label) + '</span><span class="tile-v num">' + value + "</span></div>";
+    body = '<div class="desk-line">' + name + end("ok", "dkDone") + "</div>" +
+      '<div class="tiles" style="--n:6;--half:3">' +
+        box(t("dkRows"), deskCount(r.rows_after), "job") + box(t("dkAdded"), (r.added > 0 ? "+" : "") + deskCount(r.added), r.added ? "ok" : "mute") +
+        box(t("dkLetter"), r.last_letter ? num(r.last_letter) : dimDash, "") + box(t("dkFound"), deskCount(r.people_found), "ok") +
+        box(t("dkMissing"), deskCount(r.people_not_found), r.people_not_found ? "warn" : "mute") +
+        box(t("dkRoom"), deskCount(left), r.room && left < 0.05 * r.room ? "bad" : "mute") + "</div>" +
+      (r.backup ? '<div class="cards-out"><b>' + fileName(r.backup) + "</b><span>" + t("dkBackupIn") + "</span></div>" : "");
+  }
+  else{
+    // an order that ran to its end says how in its own facts; one that did not says why — and, for an export, that the work sheet is as it was
+    const done = o.status === "done", tone = done ? deskTone(o) : "bad";
+    // (cut short is the one end of which that cannot be said for certain: the last step, the replacing, is a single move)
+    const why = done ? "" : t(DESK_ERR[o.error] || "dkEOther") + (ase && o.error !== "interrupted" ? " — " + t("dkUntouched") : "");
+    const facts = deskFacts(o).map(f => '<li class="' + DESK_FACT[f[0]][0] + '">' + esc(t(DESK_FACT[f[0]][1], f.slice(1))) + "</li>").join("");
+    const rows = ((o.result || {}).problems || []).map(x => "<li>" + esc(x) + "</li>").join("");
+    body = '<div class="desk-line">' + (name || "<span></span>") + end(tone, done ? (tone === "ok" ? "dkDone" : tone === "warn" ? "dkDoneWarn" : "dkDoneBad") : "dkFailed") + "</div>" +
+      (why ? '<p class="desk-said bad">' + esc(why) + (o.detail ? '<small dir="auto">' + esc(o.detail) + "</small>" : "") + "</p>" : "") +
+      (facts ? '<ul class="desk-facts">' + facts + "</ul>" : "") + (rows ? '<ul class="desk-rows">' + rows + "</ul>" : "");
+  }
+  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + btn + "</div>" +
+    '<div class="panel-b">' + body + "</div></section>";
+}
+function paintDesk(){
+  const box = $("desk");
+  if(!box) return;
+  const reader = cardsReader();
+  if($("desk-state")) $("desk-state").innerHTML = pill(reader === "off" ? "mute" : reader === "on" ? "ok" : "blue", t(reader === "off" ? "cdOff" : reader === "busy" ? "cdBusy" : reader === "desk" ? "dkBusy" : "cdOn"));
+  const now = DESK_KINDS.map(deskNow);
+  // drawn again only when something on it has changed — the clock of a thing on its way runs in its own place
+  const sig = JSON.stringify([lang, now.map(o => o && [o.id, o.status, o.step, o.error, o.finished_at, o.file, o.result ? JSON.stringify(o.result).length : 0])]);
+  if(sig === deskSig && box.firstChild) return deskTick();
+  deskSig = sig;
+  box.innerHTML = DESK_KINDS.map(deskCardHTML).join("");
+  deskTick();
+}
+// how long each thing on its way has been on its way
+function deskTick(){
+  if(st.view !== "src") return;
+  [].forEach.call(document.querySelectorAll("#desk [data-since]"), el => {
+    const s = Math.max(0, Math.floor((Date.now() - +el.dataset.since) / 1000)), m = Math.floor(s / 60);
+    el.textContent = (m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m) + ":" + String(s % 60).padStart(2, "0");
+  });
 }
 
 /* ============================================================
@@ -3792,6 +5374,8 @@ $("lang").addEventListener("click", () => {
   closeDrawer();
   applyLang(); paintShell(); render();
 });
+$("cards-pick").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; cardsSend(f); });
+$("ase-pick").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; deskAse(f); });
 $("pick").addEventListener("change", e => {
   const items = [].map.call(e.target.files, f => ({ file: f, handle: null }));
   e.target.value = "";
@@ -3829,11 +5413,25 @@ $("pin").addEventListener("input", () => {
 $("pin").addEventListener("focus", () => $("pinboxes").classList.add("focus"));
 $("pin").addEventListener("blur", () => $("pinboxes").classList.remove("focus"));
 $("pin").addEventListener("keydown", e => { if(e.key === "Enter") submitPin(); });
-$("logout").addEventListener("click", () => signOut());
+$("logout").addEventListener("click", () => { logAct("out"); signOut(); });
+$("dr-renew").addEventListener("click", renewPress);
+$("link-go").addEventListener("click", connectGo);
+$("link-no").addEventListener("click", connectClose);
+$("link-pin").addEventListener("keydown", e => { if(e.key === "Enter") connectGo(); else if(e.key === "Escape") connectClose(); });
+document.addEventListener("change", e => { if(e.target.id === "log-who"){ logWho = e.target.value; paintLog(); } });
 ["pointerdown", "keydown", "wheel"].forEach(name => window.addEventListener(name, touched, { passive: true, capture: true }));
 
 document.addEventListener("click", e => {
   const tg = e.target;
+  // the ✕ of a row of «تجديد اليوم» sits inside a row that opens a card: it is asked first
+  const del = tg.closest("[data-today-del]");
+  if(del) return todayRemove([+del.dataset.todayDel]);
+  const gone = tg.closest("[data-cards-drop]");       // a file that never reached the reader, put away
+  if(gone){ CARD.sent = CARD.sent.filter(x => x.id !== gone.dataset.cardsDrop); cardsKeep(); cardsNav(); return paintCards(); }
+  const deskGone = tg.closest("[data-desk-drop]");    // a thing asked of the desk that never reached it, put away
+  if(deskGone){ DESK.sent = DESK.sent.filter(x => x.id !== deskGone.dataset.deskDrop); deskKeep(); deskNav(); return paintDesk(); }
+  const dev = tg.closest("[data-dev-set]");
+  if(dev){ const x = dev.dataset.devSet.split("|"); return deviceSet(x[0], x[1] === "1"); }
   const opener = tg.closest("[data-open]");
   if(opener && opener.dataset.open){ openDrawer(opener.dataset.open); return; }
   if(tg.closest("#veil") || tg.closest("#dr-x")) return closeDrawer();
@@ -3848,9 +5446,19 @@ document.addEventListener("click", e => {
   if(act){
     const a = act.dataset.act;
     if(a === "pick") return pick();
+    if(a === "cards-pick") return $("cards-pick").click();
+    if(a === "cards-clear") return cardsClear();
+    if(a === "desk-run") return deskAsk(act.dataset.kind);
+    if(a === "desk-ase") return $("ase-pick").click();
     if(a === "refresh") return refresh();
     if(a === "csv") return exportList(st.view);
-    if(a === "print") return window.print();
+    if(a === "print"){ logAct("print", { v: st.view }); return window.print(); }
+    if(a === "link") return connectAsk();
+    if(a === "today-per" || a === "today-veh") return exportToday(a.slice(6));
+    if(a === "today-clear"){ if(RENEW.length && confirm(t("todayClearSure", RENEW.length))) todayRemove(RENEW.map(r => r.id)); return; }
+    if(a === "log-refresh") return logSync();
+    if(a === "log-more") return logSync(true);
+    if(a === "month-x"){ st.month = ""; return paintMonth(); }
     if(a === "multi-go") return goMulti();
     if(a === "multi-csv") return exportMulti();
     if(a === "multi-clear"){ st.multi.text = ""; st.multi.res = null; return renderMulti(); }
@@ -3876,6 +5484,8 @@ document.addEventListener("click", e => {
     const parts = goTo.dataset.go.split(":");
     leave();
     Object.assign(st[parts[0]], { status: parts[1], q: "", dept: "", collar: "", company: "", mail: "" });
+    // a bar of a chart also says what it is a bar of — a department, a company: the list opens on that
+    if(goTo.dataset.f === "dept" || goTo.dataset.f === "company") st[parts[0]][goTo.dataset.f] = goTo.dataset.fv;
     return go(parts[0]);
   }
   const chart = tg.closest("[data-chart]");
@@ -3883,6 +5493,14 @@ document.addEventListener("click", e => {
     st.chart = chart.dataset.chart;
     [].forEach.call(chart.parentNode.children, b => b.classList.toggle("on", b === chart));
     $("months").innerHTML = monthsHTML();
+    $("months").classList.add("grow");
+    $("monthlist").innerHTML = monthListHTML();           // the same month, of the kind now chosen
+    return;
+  }
+  const month = tg.closest("[data-month]");
+  if(month){
+    st.month = st.month === month.dataset.month ? "" : month.dataset.month;      // pressed again, the list is put away
+    paintMonth(true);
     return;
   }
   const mmode = tg.closest("[data-mmode]");
@@ -3939,12 +5557,17 @@ document.addEventListener("error", e => {
 /* drop anywhere */
 let dragDepth = 0;
 const hasFiles = e => !ONLINE && e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], "Files") !== -1;
-window.addEventListener("dragenter", e => { if(!hasFiles(e)) return; e.preventDefault(); dragDepth++; $("dropveil").classList.add("on"); });
-window.addEventListener("dragover", e => { if(hasFiles(e)) e.preventDefault(); });
+// over the ASE box of «الشيتات», what is dropped is an export for the desk; anywhere else on that page, the sheets themselves
+const overAse = e => { if(st.view !== "src" || !$("ase-drop")) return false; const r = $("ase-drop").getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
+window.addEventListener("dragenter", e => { if(!hasFiles(e)) return; e.preventDefault(); dragDepth++; $("dropveil").textContent = t(st.view === "cards" ? "cdDropHere" : overAse(e) ? "dkDropHere" : "dropHere"); $("dropveil").classList.add("on"); });
+window.addEventListener("dragover", e => { if(!hasFiles(e)) return; e.preventDefault(); if(st.view === "src") $("dropveil").textContent = t(overAse(e) ? "dkDropHere" : "dropHere"); });
 window.addEventListener("dragleave", e => { if(!hasFiles(e)) return; if(--dragDepth <= 0){ dragDepth = 0; $("dropveil").classList.remove("on"); } });
 window.addEventListener("drop", async e => {
   if(!hasFiles(e)) return;
   e.preventDefault(); dragDepth = 0; $("dropveil").classList.remove("on");
+  // on the card reader's page what is dropped is a file of card photos, for the reader
+  if(st.view === "cards") return cardsSend(e.dataTransfer.files && e.dataTransfer.files[0]);
+  if(overAse(e)) return deskAse(e.dataTransfer.files && e.dataTransfer.files[0]);
   // the handles have to be asked for before the first await, while the drop is still live
   const pending = [].map.call(e.dataTransfer.items || [], it => {
     if(it.kind !== "file") return null;
@@ -3978,9 +5601,25 @@ document.addEventListener("mousemove", e => {
    are asked whether they have been saved since, and from there on every few
    seconds, and again the moment this window is looked at — which is exactly
    when someone has just come back from saving in Excel. */
+window.addEventListener("resize", freeze);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(freeze);
 setInterval(() => { if(!document.hidden) newDay(); }, 60000);
+// the card reader's two small files: asked for while its page is open, or while a file of ours is on its way
+if(!ONLINE){
+  const deskOn = () => st.view === "src" || deskGoing();
+  setInterval(() => { if(document.hidden) return; if(st.view === "cards" || cardsGoing() || deskOn()) cardsSync(); if(deskOn()) deskSync(); }, 2500);
+  setInterval(() => { cardsTick(); deskTick(); }, 1000);
+  window.addEventListener("focus", () => { if(st.view === "cards" || cardsGoing() || deskOn()) cardsSync(); if(deskOn()) deskSync(); });
+  cardsSync(); deskSync();
+}
 window.addEventListener("focus", newDay);
 document.addEventListener("visibilitychange", () => { if(!document.hidden) newDay(); });
+// the shared renewal list (and the log, while its page is open) is read again every minute, and when the window is looked at
+const listsAgain = () => { if(!link()) return; deviceCheck(); renewSync(); if(st.view === "log") logSync(); else devicesSync(); };
+// a locked device goes on asking, every half minute, whether the admin has let it back in: when he has, the gate comes back by itself
+setInterval(async () => { if(!ONLINE || session || !blocked() || document.hidden) return; await gateState(); if(!blocked()) location.reload(); }, 30000);
+setInterval(() => { if(!document.hidden) listsAgain(); }, 60000);
+window.addEventListener("focus", () => { if(Date.now() - renewAt > 15000) listsAgain(); });
 if(ONLINE){
   /* Online: nothing is drawn and nothing is fetched until someone has signed
      in. A browser that signed in before is let straight through — the key it
@@ -3988,16 +5627,18 @@ if(ONLINE){
      no longer accepted lands back at the gate. Nothing read online is saved
      on the device: every opening reads afresh. */
   applyLang(); paintShell();
-  try{
-    try{ localStorage.removeItem(SESSION_KEY); localStorage.removeItem(LAST_USER_KEY); }catch(x){}   // earlier builds kept these here; they no longer may
-    const kept = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-    if(kept && kept.v === SESSION_V && kept.k && USERS.some(u => u.name === kept.u)){
-      if(Date.now() - (+kept.seen || 0) > IDLE_MS) sessionStorage.removeItem(SESSION_KEY);
-      else{ session = kept; lastTouch = +kept.seen; }
-    }
-  }catch(e){}
-  takePlace(!!session);
-  if(session) startOnline(); else showGate();
+  unboxUsers().then(() => {
+    try{
+      try{ localStorage.removeItem(SESSION_KEY); localStorage.removeItem(LAST_USER_KEY); }catch(x){}   // earlier builds kept these here; they no longer may
+      const kept = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      if(kept && kept.v === SESSION_V && kept.k && USERS.some(u => u.name === kept.u)){
+        if(Date.now() - (+kept.seen || 0) > IDLE_MS) sessionStorage.removeItem(SESSION_KEY);
+        else{ session = kept; lastTouch = +kept.seen; }
+      }
+    }catch(e){}
+    takePlace(!!session);
+    if(session) startOnline(); else showGate();
+  });
   /* A NEWER COPY. When the system is published anew, an open window takes the
      new copy by itself — nobody has to know to press Ctrl+F5. The published
      folder carries a small file with the stamp of what is published; it is
@@ -4026,13 +5667,14 @@ if(ONLINE){
   window.addEventListener("focus", watchBuild);
   watchBuild();
   // coming back to the window — or the PC waking up — is the moment to ask whether it was left too long
-  const back = () => { if(idleTooLong()) signOut(t("idleOut")); else if(session && Date.now() - lastCloud > 30000) cloudSync(); };
+  const back = () => { if(idleTooLong()) idleOut(); else if(session && Date.now() - lastCloud > 30000) cloudSync(); };
   window.addEventListener("focus", back);
   document.addEventListener("visibilitychange", () => { if(!document.hidden) back(); });
   setInterval(idleTick, 20000);
 }else (async () => {
   takePlace(true);          // a window that reloaded itself to take a newer copy of the system comes back where it was
   histLoad();
+  if(localLink){ renewSync(); devicesSync(); }      // connected earlier in this window: the shared list is read straight away
   applyLang(); paintShell(); render();
   const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
   if(emp && emp.sheets) DATA.emp = emp;

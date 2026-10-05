@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-lBOi06y00YdK2NiVglS8LRCbcUv07XYFd4nzErnCVsI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-TqPPdYmEQ6ZCnM1aHNYlkxtnNJoTehREHxS9NOFwxLs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -610,6 +610,10 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 #mres .tbl td.name{min-width:175px;}
 #mres .tbl td.mid{min-width:96px;}
 .tbl td.ix{width:1%;white-space:nowrap;color:var(--muted);font-family:var(--mono);font-size:13px;}
+/* every table, on every page: what a cell holds stands in the middle of it, its heading too — not at its side
+   (asked for, 5 October 2026) */
+.tbl th,.tbl td,.tbl td small{text-align:center;}
+.tbl .cards-flags{justify-content:center;}
 .term{font-family:'IBM Plex Mono','Tajawal','Segoe UI',Tahoma,sans-serif;font-size:14.5px;font-weight:700;color:var(--text);margin-inline-end:10px;}
 .typed{display:block;margin-top:2px;font-size:12px;font-weight:500;color:var(--muted);}
 .tbl tr.miss,.tbl tr.more{cursor:default;}
@@ -2041,7 +2045,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "55aeb9c573e4";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "4b5354ed4323";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5038,8 +5042,8 @@ function cardsPut(blob, name){
 /* WHOM THE SYSTEM ALREADY KNOWS travels with the file, so that the reader can
    write «R» — a renewal — in the status column against a card whose national
    id is on a permit or on the staff list (asked for, 5 October 2026). Someone
-   under a ban is marked as such and gets no letter: that one is for the admin
-   to decide. It is this page's own reading of the sheets that says who is
+   under a ban is marked as such on the paper, and gets the letter like anyone
+   else the system knows (the admin's word, the same day: «ياخد R برضو عادي»). It is this page's own reading of the sheets that says who is
    known — the same reading its «في السيستم» column shows. The ids are not
    written down: each goes as a salted hash, and the reader hashes what it has
    read the same way and looks for it. With no sheet read, the paper says so
@@ -5492,6 +5496,7 @@ function deskTick(){
    export the admin hands the desk on «الشيتات» becomes the copy as well.)
    ============================================================ */
 const ASE = { info: null, busy: null };          // info: what copy there is · busy: a file being loaded now {step, done, total}
+const ASE_OURS = /N\.?\s?C\.?\s?M|TITAN/i;          // NCM · N.C.M · TITAN NCM · TITAN-NCM …
 const ASE_COLS = ["asId", "asName", "asStatus", "asOrg", "asPos", "asArea", "asCit", "asLDate", "asLNo", "asConfirm", "asOwner", "asNote"];
 // what was typed, as a list of ids: one a line (or apart by commas); digits made Latin, the gaps inside a number taken out
 function aseTerms(text){
@@ -5613,8 +5618,14 @@ function paintAse(){
     res.rows.map(r => {
       n++;
       if(!r.hits.length) return '<tr class="miss"><td class="ix fz fz0">' + n + '</td><td colspan="' + cols.length + '"><span class="term">' + esc(r.term) + "</span>" + pill("bad", t("asMiss")) + "</td></tr>";
-      return r.hits.map((hit, k) => '<tr><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
-        cols.map((i, at) => '<td class="' + (at ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + '">' + (hasCell(hit[i]) ? esc(hit[i]) : dimDash) + "</td>").join("") + "</tr>").join("");
+      /* A row of our own — the company is NCM, or TITAN NCM, or written some way near those — is picked out for
+         everyone: its company in the blue box, its letter number in the yellow one (asked for, 5 October 2026). */
+      return r.hits.map((hit, k) => {
+        const ours = ASE_OURS.test(hit[3] || "");
+        return '<tr><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
+          cols.map((i, at) => '<td class="' + (at ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + '">' +
+            (!hasCell(hit[i]) ? dimDash : ours && i === 3 ? pill("blue", hit[i]) : ours && i === 8 ? pill("warn", hit[i]) : esc(hit[i])) + "</td>").join("") + "</tr>";
+      }).join("");
     }).join("") + "</tbody></table></div></section>";
   freeze();
 }

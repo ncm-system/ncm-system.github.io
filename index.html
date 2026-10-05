@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-f2JXMOAvAxDNEbgD8jkztnS422ALKtWIQZaBX4gGjO4=' 'sha256-BYbuZMKOhRt05FZu3ns/jQamiSaSmMaO63ACjshwLCg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-f2JXMOAvAxDNEbgD8jkztnS422ALKtWIQZaBX4gGjO4=' 'sha256-EBNUfdz+VfSqHGU8y/exhxKaEuN94BFNIjw3lG7x1I0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -241,6 +241,7 @@ html,body{height:100%;overflow:hidden;}
 .upick[hidden],.pinboxes[hidden]{display:none;}
 /* ---------- the admin's pages, the «تجديد» button, the box that connects this PC's own copy ---------- */
 .nav button[hidden]{display:none;}
+.urole:empty{display:none;}
 .urole{font-style:normal;font-size:11.5px;font-weight:800;letter-spacing:0;padding:2px 9px;border-radius:999px;background:#fff;border:1px solid var(--line-2);color:var(--navy);margin-inline-start:auto;}
 #dr-renew{flex:none;}
 #dr-renew[hidden]{display:none;}
@@ -1974,15 +1975,15 @@ const CLOUD = {
   every: 120000                                  // how often the two sources are read again while the page is open
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
-const SESSION_V = "5";                           // bump to sign every device out
-const BUILD = "50bfa235b150";                             // tools/build-online.js writes the published copy's own stamp here
+const SESSION_V = "6";                           // bump to sign every device out
+const BUILD = "c70a134c2b46";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
 let USERS = [];
-const USERS_BOX = { iv: "yU/PresF+VX9COM3",
-  data: "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" };
-const GATE_BOX = { iv: "8QGbMZzP4xW4uwrw", data: "zZAll+ZP5v4mVyakgponOX1cZzFJFInFmz7Z1+JLpnshOliUq5bcYaHiDFJnSR7mpXb/TKBWl9LZEM5K/AZdYwD3Qqp+BhJWJmIKlnl7DuQ/pwhdvT/M4cAyw5nUiHjFKwE2U7YdIjGE7pf99M3ux81q7hKf5vno5nZzOs4QTFjfas4mzW5FF8fi08+TnK+SxiCiKsmPnF/xtx2raxtc8qKTq2qb/RNGF7g5uiglkLDuE2JaG9ja3oSKuaoq3Wye92FxQwyUgnbJf0HZg3ZvubUNfvnzD7idzeTBLpY45vJoOGxfDihrQw/Iycs5FeyNRmG5wC4SL7Q/N4HjsTiQhVpxblrEIlHCcvAoT6cTLvceRkUINjTy9oviPDs+nJGf3FHxUnl6OolFF5QommQZOBwhz/nextdkBixGbsECieMnqmaczwMW3b6I" };
+const USERS_BOX = { iv: "W5Q+FGwlt5Z+MRXM",
+  data: "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" };
+const GATE_BOX = { iv: "kpdhZXKvTXlyuJuh", data: "tkzkOjqQkJMpsd4OOIgB6nWK80dLkG/FEtBm4z6tAe2fEApntNM9kYcRWORHTdRQn/E/mzyr9o6XRWikygbeyfd9QgeS42L1HGQCQilolcxwj8POsnJAlxXC71sBLQP+IJ1635bYzGrIHW87V0gcM3u0GMirDGCYEt3XGQR0ZuBXINzUYLSdj1nX/9qXiQYoNnY7vR7thoeuHfORiTU37uHgQ0vuoCV8LFWedrNzeuFn4Qp2oSD/XFZJIFBoh5xe1DZXv6CTSBEfakciAUUPjC2gQNwcACnqWIvI+UZdIbh+Zu1uXmGjE/hH/s1Sysik52xEOkdGR/rHP7xU2XheTFWQB8f3Q0R4EpmzKVcSd9NzfD+8daUCIRHPLsgxIIo9zeES9hvco4Z9qw6oz+OPlprliIgJ1wYgwkdUYruCQzGk2ewRUGJXD0lh" };
 /*USERS-END*/
 /* In the published copy the three addresses above are blank (the build takes
    them out): they come out of the seal with the key, are put in place for the
@@ -2191,7 +2192,7 @@ const I18N = {
     dkF_ph_other:v => "ملفات مش صور اتسابت مكانها: " + v[0],
     dkF_sh_same:"مفيش جديد — الملف زي آخر رفع", dkF_sh_up:v => "اترفع: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " رقم قومي كان مكتوب نص واتحوّل رقم", dkF_vf_ok:v => "الفحص سليم — الشيت والتطبيق" + (v[0] || v[1] ? " (" + v[0] + " صف أفراد · " + v[1] + " صف مركبات)" : ""), dkF_vf_bad:v => "الفحص لقى " + v[0] + " ملاحظة", dkF_vf_none:"الفحص ما اشتغلش",
-    dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
+    dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkENotHere:"الملف ما وصلش جهاز الشغل — ارفعه من جهاز الشغل نفسه", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
     dkEEmpOpen:"شيت الموظفين مفتوح في إكسيل", dkEEmpMissing:"شيت الموظفين مش في مكانه", dkEDb:"قاعدة البيانات مش بترد", dkEEmpSync:"سكربت الموظفين وقف",
     dkEShCols:"ترتيب الأعمدة اتغيّر — ماترفعش", dkEShRows:"الملف فيه صفوف غلط — ماترفعش", dkEShAfter:"اترفع، بس الشيت بيتقري غلط", dkEShSmall:"الملف أصغر بكتير من الشيت — ماترفعش",
     dkEShTabs:"تابات ناقصة في الملف — ماترفعش", dkEShFailed:"الرفع وقف",
@@ -2304,7 +2305,7 @@ const I18N = {
     dkF_ph_other:v => "Files that are not photos were left where they are — " + v[0],
     dkF_sh_same:"Nothing new — the file is as last uploaded", dkF_sh_up:v => "Uploaded — " + v[0] + " people rows · " + v[1] + " vehicle rows" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " national ids typed as text were turned into numbers", dkF_vf_ok:v => "Check passed — the sheet and the app" + (v[0] || v[1] ? " (" + v[0] + " people rows · " + v[1] + " vehicle rows)" : ""), dkF_vf_bad:v => "The check found " + v[0] + (v[0] === 1 ? " problem" : " problems"), dkF_vf_none:"The check could not run",
-    dkEBusy:"Already running", dkECut:"Cut short before its end", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
+    dkEBusy:"Already running", dkECut:"Cut short before its end", dkENotHere:"The file did not reach the work PC — upload it from the work PC itself", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
     dkEEmpOpen:"The employees sheet is open in Excel", dkEEmpMissing:"The employees sheet is not in its place", dkEDb:"The database is not answering", dkEEmpSync:"The employees script stopped",
     dkEShCols:"The column order has changed — not uploaded", dkEShRows:"The file has wrong rows — not uploaded", dkEShAfter:"Uploaded, but the sheet reads back wrong", dkEShSmall:"The file is far smaller than the sheet — not uploaded",
     dkEShTabs:"Tabs are missing from the file — not uploaded", dkEShFailed:"The upload stopped",
@@ -2841,7 +2842,11 @@ async function cloudSync(first){
    the PIN either opens that user's sealed key or it opens nothing. */
 let gateBusy = false;
 let gateIdx = -1;                                 // nobody until one is picked: the box opens on «اختر اسم المستخدم»
-const gateUser = () => USERS[gateIdx] || null;
+/* A name is listed once, however many ways in it has: someone may sign in under his own name with one PIN as a
+   viewer and with another as the admin (asked for, 5 October 2026). The PIN typed is tried on every seal of the name
+   picked; whichever it opens says what he is this time. */
+const gateNames = () => USERS.map(u => u.name).filter((n, i, all) => all.indexOf(n) === i);
+const gateUser = () => { const n = gateNames()[gateIdx]; return n === undefined ? null : { name: n }; };
 const initials = name => name.split(" ").filter(Boolean).map(w => w.charAt(0)).join("").slice(0, 2);
 function paintUser(){
   const u = gateUser();
@@ -2872,8 +2877,8 @@ function paintBoxes(){
 }
 function showGate(message){
   gateIdx = -1;
-  $("gate-list").innerHTML = USERS.map((u, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) +
-    '</span><span class="uname">' + esc(u.name) + '</span><svg class="ucheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join("");
+  $("gate-list").innerHTML = gateNames().map((name, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(name)) +
+    '</span><span class="uname">' + esc(name) + '</span><svg class="ucheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join("");
   paintUser(); openUsers(false);
   const nobody = !USERS.length;                   // opened without the icon's key: nobody to pick, nothing to type
   $("upick").hidden = $("pinboxes").hidden = nobody; $("gate-note").hidden = !nobody;
@@ -2894,7 +2899,9 @@ async function submitPin(){
   try{
     // what the PIN opens: the key, and with it where the data is kept. A PIN that opens nothing is a wrong try — that, and nothing else, is counted
     let got = null;
-    try{ got = JSON.parse(await unseal(user, pin.value)); }catch(x){}
+    for(const seal of USERS.filter(u => u.name === user.name)){
+      try{ got = JSON.parse(await unseal(seal, pin.value)); break; }catch(x){}
+    }
     if(!got){
       const left = await noteFail(user.name);
       if(!left){ pin.value = ""; return showGate(); }      // the third wrong PIN: the device is locked, and the gate says so
@@ -2967,7 +2974,7 @@ function signOut(message){
 async function startOnline(){
   useSources();
   $("user-name").textContent = session.u; $("side-user").hidden = false;
-  $("user-role").textContent = t(isAdmin() ? "roleAdmin" : "roleViewer");
+  $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";          // only the admin's login says what it is: anyone else is simply signed in
   histLoad();
   busy(true, t("reading"));
   await cloudSync(true);
@@ -3019,7 +3026,7 @@ function applyLang(){
   [].forEach.call(document.querySelectorAll("[data-i18n-ph]"), el => { el.placeholder = t(el.dataset.i18nPh); });
   $("lang-t").textContent = isEN() ? "AR" : "EN";            // the language it switches TO, as in the app
   $("dr-x").setAttribute("aria-label", t("close"));
-  if(session) $("user-role").textContent = t(isAdmin() ? "roleAdmin" : "roleViewer");
+  if(session) $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";
   paintRenewBtn();
   $("logout").title = t("signOut"); $("logout").setAttribute("aria-label", t("signOut"));
   $("pin").setAttribute("aria-label", t("pinAria")); $("pinboxes").setAttribute("aria-label", t("pinAria"));
@@ -4270,14 +4277,20 @@ function renderSources(){
         ? '<div class="row"><dt>' + t("lastRead") + '</dt><dd class="num">' + stamp(p.loadedAt) + "</dd></div>" +
           lines.map(l => '<div class="row"><dt>' + l[0] + '</dt><dd class="num">' + l[1] + "</dd></div>").join("")
         : "") + "</dl></div></section>";
-    return page(
+    page(
       pgHead(t("navSrc"), '<div style="display:flex;gap:8px"><button class="btn primary" data-act="refresh">' + t("refreshSheets") + "</button></div>"),
-      scrollPart('<div class="grid2" style="margin-top:6px">' +
+      scrollPart(
+        // what the work PC can be asked to do, from wherever the admin is signed in (see the desk, below)
+        '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk" id="desk"></div>' +
+        '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2" style="margin-top:6px">' +
         cloudCard(DATA.per, "per", t("sheetPer"), t("srcSheet"), M.ind ? [[t("rPeople"), M.ind.list.length], [t("rIndRows"), M.ind.list.reduce((n, g) => n + g.records.length, 0)],
                                                                          [t("rVeh"), M.veh.list.length], [t("rVehRows"), M.veh.list.reduce((n, g) => n + g.records.length, 0)]] : []) +
         cloudCard(DATA.emp, "emp", t("sheetEmp"), t("srcDb"), M.emp ? [[t("rEmp"), M.emp.list.length]] : []) +
         '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + t("photos") + "</h3>" + pill("ok", t("srcBucket")) + "</div></section>" +
       "</div>"));
+    deskSig = "";
+    paintDesk();
+    return deskSync();
   }
   const pathRow = p => '<div class="row"><dt>' + t("place") + '</dt><dd style="unicode-bidi:plaintext;font-size:13px">' + esc(p.replace(/\//g, "\\")) + "</dd></div>";
   const card = (p, kind, title, lines) =>
@@ -5168,7 +5181,7 @@ const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_l
   sh_file_much_smaller_than_sheet: "dkEShSmall", sh_tabs_missing: "dkEShTabs", sh_failed: "dkEShFailed",
   work_sheet_open: "dkEOpen", work_sheet_missing: "dkEMissing", work_sheet_changed: "dkEChanged", work_sheet_busy: "dkEHeld", not_an_export: "dkENotAse",
   export_columns_changed: "dkECols", sheet_columns_changed: "dkESheetCols", export_empty: "dkEEmpty", export_much_smaller: "dkESmall", no_room: "dkERoom",
-  wrong_password: "dkEPass", excel_check_failed: "dkECheck", file_check_failed: "dkECheck" };
+  wrong_password: "dkEPass", excel_check_failed: "dkECheck", file_check_failed: "dkECheck", not_received: "dkENotHere" };
 // what a routine says of its own end -> how it is to be taken (ok · aside: said, nothing to do · warn · bad) and the words for it
 const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp_found"], emp_skipped: ["warn", "dkF_emp_skipped"], emp_failed: ["bad", "dkF_emp_failed"],
   emp_unverified: ["bad", "dkF_emp_unverified"], emp_blank: ["aside", "dkF_emp_blank"], emp_missing: ["aside", "dkF_emp_missing"],
@@ -5187,7 +5200,7 @@ const deskLive = o => !!o && (o.status === "queued" || o.status === "running");
    reader looking at card photos is given twenty minutes. Past that the page stops waiting — the desk says the same
    the next time a reader looks. Nothing is ever left half-done by it: each program finishes or leaves things as
    they were. */
-const deskStale = o => o.status === "running" && o.step !== "queued" && (DESK_WITH_READER.indexOf(o.step) !== -1
+const deskStale = o => o.status === "running" && o.step !== "queued" && o.step !== "expected" && (DESK_WITH_READER.indexOf(o.step) !== -1
   ? Date.now() - (+o.asked_at || +o.beat || +o.at || 0) > 20 * 60000
   : Date.now() - (+o.beat || +o.started_at || +o.at || 0) > 180000);
 // where a thing of one kind stands: the one on its way if there is one, else the last that came to an end
@@ -5204,8 +5217,34 @@ function deskTone(o){
   const tones = deskFacts(o).map(f => DESK_FACT[f[0]][0]);
   return tones.indexOf("bad") !== -1 ? "bad" : tones.indexOf("warn") !== -1 ? "warn" : "ok";
 }
+/* ONLINE the desk is spoken to through the database: an order is a row there (system_desk), the desk on the work PC
+   takes it up and tells there, every few seconds, where each order stands and that it is awake. Only the admin's
+   token is let in. The clocks of two machines are never quite one: times are read against the database's own. */
+async function deskCloud(){
+  if(!link()) return;
+  deskBusy = true;
+  try{
+    const r = await dbCall("system_desk_list", {});
+    const skew = Date.now() - (+r.now || Date.now());
+    DESK.beat = r.beat ? +r.beat + skew : 0;
+    DESK.orders = (r.orders || []).map(o => Object.assign({ id: o.id, kind: o.kind, file: o.file || "", at: +o.at + skew }, o.taken && o.state ? o.state : { status: "queued" }));
+    DESK.orders.forEach(o => {
+      if(deskLive(o)) return DESK.owed.add(o.id);
+      if(!DESK.owed.delete(o.id) || st.view === "src") return;
+      const well = o.status === "done" && deskTone(o) !== "bad";
+      toast(t(well ? "dkDoneToast" : o.status === "done" ? "dkBadToast" : "dkFailToast", t(DESK_TITLE[o.kind] || "navSrc")), !well);
+    });
+  }catch(e){}
+  finally{ deskBusy = false; }
+  deskNav();
+  if(st.view === "src" && $("desk")) paintDesk();
+}
+// is the reader on the work PC there? On that PC its own files say; online, the desk's last word to the database does
+const deskReader = () => !ONLINE ? cardsReader() : Date.now() - (DESK.beat || 0) > 25000 ? "off" :
+  DESK.orders.some(o => o.status === "running" && o.step !== "queued" && o.step !== "expected" && !deskStale(o)) ? "desk" : "on";
 async function deskSync(){
-  if(ONLINE || !isAdmin() || deskBusy) return;
+  if(!isAdmin() || deskBusy) return;
+  if(ONLINE) return deskCloud();
   deskBusy = true;
   try{
     const [d, w] = await Promise.all([beside(CARDS_DIR + "desk.json"), beside(CARDS_DIR + "watcher.json")]);
@@ -5246,28 +5285,42 @@ async function deskSync(){
 function deskNav(){
   const nb = $("nb-src");
   if(!nb) return;
-  const going = ONLINE || !isAdmin() ? 0 : DESK_KINDS.filter(k => deskLive(deskNow(k))).length;
+  const going = !isAdmin() ? 0 : DESK_KINDS.filter(k => deskLive(deskNow(k))).length;
   nb.textContent = going ? going : "";
 }
 /* ASKING. Nothing is run from here and no sheet is touched from here: the order — or the export, as it is, byte
    for byte — is put down in the export folder, and the desk takes it from there. A thing already on its way is
    not asked for twice. */
 function deskAsk(kind){
-  if(ONLINE || !isAdmin() || !DESK_WORD[kind] || deskLive(deskNow(kind))) return;
+  if(!isAdmin() || !DESK_WORD[kind] || deskLive(deskNow(kind))) return;
+  if(ONLINE) return deskAskOnline(cardsId(), kind, "");
   const id = cardsId(), name = DESK_ORDER + " [" + id + "] " + DESK_WORD[kind] + ".txt";
   cardsPut(new Blob(["run"], { type: "text/plain" }), name);
   DESK.sent.unshift({ id, kind, name, at: Date.now() });
   deskKeep(); deskNav(); paintDesk();
   [3200, 9000].forEach(ms => setTimeout(deskSync, ms));          // has it landed where the desk looks, and has it been taken
 }
+// online: the order is put in the database; it is shown at once, and the database's own word takes its place
+function deskAskOnline(id, kind, file){
+  DESK.orders.unshift({ id, kind, file, at: Date.now(), status: "queued" });
+  DESK.owed.add(id);
+  deskNav(); paintDesk();
+  return dbCall("system_desk_ask", { p_id: id, p_kind: kind, p_file: file, p_who: session ? session.u : "" })
+    .then(() => true, () => { DESK.orders = DESK.orders.filter(o => o.id !== id); toast(t("noConn"), true); return false; })
+    .then(ok => { deskSync(); return ok; });
+}
 function deskAse(file){
-  if(ONLINE || !isAdmin() || !file) return;
+  if(!isAdmin() || !file) return;
   if(!/\.xlsx$/i.test(file.name)) return toast(t("needXlsx"), true);
   if(!file.size) return toast(t("cdEmptyFile"), true);
   if(deskLive(deskNow("ase"))) return toast(t("dkAseBusy"), true);
   const id = cardsId();
   const clean = file.name.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").replace(/\s+/g, " ").trim();
   const name = DESK_ASE + " [" + id + "] " + clean;
+  // online the export still has to get to the work PC, and a page has one way to put a file anywhere: it is downloaded.
+  // Opened on the work PC it lands in the export folder, where the desk is waiting for it by its id; from any other
+  // machine it lands on that machine, and the desk says after a while that it never came.
+  if(ONLINE) return deskAskOnline(id, "ase", clean).then(ok => { if(ok) cardsPut(file, name); });
   cardsPut(file, name);
   DESK.sent.unshift({ id, kind: "ase", file: clean, name, at: Date.now() });
   deskKeep(); deskNav(); paintDesk();
@@ -5277,7 +5330,7 @@ const deskWhen = ms => ms ? num(stamp(ms)) : "";
 const deskCount = n => esc(Number(n || 0).toLocaleString("en-US"));
 // which step an order is at — the one being done: 1 sent, waiting to be taken up · from 2 on, its own steps
 function deskStep(o){
-  if(o.status !== "running" || o.step === "queued") return 1;
+  if(o.status !== "running" || o.step === "queued" || o.step === "expected") return 1;
   if(o.kind === "sheet") return o.step === "verify" ? 3 : 2;
   if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
   return o.step === "verify" ? 3 : o.step === "swap" ? 4 : 2;
@@ -5328,7 +5381,7 @@ function deskCardHTML(kind){
 function paintDesk(){
   const box = $("desk");
   if(!box) return;
-  const reader = cardsReader();
+  const reader = deskReader();
   if($("desk-state")) $("desk-state").innerHTML = pill(reader === "off" ? "mute" : reader === "on" ? "ok" : "blue", t(reader === "off" ? "cdOff" : reader === "busy" ? "cdBusy" : reader === "desk" ? "dkBusy" : "cdOn"));
   const now = DESK_KINDS.map(deskNow);
   // drawn again only when something on it has changed — the clock of a thing on its way runs in its own place
@@ -5611,6 +5664,10 @@ if(!ONLINE){
   setInterval(() => { cardsTick(); deskTick(); }, 1000);
   window.addEventListener("focus", () => { if(st.view === "cards" || cardsGoing() || deskOn()) cardsSync(); if(deskOn()) deskSync(); });
   cardsSync(); deskSync();
+}
+if(ONLINE){
+  setInterval(() => { if(!document.hidden && session && isAdmin() && (st.view === "src" || deskGoing())) deskSync(); }, 3000);
+  setInterval(deskTick, 1000);
 }
 window.addEventListener("focus", newDay);
 document.addEventListener("visibilitychange", () => { if(!document.hidden) newDay(); });

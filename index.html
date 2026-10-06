@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-OIBctBhBBDy/j9k2F31uLAugN3yVZs4BQWuQdKvkU5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-YMvQTb4IpgwSe3wSkTBc1AmB1X4hpRFlgSlnK2CY+Eg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -600,6 +600,10 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 }
 .multi-ta:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,101,192,.10);}
 .multi-bar{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
+/* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
+.spc-seg{align-self:center;}
+.spc-in{width:100%;padding:13px 15px;text-align:center;font-size:17px;border-radius:var(--r-lg);}
+.spc-in::placeholder{font-size:14px;font-weight:600;color:var(--muted);opacity:.75;}
 /* Every piece of this row has a width of its own rather than its word's:
    «بحث» and "Search" are not the same length, and a row sized by its words
    would shuffle sideways each time the language is switched. */
@@ -924,6 +928,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
     <nav class="nav" id="nav">
       <!-- The search page is the front door: it is what the system is opened for. -->
       <button data-view="multi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11M4 11h6M4 16h5"/><circle cx="16" cy="15" r="3.6"/><path d="M21 20l-2.4-2.4"/></svg><span data-i18n="navSearch">بحث</span></button>
+      <button data-view="spc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.500-5.600-6.500-10.500a6.500 6.500 0 0 1 13 0C18.500 15.400 12 21 12 21z"/><circle cx="12" cy="10.500" r="2.300"/></svg><span data-i18n="navSpc">بحث خاص</span></button>
       <button data-view="ase"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.500" cy="10.500" r="6"/><path d="M15 15l5 5M8 10.500h5M10.500 8v5"/></svg><span data-i18n="navAse">ASE SEARCH</span></button>
       <button data-view="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="9" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.6"/><rect x="13.5" y="12" width="7.5" height="9" rx="1.6"/><rect x="3" y="16" width="7.5" height="5" rx="1.6"/></svg><span data-i18n="navHome">لوحة المتابعة</span></button>
       <div class="sep"></div>
@@ -2047,7 +2052,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "8c5de7bcb513";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e73051302633";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2245,6 +2250,9 @@ const I18N = {
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
     cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
+    navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
+    spHintPlace:"المحافظة أو المدينة اللي في العنوان", spHintLetter:"رقم الخطاب — أو الأرقام اللي بعد آخر /", spHintCompany:"اسم الشركة",
+    spNone:"مفيش حد", spMore:n => "و " + n + " كمان — كلهم في ملف الإكسيل", spOld:"من طلب سابق", csvSpecial:"بحث-خاص",
     navAse:"ASE SEARCH", asUp:"رفع شيت ASE", asNone:"لسه مفيش شيت ASE مرفوع", asRows:n => n + " صف", asMiss:"مش موجود في ASE",
     asReading:n => "بقرا الملف — " + n + " صف", asPutting:(a, b) => "بيترفع — " + a + " من " + b, asLoaded:n => "شيت ASE اترفع — " + n + " صف ✓",
     asNotAse:"الملف مش تصدير ASE", asUpFail:"الرفع ماكملش — النسخة اللي قبله زي ما هي", asLoadingBy:n => n + " بيرفع ملف دلوقتي",
@@ -2364,6 +2372,9 @@ const I18N = {
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
     cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
+    navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
+    spHintPlace:"The governorate or city in the address", spHintLetter:"The letter number — or the digits after its last /", spHintCompany:"The company's name",
+    spNone:"Nobody", spMore:n => "and " + n + " more — all of them are in the Excel file", spOld:"From an earlier request", csvSpecial:"Special-search",
     navAse:"ASE SEARCH", asUp:"Upload ASE sheet", asNone:"No ASE sheet has been uploaded yet", asRows:n => n + " rows", asMiss:"Not in ASE",
     asReading:n => "Reading the file — " + n + " rows", asPutting:(a, b) => "Uploading — " + a + " of " + b, asLoaded:n => "ASE sheet uploaded — " + n + " rows ✓",
     asNotAse:"Not an ASE export", asUpFail:"The upload did not finish — the copy before it is as it was", asLoadingBy:n => n + " is uploading a file now",
@@ -2532,6 +2543,7 @@ const st = {
   month: "",                                                    // the month of the chart whose list is open under it ("year-month"), or none
   multi: { text: "", mode: "ind", res: null },
   ase: { text: "", res: null },
+  spc: { by: "place", text: "", res: null },                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "name", d: 1 } },
   veh: { status: "all", mail: "", q: "", sort: { k: "plate", d: 1 } },
@@ -3040,6 +3052,7 @@ function signOut(message){
   // nothing that was read stays behind in the page once its reader has left
   DATA.emp = DATA.per = null; sig.per = sig.emp = ""; net.per = net.emp = null;
   st.multi.text = ""; st.multi.res = null;
+  st.spc.text = ""; st.spc.res = null;
   st.ase.text = ""; st.ase.res = null; ASE.info = null; DESK.orders = []; DESK.beat = 0;      // the ASE list and its answers, and the desk's orders, go with him
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
   st.month = "";
@@ -3225,7 +3238,7 @@ function render(){
   const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase";      // the card reader needs no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -3986,10 +3999,15 @@ const MULTI_CAP = 5000;                     // per line: more than either sheet 
    how many lines, when — newest first, the same search never twice. The small
    arrow beside the search box opens it; a line in it puts that list back in
    the box and runs it again.
+   «ASE SEARCH» and «بحث خاص» have theirs too (asked for, 6 October 2026): the
+   same arrow, the same list — each page showing and clearing its own searches
+   only, HIST_MAX of them a page. A special search is kept with what it asked by.
    Where it is kept: on this PC the list is this PC's own. Online it is kept
    SEALED with the reader's own key (AES-GCM), a list per user: without the
    PIN it is noise, like everything else the online edition holds. */
 const HIST_KEY = "ncm_system_history", HIST_MAX = 40;
+const HIST_PAGE = { ind: "multi", veh: "multi", ase: "ase", spc: "spc" };       // which page a kept search belongs to
+const histHere = () => st.view === "ase" || st.view === "spc" ? st.view : "multi";
 let HIST = [];
 const histSlot = () => ONLINE ? HIST_KEY + ":" + session.u : HIST_KEY;
 const toB64 = bytes => { let s = ""; for(let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s); };
@@ -4010,8 +4028,9 @@ async function histLoad(){
       list = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(o.iv) }, await histCrypt(), b64(o.data))));
     }
     // what comes off the disk is taken for nothing more than what it should be
-    if(Array.isArray(list)) HIST = list.filter(x => x && typeof x.t === "string" && x.t).slice(0, HIST_MAX)
-      .map(x => ({ m: x.m === "veh" ? "veh" : "ind", t: x.t.slice(0, 6000), n: +x.n || 0, f: +x.f || 0, at: +x.at || 0 }));
+    if(Array.isArray(list)) HIST = list.filter(x => x && typeof x.t === "string" && x.t).slice(0, HIST_MAX * 3)
+      .map(x => Object.assign({ m: HIST_PAGE[x.m] ? x.m : "ind", t: x.t.slice(0, 6000), n: +x.n || 0, f: +x.f || 0, at: +x.at || 0 },
+        x.m === "spc" ? { by: SPC_BY.indexOf(x.by) < 0 ? "place" : x.by } : null));
   }catch(e){ HIST = []; }
 }
 async function histSave(){
@@ -4023,20 +4042,30 @@ async function histSave(){
     localStorage.setItem(slot, JSON.stringify({ iv: toB64(iv), data: toB64(data) }));
   }catch(e){}
 }
+// one search goes in: newest first, the same one never twice, and no page keeps more than HIST_MAX
+function histKeep(x){
+  x.t = x.t.slice(0, 6000);
+  if(!x.t) return;
+  const page = HIST_PAGE[x.m];
+  let n = 0;
+  HIST = [Object.assign(x, { at: Date.now() })].concat(HIST.filter(o => !(o.m === x.m && o.t === x.t && (o.by || "") === (x.by || ""))))
+    .filter(o => HIST_PAGE[o.m] !== page || ++n <= HIST_MAX);
+  histSave();
+}
 function histAdd(){
   const res = st.multi.res;
   if(!res || !res.terms) return;
-  const text = parseTerms(st.multi.text).terms.join("\n").slice(0, 6000);
-  HIST = HIST.filter(x => !(x.m === res.mode && x.t === text));
-  HIST.unshift({ m: res.mode, t: text, n: res.terms, f: res.found, at: Date.now() });
-  if(HIST.length > HIST_MAX) HIST.length = HIST_MAX;
-  histSave();
+  histKeep({ m: res.mode, t: parseTerms(st.multi.text).terms.join("\n"), n: res.terms, f: res.found });
 }
+const histBtn = () => '<button type="button" class="fab hist-btn" id="hist-btn" data-act="hist" aria-haspopup="true" aria-expanded="false" aria-label="' + t("histAria") + '" title="' + t("histAria") + '">' +
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>';
 function histHTML(){
-  if(!HIST.length) return '<div class="hist-empty">' + t("histEmpty") + "</div>";
-  return HIST.map((x, i) => {
-    const terms = x.t.split("\n");
-    return '<button type="button" class="hist-row" data-hist="' + i + '">' + pill(x.m === "veh" ? "link" : "white", t(x.m === "veh" ? "segVehicles" : "segPeople")) +
+  const here = histHere(), mine = HIST.map((x, i) => [x, i]).filter(o => HIST_PAGE[o[0].m] === here);
+  if(!mine.length) return '<div class="hist-empty">' + t("histEmpty") + "</div>";
+  return mine.map(o => {
+    const x = o[0], terms = x.t.split("\n");
+    return '<button type="button" class="hist-row" data-hist="' + o[1] + '">' +
+      (x.m === "ase" ? "" : x.m === "spc" ? pill("white", t(SPC_WORD[x.by] || SPC_WORD.place)) : pill(x.m === "veh" ? "link" : "white", t(x.m === "veh" ? "segVehicles" : "segPeople"))) +
       '<span class="hist-t">' + esc(terms.slice(0, 2).join(" · ")) + (terms.length > 2 ? " <b>+" + (terms.length - 2) + "</b>" : "") + "</span>" +
       '<span class="hist-at num">' + esc(stamp(x.at)) + "</span></button>";
   }).join("") + '<button type="button" class="hist-clear" data-act="hist-clear">' + t("histClear") + "</button>";
@@ -4053,6 +4082,8 @@ function histToggle(open){
 function histPick(i){
   const x = HIST[i];
   if(!x) return;
+  if(x.m === "ase"){ st.ase.text = x.t; renderAse(); return aseGo(); }
+  if(x.m === "spc"){ st.spc.by = x.by; st.spc.text = x.t; renderSpc(); return goSpc(); }
   st.multi.mode = x.m; st.multi.text = x.t;
   renderMulti(); goMulti();
 }
@@ -4272,8 +4303,7 @@ function renderMulti(){
           '<button class="btn primary" data-act="multi-go">' + t("search") + "</button>" +
           '<button class="btn" data-act="multi-clear">' + t("clear") + "</button>" +
           '<span class="multi-n" id="mt-n"></span>' +
-          '<button type="button" class="fab hist-btn" id="hist-btn" data-act="hist" aria-haspopup="true" aria-expanded="false" aria-label="' + t("histAria") + '" title="' + t("histAria") + '">' +
-            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>' +
+          histBtn() +
         "</div>" +
         '<div class="hist" id="hist" hidden></div>' +
       "</div>" +
@@ -4847,7 +4877,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse" };
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc" };
 // one line of a visit, in words
 function logLine(r){
   let d = {};
@@ -4867,7 +4897,7 @@ function logLine(r){
     case "blocked": return [pill("ban", t("lgBlocked")), esc(t(d.text === "admin" ? "lgByAdmin" : "lgByThree"))];
     case "unblocked": return [pill("ok", t("lgUnblocked")), esc(t("lgByAdmin"))];
     case "page": return [pill("white", t("lgPage")), pageName(d.v) + (d.o ? " — " + esc(d.o) : "")];
-    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
+    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "spc" ? t("navSpc") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
     case "ase": return [pill("warn", t("asUp")), esc(t("asRows", (+d.n || 0).toLocaleString("en-US")))];
     case "card": return [pill("white", t("lgCard")), whose()];
     case "export": return [pill("warn", t("lgExport")), esc(dash(d.f))];
@@ -5535,6 +5565,7 @@ async function aseGo(){
     (got || []).forEach(r => { if(!by.has(r[0])) by.set(r[0], []); by.get(r[0]).push(r.slice(1)); });
     st.ase.res = { terms, rows: terms.map(x => ({ term: x, hits: by.get(x) || [] })) };
     logAct("search", { m: "ase", n: terms.length, f: terms.filter(x => by.has(x)).length });
+    histKeep({ m: "ase", t: terms.join("\n"), n: terms.length, f: terms.filter(x => by.has(x)).length });
   }catch(e){ st.ase.res = null; toast(t("noConn"), true); }
   paintAse();
 }
@@ -5579,7 +5610,9 @@ function renderAse(){
           '<button class="btn primary" data-act="ase-go">' + t("search") + "</button>" +
           '<button class="btn" data-act="ase-clear">' + t("clear") + "</button>" +
           '<span class="multi-n" id="at-n"></span>' +
+          histBtn() +
         "</div>" +
+        '<div class="hist" id="hist" hidden></div>' +
         '<div class="ase-copy" id="ase-copy"></div>' +
       "</div>" +
     "</div>",
@@ -5638,6 +5671,163 @@ function paintAse(){
       }).join("");
     }).join("") + "</tbody></table></div></section>";
   freeze();
+}
+
+/* ============================================================
+   «بحث خاص» — EVERYONE OF A PLACE, OF A LETTER, OF A COMPANY
+   ============================================================
+   Asked for on 6 October 2026: not a search for a person, but a list — type
+   «البحيرة» and everyone whose address is in that governorate comes, type
+   «الضبعة» and everyone living there, type a letter's number and everyone who
+   was on that letter, a company and everyone of it. All of it from our own
+   two sheets (the permits and the employees), nothing from ASE.
+
+   He picks what he is asking by, and types it:
+     · «محافظة / مدينة»: every word typed has to be a whole word of the address
+       («قنا» is not «القناطر»; «ال» in front counts for nothing). Only when no
+       address has them as whole words are they looked for as part of a word.
+     · «رقم الخطاب»: digits alone are the letter's last number — what stands
+       after its last «/» — and must be that number whole (9 is not 1239);
+       typed with its strokes, it is looked for as written, anywhere in the number.
+     · «الشركة»: what was typed has to be in the company's name.
+   Several, with a comma between them, are several lists in one: any may hold.
+   A man is one row, as on the search page. Every request he ever made is
+   looked at; when it is an earlier one that answers, the row shows THAT
+   request's address, letter and company, and says so under his name. */
+const SPC_SHOW = 1500;                      // rows drawn on screen; the Excel file has them all
+const SPC_BY = ["place", "letter", "company"];
+const SPC_WORD = { place: "spPlace", letter: "spLetter", company: "spCompany" }, SPC_HINT = { place: "spHintPlace", letter: "spHintLetter", company: "spHintCompany" };
+const spcCache = new WeakMap();
+const spcWord = w => { const f = foldArabic(w); return f.length > 3 && f.startsWith("ال") ? f.slice(2) : f; };
+const spcWords = text => normalize(text).split(/[^\p{L}\p{N}]+/u).map(spcWord).filter(Boolean);
+// one request (or one employee), ready to be asked: the words of its address, its letter's numbers, its company
+function spcOf(o, address, letter, company){
+  let k = spcCache.get(o);
+  if(!k){
+    const whole = normalize(letter).toUpperCase();
+    k = { words: new Set(spcWords(address)), addr: foldArabic(address), co: foldArabic(company), letters: whole ? whole.split(/\s+/) : [], letter: whole.replace(/\s+/g, "") };
+    spcCache.set(o, k);
+  }
+  return k;
+}
+const spcTail = x => { const tail = x.slice(x.lastIndexOf("/") + 1); return /^\d+$/.test(tail) ? tail.replace(/^0+(?=\d)/, "") : null; };
+// what one thing typed asks of a request
+function spcAsk(term, by){
+  const plain = normalize(term), f = foldArabic(plain);
+  if(by === "letter"){
+    const typed = plain.toUpperCase().replace(/\s+/g, "");
+    if(/^\d+$/.test(typed)){
+      const n = typed.replace(/^0+(?=\d)/, "");
+      return k => k.letters.some(x => spcTail(x) === n);
+    }
+    return k => !!typed && k.letter.includes(typed);
+  }
+  if(by === "company") return k => !!f && k.co.includes(f);
+  const words = spcWords(plain);
+  // (a name of two words is also taken written as one — «بنى سويف», «بنيسويف»)
+  return (k, loose) => (words.length > 0 && words.every(w => k.words.has(w))) || ((loose || words.length > 1) && !!f && k.addr.includes(f));
+}
+function runSpc(){
+  const sp = st.spc, terms = String(sp.text || "").split(/[,،;؛\n]+/).map(x => x.trim()).filter(Boolean);
+  if(!terms.length){ sp.res = null; return; }
+  const by = SPC_BY.indexOf(sp.by) < 0 ? "place" : sp.by, asks = terms.map(x => spcAsk(x, by));
+  const build = loose => {
+    const rows = [], seenE = new Set(), ok = k => asks.some(a => a(k, loose));
+    if(M.ind) M.ind.list.forEach(g => {
+      let rec = null;
+      for(let i = g.records.length - 1; i >= 0 && !rec; i--){ const x = g.records[i]; if(ok(spcOf(x, x.address, x.letter, x.company))) rec = x; }      // the latest request that answers
+      if(!rec) return;
+      (g.emp || []).forEach(e => seenE.add(e.emp_code));
+      rows.push({ g: rec === g.cur ? g : Object.assign(Object.create(g), { cur: rec }), emps: g.emp || [], old: rec !== g.cur });
+    });
+    if(M.emp) M.emp.list.forEach(e => {
+      if(seenE.has(e.emp_code) || !ok(spcOf(e, e.address, e.letter_number, e.letter_company || "NCM"))) return;
+      rows.push({ g: null, emps: [e] });
+    });
+    return rows;
+  };
+  let rows = build(false);
+  if(!rows.length && by === "place") rows = build(true);
+  const nameOf = r => sortText(r.g ? r.g.name : r.emps[0].full_name), letterOfRow = r => letterOf(r, "letter", "letter_number");
+  rows.sort((a, b) => (by === "letter" ? letterOfRow(a).localeCompare(letterOfRow(b)) : 0) || nameOf(a).localeCompare(nameOf(b), "ar"));
+  sp.res = { rows, by, terms: terms.length };
+}
+// the search page's own columns; the letter and the company stand in their boxes, as on ASE SEARCH
+const SPC_COLS = MULTI_COLS.ind.map(c =>
+  c.tk === "letterNo" ? Object.assign({}, c, { h: r => { const v = letterOf(r, "letter", "letter_number"); return v ? pill("warn", v) : dimDash; } }) :
+  c.tk === "colCompany" ? Object.assign({}, c, { h: r => { const v = c.x(r); return hasCell(v) ? pill(ASE_OURS.test(v) ? "blue" : "red", v) : dimDash; } }) : c);
+function paintSpc(){
+  const res = st.spc.res, box = $("sres");
+  if(!box) return;
+  if(!res){ box.innerHTML = ""; return; }
+  const lacking = [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
+  const note = lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "";
+  if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
+  const cols = written(SPC_COLS, res.rows), cats = {}, shown = res.rows.slice(0, SPC_SHOW);
+  res.rows.forEach(r => { if(r.g) cats[r.g.p.cat] = (cats[r.g.p.cat] || 0) + 1; });
+  const sum = '<div class="sum"><span class="pill ok">' + t("sumFound") + " " + num(res.rows.length) + "</span>" +
+    Object.keys(CAT_PILL).filter(k => cats[k]).map(k => '<span class="pill ' + CAT_PILL[k] + '">' + t(CAT_TILE[k][0]) + " " + num(cats[k]) + "</span>").join("") + "</div>";
+  box.innerHTML = note +
+    '<section class="panel"><div class="panel-h">' + sum +
+      '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="spc-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    shown.map((r, n) => '<tr data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (n + 1) + "</td>" +
+      cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + '">' + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>").join("") +
+    (res.rows.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", res.rows.length - SPC_SHOW)) + "</td></tr>" : "") +
+    "</tbody></table></div></section>";
+  freeze();
+}
+// the companies our own sheets name, the most written first — offered under the box when it is a company that is asked for
+function spcCompanies(){
+  const n = new Map(), add = v => { v = normalize(v); if(v) n.set(v, (n.get(v) || 0) + 1); };
+  if(M.ind) M.ind.list.forEach(g => add(g.cur.company));
+  if(M.emp) M.emp.list.forEach(e => add(e.letter_company || "NCM"));
+  return [...n.keys()].sort((a, b) => n.get(b) - n.get(a)).slice(0, 300);
+}
+function renderSpc(){
+  const sp = st.spc;
+  if(SPC_BY.indexOf(sp.by) < 0) sp.by = "place";
+  if(sp.res) runSpc();                          // the sheets may have been read again since: the list is of what they say now
+  page(
+    '<div class="multi-head noprint">' +
+      '<div class="multi-box">' +
+        '<div class="seg spc-seg">' + SPC_BY.map(k => '<button data-spby="' + k + '" class="' + (sp.by === k ? "on" : "") + '">' + t(SPC_WORD[k]) + "</button>").join("") + "</div>" +
+        '<input class="field spc-in' + (sp.by === "letter" ? " num" : "") + '" id="sp" type="text" spellcheck="false" autocomplete="off" placeholder="' + esc(t(SPC_HINT[sp.by])) + '" aria-label="' + esc(t(SPC_HINT[sp.by])) + '"' +
+          (sp.by === "company" ? ' list="sp-cos"' : "") + ">" +
+        (sp.by === "company" ? '<datalist id="sp-cos">' + spcCompanies().map(c => '<option value="' + esc(c) + '">').join("") + "</datalist>" : "") +
+        '<div class="multi-bar">' +
+          '<button class="btn primary" data-act="spc-go">' + t("search") + "</button>" +
+          '<button class="btn" data-act="spc-clear">' + t("clear") + "</button>" +
+          histBtn() +
+        "</div>" +
+        '<div class="hist" id="hist" hidden></div>' +
+      "</div>" +
+    "</div>",
+    '<div class="pg-table" id="sres"></div>');
+  $("sp").value = sp.text;
+  paintSpc();
+  $("sp").focus();
+}
+function goSpc(){
+  if($("sp")) st.spc.text = $("sp").value;
+  runSpc(); paintSpc();
+  if(!st.spc.res) return;
+  logAct("search", { m: "spc", n: st.spc.res.terms, f: st.spc.res.rows.length });
+  histKeep({ m: "spc", by: st.spc.res.by, t: String(st.spc.text || "").trim(), n: st.spc.res.terms, f: st.spc.res.rows.length });
+}
+async function exportSpc(){
+  const res = st.spc.res;
+  if(!res || !res.rows.length) return;
+  const cols = SPC_COLS;
+  await saveXLSX({
+    name: t("csvSpecial"), rtl: !isEN(),
+    header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
+    text: cols.map((c, i) => c.nid ? i + 1 : -1).filter(i => i >= 0),      // ids and letter numbers stay exactly as written
+    rows: res.rows.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
+    red: res.rows.map(r => permitBan(r.g) || r.emps.some(empBan))
+  }, t("csvSpecial"));
+  toast(t("exported", res.rows.length));
 }
 
 /* ============================================================
@@ -5746,6 +5936,9 @@ document.addEventListener("click", e => {
     if(a === "desk-ase") return $("ase-pick").click();
     if(a === "ase-up") return $("ase-up").click();
     if(a === "ase-go") return aseGo();
+    if(a === "spc-go") return goSpc();
+    if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; return renderSpc(); }
+    if(a === "spc-csv") return exportSpc();
     if(a === "ase-clear"){ st.ase.text = ""; st.ase.res = null; return renderAse(); }
     if(a === "refresh") return refresh();
     if(a === "csv") return exportList(st.view);
@@ -5760,7 +5953,7 @@ document.addEventListener("click", e => {
     if(a === "multi-csv") return exportMulti();
     if(a === "multi-clear"){ st.multi.text = ""; st.multi.res = null; return renderMulti(); }
     if(a === "hist") return histToggle();
-    if(a === "hist-clear"){ HIST = []; histSave(); return histToggle(false); }
+    if(a === "hist-clear"){ const here = histHere(); HIST = HIST.filter(x => HIST_PAGE[x.m] !== here); histSave(); return histToggle(false); }      // this page's searches only
     if(a === "wipe"){
       if(!confirm(t("wipeConfirm"))) return;
       DATA.emp = DATA.per = null; HANDLES.emp = HANDLES.per = null;
@@ -5800,6 +5993,8 @@ document.addEventListener("click", e => {
     paintMonth(true);
     return;
   }
+  const spby = tg.closest("[data-spby]");
+  if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; return renderSpc(); }      // another thing to ask by: the box starts empty
   const mmode = tg.closest("[data-mmode]");
   if(mmode){
     if($("mt")) st.multi.text = $("mt").value;      // the list is kept; only what it is looked up in changes
@@ -5820,6 +6015,7 @@ let lqTimer = null;
 out.addEventListener("input", e => {
   if(e.target.id === "mt"){ st.multi.text = e.target.value; return multiLines(); }
   if(e.target.id === "at"){ st.ase.text = e.target.value; return aseLines(); }
+  if(e.target.id === "sp"){ st.spc.text = e.target.value; return; }
   if(e.target.id === "sq"){
     clearTimeout(lqTimer);
     lqTimer = setTimeout(() => { sndState().q = e.target.value; (st.view === "rnw" ? paintRenew : paintSenders)(); }, 160);
@@ -5840,6 +6036,7 @@ out.addEventListener("toggle", e => { if(e.target.matches && e.target.matches("d
 out.addEventListener("keydown", e => {
   if(e.target.id === "mt" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); goMulti(); }
   if(e.target.id === "at" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); aseGo(); }
+  if(e.target.id === "sp" && e.key === "Enter"){ e.preventDefault(); goSpc(); }        // one line: Enter asks
 });
 document.addEventListener("keydown", e => {
   if(e.key !== "Escape") return;

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-0V/FQAWTbot09YVuth7h89bJcXQnSwwg7VBIxqOgaq4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-BR+lC0tnlPA8fnzHKuijCIyUB/M/srq+sp26z4BNVRI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -937,29 +937,21 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   background:var(--text);color:#fff;font-size:13px;font-weight:700;white-space:nowrap;
 }
 
-/* A PHONE, OR A NARROW WINDOW — THE ADMIN'S (asked for, 6 October 2026: «نسخة الموبايل دي ليا أنا بس كأدمن»). For him
-   (body.madm, set when it is the admin who is in) the menu becomes a bar across the top — the mark, and a button
-   that unfolds everything else (the pages, the language, who is signed in) and folds it away
-   again when a page is picked. Anyone else on a narrow screen has what there was before: the menu's lines wrapped
-   across the top. For both the page under it scrolls as one ordinary page, and a table moves sideways in its box. */
+/* A NARROW WINDOW.
+   THE ADMIN'S (asked for, 6 October 2026: «نسخة الموبايل دي ليا أنا بس كأدمن»): under 920px the menu becomes a bar
+   across the top — the mark, and a button that unfolds everything else (the pages, the language, who is signed in) and
+   folds it away again when a page is picked. That is body.madm, set when it is the admin who is in.
+   ANYONE ELSE keeps the system as it is on a big screen — the menu at the side — down to 720px (asked for the same
+   day: «الشكل عند مديري على جهازه مش زي عندي». A laptop set to show everything larger is a "narrow window" to the
+   page: 1366 dots at 150% are 911, and there the menu used to break into lines across the top). Only under 720px —
+   a phone — do the menu's lines stand across the top for him, as they did before.
+   For both, the page under the menu scrolls as one ordinary page, and a table moves sideways in its box. */
 @media (max-width:920px){
-  #app{grid-template-columns:1fr;}
-  #out{--pad-x:12px;--pad-t:8px;}
-  .backbtn{right:12px;}
-  .cbrand .ncm{font-size:30px;}
-  .slots{grid-template-columns:1fr;}
-  .brand .tagline,.brand .hr{display:none;}
-
-  body:not(.madm) .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;}
-  body:not(.madm) .side-foot{display:none;}
-  body:not(.madm) .nav{flex:1;flex-direction:row;flex-wrap:wrap;gap:4px;margin-top:0;}
-  body:not(.madm) .navg{flex-direction:row;flex-wrap:wrap;gap:4px;padding:0;}
-  body:not(.madm) .navg + .navg::before{display:none;}
-  body:not(.madm) .nav button{width:auto;padding:4px 10px 4px 6px;font-size:13.5px;gap:7px;}
-  body:not(.madm) .nav button.on::after{display:none;}
-  body:not(.madm) .nav .nb{margin-inline-start:2px;}
-  body:not(.madm) .side-lang{margin-top:0;}
-
+  body.madm #app{grid-template-columns:1fr;}
+  body.madm #out{--pad-x:12px;--pad-t:8px;}
+  body.madm .cbrand .ncm{font-size:30px;}
+  body.madm .slots{grid-template-columns:1fr;}
+  body.madm .brand .tagline,body.madm .brand .hr{display:none;}
   body.madm .side{position:sticky;top:0;z-index:60;height:auto;max-height:100vh;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 12px;
         background:rgba(255,255,255,.94);border-inline-end:0;border-bottom:1px solid var(--line-2);box-shadow:0 4px 18px rgba(14,76,147,.10);}
   body.madm .brand{flex-direction:row;align-items:baseline;gap:7px;}
@@ -974,16 +966,57 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   body.madm .side.open .side-user{margin-bottom:0;}
   body.madm .side.open .src-mini{display:none;}
   body.madm .rlamp{margin-bottom:6px;}
-  body.madm .backbtn{top:10px;width:78px;height:34px;}
+  body.madm .backbtn{right:12px;top:10px;width:78px;height:34px;}
   body.madm .multi-ta{min-height:110px;}
   body.madm .panel-h{flex-wrap:wrap;gap:8px;}
   body.madm .adm-row{flex-direction:column;align-items:stretch;gap:6px;}
   body.madm .adm-k{width:auto;}
   body.madm #drawer{width:100vw;}
+  /* anyone else, between 720 and 920: the menu stays at the side, a little slimmer, and the page takes the rest */
+  body:not(.madm) #app{grid-template-columns:232px minmax(0,1fr);}
+  body:not(.madm) .side{padding-inline:10px;}
+  body:not(.madm) .nav button{font-size:13.5px;gap:8px;}
+  body:not(.madm) #out{--pad-x:12px;}
+  body:not(.madm) .panel-h{flex-wrap:wrap;gap:8px;}
+}
+@media (max-width:720px){
+  body:not(.madm) #app{grid-template-columns:1fr;}
+  body:not(.madm) #out{--pad-x:12px;--pad-t:8px;}
+  body:not(.madm) .backbtn{right:12px;}
+  body:not(.madm) .cbrand .ncm{font-size:30px;}
+  body:not(.madm) .slots{grid-template-columns:1fr;}
+  body:not(.madm) .brand .tagline,body:not(.madm) .brand .hr{display:none;}
+  body:not(.madm) .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;}
+  body:not(.madm) .side-foot{display:none;}
+  body:not(.madm) .nav{flex:1;flex-direction:row;flex-wrap:wrap;gap:4px;margin-top:0;}
+  body:not(.madm) .navg{flex-direction:row;flex-wrap:wrap;gap:4px;padding:0;}
+  body:not(.madm) .navg + .navg::before{display:none;}
+  body:not(.madm) .nav button{width:auto;padding:4px 10px 4px 6px;font-size:13.5px;gap:7px;}
+  body:not(.madm) .nav button.on::after{display:none;}
+  body:not(.madm) .nav .nb{margin-inline-start:2px;}
+  body:not(.madm) .side-lang{margin-top:0;}
+}
+/* A SHORT WINDOW (a small laptop, or one set to show everything larger): the mark over the page is drawn smaller, so
+   that the page keeps its fixed head and its own scrolling part — the same system as on a tall screen — instead of
+   giving up and scrolling as one long page. */
+@media (max-height:780px){
+  .cbrand{padding-top:2px;}
+  .cbrand .ncm{font-size:26px;}
+  .cbrand .tagline,.cbrand .hr{display:none;}
+  .cbrand .appname{font-size:14px;margin-top:3px;}
+  .pg-t{font-size:22px;}
+  .side{padding-top:14px;}
+  .side .brand .ncm{font-size:28px;}
+  .side .brand .tagline{margin-top:6px;}
+  .side .brand .hr{margin:7px auto 6px;}
+  .nav{margin-top:4px;}
+  .navg{padding:4px 0;}
+  .side-lang{margin-top:8px;}
+  .side-foot{padding-top:10px;}
 }
 /* A window too small to hold a fixed head and still leave room to read under
    it goes back to scrolling as one ordinary page. */
-@media (max-width:920px), (max-height:640px){
+@media (max-width:720px), (max-height:520px){
   html,body{height:auto;overflow:visible;}
   #app,.main{height:auto;}
   #out{display:block;padding-bottom:20px;}
@@ -2167,7 +2200,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "bd0c7b4f235d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "391f9eb1bc1f";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

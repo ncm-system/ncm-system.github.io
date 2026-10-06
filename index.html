@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-KdmgunoCoxYz9+Laqk8LW8YOagRyC/8UJyw1aAZ/Kjs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-XfHGCvA8/ecEY9L2Isorx7JYexBotNIXAsm3mBZ2WjU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -896,6 +896,13 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .shots{padding:0 14px 16px;margin-top:14px;display:flex;flex-direction:column;gap:9px;}
 .shot{margin:0;overflow:hidden;border-radius:var(--r);background:#f7fafd;border:1px solid #cdd7e2;}
 .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
+/* the box that picks a row for the file and the paper (the employees' list) */
+.pick{display:inline-flex;align-items:center;vertical-align:middle;margin-inline-end:8px;cursor:pointer;}
+.pick input{position:absolute;opacity:0;width:0;height:0;}
+.pick span{display:block;width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line-2);background:#fff;transition:background .14s,border-color .14s;}
+.pick input:checked + span{background:var(--blue);border-color:var(--blue);box-shadow:inset 0 0 0 2px #fff;}
+.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);}
+.tbl tr.unpicked td{opacity:.5;}
 .noshot{display:flex;align-items:center;justify-content:center;padding:22px;background:var(--tint);color:var(--mute);font-size:13.5px;font-weight:800;}
 .banner{
   display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;
@@ -1048,6 +1055,28 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   .tbl{font-size:11px;}
   .tbl th,.tbl td{padding:5px 7px;}
   .tbl th{position:static;}
+  /* the paper shows what the short export holds: the other columns, the boxes to pick with, and the rows nobody
+     picked are left out — and what is picked is what is printed */
+  .tbl .fullonly{display:none!important;}
+  .tbl tr.unpicked{display:none!important;}
+  /* A MAN'S FILE ON PAPER: his two card photos side by side, and the whole card drawn a little smaller — so his file
+     is one sheet and not three. */
+  @page{margin:9mm;}
+  body.print-card .rec{break-inside:avoid;border:0;box-shadow:none;}
+  body.print-card .head{padding:5px 10px;}
+  body.print-card .nm{font-size:16px;}
+  body.print-card .nm-en{font-size:11px;}
+  body.print-card .permit{padding:5px 12px;}
+  body.print-card .grp-t{padding:8px 4px 4px;font-size:11px;}
+  body.print-card .row{padding:2px 9px;}
+  body.print-card .row dt{font-size:11.5px;}
+  body.print-card .row dd{font-size:12.5px;}
+  body.print-card .shots{flex-direction:row;gap:8px;padding:8px 0 0;margin-top:8px;}
+  body.print-card .shot{flex:1;min-width:0;}
+  body.print-card .shot img{max-height:5.4cm;object-fit:contain;}
+  body.print-card .dr-body{padding-bottom:0;}
+  body.print-card .grp{padding:0 10px;}
+  body.print-card .rows{gap:3px;}
 }
 </style>
 </head>
@@ -2200,7 +2229,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "db3646e4c338";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "d8f0fca02ca7";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2504,7 +2533,8 @@ const I18N = {
     stBanned:"ممنوع", stValid:"ساري", stExpired:"تصريح منتهي", stExpiring:"قرب الانتهاء", stNoDate:"بدون تاريخ", stNoPermit:"بدون تصريح",
     resigned:"استقالة", notRegistered:"غير مسجل", codeN:c => "كود " + c,
     none:"لا يوجد", rows:n => "<b>" + n + "</b> صف", filter:"فلترة",
-    exportExcel:"تصدير Excel", print:"طباعة", exported:n => "اتصدّر " + n + " صف ✓", exportedLines:n => "اتصدّر " + n + " سطر ✓",
+    exportExcel:"تصدير Excel", exportBrief:"تصدير مختصر", exportFull:"تصدير كامل", print:"طباعة",
+    pickAll:"اختيار الكل", pickNone:"إلغاء الاختيار", pickedN:n => "مختار " + n, exported:n => "اتصدّر " + n + " صف ✓", exportedLines:n => "اتصدّر " + n + " سطر ✓",
     csvEmp:"الموظفين", csvInd:"تصاريح-الأفراد", csvVeh:"تصاريح-المركبات", csvSearch:"بحث", csvMiss:"مش موجود",
     segPeople:"أفراد", segVehicles:"مركبات", search:"بحث", clear:"مسح", lines:n => "سطور: " + n,
     ariaNids:"الأرقام القومية، رقم في كل سطر", ariaPlates:"أرقام السيارات، رقم في كل سطر",
@@ -2524,8 +2554,7 @@ const I18N = {
     grpPersonal:"البيانات الشخصية", passport:"رقم الجواز", phone:"رقم الهاتف",
     grpWork:"بيانات التوظيف", hireDate:"تاريخ التعيين", grpSecurity:"بيانات أمنية", grpLetter:"بيانات الخطاب", letterNote:"ملاحظات الخطاب", histAria:"سجل البحث", histEmpty:"السجل فاضي", histClear:"مسح السجل", banReason:"سبب المنع", resignEnd:"انتهاء الاستقالة",
     photoAlt:"صورة البطاقة", noPhoto:"لا يوجد صورة",
-    drEmp:c => "موظف — كود " + c, hisPermits:"سجله في شيت التصاريح",
-    foreignNoLink:"أجنبي — مالوش رقم قومي يتربط بيه.", nidNotInSheet:"رقمه القومي مش موجود في «تصاريح أفراد».",
+    drEmp:c => "موظف — كود " + c,
     drInd:"تصاريح فرد", noNameShort:"بدون اسم", nidNotReg:"رقم قومي غير مسجل",
     nPermits:n => n + (n === 1 ? " تصريح" : " تصاريح"), empLink:c => "موظف NCM — كود " + c,
     fromNid:"من الرقم القومي", nameForms:"الاسم مكتوب بأكتر من شكل", permitsNewest:"التصاريح — الأحدث فوق",
@@ -2640,7 +2669,8 @@ const I18N = {
     stBanned:"Banned", stValid:"Valid", stExpired:"Expired", stExpiring:"Expiring soon", stNoDate:"No date", stNoPermit:"No permit",
     resigned:"Resigned", notRegistered:"Not registered", codeN:c => "Code " + c,
     none:"None", rows:n => "\u200E<b>" + n + "</b> " + (n === 1 ? "row" : "rows"), filter:"Filter",
-    exportExcel:"Export Excel", print:"Print", exported:n => "Exported " + n + " rows ✓", exportedLines:n => "Exported " + n + " lines ✓",
+    exportExcel:"Export Excel", exportBrief:"Short export", exportFull:"Full export", print:"Print",
+    pickAll:"Select all", pickNone:"Clear the choice", pickedN:n => n + " chosen", exported:n => "Exported " + n + " rows ✓", exportedLines:n => "Exported " + n + " lines ✓",
     csvEmp:"Employees", csvInd:"Individual-permits", csvVeh:"Vehicle-permits", csvSearch:"Search", csvMiss:"Not found",
     segPeople:"People", segVehicles:"Vehicles", search:"Search", clear:"Clear", lines:n => "Lines: " + n,
     ariaNids:"National IDs, one per line", ariaPlates:"Plate numbers, one per line",
@@ -2660,8 +2690,7 @@ const I18N = {
     grpPersonal:"PERSONAL DETAILS", passport:"Passport number", phone:"Phone",
     grpWork:"EMPLOYMENT DETAILS", hireDate:"Hire date", grpSecurity:"SECURITY DETAILS", grpLetter:"LETTER DETAILS", letterNote:"Letter notes", histAria:"Search history", histEmpty:"No searches yet", histClear:"Clear history", banReason:"Ban reason", resignEnd:"Resignation ends",
     photoAlt:"ID card photo", noPhoto:"No photo",
-    drEmp:c => "Employee — code " + c, hisPermits:"His record in the permits sheet",
-    foreignNoLink:"Foreign — no national ID to link him by", nidNotInSheet:"His national ID is not in «تصاريح أفراد»",
+    drEmp:c => "Employee — code " + c,
     drInd:"Individual's permits", noNameShort:"No name", nidNotReg:"National ID not registered",
     nPermits:n => "\u200E" + n + (n === 1 ? " permit" : " permits"), empLink:c => "NCM employee — code " + c,
     fromNid:"FROM THE NATIONAL ID", nameForms:"NAME WRITTEN MORE THAN ONE WAY", permitsNewest:"Permits — newest first",
@@ -2750,7 +2779,7 @@ const st = {
   ase: { text: "", res: null },
   spc: { by: "place", text: "", res: null, cat: "" },
   ask: { text: "", res: null, cat: "" },                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
-  emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
+  emp: { status: "active", dept: "", collar: "", q: "", pick: [], sort: { k: "code", d: 1 } },   // pick: the employees chosen by hand for the file and the paper   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
   veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
   snd: { kind: "per", q: "", open: null, tab: "ind" },  // kind: permits by sender, or the employees' lists · open: whose sheet is on screen, or none (the list)
@@ -3898,16 +3927,48 @@ const hasCell = v => !(v === "" || v === null || v === undefined);
    عندهم منع بس», 4 October 2026). The banned are still told by their red
    pill, and their reason is in their card and in the list of the banned. */
 const written = (cols, rows) => cols.filter(c => (!c.only || rows.every(c.only)) && (!(c.e || c.x) || rows.some(r => hasCell((c.e || c.x)(r)))));
-function tableHTML(cols, rows, state, open){
+function tableHTML(cols, rows, state, open, view){
   if(!rows.length) return '<div class="empty"><h3>' + t("none") + "</h3></div>";
   const sorted = sortRows(rows, cols, state.sort), shown = written(cols, rows), fz = frozen(shown.map(c => !!c.fz));
+  const brief = BRIEF[view] || null;                                  // on paper: these columns, and no others
+  const out = c => brief && brief.indexOf(c.k) < 0 ? " fullonly" : "";
+  const pick = view === "emp" ? r => '<label class="pick noprint"><input type="checkbox" data-pick="' + esc(r.emp_code) + '"' + (picked().indexOf(r.emp_code) >= 0 ? " checked" : "") + '><span></span></label>' : null;
   return '<div class="tblwrap"><table class="tbl' + tblKind(shown.length) + '"><thead><tr>' +
-    shown.map((c, i) => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + fz[i] + '">' +
+    shown.map((c, i) => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + fz[i] + out(c) + '">' +
       t(c.tk) + "<i>" + (state.sort.k === c.k && state.sort.d < 0 ? "▼" : "▲") + "</i></th>").join("") +
     "</tr></thead><tbody>" +
-    sorted.map(r => '<tr data-open="' + esc(open(r)) + '">' + shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
+    sorted.map(r => '<tr data-open="' + esc(open(r)) + '"' + (pick && picked().length && picked().indexOf(r.emp_code) < 0 ? ' class="unpicked"' : "") + ">" +
+      shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + out(c) + '">' + (pick && !i ? pick(r) : "") + c.h(r) + "</td>").join("") + "</tr>").join("") +
     "</tbody></table></div>";
 }
+/* THE SHORT EXPORT (asked for, 6 October 2026). Beside the full export — every column the sheet has, as before — a
+   second button gives the few columns a list is usually wanted for, with a serial number in front of them:
+     «تصاريح الأفراد»   م · الاسم · الوظيفة · الرقم القومي · العنوان
+     «تصاريح المركبات»  م · رقم السيارة · التصريح
+     «الموظفين»         م · الكود · الاسم · الوظيفة · القسم · العنوان · التصريح
+   WHAT IS PRINTED IS THE SHORT ONE: on paper the other columns are left out, so the page and the short file say the
+   same thing. And on «الموظفين» the rows themselves can be picked by hand (see paintTable): what is picked is what
+   the file holds and what the paper shows; nothing picked means everyone, as before. */
+const BRIEF = { ind: ["name", "job", "nid", "addr"], veh: ["plate", "permit"], emp: ["code", "name", "job", "dept", "addr", "st"] };
+const briefCols = view => BRIEF[view].map(k => LISTS[view].cols.find(c => c.k === k)).filter(Boolean);
+const picked = () => st.emp.pick || [];
+/* A box pressed answers at once: the row it is in, the count beside the list and the «اختيار الكل» button are the
+   only things that change — a list of two thousand rows is not drawn again for one box. */
+function paintPicks(){
+  const box = $("tbl");
+  if(!box || st.view !== "emp") return;
+  const mine = new Set(picked()), rows = [].slice.call(box.querySelectorAll("tbody tr[data-open]"));
+  rows.forEach(tr => {
+    const one = tr.querySelector("[data-pick]");
+    if(!one) return;
+    const on = mine.has(one.dataset.pick);
+    one.checked = on;
+    tr.classList.toggle("unpicked", mine.size > 0 && !on);
+  });
+  if($("picked")) $("picked").textContent = mine.size ? t("pickedN", mine.size) : "";
+  if($("pick-btn")) $("pick-btn").textContent = t(mine.size === rows.length && rows.length ? "pickNone" : "pickAll");
+}
+const pickedRows = (view, rows) => view === "emp" && picked().length ? rows.filter(r => picked().indexOf(r.emp_code) >= 0) : rows;
 function listRows(view){
   const L = LISTS[view], f = st[view];
   return scoped(view).filter(r => L.pick(r, f.status));
@@ -3931,7 +3992,15 @@ function paintTable(view, keep){
   }).join("");
   const rows = base.filter(r => L.pick(r, f.status));
   $("count").innerHTML = t("rows", rows.length);
-  $("tbl").innerHTML = tableHTML(L.cols, rows, f, L.open);
+  if(view === "emp"){
+    // only those still on the list stay picked: a chip pressed, or a word typed, may have taken the others away
+    const here = new Set(rows.map(r => r.emp_code));
+    st.emp.pick = picked().filter(c => here.has(c));
+    const all = picked().length === rows.length && rows.length > 0;
+    $("pick-btn").textContent = t(all ? "pickNone" : "pickAll");
+    $("picked").textContent = picked().length ? t("pickedN", picked().length) : "";
+  }
+  $("tbl").innerHTML = tableHTML(L.cols, rows, f, L.open, view);
   freeze();
   rowsTo($("tbl"), at);
 }
@@ -3940,13 +4009,15 @@ function renderList(view){
   if(!M[L.need]) return page(pgHead(t(L.tk)), scrollPart('<div class="note warn">' + t("sheetNotLoaded") + "</div>"));
   // the head holds everything that is not a row; the rows are the only thing that moves
   page(
-    pgHead(t(L.tk), '<div style="display:flex;gap:8px"><button class="btn sm" data-act="csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div>") +
+    pgHead(t(L.tk), '<div style="display:flex;gap:8px"><button class="btn sm primary" data-act="csv-brief">' + t("exportBrief") + '</button>' +
+      '<button class="btn sm" data-act="csv">' + t("exportFull") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div>") +
     '<div class="toolbar"><div class="chips" id="chips"></div></div>' +
     '<div class="toolbar">' +
       '<input class="field" id="lq" type="text" placeholder="' + t("filter") + '" value="' + esc(f.q) + '" autocomplete="off">' +
       L.selects().map(s => '<select class="field" data-sel="' + s[0] + '"><option value="">' + t(s[1]) + "</option>" +
         s[2].map(o => '<option value="' + esc(o) + '"' + (f[s[0]] === o ? " selected" : "") + ">" + esc(s[0] === "collar" ? o.toUpperCase() + " COLLAR" : o) + "</option>").join("") + "</select>").join("") +
-      '<span class="count" id="count"></span></div>',
+      '<span class="count" id="count"></span>' +
+      (view === "emp" ? '<button class="btn sm" id="pick-btn" data-act="pick-all"></button><span class="count" id="picked"></span>' : "") + "</div>",
     '<div class="pg-table"><section class="panel" id="tbl"></section></div>');
   paintTable(view);
 }
@@ -4286,8 +4357,20 @@ function saveBytes(bytes, name){
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
-async function exportList(view){
-  const L = LISTS[view], f = st[view], rows = sortRows(listRows(view), L.cols, f.sort);
+async function exportList(view, brief){
+  const L = LISTS[view], f = st[view], rows = pickedRows(view, sortRows(listRows(view), L.cols, f.sort));
+  if(!rows.length) return;
+  if(brief){
+    const cols = briefCols(view);
+    await saveXLSX({
+      name: t(L.csv), rtl: !isEN(),
+      header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
+      text: cols.map((c, i) => c.k === "nid" || c.k === "plate" ? i + 1 : -1).filter(i => i >= 0),
+      rows: rows.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
+      red: rows.map(view === "emp" ? empBan : permitBan)
+    }, t(L.csv));
+    return toast(t("exported", rows.length));
+  }
   if(view === "emp"){
     const sheet = empSheet(rows, { left: true });
     sheet.name = t(L.csv);
@@ -4821,12 +4904,8 @@ function openDrawer(ref){
   if(type === "emp" && M.emp){
     const e = M.emp.byCode.get(key); if(!e) return;
     title = t("drEmp", e.emp_code);
+    // his card is his own: nothing of the permits sheet is shown on it (asked for, 6 October 2026)
     h = empCardHTML(e);
-    if(M.ind){
-      h += '<div class="dr-sec">' + t("hisPermits") + " <b>" + (e.per ? e.per.records.length : 0) + "</b></div>";
-      h += e.per ? e.per.records.map((r, n, a) => permitRecHTML(r, n, a.length)).reverse().join("")
-                 : '<div class="note">' + t(e.foreign ? "foreignNoLink" : "nidNotInSheet") + "</div>";
-    }
   }else if(type === "ind" && M.ind){
     const g = M.ind.groups.get(key); if(!g) return;
     title = t("drInd");
@@ -6981,6 +7060,13 @@ document.addEventListener("click", e => {
   if(deskGone){ DESK.sent = DESK.sent.filter(x => x.id !== deskGone.dataset.deskDrop); deskKeep(); deskNav(); return paintDesk(); }
   const dev = tg.closest("[data-dev-set]");
   if(dev){ const x = dev.dataset.devSet.split("|"); return deviceSet(x[0], x[1] === "1"); }
+  const box = tg.closest("[data-pick]");
+  if(box){
+    const code = box.dataset.pick, now = picked().slice(), at = now.indexOf(code);
+    if(at < 0) now.push(code); else now.splice(at, 1);
+    st.emp.pick = now;
+    return paintPicks();
+  }
   const opener = tg.closest("[data-open]");
   if(opener && opener.dataset.open){ openDrawer(opener.dataset.open); return; }
   if(tg.closest("#veil") || tg.closest("#dr-x")) return closeDrawer();
@@ -7018,6 +7104,12 @@ document.addEventListener("click", e => {
     if(a === "ase-clear"){ st.ase.text = ""; st.ase.res = null; return renderAse(); }
     if(a === "refresh") return refresh();
     if(a === "csv") return exportList(st.view);
+    if(a === "csv-brief") return exportList(st.view, true);
+    if(a === "pick-all"){
+      const rows = listRows("emp");
+      st.emp.pick = picked().length === rows.length ? [] : rows.map(r => r.emp_code);
+      return paintPicks();
+    }
     if(a === "print"){ if(!can("x-export")) return; logAct("print", Object.assign({ v: st.view }, logCtx())); return window.print(); }
     if(a === "link") return connectAsk();
     if(a === "today-per" || a === "today-veh") return exportToday(a.slice(6));

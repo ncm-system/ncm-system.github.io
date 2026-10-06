@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-YMvQTb4IpgwSe3wSkTBc1AmB1X4hpRFlgSlnK2CY+Eg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-oVlybsKUTjXodCedXkztsOK7wdi1js6AGXhKTDjdhe8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -88,8 +88,9 @@ html,body{height:100%;overflow:hidden;}
 #app{display:grid;grid-template-columns:var(--side) minmax(0,1fr);height:100vh;}
 .side{
   position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
-  padding:26px 14px 16px;overflow-y:auto;
-  background:rgba(255,255,255,.58);border-inline-end:1px solid var(--line-2);
+  padding:24px 13px 16px;overflow-y:auto;
+  background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(241,246,253,.62));border-inline-end:1px solid var(--line-2);
+  box-shadow:0 0 34px rgba(14,76,147,.07);
   backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
 }
 .brand{display:flex;flex-direction:column;align-items:center;line-height:1;}
@@ -103,24 +104,34 @@ html,body{height:100%;overflow:hidden;}
 .brand .hr{display:block;width:46px;height:1px;margin:11px auto 9px;background:linear-gradient(90deg,transparent,var(--line-2),transparent);}
 .appname{font-family:var(--cond);font-weight:700;font-size:19px;letter-spacing:.13em;text-indent:.13em;line-height:1;color:var(--blue);}
 
-.nav{display:flex;flex-direction:column;gap:5px;margin-top:26px;}
+/* THE MENU. Four groups with a hairline between them. A line is an icon in a tile of its own and a name; the page
+   that is open is a blue bar with the mark's green at its edge. A group with nothing in it for this user is not there. */
+.nav{display:flex;flex-direction:column;margin-top:14px;}
+.navg{position:relative;display:flex;flex-direction:column;gap:2px;padding:7px 0;}
+.navg + .navg::before{content:"";position:absolute;top:0;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 20%,var(--line-2) 80%,transparent);}
+.navg:not(:has(button:not([hidden]))){display:none;}
 .nav button{
-  display:flex;align-items:center;gap:11px;width:100%;padding:11px 13px;
-  border-radius:var(--r);border:1px solid transparent;background:none;
-  color:var(--text-2);font-size:14.5px;font-weight:800;text-align:start;white-space:nowrap;
-  transition:background .14s,color .14s,box-shadow .18s;
+  position:relative;display:flex;align-items:center;gap:10px;width:100%;padding-block:3px;padding-inline:7px 10px;
+  border-radius:14px;border:1px solid transparent;background:none;
+  color:var(--text-2);font-size:14px;font-weight:800;text-align:start;white-space:nowrap;
+  transition:background .16s,color .16s,box-shadow .2s;
 }
-.nav button svg{flex:none;opacity:.85;}
-.nav button:hover{background:var(--tint);}
-.nav button.on{background:var(--blue);color:#fff;box-shadow:0 8px 20px rgba(21,101,192,.28);}
+.nav button svg{
+  flex:none;box-sizing:content-box;width:17px;height:17px;padding:6px;border-radius:10px;
+  background:var(--tint);color:var(--blue);transition:background .16s,color .16s,box-shadow .16s;
+}
+.nav button:hover{background:rgba(21,101,192,.07);}
+.nav button:hover svg{background:#fff;box-shadow:0 2px 8px rgba(14,76,147,.16);}
+.nav button.on{background:linear-gradient(135deg,#1e78d6,var(--blue) 55%,#0e4c93);color:#fff;box-shadow:0 10px 22px rgba(21,101,192,.30);}
+.nav button.on svg{background:rgba(255,255,255,.18);color:#fff;box-shadow:none;}
+.nav button.on::after{content:"";position:absolute;inset-inline-start:2px;top:9px;bottom:9px;width:3.5px;border-radius:4px;background:var(--green);}
 .nav .nb{
-  margin-inline-start:auto;font-family:var(--mono);font-size:12px;font-weight:700;
+  margin-inline-start:auto;font-family:var(--mono);font-size:11.5px;font-weight:700;
   padding:1px 8px;border-radius:999px;background:var(--tint);color:var(--blue);
 }
 .nav .nb.alert{background:var(--bad-bg);color:var(--bad);}
 .nav .nb:empty{display:none;}                 /* a badge with nothing to say takes no room */
 .nav button.on .nb{background:rgba(255,255,255,.22);color:#fff;}
-.nav .sep{height:1px;background:var(--line-2);opacity:.7;margin:8px 6px;}
 
 /* ---------- language switch — the app's own button ---------- */
 .side-lang{display:flex;justify-content:center;margin-top:18px;}
@@ -255,6 +266,17 @@ html,body{height:100%;overflow:hidden;}
 .logv .tbl td{padding-block:7px;}
 .logdev{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--muted);direction:ltr;unicode-bidi:embed;margin-inline-start:6px;}
 .logwhen{font-size:14px;font-weight:800;color:var(--navy);}
+/* a line of the log that has more to say: it opens on it */
+.logv .tbl tr.lgrow{cursor:pointer;}
+.logv .tbl tr.lgrow:hover td{background:var(--tint);}
+.lgchev{display:inline-block;width:7px;height:7px;margin-inline-start:10px;border:solid var(--blue);border-width:0 2px 2px 0;transform:rotate(45deg);vertical-align:3px;transition:transform .16s;}
+tr.lgrow.open .lgchev{transform:rotate(-135deg);vertical-align:-1px;}
+.logv .tbl tr.lgmore td{padding:12px 16px 14px;background:var(--panel-2);border-top:0;}
+.lgkvs{display:flex;justify-content:center;gap:6px 20px;flex-wrap:wrap;font-weight:800;}
+.lgkv i{font-style:normal;font-size:12.5px;color:var(--muted);margin-inline-end:4px;}
+.lgterms{display:flex;justify-content:center;gap:6px 8px;flex-wrap:wrap;margin-top:10px;max-height:220px;overflow-y:auto;}
+.lgterms .term{margin:0;padding:3px 10px;border-radius:9px;background:#fff;border:1px solid var(--line-2);font-size:13.5px;unicode-bidi:plaintext;}
+.lgrun{margin:12px 0 0;text-align:center;}
 .logwhen i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--muted);}
 #linkbox{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(11,17,20,.38);}
 #linkbox[hidden]{display:none;}
@@ -326,6 +348,8 @@ html,body{height:100%;overflow:hidden;}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(21,101,192,.24);}
 .btn.primary:hover{background:var(--blue-soft);}
 .btn.danger{background:var(--bad-bg);border-color:var(--bad-br);color:var(--bad);}
+/* a user who may not export or print has no such buttons */
+body.noexp [data-act$="csv"],body.noexp [data-act="print"],body.noexp button[data-snd]{display:none!important;}
 .btn.sm{padding:7px 12px;font-size:13px;border-radius:var(--r-sm);}
 @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -600,10 +624,22 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 }
 .multi-ta:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,101,192,.10);}
 .multi-bar{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
+/* ADMIN: a box to add a user with, and a box for every user — his pages and what he may do, each a chip that is on or off */
+.adm-add,.adm-u{margin-bottom:14px;}
+.adm-form{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
+.adm-form .field{min-width:210px;text-align:center;}
+.adm-u .panel-t{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.adm-u .uav{width:32px;height:32px;font-size:12.5px;}
+.adm-u.off .adm-perms{opacity:.45;}
+.adm-acts{display:flex;gap:7px;flex-wrap:wrap;}
+.adm-perms{display:flex;flex-direction:column;gap:12px;}
+.adm-row{display:flex;align-items:center;gap:12px;}
+.adm-k{flex:none;width:76px;font-size:13px;font-weight:800;color:var(--muted);}
+.adm-row .chips{justify-content:flex-start;flex:1;}
+.adm-row .chip{cursor:pointer;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
 .spc-seg{align-self:center;}
 .spc-in{width:100%;padding:13px 15px;text-align:center;font-size:17px;border-radius:var(--r-lg);}
-.spc-in::placeholder{font-size:14px;font-weight:600;color:var(--muted);opacity:.75;}
 /* Every piece of this row has a width of its own rather than its word's:
    «بحث» and "Search" are not the same length, and a row sized by its words
    would shuffle sideways each time the language is switched. */
@@ -926,25 +962,31 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       <span class="appname">SYSTEM</span>
     </div>
     <nav class="nav" id="nav">
-      <!-- The search page is the front door: it is what the system is opened for. -->
-      <button data-view="multi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11M4 11h6M4 16h5"/><circle cx="16" cy="15" r="3.6"/><path d="M21 20l-2.4-2.4"/></svg><span data-i18n="navSearch">بحث</span></button>
-      <button data-view="spc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.500-5.600-6.500-10.500a6.500 6.500 0 0 1 13 0C18.500 15.400 12 21 12 21z"/><circle cx="12" cy="10.500" r="2.300"/></svg><span data-i18n="navSpc">بحث خاص</span></button>
-      <button data-view="ase"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.500" cy="10.500" r="6"/><path d="M15 15l5 5M8 10.500h5M10.500 8v5"/></svg><span data-i18n="navAse">ASE SEARCH</span></button>
-      <button data-view="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="9" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.6"/><rect x="13.5" y="12" width="7.5" height="9" rx="1.6"/><rect x="3" y="16" width="7.5" height="5" rx="1.6"/></svg><span data-i18n="navHome">لوحة المتابعة</span></button>
-      <div class="sep"></div>
-      <button data-view="emp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="navEmp">الموظفين</span><em class="nb" id="nb-emp"></em></button>
-      <button data-view="ind"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><circle cx="9" cy="11" r="2"/><path d="M5.8 16c.6-1.5 1.8-2.2 3.2-2.2s2.6.7 3.2 2.2M15 10h3.5M15 13.5h3.5"/></svg><span data-i18n="navInd">تصاريح الأفراد</span><em class="nb" id="nb-ind"></em></button>
-      <button data-view="veh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2a2 2 0 0 1 1.9 1.5L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/></svg><span data-i18n="navVeh">تصاريح المركبات</span><em class="nb" id="nb-veh"></em></button>
-      <button data-view="snd"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.300 14.500L12 17l2.700-2.500"/></svg><span data-i18n="navSnd">تصدير بيانات</span></button>
-      <button data-view="rnw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.300-5.600"/><path d="M20 4v4h-4"/><path d="M12 8v4l2.500 2"/></svg><span data-i18n="navRnw">كشف التجديد</span><em class="nb" id="nb-rnw"></em></button>
-      <!-- the admin's two pages: the list both users feed with «تجديد», and who did what in the system -->
-      <button data-view="today" id="nav-today" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17M9 15l2 2 4-4"/></svg><span data-i18n="navToday"></span><em class="nb" id="nb-today"></em></button>
-      <button data-view="log" id="nav-log" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="navLog"></span><em class="nb alert" id="nb-log"></em></button>
-      <!-- the admin's, on this PC's own copy only: a file of card photos in, the permits form filled in out -->
-      <button data-view="cards" id="nav-cards" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg><span data-i18n="navCards"></span><em class="nb" id="nb-cards"></em></button>
-      <div class="sep"></div>
-      <button data-view="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5.2c0 4.6-3.2 8-8 9.3-4.8-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg><span data-i18n="navCheck">فحص الداتا</span><em class="nb" id="nb-check"></em></button>
-      <button data-view="src" id="nav-src" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span><em class="nb" id="nb-src"></em></button>
+      <!-- Four groups (asked for, 6 October 2026): looking someone up · what is on record · the lists that go out ·
+           the admin's own pages, which are in nobody else's menu. «تجديد اليوم» stands with the lists; it too is his alone. -->
+      <div class="navg">
+        <button data-view="multi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11M4 11h6M4 16h5"/><circle cx="16" cy="15" r="3.6"/><path d="M21 20l-2.4-2.4"/></svg><span data-i18n="navSearch">بحث</span></button>
+        <button data-view="spc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.500-5.600-6.500-10.500a6.500 6.500 0 0 1 13 0C18.500 15.400 12 21 12 21z"/><circle cx="12" cy="10.500" r="2.300"/></svg><span data-i18n="navSpc">بحث خاص</span></button>
+        <button data-view="ase"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.500" cy="10.500" r="6"/><path d="M15 15l5 5M8 10.500h5M10.500 8v5"/></svg><span data-i18n="navAse">ASE SEARCH</span></button>
+      </div>
+      <div class="navg">
+        <button data-view="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="9" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.6"/><rect x="13.5" y="12" width="7.5" height="9" rx="1.6"/><rect x="3" y="16" width="7.5" height="5" rx="1.6"/></svg><span data-i18n="navHome">لوحة المتابعة</span></button>
+        <button data-view="emp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="navEmp">الموظفين</span><em class="nb" id="nb-emp"></em></button>
+        <button data-view="ind"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><circle cx="9" cy="11" r="2"/><path d="M5.8 16c.6-1.5 1.8-2.2 3.2-2.2s2.6.7 3.2 2.2M15 10h3.5M15 13.5h3.5"/></svg><span data-i18n="navInd">تصاريح الأفراد</span><em class="nb" id="nb-ind"></em></button>
+        <button data-view="veh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2a2 2 0 0 1 1.9 1.5L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/></svg><span data-i18n="navVeh">تصاريح المركبات</span><em class="nb" id="nb-veh"></em></button>
+      </div>
+      <div class="navg">
+        <button data-view="snd"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M12 11v6M9.300 14.500L12 17l2.700-2.500"/></svg><span data-i18n="navSnd">تصدير بيانات</span></button>
+        <button data-view="rnw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.300-5.600"/><path d="M20 4v4h-4"/><path d="M12 8v4l2.500 2"/></svg><span data-i18n="navRnw">كشف التجديد</span><em class="nb" id="nb-rnw"></em></button>
+        <button data-view="today" id="nav-today" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17M9 15l2 2 4-4"/></svg><span data-i18n="navToday"></span><em class="nb" id="nb-today"></em></button>
+        <button data-view="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5.2c0 4.6-3.2 8-8 9.3-4.8-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg><span data-i18n="navCheck">فحص الداتا</span><em class="nb" id="nb-check"></em></button>
+      </div>
+      <div class="navg">
+        <button data-view="log" id="nav-log" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="navLog"></span><em class="nb alert" id="nb-log"></em></button>
+        <button data-view="cards" id="nav-cards" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg><span data-i18n="navCards"></span><em class="nb" id="nb-cards"></em></button>
+        <button data-view="src" id="nav-src" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span><em class="nb" id="nb-src"></em></button>
+        <button data-view="adm" id="nav-adm" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><circle cx="12" cy="10" r="2.300"/><path d="M8.300 16.200c.800-1.700 2.100-2.500 3.700-2.500s2.900.800 3.700 2.500"/></svg><span data-i18n="navAdm">ADMIN</span></button>
+      </div>
     </nav>
     <!-- Same button as the app's: it names the language it switches TO. Only the
          interface changes — names, jobs and everything else read from the
@@ -1012,8 +1054,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 <!-- This PC's own copy: the admin's PIN connects it to the shared renewal list and to the activity log. -->
 <div id="linkbox" hidden>
   <div class="gate-card">
-    <p class="gate-note" data-i18n="connectT"></p>
-    <input id="link-pin" class="field" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    <input id="link-pin" class="field" type="password" inputmode="numeric" autocomplete="off" maxlength="8" data-i18n-ph="connectT">
     <p class="gate-err" id="link-err" role="alert"></p>
     <div style="display:flex;gap:8px;justify-content:center"><button type="button" class="btn primary" id="link-go" data-i18n="connectBtn"></button><button type="button" class="btn" id="link-no" data-i18n="cancel"></button></div>
   </div>
@@ -2052,7 +2093,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e73051302633";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "88d8a5f746da";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2161,6 +2202,26 @@ async function unboxUsers(){
   if(blocked()) return;                             // locked: the gate shows nobody, and says why
   PIN_LEN = list.pinLen; USERS = list.users;
 }
+/* THE USERS THE ADMIN ADDED. The page carries its first users sealed inside it; one added later from the ADMIN page is
+   kept, sealed the same way, in the database, and the gate asks for them (with the gate's own token — the seals are
+   noise without their PINs, as the page's own are). A name the admin has switched off is not at the gate. */
+let USERS_IN = null;                                // the users the page itself carries, once the gate has asked for the others
+const usersIn = () => USERS_IN || USERS;
+async function gateUsers(){
+  if(!ONLINE || !GATE || blocked()) return;
+  if(!USERS_IN){ if(!USERS.length) return; USERS_IN = USERS.slice(); }
+  try{
+    const got = await gateCall("users", {}), off = new Set((got && got.off) || []);
+    const more = ((got && got.users) || []).filter(u => u && u.name && u.salt && u.iv && u.data && !USERS_IN.some(x => x.name === u.name));
+    const now = USERS_IN.filter(u => !off.has(u.name)).concat(more);
+    if(JSON.stringify(now.map(u => u.name + u.iv)) === JSON.stringify(USERS.map(u => u.name + u.iv))) return;
+    const picked = gateUser();
+    USERS = now;
+    if($("gate").hidden || gateBusy) return;
+    gateIdx = picked ? gateNames().indexOf(picked.name) : -1;
+    paintNames(); paintUser();
+  }catch(e){}
+}
 function blockHere(){
   try{ localStorage.setItem(BLOCK_KEY, String(Date.now())); }catch(e){}
   USERS = []; PIN_LEN = 0;
@@ -2233,13 +2294,13 @@ const I18N = {
     lostMini:"— مش في مكانه", lostPill:"الملف مش في مكانه", fileLabel:"الملف",
     navRnw:"كشف التجديد", rnwWindow:n => "خلال " + n + " يوم", daysLeft:"المتبقي (يوم)", navSnd:"تصدير بيانات", sndPermits:"تصاريح", allEmployees:"كل الموظفين", colIndOk:"أفراد ساري", colIndBan:"أفراد منع", colVehOk:"مركبات ساري", colVehBan:"مركبات منع", colTotal:"الإجمالي", colSerial:"م",
     pinAria:"الرقم السري", userAria:"المستخدم", chooseUser:"اختر اسم المستخدم", back:"رجوع", checking:"جارٍ التحقق", signOut:"خروج",
-    wrongLeft:n => "رمز غير صحيح — باقي " + (n === 1 ? "محاولة واحدة" : "محاولتين") + " والجهاز يتقفل", blockedNote:"الجهاز ده مقفول — ارجع لمسؤول السيستم",
-    roleAdmin:"أدمن", roleViewer:"مشاهد", connectT:"اكتب رقمك السري عشان الجهاز ده يتصل", connectBtn:"اتصال", connectBad:"الرقم غلط، أو مش رقم الأدمن", cancel:"إلغاء",
+    wrongLeft:n => "رمز غير صحيح — باقي " + (n === 1 ? "محاولة واحدة" : "محاولتين") + " والجهاز يتقفل", blockedNote:"الجهاز ده مقفول",
+    roleAdmin:"أدمن", roleViewer:"مشاهد", connectT:"الرقم السري", connectBtn:"اتصال", connectBad:"الرقم غلط", cancel:"إلغاء",
     navToday:"تجديد اليوم", renew:"تجديد", renewOn:"في تجديد اليوم ✓", renewAdded:"اتضاف لتجديد اليوم ✓", renewUndone:"اتشال من تجديد اليوم",
-    renewKept:"ده مضاف من الأدمن — مايتشالش من هنا", renewFail:"العملية ما تمتش — جرّب تاني",
+    renewKept:"مايتشالش من هنا", renewFail:"العملية ما تمتش — جرّب تاني",
     todayFilePer:"تصدير تجديد افراد", todayFileVeh:"تصدير تجديد مركبات", todayClear:"مسح الكل", todayClearSure:n => "تمسح الـ " + n + " اللي في تجديد اليوم كلهم؟",
     todayBy:"اتضاف", todayDel:"شيل من القايمة", todayMissing:"مش موجود في الشيتات على الجهاز ده", todayNone:"مفيش حد في تجديد اليوم",
-    todayHint:"افتح كارت أي شخص أو مركبة واضغط «تجديد»", todayRead:x => "آخر قراية " + x, todayOffline:"تعذر الاتصال بقاعدة البيانات",
+    todayRead:x => "آخر قراية " + x, todayOffline:"تعذر الاتصال بقاعدة البيانات",
     navCards:"قارئ البطاقات", cdDrop:"اسحب ملف البطايق هنا",
     cdPick:"اختيار ملف", cdDropHere:"افلت ملف البطايق هنا", cdBadType:"الملف لازم يكون وورد \u200E.docx أو PDF", cdEmptyFile:"الملف ده فاضي", cdSent:"اتبعت للقارئ ✓",
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
@@ -2250,6 +2311,10 @@ const I18N = {
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
     cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
+    navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
+    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adPinSaved:"الباسورد اتغيّر ✓",
+    adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
+    adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE",
     navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
     spHintPlace:"المحافظة أو المدينة اللي في العنوان", spHintLetter:"رقم الخطاب — أو الأرقام اللي بعد آخر /", spHintCompany:"اسم الشركة",
     spNone:"مفيش حد", spMore:n => "و " + n + " كمان — كلهم في ملف الإكسيل", spOld:"من طلب سابق", csvSpecial:"بحث-خاص",
@@ -2288,6 +2353,7 @@ const I18N = {
     devT:"الأجهزة", devName:"الجهاز", devLast:"آخر مستخدم", devSeen:"آخر مرة", devState:"الحالة", devOpen:"شغال", devLocked:"مقفول", devWrong:n => n + " رمز غلط", devUnlock:"فك القفل", devLock:"قفل الجهاز", devThis:"جهازك ده",
     devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.",
     lgPage:"فتح صفحة", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
+    lgOpenSearch:"افتح البحث", lgPageK:"الصفحة", lgRowsK:"الصفوف", lgByK:"البحث بـ",
     lgEveryone:"كل المستخدمين", lgRefresh:"تحديث", lgNone:"مفيش نشاط متسجّل", lgMore:"الأقدم", lgUntil:"لحد",
     idleOut:"اتقفل لعدم الاستخدام", iconOnly:"السيستم بيفتح من الأيقونة بتاعته بس",
     sessionEnded:"الدخول اتلغى — ادخل تاني", srcSheet:"شيت جوجل", srcDb:"قاعدة البيانات", srcBucket:"من قاعدة البيانات",
@@ -2318,7 +2384,7 @@ const I18N = {
     segPeople:"أفراد", segVehicles:"مركبات", search:"بحث", clear:"مسح", lines:n => "سطور: " + n,
     ariaNids:"الأرقام القومية، رقم في كل سطر", ariaPlates:"أرقام السيارات، رقم في كل سطر",
     sumAsked:"مطلوب", sumFound:"موجود", sumMiss:"مش موجود", without:x => "من غير " + x, searchLacks:x => x + " مش متحمّل دلوقتي — النتايج دي من غيره، و«مش موجود» مش أكيدة", sumDup:"متكرر في القايمة",
-    missRow:"مش موجود في الشيت", moreNames:(term, n) => "«" + term + "» — " + n + " كمان · اكتب اسم كمان معاه", moreRow:(term, n) => "«" + term + "» — " + n + " نتيجة كمان", typed:"المكتوب: ",
+    missRow:"مش موجود في الشيت", moreNames:(term, n) => "«" + term + "» — " + n + " كمان", moreRow:(term, n) => "«" + term + "» — " + n + " نتيجة كمان", typed:"المكتوب: ",
     infoOnly:"للعلم بس", clean:"سليم", first400:n => "دول أول 400 من " + n,
     place:"المكان", live:"تحديث تلقائي", cached:"آخر قراية محفوظة", notYetPill:"لسه",
     lastSaved:"آخر حفظ في الإكسيل", readAt:"اتقرا في السيستم", refreshSheets:"تحديث الشيتات", chooseFiles:"اختيار ملفات",
@@ -2355,13 +2421,13 @@ const I18N = {
     lostMini:"— not found", lostPill:"File not where it should be", fileLabel:"File",
     navRnw:"Renewals", rnwWindow:n => "Within " + n + " days", daysLeft:"Days left", navSnd:"Data export", sndPermits:"Permits", allEmployees:"All employees", colIndOk:"People valid", colIndBan:"People banned", colVehOk:"Vehicles valid", colVehBan:"Vehicles banned", colTotal:"Total", colSerial:"#",
     pinAria:"PIN", userAria:"User", chooseUser:"Select user name", back:"Back", checking:"Checking", signOut:"Sign out",
-    wrongLeft:n => "Incorrect PIN — " + n + (n === 1 ? " try" : " tries") + " left before this device is locked", blockedNote:"This device is locked — see the system's administrator",
-    roleAdmin:"Admin", roleViewer:"Viewer", connectT:"Enter your PIN to connect this PC", connectBtn:"Connect", connectBad:"Wrong PIN, or not the admin's", cancel:"Cancel",
+    wrongLeft:n => "Incorrect PIN — " + n + (n === 1 ? " try" : " tries") + " left before this device is locked", blockedNote:"This device is locked",
+    roleAdmin:"Admin", roleViewer:"Viewer", connectT:"PIN", connectBtn:"Connect", connectBad:"Wrong PIN", cancel:"Cancel",
     navToday:"Today's renewals", renew:"Renew", renewOn:"In today's renewals ✓", renewAdded:"Added to today's renewals ✓", renewUndone:"Taken off today's renewals",
-    renewKept:"The admin put this one on the list — it cannot be taken off from here", renewFail:"It did not go through — try again",
+    renewKept:"It cannot be taken off from here", renewFail:"It did not go through — try again",
     todayFilePer:"Export people form", todayFileVeh:"Export vehicles form", todayClear:"Clear all", todayClearSure:n => "Clear all " + n + " from today's renewals?",
     todayBy:"Added", todayDel:"Take off the list", todayMissing:"Not in the sheets on this device", todayNone:"Nobody in today's renewals",
-    todayHint:"Open anyone's card, or a vehicle's, and press “Renew”", todayRead:x => "Last read " + x, todayOffline:"Cannot reach the database",
+    todayRead:x => "Last read " + x, todayOffline:"Cannot reach the database",
     navCards:"Card reader", cdDrop:"Drop the cards file here",
     cdPick:"Choose a file", cdDropHere:"Drop the cards file here", cdBadType:"The file must be Word \u200E.docx or PDF", cdEmptyFile:"This file is empty", cdSent:"Sent to the reader ✓",
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
@@ -2372,6 +2438,10 @@ const I18N = {
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
     cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
+    navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
+    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adPinSaved:"Password changed ✓",
+    adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
+    adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet",
     navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
     spHintPlace:"The governorate or city in the address", spHintLetter:"The letter number — or the digits after its last /", spHintCompany:"The company's name",
     spNone:"Nobody", spMore:n => "and " + n + " more — all of them are in the Excel file", spOld:"From an earlier request", csvSpecial:"Special-search",
@@ -2410,6 +2480,7 @@ const I18N = {
     devT:"Devices", devName:"Device", devLast:"Last user", devSeen:"Last seen", devState:"State", devOpen:"Open", devLocked:"Locked", devWrong:n => n + " wrong " + (n === 1 ? "PIN" : "PINs"), devUnlock:"Unlock", devLock:"Lock device", devThis:"This device",
     devLockSure:"Lock this device? It will not open the system until you unlock it.",
     lgPage:"Opened page", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
+    lgOpenSearch:"Open the search", lgPageK:"Page", lgRowsK:"Rows", lgByK:"Searched by",
     lgEveryone:"All users", lgRefresh:"Refresh", lgNone:"No activity recorded", lgMore:"Older", lgUntil:"until",
     idleOut:"Locked after inactivity", iconOnly:"This system opens from its own icon only",
     sessionEnded:"Signed out — sign in again", srcSheet:"Google Sheet", srcDb:"Database", srcBucket:"From the database",
@@ -2440,7 +2511,7 @@ const I18N = {
     segPeople:"People", segVehicles:"Vehicles", search:"Search", clear:"Clear", lines:n => "Lines: " + n,
     ariaNids:"National IDs, one per line", ariaPlates:"Plate numbers, one per line",
     sumAsked:"Asked", sumFound:"Found", sumMiss:"Not found", without:x => "Without: " + x, searchLacks:x => x + " is not loaded right now — these answers are without it, and a “Not found” is not certain", sumDup:"Repeated in the list",
-    missRow:"Not in the sheet", moreNames:(term, n) => "“" + term + "” — " + n + " more · add another name", moreRow:(term, n) => "“" + term + "” — " + n + " more", typed:"Typed: ",
+    missRow:"Not in the sheet", moreNames:(term, n) => "“" + term + "” — " + n + " more", moreRow:(term, n) => "“" + term + "” — " + n + " more", typed:"Typed: ",
     infoOnly:"For information", clean:"Clean", first400:n => "First 400 of " + n,
     place:"Location", live:"Live", cached:"Last saved read", notYetPill:"Not yet",
     lastSaved:"Last saved in Excel", readAt:"Read into the system", refreshSheets:"Refresh sheets", chooseFiles:"Choose files",
@@ -2971,10 +3042,12 @@ function paintBoxes(){
     b.textContent = i < n ? "•" : "";
   });
 }
+const paintNames = () => { $("gate-list").innerHTML = gateNames().map((name, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(name)) +
+    '</span><span class="uname">' + esc(name) + '</span><svg class="ucheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join(""); };
 function showGate(message){
   gateIdx = -1;
-  $("gate-list").innerHTML = gateNames().map((name, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(name)) +
-    '</span><span class="uname">' + esc(name) + '</span><svg class="ucheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>').join("");
+  paintNames();
+  gateUsers();
   paintUser(); openUsers(false);
   const nobody = !USERS.length;                   // opened without the icon's key: nobody to pick, nothing to type
   $("upick").hidden = $("pinboxes").hidden = nobody; $("gate-note").hidden = !nobody;
@@ -3020,6 +3093,8 @@ async function submitPin(){
     try{ dev = await dbCall("system_gate_ok", { p_device: deviceId(), p_tag: deviceTag(), p_user: user.name }); }catch(x){}
     if(session !== mine) return;                    // signed out again while the database was being told: that sign-in is over
     if(dev && dev.blocked){ blockHere(); session = null; try{ sessionStorage.removeItem(SESSION_KEY); }catch(x){} pin.value = ""; return showGate(); }
+    await permsSync();                              // what is in his menu — before the first page is drawn
+    if(session !== mine) return;                    // switched off: he is back at the gate
     logAct("in");
     pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
@@ -3074,6 +3149,8 @@ async function startOnline(){
   $("user-name").textContent = session.u; $("side-user").hidden = false;
   $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";          // only the admin's login says what it is: anyone else is simply signed in
   histLoad();
+  permsSync();
+  if(!permsTimer) permsTimer = setInterval(() => { if(!document.hidden) permsSync(); }, 60000);
   busy(true, t("reading"));
   await cloudSync(true);
   busy(false);
@@ -3135,7 +3212,9 @@ function paintShell(){
   // the admin's two pages are in the admin's menu only
   $("nav-today").hidden = $("nav-log").hidden = !isAdmin();
   $("nav-cards").hidden = ONLINE || !isAdmin();              // the reader runs on this PC: its page is this PC's alone
-  $("nav-src").hidden = !isAdmin();                          // «الشيتات» is the admin's page (asked for, 5 October 2026)
+  $("nav-src").hidden = $("nav-adm").hidden = !isAdmin();    // «الشيتات» and ADMIN are the admin's pages
+  PERM_PAGES.forEach(v => { const b = document.querySelector('#nav button[data-view="' + v + '"]'); if(b) b.hidden = !can(v); });
+  document.body.classList.toggle("noexp", !can("x-export"));
   cardsNav(); deskNav();
   $("nb-today").textContent = isAdmin() && RENEW.length ? RENEW.length : "";
   $("nb-emp").textContent = M.emp ? countBy(M.emp.list, e => !e.resigned) : "";    // the figure the page opens on
@@ -3234,11 +3313,12 @@ function countUp(){
 const pgHead = (title, extra) => '<div class="pg-head"><div><h1 class="pg-t">' + title + "</h1></div>" + (extra || "") + "</div>";
 const scrollPart = h => '<div class="pg-scroll">' + h + "</div>";
 function render(){
-  if(st.view === "src" && !isAdmin()){ st.view = "multi"; paintShell(); }       // «الشيتات» is the admin's page: anyone else lands on the search
-  const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase";      // the card reader needs no sheet to work
+  if(!canSee(st.view)){ st.view = firstPage(); paintShell(); }       // a page that is not in this user's menu: he lands on the first that is
+  if(st.view === "none") return page("", "");                         // nothing is in his menu at all
+  const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -3959,9 +4039,14 @@ const permitBan = g => !!g && g.p.cat === "ban";
 const empBan = e => !!e && e.permit_status === "ممنوع";
 const xcell = (c, r) => c.tone ? { v: c.x(r), tone: XTONE[c.tone(r)] || "" } : c.x(r);
 const today = () => stamp(Date.now()).slice(0, 10);
-async function saveXLSX(sheet, name){ saveBytes(await NCM.writeXLSX(sheet), name); }
+async function saveXLSX(sheet, name){
+  exportRows = sheet.rows ? sheet.rows.length : (sheet.sheets || []).reduce((n, x) => n + ((x && x.rows) || []).length, 0);
+  saveBytes(await NCM.writeXLSX(sheet), name);
+}
 function saveBytes(bytes, name){
-  logAct("export", { f: name });
+  if(!can("x-export")) return;
+  logAct("export", Object.assign({ f: name, v: st.view, n: exportRows }, logCtx()));
+  exportRows = 0;
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   a.download = name + " " + today().replace(/\//g, "-") + ".xlsx";
@@ -4318,7 +4403,7 @@ function goMulti(){
   if(ta) st.multi.text = ta.value;
   runMulti(); paintMulti(); multiLines();      // a new answer starts at its first row
   histAdd();
-  if(st.multi.res && st.multi.res.terms) logAct("search", { m: st.multi.res.mode, n: st.multi.res.terms, f: st.multi.res.found });
+  if(st.multi.res && st.multi.res.terms) logAct("search", { m: st.multi.res.mode, n: st.multi.res.terms, f: st.multi.res.found, q: parseTerms(st.multi.text).terms });
 }
 async function exportMulti(){
   const res = st.multi.res;
@@ -4575,10 +4660,47 @@ const FORM_COMPANY = "NCM";                         // the company column says t
 const LINK_KEY = "ncm_system_link";
 let RENEW = [], renewAt = 0, renewBusy = false, renewErr = false, todaySig = "";
 let localLink = null;
-try{ if(!ONLINE) localLink = JSON.parse(sessionStorage.getItem(LINK_KEY) || "null"); }catch(e){}
+// (kept on this PC from then on — asked for, 6 October 2026: no page asks for the PIN again; the PIN is asked for once)
+try{ if(!ONLINE) localLink = JSON.parse(localStorage.getItem(LINK_KEY) || sessionStorage.getItem(LINK_KEY) || "null"); }catch(e){}
 // what the list is reached with: where the database is, its key, the salt of the hashes, this user's token, and who he is
 const link = () => ONLINE ? (session && session.rt && session.src.db ? { db: session.src.db, k: session.k, rs: session.rs, rt: session.rt, u: session.u } : null) : localLink;
 const isAdmin = () => ONLINE ? !!session && session.role === "admin" : true;        // this PC's own copy is the admin's
+/* WHO SEES WHAT (asked for, 6 October 2026). The admin says, user by user, which pages are in his menu and what he
+   may do on them; it is kept in the database (system_users.pages) and read at sign-in and every minute after, so a
+   change reaches a window that is already open. No list at all means everything a user may see. The admin's own
+   pages are never on anybody's list: they are his because he is the admin, and nobody else's menu, page or message
+   says that there is one. This is what the page shows — the sheets a user's key reads are the same for all. */
+const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "rnw", "check"];
+const PERM_CAN = ["x-export", "x-renew", "x-aseup"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup" };
+const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1 };
+const perms = () => ONLINE && session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
+const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
+const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : can(v);
+const firstPage = () => PERM_PAGES.find(can) || "none";
+let permsTimer = null;
+/* What he sees is also remembered on the device, user by user: a sign-in the database cannot be reached for opens on
+   what it was last told, not on everything. And a token the database no longer knows — a user taken off the list —
+   is a sign-in that is over. */
+const PERMS_KEY = "ncm_system_pages";
+async function permsSync(){
+  if(!ONLINE || !session || !link() || session.role === "admin") return;
+  const mine = session, slot = PERMS_KEY + ":" + session.u;
+  try{
+    const me = await dbCall("system_user_me", { p_name: session.u });
+    if(session !== mine || !me) return;
+    if(me.off) return signOut(t("sessionEnded"));
+    const pages = Array.isArray(me.pages) ? me.pages.map(String) : null;
+    try{ if(pages) localStorage.setItem(slot, JSON.stringify(pages)); else localStorage.removeItem(slot); }catch(x){}
+    if(JSON.stringify(pages) === JSON.stringify(session.pages || null)) return;
+    session.pages = pages; keepSession();
+    if($("gate").hidden){ paintShell(); render(); }
+  }catch(e){
+    if(session !== mine) return;
+    if(/ answered 40[13]$/.test(String(e && e.message))) return signOut(t("sessionEnded"));
+    if(session.pages === undefined){ try{ const kept = JSON.parse(localStorage.getItem(slot) || "null"); if(Array.isArray(kept)){ session.pages = kept.map(String); keepSession(); } }catch(x){} }
+  }
+}
 async function sha256hex(s){
   const b = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)));
   return [].map.call(b, x => x.toString(16).padStart(2, "0")).join("");
@@ -4636,7 +4758,7 @@ let drawerRef = "";
 async function paintRenewBtn(){
   const b = $("dr-renew"), ref = drawerRef, who = ref && renewWho(ref);
   // no button where there is nothing to renew, nor online before the sign-in has brought the token
-  if(!who || (ONLINE && !link())){ b.hidden = true; return; }
+  if(!who || !can("x-renew") || (ONLINE && !link())){ b.hidden = true; return; }
   const h = link() ? await renewHash(who.id) : "";
   if(drawerRef !== ref) return;                     // another card was opened meanwhile
   const on = !!h && RENEW.some(r => r.ref === h);
@@ -4646,7 +4768,7 @@ async function paintRenewBtn(){
 }
 async function renewPress(){
   const ref = drawerRef, who = ref && renewWho(ref), b = $("dr-renew");
-  if(!who || b.disabled) return;
+  if(!who || b.disabled || !can("x-renew")) return;
   if(!link()) return connectAsk(renewPress);        // this PC's own copy, not connected yet: the PIN first, then the press
   b.disabled = true;
   try{
@@ -4686,12 +4808,12 @@ async function connectGo(){
   linkBusy = false;
   if(!got){ err.className = "gate-err"; err.textContent = t("connectBad"); box.value = ""; return box.focus(); }
   localLink = { db: got.db, k: got.k, rs: got.rs, rt: got.rt, u: name };
-  try{ sessionStorage.setItem(LINK_KEY, JSON.stringify(localLink)); }catch(e){}
+  try{ localStorage.setItem(LINK_KEY, JSON.stringify(localLink)); }catch(e){}
   const then = linkThen;
   connectClose();
   await renewSync();
   devicesSync();
-  if(then) then(); else if(st.view === "today") render();
+  if(then) then(); else render();
 }
 /* Whose hash is whose: every person and vehicle this page has read, under the
    hash he would have on the list. Worked out once for each reading of the
@@ -4734,7 +4856,7 @@ async function paintToday(){
   if(!$("today")) return;
   if(!link()){                                      // this PC's own copy, before the PIN was given
     $("today-acts").innerHTML = "";
-    $("today").innerHTML = '<div class="empty"><h3>' + t("connectT") + '</h3><p style="margin-top:14px"><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
+    $("today").innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
     return;
   }
   await renewResolve();
@@ -4750,7 +4872,7 @@ async function paintToday(){
     '<button class="btn sm primary" data-act="today-veh"' + (ready("veh") ? "" : " disabled") + ">" + t("todayFileVeh") + "</button>" +
     '<button class="btn sm danger" data-act="today-clear"' + (RENEW.length ? "" : " disabled") + ">" + t("todayClear") + "</button>";
   const state = '<div class="today-state">' + (renewErr ? pill("bad", t("todayOffline")) : '<span class="count" id="today-read">' + t("todayRead", num(stamp(renewAt))) + "</span>") + "</div>";
-  if(!RENEW.length){ box.innerHTML = state + '<div class="empty"><h3>' + t("todayNone") + "</h3><p>" + t("todayHint") + "</p></div>"; return; }
+  if(!RENEW.length){ box.innerHTML = state + '<div class="empty"><h3>' + t("todayNone") + "</h3></div>"; return; }
   const table = (kind, list) => {
     const form = FORMS[kind];
     let n = 0;
@@ -4782,6 +4904,7 @@ async function exportToday(kind){
   // a national id goes in as its digits (the form keeps that column as a number); anything else as it is written
   const idOf = v => { const d = NCM.toLatinDigits(String(v || "")).replace(/\s+/g, ""); return /^\d+$/.test(d) ? d : String(v || ""); };
   const rows = list.map((x, i) => kind === "per" ? [i + 1, x.cells[0], idOf(x.cells[1]), FORM_COMPANY, x.cells[2]] : [i + 1, x.cells[0], x.cells[1], FORM_COMPANY]);
+  exportRows = rows.length;
   saveBytes(await NCM.writeForm({ header: form.header, widths: form.widths, rows }), form.file);
   toast(t("exported", rows.length));
 }
@@ -4813,10 +4936,35 @@ async function todayRemove(ids){
    and any device can be locked by him on the spot.
    ============================================================ */
 // one line of the log; never waited for, and never allowed to get in the way of what is being done
+/* WHAT EXACTLY WAS DONE (asked for, 6 October 2026). A search is written down with what was typed, an export or a
+   print with the page it came from, how that page was filtered and how many rows went out — so a line of the log
+   can be opened on all of it. The database keeps 4000 characters of a line: a list longer than fits is cut at whole
+   entries and says how many were left out, never in the middle of one. */
+const LOG_ROOM = 3600;
+function logFit(detail){
+  let text = JSON.stringify(detail);
+  if(text.length <= LOG_ROOM || !Array.isArray(detail.q)) return text.length <= LOG_ROOM ? text : JSON.stringify({ f: detail.f, v: detail.v, n: detail.n, m: detail.m });
+  const d = Object.assign({}, detail, { q: detail.q.slice() });
+  let cut = 0;
+  while(d.q.length > 1 && JSON.stringify(Object.assign(d, { more: cut })).length > LOG_ROOM){ d.q.length = Math.max(1, Math.floor(d.q.length * .8)); cut = detail.q.length - d.q.length; }
+  d.q = d.q.map(x => String(x).slice(0, 400));
+  return JSON.stringify(d);
+}
+// where an export or a print came from: the page's own filters, or the search behind it
+function logCtx(){
+  const v = st.view, keep = o => { const c = {}; Object.keys(o).forEach(k => { if(o[k]) c[k] = o[k]; }); return c; };
+  if(v === "emp" || v === "ind" || v === "veh"){ const f = st[v]; return { c: keep({ st: f.status, dept: f.dept, collar: f.collar, co: f.company, mail: f.mail, q: f.q }) }; }
+  if(v === "snd" || v === "rnw") return { c: keep({ o: sndState().open || "" }) };
+  if(v === "multi" && st.multi.res) return { c: { m: st.multi.res.mode }, q: parseTerms(st.multi.text).terms };
+  if(v === "spc" && st.spc.res) return { c: { by: st.spc.res.by }, q: [String(st.spc.text || "").trim()] };
+  return {};
+}
+let exportRows = 0;                                 // how many rows the file being saved holds
 function logAct(act, detail){
   if(!ONLINE || !session || !session.rt || !session.sid) return;
   const l = link();
   if(!l) return;
+  if(detail && typeof detail === "object") detail = logFit(detail);
   try{
     fetch(l.db + "/rest/v1/rpc/system_log_add", { method: "POST", keepalive: true,
       headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
@@ -4877,11 +5025,62 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc" };
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm" };
+const logOpen = new Set();                          // the lines that stand open
+function logDetail(r){
+  try{ return r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ return { text: r.detail }; }
+}
+// the card a line is about, among what this page has read — as the address the card opens by
+function logCardRef(d){
+  const hit = renewIndex.get(d.h) || {};
+  if(d.s === "veh") return hit.veh ? "veh:" + hit.veh.key : "";
+  const g = hit.ind, e = hit.emp, first = d.s === "emp" ? (e || g) : (g || e);
+  return !first ? "" : first === e ? "emp:" + e.emp_code : "ind:" + g.key;
+}
+/* What a line opens on. A search: everything that was typed, and a button that asks it again here. An export or a
+   print: the page, the file, the rows, and how the page was filtered. Nothing for a line that has no more to say. */
+function logMoreHTML(r){
+  const d = logDetail(r), kv = (k, v) => v === "" || v === undefined || v === null ? "" : '<span class="lgkv"><i>' + t(k) + "</i> " + v + "</span>";
+  const terms = Array.isArray(d.q) ? d.q.filter(x => x !== "" && x !== null) : [];
+  const typed = !terms.length ? "" : '<div class="lgterms">' + terms.map(x => '<span class="term num">' + esc(x) + "</span>").join("") + (d.more ? '<span class="pill mute">+' + (+d.more || 0) + "</span>" : "") + "</div>";
+  const pageName = v => VIEW_NAME[v] ? esc(t(VIEW_NAME[v])) : "";
+  if(r.act === "search"){
+    if(!terms.length) return "";
+    return '<div class="lgkvs">' + (d.m === "spc" ? kv("lgByK", esc(t(SPC_WORD[d.by] || SPC_WORD.place))) : "") + kv("sumAsked", num(+d.n || 0)) + kv("sumFound", num(+d.f || 0)) + "</div>" + typed +
+      '<p class="lgrun"><button class="btn sm primary" data-log-run="' + r.id + '">' + t("lgOpenSearch") + "</button></p>";
+  }
+  if(r.act === "export" || r.act === "print"){
+    const c = d.c || {}, L = LISTS[d.v], chip = L && c.st ? (L.chips.find(x => x[0] === c.st) || [])[1] : "";
+    const filter = [chip ? t(chip) : "", c.dept, c.collar, c.co, c.mail].filter(Boolean).map(x => pill("white", x)).join(" ") + (c.q ? ' <span class="term">' + esc(c.q) + "</span>" : "");
+    const body = '<div class="lgkvs">' + kv("lgPageK", pageName(d.v)) + (r.act === "export" ? kv("fileLabel", esc(d.f || "")) + kv("lgRowsK", d.n ? num(+d.n) : "") : "") +
+      kv("sender", c.o ? esc(c.o) : "") + kv("lgByK", c.by ? esc(t(SPC_WORD[c.by] || SPC_WORD.place)) : c.m ? esc(t(c.m === "veh" ? "segVehicles" : "segPeople")) : "") + kv("filter", filter) + "</div>" + typed;
+    return d.v || terms.length ? body : "";
+  }
+  return "";
+}
+function logToggle(id){
+  const row = document.querySelector('#logv tr[data-log="' + id + '"]'), r = LOG.find(x => String(x.id) === String(id));
+  if(!row || !r) return;
+  const next = row.nextElementSibling, open = next && next.classList.contains("lgmore");
+  if(open){ next.remove(); logOpen.delete(String(id)); row.classList.remove("open"); return; }
+  const more = logMoreHTML(r);
+  if(!more) return;
+  row.insertAdjacentHTML("afterend", '<tr class="lgmore"><td colspan="3">' + more + "</td></tr>");
+  logOpen.add(String(id)); row.classList.add("open");
+}
+// the search of a line, asked again on its own page
+function logRun(id){
+  const r = LOG.find(x => String(x.id) === String(id)), d = r ? logDetail(r) : {}, q = Array.isArray(d.q) ? d.q.join("\n") : "";
+  if(!q) return;
+  leave();
+  if(d.m === "ase"){ st.ase.text = q; go("ase"); return aseGo(); }
+  if(d.m === "spc"){ st.spc.by = SPC_BY.indexOf(d.by) < 0 ? "place" : d.by; st.spc.text = q; go("spc"); return goSpc(); }
+  st.multi.mode = d.m === "veh" ? "veh" : "ind"; st.multi.text = q;
+  go("multi"); goMulti();
+}
 // one line of a visit, in words
 function logLine(r){
-  let d = {};
-  try{ d = r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ d = { text: r.detail }; }
+  const d = logDetail(r);
   const whose = () => {            // the card behind a hash, among what this page has read
     const hit = renewIndex.get(d.h) || {}, e = hit.emp, g = d.s === "veh" ? hit.veh : hit.ind;
     if(d.s === "veh") return g ? "<b>" + esc(g.plate) + "</b>" : dimDash;
@@ -4911,7 +5110,7 @@ async function paintLog(){
   if(!$("logv")) return;
   if(!link()){                                      // this PC's own copy, before the PIN was given
     $("log-acts").innerHTML = "";
-    $("logv").innerHTML = '<div class="empty"><h3>' + t("connectT") + '</h3><p style="margin-top:14px"><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
+    $("logv").innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>";
     return;
   }
   await renewResolve();
@@ -4946,8 +5145,12 @@ async function paintLog(){
     const role = gate ? pill("bad", t("roleGate")) : pill(first.role === "admin" ? "link" : "white", t(first.role === "admin" ? "roleAdmin" : "roleViewer"));
     return '<section class="panel logv' + (gate ? " gate" : "") + '"><div class="panel-h"><h3 class="panel-t">' + esc(first.who || "—") + " " + role + ' <span class="logdev">' + esc(first.device) + "</span></h3>" +
         '<span class="logwhen">' + num(stamp(a)) + (z - a > 59000 ? " <i>" + t("lgUntil") + "</i> " + num(stamp(z).slice(11)) : "") + "</span></div>" +
-      '<div class="tblwrap"><table class="tbl plain"><tbody>' + list.map(r => { const w = logLine(r);
-        return '<tr><td class="ix">' + num(stamp(Date.parse(r.at)).slice(11)) + '</td><td class="nowrap">' + w[0] + "</td><td>" + (r.who !== first.who && r.who ? esc(r.who) + (w[1] ? " · " : "") : "") + (w[1] || "") + "</td></tr>"; }).join("") +
+      '<div class="tblwrap"><table class="tbl plain"><tbody>' + list.map(r => { const w = logLine(r), more = logMoreHTML(r), open = more && logOpen.has(String(r.id));
+        // a line about a card opens the card; a line with more to say opens on it
+        const card = r.act === "card" || r.act === "renew" || r.act === "unrenew" ? logCardRef(logDetail(r)) : "";
+        return "<tr" + (card ? ' class="lgrow" data-open="' + esc(card) + '"' : more ? ' class="lgrow' + (open ? " open" : "") + '" data-log="' + r.id + '"' : "") + '><td class="ix">' + num(stamp(Date.parse(r.at)).slice(11)) + '</td><td class="nowrap">' + w[0] + "</td><td>" +
+          (r.who !== first.who && r.who ? esc(r.who) + (w[1] ? " · " : "") : "") + (w[1] || "") + (more ? '<span class="lgchev" aria-hidden="true"></span>' : "") + "</td></tr>" +
+          (open ? '<tr class="lgmore"><td colspan="3">' + more + "</td></tr>" : ""); }).join("") +
       "</tbody></table></div></section>";
   }).join("")) + (logMore ? '<p style="text-align:center;margin:6px 0 14px"><button class="btn" data-act="log-more">' + t("lgMore") + "</button></p>" : "");
 }
@@ -5564,7 +5767,7 @@ async function aseGo(){
     const by = new Map();
     (got || []).forEach(r => { if(!by.has(r[0])) by.set(r[0], []); by.get(r[0]).push(r.slice(1)); });
     st.ase.res = { terms, rows: terms.map(x => ({ term: x, hits: by.get(x) || [] })) };
-    logAct("search", { m: "ase", n: terms.length, f: terms.filter(x => by.has(x)).length });
+    logAct("search", { m: "ase", n: terms.length, f: terms.filter(x => by.has(x)).length, q: terms });
     histKeep({ m: "ase", t: terms.join("\n"), n: terms.length, f: terms.filter(x => by.has(x)).length });
   }catch(e){ st.ase.res = null; toast(t("noConn"), true); }
   paintAse();
@@ -5572,7 +5775,7 @@ async function aseGo(){
 /* LOADING AN EXPORT. Read here, in the browser; handed over in pieces; made the copy only when the database holds
    every row that was read. Stopped half-way — the tab closed, the line dropped — the old copy is still the copy. */
 async function aseUpload(file){
-  if(!file || !link() || ASE.busy) return;
+  if(!file || !link() || ASE.busy || !can("x-aseup")) return;
   if(!/\.xlsx$/i.test(file.name)) return toast(t("needXlsx"), true);
   const who = link().u || "";
   ASE.busy = { step: "read", done: 0, total: 0 };
@@ -5600,7 +5803,7 @@ async function aseUpload(file){
 }
 function renderAse(){
   if(!link()){                                      // this PC's own copy, before it is connected: the copy is in the database
-    return page(pgHead(t("navAse")), scrollPart('<div class="empty"><h3>' + t("connectT") + '</h3><p style="margin-top:14px"><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"));
+    return page(pgHead(t("navAse")), scrollPart('<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"));
   }
   page(
     '<div class="multi-head noprint">' +
@@ -5641,7 +5844,7 @@ function paintAseHead(){
       ? '<span class="ase-what">' + fileName(i.file || "") + '</span><span class="count num">' + esc(t("asRows", (+i.rows).toLocaleString("en-US"))) + "</span>" +
         '<span class="logwhen">' + num(stamp(+i.at)) + "</span>" + (i.by ? '<span class="count">' + esc(i.by) + "</span>" : "")
       : '<span class="count">' + t("asNone") + "</span>") +
-    (i && i.loading ? pill("blue", t("asLoadingBy", i.loading_by || "")) : '<button class="btn sm" data-act="ase-up">' + t("asUp") + "</button>");
+    (i && i.loading ? pill("blue", t("asLoadingBy", i.loading_by || "")) : can("x-aseup") ? '<button class="btn sm" data-act="ase-up">' + t("asUp") + "</button>" : "");
 }
 function paintAse(){
   const box = $("ares"), res = st.ase.res;
@@ -5696,7 +5899,7 @@ function paintAse(){
    request's address, letter and company, and says so under his name. */
 const SPC_SHOW = 1500;                      // rows drawn on screen; the Excel file has them all
 const SPC_BY = ["place", "letter", "company"];
-const SPC_WORD = { place: "spPlace", letter: "spLetter", company: "spCompany" }, SPC_HINT = { place: "spHintPlace", letter: "spHintLetter", company: "spHintCompany" };
+const SPC_WORD = { place: "spPlace", letter: "spLetter", company: "spCompany" }, SPC_HINT = { place: "spHintPlace", letter: "spHintLetter", company: "spHintCompany" };       // what the box is, for a screen reader — nothing is written in it
 const spcCache = new WeakMap();
 const spcWord = w => { const f = foldArabic(w); return f.length > 3 && f.startsWith("ال") ? f.slice(2) : f; };
 const spcWords = text => normalize(text).split(/[^\p{L}\p{N}]+/u).map(spcWord).filter(Boolean);
@@ -5793,7 +5996,7 @@ function renderSpc(){
     '<div class="multi-head noprint">' +
       '<div class="multi-box">' +
         '<div class="seg spc-seg">' + SPC_BY.map(k => '<button data-spby="' + k + '" class="' + (sp.by === k ? "on" : "") + '">' + t(SPC_WORD[k]) + "</button>").join("") + "</div>" +
-        '<input class="field spc-in' + (sp.by === "letter" ? " num" : "") + '" id="sp" type="text" spellcheck="false" autocomplete="off" placeholder="' + esc(t(SPC_HINT[sp.by])) + '" aria-label="' + esc(t(SPC_HINT[sp.by])) + '"' +
+        '<input class="field spc-in' + (sp.by === "letter" ? " num" : "") + '" id="sp" type="text" spellcheck="false" autocomplete="off" aria-label="' + esc(t(SPC_HINT[sp.by])) + '"' +
           (sp.by === "company" ? ' list="sp-cos"' : "") + ">" +
         (sp.by === "company" ? '<datalist id="sp-cos">' + spcCompanies().map(c => '<option value="' + esc(c) + '">').join("") + "</datalist>" : "") +
         '<div class="multi-bar">' +
@@ -5813,7 +6016,7 @@ function goSpc(){
   if($("sp")) st.spc.text = $("sp").value;
   runSpc(); paintSpc();
   if(!st.spc.res) return;
-  logAct("search", { m: "spc", n: st.spc.res.terms, f: st.spc.res.rows.length });
+  logAct("search", { m: "spc", by: st.spc.res.by, n: st.spc.res.terms, f: st.spc.res.rows.length, q: [String(st.spc.text || "").trim()] });
   histKeep({ m: "spc", by: st.spc.res.by, t: String(st.spc.text || "").trim(), n: st.spc.res.terms, f: st.spc.res.rows.length });
 }
 async function exportSpc(){
@@ -5828,6 +6031,135 @@ async function exportSpc(){
     red: res.rows.map(r => permitBan(r.g) || r.emps.some(empBan))
   }, t("csvSpecial"));
   toast(t("exported", res.rows.length));
+}
+
+/* ============================================================
+   ADMIN — the users, and what each one sees
+   ============================================================
+   The admin's page, in his menu only. Every user is a box: his pages and what he may do, each a chip that is on or
+   off and is kept the moment it is pressed; whether he may come in at all; and, for one added from here, another
+   password or his removal. A user is added with a name and a password: the page seals, under that password, the
+   same things the admin's own sign-in opened — with a viewer's token made for this user alone — and the database
+   keeps the seal, so the gate has him the next time it is opened. The password itself goes nowhere.
+   The users the page was built with are listed too: what they see is set here like anyone's; their passwords are
+   the build's. The admin's own name is never switched off. */
+const ADM = { rows: [], at: 0, err: false, busy: "", pin: "" };
+const admAll = () => PERM_PAGES.concat(PERM_CAN);
+const admMe = () => (link() || {}).u || "";
+async function admSync(){
+  if(!isAdmin() || !link()) return;
+  try{ ADM.rows = (await dbCall("system_user_list", {})) || []; ADM.err = false; ADM.at = Date.now(); }catch(e){ ADM.err = true; }
+  paintAdm();
+}
+// everyone who has a way in: the page's own users first, then the ones added here — each with what the database says of him
+function admUsers(){
+  const by = new Map(ADM.rows.map(r => [r.name, r])), names = usersIn().map(u => u.name).filter((n, i, all) => all.indexOf(n) === i);
+  const row = (name, added) => { const r = by.get(name) || {}; return { name, added, off: !!r.off, pages: Array.isArray(r.pages) ? r.pages : null }; };
+  return names.map(n => row(n, false)).concat(ADM.rows.filter(r => r.added && names.indexOf(r.name) < 0).map(r => row(r.name, true)));
+}
+function renderAdm(){
+  page(pgHead(t("navAdm")), scrollPart('<div id="admv"></div>'));
+  paintAdm();
+  admSync();
+}
+function paintAdm(){
+  const box = $("admv");
+  if(!box || st.view !== "adm") return;
+  if(!link()){ box.innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"; return; }
+  const typing = document.activeElement && document.activeElement.id, name = $("adm-name") ? $("adm-name").value : "", pin = $("adm-pin") ? $("adm-pin").value : "", again = $("adm-again") ? $("adm-again").value : "";
+  const me = admMe();
+  const chip = (u, k, label) => { const on = !u.pages || u.pages.indexOf(k) >= 0; return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
+  box.innerHTML =
+    (ADM.err ? '<div class="today-state">' + pill("bad", t("todayOffline")) + "</div>" : "") +
+    '<section class="panel adm-add"><div class="panel-h"><h3 class="panel-t">' + t("adAdd") + "</h3></div><div class=\"panel-b adm-form\">" +
+      '<input class="field" id="adm-name" type="text" autocomplete="off" spellcheck="false" maxlength="60" aria-label="' + t("adName") + '" placeholder="' + t("adName") + '">' +
+      '<input class="field" id="adm-pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
+      '<button class="btn primary" data-act="adm-add"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === "+" ? "adSealing" : "adSave") + "</button></div></section>" +
+    admUsers().map((u, i) =>
+      '<section class="panel adm-u' + (u.off ? " off" : "") + '"><div class="panel-h">' +
+        '<h3 class="panel-t"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) + "</span> " + esc(u.name) + " " + pill(u.off ? "bad" : "ok", t(u.off ? "adOff" : "adOn")) + "</h3>" +
+        '<div class="adm-acts">' +
+          (u.name === me ? "" : '<button class="btn sm' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + t(u.off ? "adStart" : "adStop") + "</button>") +
+          (u.added ? '<button class="btn sm" data-adm-pin="' + esc(u.name) + '">' + t("adNewPin") + '</button><button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
+        "</div></div>" +
+        (ADM.pin === u.name ? '<div class="panel-b adm-form"><input class="field" id="adm-again" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
+          '<button class="btn primary" data-act="adm-repin"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === u.name ? "adSealing" : "adNewPin") + '</button><button class="btn" data-adm-pin="">' + t("cancel") + "</button></div>" : "") +
+        '<div class="panel-b adm-perms">' +
+          '<div class="adm-row"><span class="adm-k">' + t("adPages") + '</span><div class="chips">' + PERM_PAGES.map(k => chip(u, k, t(VIEW_NAME[k]))).join("") + "</div></div>" +
+          '<div class="adm-row"><span class="adm-k">' + t("adCan") + '</span><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div>" +
+        "</div></section>").join("");
+  if($("adm-name")){ $("adm-name").value = name; $("adm-pin").value = pin; }
+  if($("adm-again")) $("adm-again").value = again;
+  if(typing && $(typing)) $(typing).focus();
+}
+async function admSet(name, pages, off){
+  try{
+    await dbCall("system_user_set", { p_name: name, p_pages: pages, p_off: !!off, p_who: admMe() });
+    const r = ADM.rows.find(x => x.name === name);
+    if(r){ r.pages = pages; r.off = !!off; } else ADM.rows.push({ name, pages, off: !!off, added: false });
+    ADM.err = false;
+  }catch(e){ toast(t("adFail"), true); }
+  paintAdm();
+}
+function admToggle(name, key){
+  const u = admUsers().find(x => x.name === name);
+  if(!u) return;
+  const all = admAll(), now = new Set(u.pages || all);
+  if(now.has(key)) now.delete(key); else now.add(key);
+  const pages = all.filter(k => now.has(k));
+  admSet(name, pages.length === all.length ? null : pages, u.off);      // everything on is no list at all
+}
+function admOff(name){
+  const u = admUsers().find(x => x.name === name);
+  if(u && name !== admMe()) admSet(name, u.pages, !u.off);
+}
+// what a new user's password opens: what the admin's own opened, with a viewer's token that is this user's alone
+async function admSeal(pin){
+  const l = link(), src = ONLINE ? session.src : CLOUD;
+  const token = [].map.call(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2, "0")).join("");
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const material = await crypto.subtle.importKey("raw", new TextEncoder().encode(pin), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: KDF_ROUNDS, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["encrypt"]);
+  const payload = JSON.stringify({ k: l.k, sheet: src.sheet || "", db: l.db, bucket: src.bucket || "", role: "viewer", rs: l.rs, rt: token });
+  const data = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(payload)));
+  return { p_salt: toB64(salt), p_iv: toB64(iv), p_data: toB64(data), p_key: await sha256hex(token) };
+}
+async function admPut(name, pin, mark){
+  if(ADM.busy || !link()) return false;
+  ADM.busy = mark; paintAdm();
+  let ok = false;
+  try{
+    const got = await dbCall("system_user_put", Object.assign({ p_name: name, p_who: admMe() }, await admSeal(pin)));
+    ok = !!(got && got.ok);
+  }catch(e){}
+  ADM.busy = "";
+  if(!ok){ toast(t("adFail"), true); paintAdm(); }
+  return ok;
+}
+const admDigits = v => NCM.toLatinDigits(String(v || "")).replace(/\D/g, "");
+async function admAdd(){
+  const name = String($("adm-name").value || "").replace(/\s+/g, " ").trim(), pin = admDigits($("adm-pin").value);
+  if(!name) return toast(t("adNameBad"), true);
+  if(admUsers().some(u => foldArabic(u.name) === foldArabic(name))) return toast(t("adNameUsed"), true);
+  if(pin.length !== PIN_LEN) return toast(t("adPinBad", PIN_LEN), true);
+  if(!(await admPut(name, pin, "+"))) return;
+  $("adm-name").value = ""; $("adm-pin").value = "";
+  toast(t("adAdded", name));
+  await admSync();
+}
+async function admRepin(){
+  const name = ADM.pin, pin = admDigits($("adm-again") ? $("adm-again").value : "");
+  if(!name) return;
+  if(pin.length !== PIN_LEN) return toast(t("adPinBad", PIN_LEN), true);
+  if(!(await admPut(name, pin, name))) return;
+  ADM.pin = "";
+  toast(t("adPinSaved"));
+  await admSync();
+}
+async function admDel(name){
+  if(!name || !confirm(t("adDelSure", name))) return;
+  try{ await dbCall("system_user_del", { p_name: name }); toast(t("adDeleted")); }catch(e){ toast(t("adFail"), true); }
+  await admSync();
 }
 
 /* ============================================================
@@ -5937,12 +6269,14 @@ document.addEventListener("click", e => {
     if(a === "ase-up") return $("ase-up").click();
     if(a === "ase-go") return aseGo();
     if(a === "spc-go") return goSpc();
+    if(a === "adm-add") return admAdd();
+    if(a === "adm-repin") return admRepin();
     if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; return renderSpc(); }
     if(a === "spc-csv") return exportSpc();
     if(a === "ase-clear"){ st.ase.text = ""; st.ase.res = null; return renderAse(); }
     if(a === "refresh") return refresh();
     if(a === "csv") return exportList(st.view);
-    if(a === "print"){ logAct("print", { v: st.view }); return window.print(); }
+    if(a === "print"){ if(!can("x-export")) return; logAct("print", Object.assign({ v: st.view }, logCtx())); return window.print(); }
     if(a === "link") return connectAsk();
     if(a === "today-per" || a === "today-veh") return exportToday(a.slice(6));
     if(a === "today-clear"){ if(RENEW.length && confirm(t("todayClearSure", RENEW.length))) todayRemove(RENEW.map(r => r.id)); return; }
@@ -5993,6 +6327,18 @@ document.addEventListener("click", e => {
     paintMonth(true);
     return;
   }
+  const lgRun = tg.closest("[data-log-run]");
+  if(lgRun) return logRun(lgRun.dataset.logRun);
+  const lgRow = tg.closest("tr[data-log]");
+  if(lgRow) return logToggle(lgRow.dataset.log);
+  const admP = tg.closest("[data-adm-p]");
+  if(admP){ const at = admP.dataset.admP.lastIndexOf("|"); return admToggle(admP.dataset.admP.slice(0, at), admP.dataset.admP.slice(at + 1)); }
+  const admO = tg.closest("[data-adm-off]");
+  if(admO) return admOff(admO.dataset.admOff);
+  const admN = tg.closest("[data-adm-pin]");
+  if(admN){ ADM.pin = admN.dataset.admPin; paintAdm(); if($("adm-again")) $("adm-again").focus(); return; }
+  const admD = tg.closest("[data-adm-del]");
+  if(admD) return admDel(admD.dataset.admDel);
   const spby = tg.closest("[data-spby]");
   if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; return renderSpc(); }      // another thing to ask by: the box starts empty
   const mmode = tg.closest("[data-mmode]");
@@ -6037,6 +6383,8 @@ out.addEventListener("keydown", e => {
   if(e.target.id === "mt" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); goMulti(); }
   if(e.target.id === "at" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); aseGo(); }
   if(e.target.id === "sp" && e.key === "Enter"){ e.preventDefault(); goSpc(); }        // one line: Enter asks
+  if((e.target.id === "adm-name" || e.target.id === "adm-pin") && e.key === "Enter"){ e.preventDefault(); admAdd(); }
+  if(e.target.id === "adm-again" && e.key === "Enter"){ e.preventDefault(); admRepin(); }
 });
 document.addEventListener("keydown", e => {
   if(e.key !== "Escape") return;

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-oVlybsKUTjXodCedXkztsOK7wdi1js6AGXhKTDjdhe8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-lsTreRk9Y7kfzAN1ipfgICV9bJKBcVQ/rAKYV/yKKkc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -639,6 +639,12 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-row .chip{cursor:pointer;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
 .spc-seg{align-self:center;}
+/* the boxes over a list that are pressed to show their own rows alone */
+.sumbtn{font-family:inherit;cursor:pointer;transition:box-shadow .15s,opacity .15s,transform .12s;}
+.sumbtn:hover{box-shadow:0 3px 10px rgba(14,76,147,.18);}
+.sumbtn:active{transform:scale(.96);}
+.sumbtn.on{box-shadow:0 0 0 2.5px var(--blue);}
+.sum.pick .sumbtn:not(.on){opacity:.55;}
 .spc-in{width:100%;padding:13px 15px;text-align:center;font-size:17px;border-radius:var(--r-lg);}
 /* Every piece of this row has a width of its own rather than its word's:
    «بحث» and "Search" are not the same length, and a row sized by its words
@@ -2093,7 +2099,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "88d8a5f746da";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "46d3d96abc6d";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2614,7 +2620,7 @@ const st = {
   month: "",                                                    // the month of the chart whose list is open under it ("year-month"), or none
   multi: { text: "", mode: "ind", res: null },
   ase: { text: "", res: null },
-  spc: { by: "place", text: "", res: null },                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
+  spc: { by: "place", text: "", res: null, cat: "" },                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "name", d: 1 } },
   veh: { status: "all", mail: "", q: "", sort: { k: "plate", d: 1 } },
@@ -3127,7 +3133,7 @@ function signOut(message){
   // nothing that was read stays behind in the page once its reader has left
   DATA.emp = DATA.per = null; sig.per = sig.emp = ""; net.per = net.emp = null;
   st.multi.text = ""; st.multi.res = null;
-  st.spc.text = ""; st.spc.res = null;
+  st.spc.text = ""; st.spc.res = null; st.spc.cat = "";
   st.ase.text = ""; st.ase.res = null; ASE.info = null; DESK.orders = []; DESK.beat = 0;      // the ASE list and its answers, and the desk's orders, go with him
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
   st.month = "";
@@ -5954,7 +5960,15 @@ function runSpc(){
   const nameOf = r => sortText(r.g ? r.g.name : r.emps[0].full_name), letterOfRow = r => letterOf(r, "letter", "letter_number");
   rows.sort((a, b) => (by === "letter" ? letterOfRow(a).localeCompare(letterOfRow(b)) : 0) || nameOf(a).localeCompare(nameOf(b), "ar"));
   sp.res = { rows, by, terms: terms.length };
+  if(sp.cat && !rows.some(r => spcCat(r) === sp.cat)) sp.cat = "";      // the box that was pressed counts nobody any more
 }
+/* THE BOXES OVER THE LIST ARE PRESSED (asked for, 6 October 2026): «ساري» shows the valid ones alone, «منتهي» the
+   expired, and so on; «موجود» — or the same box again — shows everyone. A man in the permits sheet is counted by his
+   permit there; one who is an employee only, by his employee's permit when it says one of those things. What is
+   exported and printed is what is on screen. */
+const SPC_EMP_CAT = { BANNED: "ban", VERIFIED: "ok", EXPIRING: "soon", EXPIRED: "expired" };
+const spcCat = r => r.g ? r.g.p.cat : SPC_EMP_CAT[r.emps[0].st.code] || "";
+const spcRows = res => st.spc.cat ? res.rows.filter(r => spcCat(r) === st.spc.cat) : res.rows;
 // the search page's own columns; the letter and the company stand in their boxes, as on ASE SEARCH
 const SPC_COLS = MULTI_COLS.ind.map(c =>
   c.tk === "letterNo" ? Object.assign({}, c, { h: r => { const v = letterOf(r, "letter", "letter_number"); return v ? pill("warn", v) : dimDash; } }) :
@@ -5966,10 +5980,11 @@ function paintSpc(){
   const lacking = [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
   const note = lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "";
   if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
-  const cols = written(SPC_COLS, res.rows), cats = {}, shown = res.rows.slice(0, SPC_SHOW);
-  res.rows.forEach(r => { if(r.g) cats[r.g.p.cat] = (cats[r.g.p.cat] || 0) + 1; });
-  const sum = '<div class="sum"><span class="pill ok">' + t("sumFound") + " " + num(res.rows.length) + "</span>" +
-    Object.keys(CAT_PILL).filter(k => cats[k]).map(k => '<span class="pill ' + CAT_PILL[k] + '">' + t(CAT_TILE[k][0]) + " " + num(cats[k]) + "</span>").join("") + "</div>";
+  const cats = {}, mine = spcRows(res), cols = written(SPC_COLS, mine), shown = mine.slice(0, SPC_SHOW), cat = st.spc.cat;
+  res.rows.forEach(r => { const k = spcCat(r); if(k) cats[k] = (cats[k] || 0) + 1; });
+  const box1 = (k, cls, label, n) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-spcat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(n) + "</button>";
+  const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + box1("", "ok", t("sumFound"), res.rows.length) +
+    Object.keys(CAT_PILL).filter(k => cats[k]).map(k => box1(k, CAT_PILL[k], t(CAT_TILE[k][0]), cats[k])).join("") + "</div>";
   box.innerHTML = note +
     '<section class="panel"><div class="panel-h">' + sum +
       '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="spc-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
@@ -5977,7 +5992,7 @@ function paintSpc(){
       cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
     shown.map((r, n) => '<tr data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (n + 1) + "</td>" +
       cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + '">' + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>").join("") +
-    (res.rows.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", res.rows.length - SPC_SHOW)) + "</td></tr>" : "") +
+    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div></section>";
   freeze();
 }
@@ -6014,23 +6029,24 @@ function renderSpc(){
 }
 function goSpc(){
   if($("sp")) st.spc.text = $("sp").value;
+  st.spc.cat = "";
   runSpc(); paintSpc();
   if(!st.spc.res) return;
   logAct("search", { m: "spc", by: st.spc.res.by, n: st.spc.res.terms, f: st.spc.res.rows.length, q: [String(st.spc.text || "").trim()] });
   histKeep({ m: "spc", by: st.spc.res.by, t: String(st.spc.text || "").trim(), n: st.spc.res.terms, f: st.spc.res.rows.length });
 }
 async function exportSpc(){
-  const res = st.spc.res;
-  if(!res || !res.rows.length) return;
+  const res = st.spc.res, mine = res ? spcRows(res) : [];
+  if(!mine.length) return;
   const cols = SPC_COLS;
   await saveXLSX({
     name: t("csvSpecial"), rtl: !isEN(),
     header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
     text: cols.map((c, i) => c.nid ? i + 1 : -1).filter(i => i >= 0),      // ids and letter numbers stay exactly as written
-    rows: res.rows.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
-    red: res.rows.map(r => permitBan(r.g) || r.emps.some(empBan))
+    rows: mine.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
+    red: mine.map(r => permitBan(r.g) || r.emps.some(empBan))
   }, t("csvSpecial"));
-  toast(t("exported", res.rows.length));
+  toast(t("exported", mine.length));
 }
 
 /* ============================================================
@@ -6271,7 +6287,7 @@ document.addEventListener("click", e => {
     if(a === "spc-go") return goSpc();
     if(a === "adm-add") return admAdd();
     if(a === "adm-repin") return admRepin();
-    if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; return renderSpc(); }
+    if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }
     if(a === "spc-csv") return exportSpc();
     if(a === "ase-clear"){ st.ase.text = ""; st.ase.res = null; return renderAse(); }
     if(a === "refresh") return refresh();
@@ -6339,8 +6355,10 @@ document.addEventListener("click", e => {
   if(admN){ ADM.pin = admN.dataset.admPin; paintAdm(); if($("adm-again")) $("adm-again").focus(); return; }
   const admD = tg.closest("[data-adm-del]");
   if(admD) return admDel(admD.dataset.admDel);
+  const spcat = tg.closest("[data-spcat]");
+  if(spcat){ st.spc.cat = st.spc.cat === spcat.dataset.spcat ? "" : spcat.dataset.spcat; return paintSpc(); }
   const spby = tg.closest("[data-spby]");
-  if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; return renderSpc(); }      // another thing to ask by: the box starts empty
+  if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }      // another thing to ask by: the box starts empty
   const mmode = tg.closest("[data-mmode]");
   if(mmode){
     if($("mt")) st.multi.text = $("mt").value;      // the list is kept; only what it is looked up in changes

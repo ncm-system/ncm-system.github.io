@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-lgIi4wzqpQWz6gZC1cDdf4mOWi+dMLgaY5qlZqQn6M8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-uJ/EzTuDf8C/t8xAW5ZqdiZ7vkj/CP1dqDw3HsEfk7Q='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2099,7 +2099,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "715274b5670c";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "1b7c00da8096";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4311,20 +4311,20 @@ const cur = (r, k) => r.g && r.g.cur[k] ? esc(r.g.cur[k]) : dimDash;
 const letterOf = (r, perKey, empKey) => (r.g ? r.g.cur[perKey] : r.emps[0][empKey]) || "";
 const MULTI_COLS = {
   ind: [
-    // in the order asked for; after «المرسل» come the things only the search shows
+    // IN THE SHEET'S OWN ORDER (asked for, 6 October 2026), then the two the system adds; the Excel file keeps the order asked for it — MULTI_FILE
     { tk:"colName", cls:"name", h:r => esc(dash(r.g ? r.g.name : r.emps[0].full_name)), x:r => r.g ? r.g.name : r.emps[0].full_name },
     { tk:"colJob", cls:"mid", h:r => esc(dash(r.g ? r.g.cur.job : r.emps[0].job_title)), x:r => r.g ? r.g.cur.job : r.emps[0].job_title },
     { tk:"colNid", cls:"nowrap", nid:true, h:r => num(r.g ? r.g.nationalId : r.emps[0].national_id), x:r => r.g ? r.g.nationalId : r.emps[0].national_id },
     { tk:"address", cls:"wide", h:r => esc(dash(r.g ? r.g.cur.address : r.emps[0].address)), x:r => r.g ? r.g.cur.address : r.emps[0].address },
+    // (on screen an employee's «موجود» is not shown — `e`; the search's file keeps the cell as the table has it — `x`)
+    { tk:"notes", cls:"wide", h:r => esc(r.g ? r.g.cur.note : empNote(r.emps[0])) || dimDash, e:r => r.g ? r.g.cur.note : empNote(r.emps[0]), x:r => letterOf(r, "note", "notes") },
+    { tk:"sender", cls:"nowrap", h:r => cur(r, "sender"), x:r => r.g ? r.g.cur.sender : "" },
     { tk:"colPermit", cls:"nowrap", h:r => r.g ? permitPill(r.g.p) : empPermit(r.emps[0]), x:r => r.g ? permitText(r.g.p) : empPermitText(r.emps[0]), tone:r => r.g ? r.g.p.cls : r.emps[0].st.k },
     { tk:"colSent", cls:"nowrap", h:r => r.g ? (r.g.cur.dayText ? num(r.g.cur.dayText) : esc(dash(r.g.cur.day))) : dimDash, x:r => r.g ? (r.g.cur.dayText || r.g.cur.day) : "" },
     { tk:"colMail", cls:"nowrap", h:r => cur(r, "mail"), x:r => r.g ? r.g.cur.mail : "" },
     { tk:"letterNo", cls:"nowrap", h:r => letterOf(r, "letter", "letter_number") ? num(letterOf(r, "letter", "letter_number")) : dimDash, x:r => letterOf(r, "letter", "letter_number"), nid:true },
-    { tk:"letterDate", cls:"nowrap", h:r => letterOf(r, "ldate", "letter_date") ? num(letterOf(r, "ldate", "letter_date")) : dimDash, x:r => letterOf(r, "ldate", "letter_date") },
     { tk:"colCompany", cls:"nowrap", h:r => esc(dash(r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM"))), x:r => r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM") },
-    { tk:"sender", cls:"nowrap", h:r => cur(r, "sender"), x:r => r.g ? r.g.cur.sender : "" },
-    // (on screen an employee's «موجود» is not shown — `e`; the search's file keeps the cell as the table has it — `x`)
-    { tk:"notes", cls:"wide", h:r => esc(r.g ? r.g.cur.note : empNote(r.emps[0])) || dimDash, e:r => r.g ? r.g.cur.note : empNote(r.emps[0]), x:r => letterOf(r, "note", "notes") },
+    { tk:"letterDate", cls:"nowrap", h:r => letterOf(r, "ldate", "letter_date") ? num(letterOf(r, "ldate", "letter_date")) : dimDash, x:r => letterOf(r, "ldate", "letter_date") },
     { tk:"aseNote", cls:"wide", h:r => esc(letterOf(r, "anote", "letter_note")) || dimDash, x:r => letterOf(r, "anote", "letter_note") },
     { tk:"colCount", h:r => r.g ? num(r.g.records.length) : dimDash, x:r => r.g ? r.g.records.length : "" },
     { tk:"colEmp", cls:"nowrap", h:r => r.emps.length ? r.emps.map(e => pill("link", t("codeN", e.emp_code)) + " " + pill(e.st.k, empTag(e))).join(" ") : dimDash,
@@ -4340,6 +4340,9 @@ const MULTI_COLS = {
     { tk:"colCount", h:r => num(r.g.records.length), x:r => r.g.records.length }
   ]
 };
+// the search's Excel file: its columns in the order that was asked for it, whatever order the page shows them in
+const MULTI_FILE = ["colName", "colJob", "colNid", "address", "colPermit", "colSent", "colMail", "letterNo", "letterDate", "colCompany", "sender", "notes", "aseNote", "colCount", "colEmp"];
+const fileCols = cols => MULTI_FILE.map(tk => cols.find(c => c.tk === tk)).filter(Boolean);
 const CAT_PILL = { ok:"ok", soon:"warn", expired:"bad", ban:"ban", renew:"bad", temp:"mute", pending:"warn", undet:"mute" };
 function multiOpen(r){
   if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
@@ -4422,7 +4425,7 @@ function goMulti(){
 async function exportMulti(){
   const res = st.multi.res;
   if(!res || !res.rows.length) return;
-  const cols = MULTI_COLS[res.mode], rows = [], red = [], at = tk => cols.findIndex(c => c.tk === tk);
+  const cols = res.mode === "veh" ? MULTI_COLS.veh : fileCols(MULTI_COLS.ind), rows = [], red = [], at = tk => cols.findIndex(c => c.tk === tk);
   res.rows.forEach(r => {
     if(r.more) return;
     // red when the permit found is a ban, or when the employee behind the line is a banned one
@@ -5965,8 +5968,10 @@ function runSpc(){
   };
   let rows = build(false);
   if(!rows.length && by === "place") rows = build(true);
+  // as the sheet has them: a letter's people together, and within that the rows of the permits sheet top to bottom — then those who are employees only, by code
   const nameOf = r => sortText(r.g ? r.g.name : r.emps[0].full_name), letterOfRow = r => letterOf(r, "letter", "letter_number");
-  rows.sort((a, b) => (by === "letter" ? letterOfRow(a).localeCompare(letterOfRow(b)) : 0) || nameOf(a).localeCompare(nameOf(b), "ar"));
+  const rowOf = r => r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
+  rows.sort((a, b) => (by === "letter" ? letterOfRow(a).localeCompare(letterOfRow(b)) : 0) || rowOf(a) - rowOf(b) || nameOf(a).localeCompare(nameOf(b), "ar"));
   sp.res = { rows, by, terms: terms.length };
   if(sp.cat && !rows.some(r => spcCat(r) === sp.cat)) sp.cat = "";      // the box that was pressed counts nobody any more
 }
@@ -6046,7 +6051,7 @@ function goSpc(){
 async function exportSpc(){
   const res = st.spc.res, mine = res ? spcRows(res) : [];
   if(!mine.length) return;
-  const cols = SPC_COLS;
+  const cols = fileCols(SPC_COLS);
   await saveXLSX({
     name: t("csvSpecial"), rtl: !isEN(),
     header: [t("colSerial")].concat(cols.map(c => t(c.tk))),

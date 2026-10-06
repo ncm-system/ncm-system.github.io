@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-tq4LYp38EL1VVr94G+bad4KhLyDVaGiIJ8vL4xYK6Zo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-lgIi4wzqpQWz6gZC1cDdf4mOWi+dMLgaY5qlZqQn6M8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2099,7 +2099,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "627a0d05facd";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "715274b5670c";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3586,20 +3586,22 @@ const LISTS = {
     match: (r, f) => (!f.company || r.cur.company === f.company) && (!f.mail || r.cur.mail === f.mail),
     open: r => "ind:" + r.key,
     xk: ["name", "nid", "job", "company", "permit", "day", "mail", "n", "emp"],      // what the Excel file of this list holds — unchanged by what the page shows
-    // every column the individuals sheet has, in the order asked for (the search page's order); the Excel file keeps its own columns — `xk` below
+    /* every column the individuals sheet has, IN THE SHEET'S OWN ORDER (asked for, 6 October 2026: «خلى ترتيب الاعمده برضو
+       نفس الكلام») — الاسم · الوظيفة · الرقم القومي · العنوان · ملاحظات · المرسل · تصريح · Mail Day · MAIL TYPE · Letter Number ·
+       الشركة · تاريخ الخطاب · ملاحظة — and after them the two the system adds. The Excel file keeps its own columns — `xk` above. */
     cols: [
       { k:"name", fz:true, tk:"colName", h:r => esc(dash(r.name)), sv:r => sortText(r.name), x:r => r.name, cls:"name" },
       { k:"job", tk:"colJob", h:r => esc(dash(r.cur.job)), sv:r => sortText(r.cur.job), x:r => r.cur.job, cls:"mid" },
       { k:"nid", tk:"colNid", h:r => r.nationalId ? num(r.nationalId) : '<span class="dim">' + t("notRegistered") + "</span>", sv:r => r.nid, x:r => r.nationalId, cls:"nowrap" },
       { k:"addr", tk:"address", h:r => r.cur.address ? esc(r.cur.address) : dimDash, sv:r => sortText(r.cur.address), x:r => r.cur.address, cls:"wide" },
+      { k:"note", tk:"notes", h:r => r.cur.note ? esc(r.cur.note) : dimDash, sv:r => sortText(r.cur.note), x:r => r.cur.note, cls:"txt" },
+      { k:"sender", tk:"sender", h:r => r.cur.sender ? esc(r.cur.sender) : dimDash, sv:r => sortText(r.cur.sender), x:r => r.cur.sender, cls:"nowrap" },
       { k:"permit", tk:"colPermit", h:r => permitPill(r.p), sv:r => r.p.date ? r.p.date.getTime() : Infinity, x:r => permitText(r.p), tone:r => r.p.cls, cls:"nowrap" },
       { k:"day", tk:"colSent", h:r => r.cur.dayText ? num(r.cur.dayText) : esc(dash(r.cur.day)), sv:r => r.cur.dayDate ? r.cur.dayDate.getTime() : 0, x:r => r.cur.dayText || r.cur.day, cls:"nowrap" },
       { k:"mail", tk:"colMail", h:r => esc(dash(r.cur.mail)), sv:r => r.cur.mail, x:r => r.cur.mail },
       { k:"letter", tk:"letterNo", h:r => r.cur.letter ? num(r.cur.letter) : dimDash, sv:r => r.cur.letter, x:r => r.cur.letter, cls:"nowrap" },
-      { k:"ldate", tk:"letterDate", h:r => r.cur.ldate ? num(r.cur.ldate) : dimDash, sv:r => dateSort(r.cur.ldate), x:r => r.cur.ldate, cls:"nowrap" },
       { k:"company", tk:"colCompany", h:r => esc(dash(r.cur.company)), sv:r => r.cur.company, x:r => r.cur.company },
-      { k:"sender", tk:"sender", h:r => r.cur.sender ? esc(r.cur.sender) : dimDash, sv:r => sortText(r.cur.sender), x:r => r.cur.sender, cls:"nowrap" },
-      { k:"note", tk:"notes", h:r => r.cur.note ? esc(r.cur.note) : dimDash, sv:r => sortText(r.cur.note), x:r => r.cur.note, cls:"txt" },
+      { k:"ldate", tk:"letterDate", h:r => r.cur.ldate ? num(r.cur.ldate) : dimDash, sv:r => dateSort(r.cur.ldate), x:r => r.cur.ldate, cls:"nowrap" },
       { k:"anote", tk:"aseNote", h:r => r.cur.anote ? esc(r.cur.anote) : dimDash, sv:r => sortText(r.cur.anote), x:r => r.cur.anote, cls:"txt" },
       { k:"n", tk:"colCount", h:r => num(r.records.length), sv:r => r.records.length, x:r => r.records.length },
       { k:"emp", tk:"colEmp", h:r => r.emp ? r.emp.map(e => pill("link", t("codeN", e.emp_code))).join(" ") : dimDash, sv:r => r.emp ? parseInt(r.emp[0].emp_code, 10) : Infinity, x:r => r.emp ? r.emp.map(e => e.emp_code).join(" ") : "", cls:"nowrap" }

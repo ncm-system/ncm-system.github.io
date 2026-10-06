@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-QUElWZrc4N7j1od4wK7vbGfyn/zFs3OyQxkWAie/ee4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-MVLEsZVD84ZoIV07a1XemxGH9jetS379FHp8Ky1ZWVU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -900,11 +900,12 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .shot{margin:0;overflow:hidden;border-radius:var(--r);background:#f7fafd;border:1px solid #cdd7e2;}
 .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
 /* the box that picks a row for the file and the paper (the employees' list) */
-.pick{display:inline-flex;align-items:center;vertical-align:middle;margin-inline-end:8px;cursor:pointer;}
-.pick input{position:absolute;opacity:0;width:0;height:0;}
-.pick span{display:block;width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line-2);background:#fff;transition:background .14s,border-color .14s;}
-.pick input:checked + span{background:var(--blue);border-color:var(--blue);box-shadow:inset 0 0 0 2px #fff;}
-.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);}
+label.pick{display:inline-flex;align-items:center;vertical-align:middle;margin-inline-end:8px;cursor:pointer;}
+label.pick input{position:absolute;opacity:0;width:0;height:0;}
+label.pick span{display:block;width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line-2);background:#fff;transition:background .14s,border-color .14s;}
+label.pick input:checked + span{background:var(--blue);border-color:var(--blue);box-shadow:inset 0 0 0 2px #fff;}
+label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);}
+#picked{white-space:nowrap;}
 .tbl tr.unpicked td{opacity:.5;}
 .tbl .paperonly{display:none;}
 .noshot{display:flex;align-items:center;justify-content:center;padding:22px;background:var(--tint);color:var(--mute);font-size:13.5px;font-weight:800;}
@@ -977,9 +978,22 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   body.madm .side.open .side-user{margin-bottom:0;}
   body.madm .side.open .src-mini{display:none;}
   body.madm .rlamp{margin-bottom:6px;}
-  body.madm .backbtn{right:12px;top:10px;width:78px;height:34px;}
+  /* «رجوع» stands in the bar itself, beside the menu's button: hung over the page it sat on top of whatever the page
+     began with. And the bar carries the mark, so the page does not draw it a second time under it. */
+  body.madm .backbtn{position:fixed;top:9px;right:auto;inset-inline-end:58px;z-index:61;width:78px;height:34px;}
+  body.madm .cbrand{display:none;}
+  body.madm .multi-head{padding-top:4px;}
   body.madm .multi-ta{min-height:110px;}
   body.madm .panel-h{flex-wrap:wrap;gap:8px;}
+  /* over a table: the counting boxes on lines of their own, then the buttons on theirs — each row breaking where the
+     screen ends instead of running out of it */
+  body.madm .panel-h > .sum{flex:1 1 100%;justify-content:center;}
+  body.madm .panel-h > .noprint{flex:1 1 100%;flex-wrap:wrap;justify-content:center;}
+  body.madm .sum > .count{flex:1 1 100%;text-align:center;font-size:12px;overflow-wrap:anywhere;}
+  body.madm .pg-head > div{flex-wrap:wrap;justify-content:center;}
+  /* two boxes side by side want 420 dots each: on a phone they stand one under the other */
+  body.madm .grid2{grid-template-columns:minmax(0,1fr);}
+  body.madm .desk{grid-template-columns:minmax(0,1fr);}
   body.madm .adm-row{flex-direction:column;align-items:stretch;gap:6px;}
   body.madm .adm-k{width:auto;}
   body.madm #drawer{width:100vw;}
@@ -2243,7 +2257,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "d20826bef1a9";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0fed7285788d";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

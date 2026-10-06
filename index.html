@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-tgg2iwG+ZsqblbmYpwZ3p5WYWiG8zeXGvqYepoT75/Q='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-OH7txVegTwiLaXqnSmWky4SVJy+4yMeNISC2D0vIDSM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -644,6 +644,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .multi-bar{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
 /* ADMIN: a box to add a user with, and a box for every user — his pages and what he may do, each a chip that is on or off */
 .adm-add,.adm-u{margin-bottom:14px;}
+.adm-app{margin:0 0 14px;text-align:center;}
 .adm-form{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
 .adm-form .field{min-width:210px;text-align:center;}
 .adm-u .panel-t{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
@@ -2166,7 +2167,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e98fc8a40436";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2ec6333fb072";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2403,6 +2404,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص",
+    appInstall:"تثبيت التطبيق على الموبايل",
     navAsk:"المساعد", askGo:"اسأل", csvAsk:"المساعد", askNeedsAse:"محتاج نسخة ASE",
     navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
     spHintPlace:"المحافظة أو المدينة اللي في العنوان", spHintLetter:"رقم الخطاب — أو الأرقام اللي بعد آخر /", spHintCompany:"اسم الشركة",
@@ -2537,6 +2539,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file",
+    appInstall:"Install the app on this phone",
     navAsk:"Assistant", askGo:"Ask", csvAsk:"Assistant", askNeedsAse:"Needs the ASE copy",
     navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
     spHintPlace:"The governorate or city in the address", spHintLetter:"The letter number — or the digits after its last /", spHintCompany:"The company's name",
@@ -3223,6 +3226,7 @@ function idleTick(){
 }
 function signOut(message){
   session = null;
+  appOffer();                                     // the app is offered to the admin alone: it goes with him
   cloudGen++; cloudBusy = false;
   try{ sessionStorage.removeItem(SESSION_KEY); }catch(e){}
   clearInterval(cloudTimer); cloudTimer = null;
@@ -3320,6 +3324,7 @@ function paintShell(){
   PERM_PAGES.forEach(v => { const b = document.querySelector('#nav button[data-view="' + v + '"]'); if(b) b.hidden = !can(v); });
   document.body.classList.toggle("noexp", !can("x-export"));
   document.body.classList.toggle("madm", isAdmin());              // the phone's layout is the admin's (see the styles)
+  appOffer();
   $("dr-print").hidden = !can("x-export") || !can("x-card");
   $("menu-btn").setAttribute("aria-label", t("menuAria"));
   readerLamp();
@@ -6256,6 +6261,32 @@ function printCard(){
   document.body.classList.add("print-card");
   window.print();
 }
+/* THE APP ON THE ADMIN'S PHONE (asked for, 6 October 2026: «نسخة منه apk… ليا أنا بس كأدمن»). The published page can
+   be installed on a phone as an app — its own icon, its own window, no address bar — by the phone's browser, which
+   makes and installs the package itself. What a browser needs for that (a paper naming the app and its icons — and
+   no worker: one would stand between the page and every request it makes) is put in the page ONLY while the admin is
+   signed in: nobody else is ever offered it.
+   The offer the browser then makes is kept, and the ADMIN page has the button that takes it. The app is the same
+   page: the same gate, the same PIN, and a newly published copy reaches it by itself. */
+let appAsk = null;
+const appLink = () => document.querySelector('link[rel="manifest"]');
+function appOffer(){
+  if(!ONLINE) return;
+  const on = !!session && isAdmin(), had = appLink();
+  if(!on){ if(had) had.remove(); appAsk = null; return; }
+  if(had) return;
+  const l = document.createElement("link");
+  l.rel = "manifest"; l.href = "app.webmanifest";
+  document.head.appendChild(l);
+}
+const appInside = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+async function appInstall(){
+  const ask = appAsk;
+  if(!ask) return;
+  appAsk = null;
+  try{ ask.prompt(); await ask.userChoice; }catch(e){}
+  paintAdm();
+}
 // the phone's menu (the admin's): unfolded by its button, folded away again when a page is picked
 function menuFold(open){
   const side = document.querySelector(".side");
@@ -6660,6 +6691,7 @@ function paintAdm(){
   const chip = (u, k, label) => { const on = !u.pages || u.pages.indexOf(k) >= 0; return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
   box.innerHTML =
     (ADM.err ? '<div class="today-state">' + pill("bad", t("todayOffline")) + "</div>" : "") +
+    (appAsk && !appInside() ? '<p class="adm-app"><button class="btn primary" data-act="app-install">' + t("appInstall") + "</button></p>" : "") +
     '<section class="panel adm-add"><div class="panel-h"><h3 class="panel-t">' + t("adAdd") + "</h3></div><div class=\"panel-b adm-form\">" +
       '<input class="field" id="adm-name" type="text" autocomplete="off" spellcheck="false" maxlength="60" aria-label="' + t("adName") + '" placeholder="' + t("adName") + '">' +
       '<input class="field" id="adm-pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
@@ -6790,6 +6822,8 @@ $("nav").addEventListener("click", e => { if(e.target.closest("button[data-view]
 $("dr-print").addEventListener("click", printCard);
 $("rlamp").addEventListener("click", () => { menuFold(false); if(st.view !== "src"){ leave(); go("src"); } });
 window.addEventListener("afterprint", () => document.body.classList.remove("print-card"));
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); if(!ONLINE || !session || !isAdmin()) return; appAsk = e; if(st.view === "adm") paintAdm(); });
+window.addEventListener("appinstalled", () => { appAsk = null; if(st.view === "adm") paintAdm(); });
 setInterval(readerLamp, 5000);
 setInterval(readerAsk, ONLINE ? 60000 : 30000);
 setTimeout(readerAsk, 4000);
@@ -6893,6 +6927,7 @@ document.addEventListener("click", e => {
     if(a === "log-csv") return exportLog();
     if(a === "cmp-run") return cmpRun();
     if(a === "cmp-csv") return exportCmp();
+    if(a === "app-install") return appInstall();
     if(a === "adm-add") return admAdd();
     if(a === "adm-repin") return admRepin();
     if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }

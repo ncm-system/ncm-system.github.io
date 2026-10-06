@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-uJ/EzTuDf8C/t8xAW5ZqdiZ7vkj/CP1dqDw3HsEfk7Q='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-8F4s77D+bhAEo5fQc3/clWvORVUtNvP/XOlozvdE1Bw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -106,8 +106,8 @@ html,body{height:100%;overflow:hidden;}
 
 /* THE MENU. Four groups with a hairline between them. A line is an icon in a tile of its own and a name; the page
    that is open is a blue bar with the mark's green at its edge. A group with nothing in it for this user is not there. */
-.nav{display:flex;flex-direction:column;margin-top:14px;}
-.navg{position:relative;display:flex;flex-direction:column;gap:2px;padding:7px 0;}
+.nav{flex:none;display:flex;flex-direction:column;margin-top:8px;}
+.navg{position:relative;display:flex;flex-direction:column;gap:2px;padding:6px 0;}
 .navg + .navg::before{content:"";position:absolute;top:0;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 20%,var(--line-2) 80%,transparent);}
 .navg:not(:has(button:not([hidden]))){display:none;}
 .nav button{
@@ -133,8 +133,26 @@ html,body{height:100%;overflow:hidden;}
 .nav .nb:empty{display:none;}                 /* a badge with nothing to say takes no room */
 .nav button.on .nb{background:rgba(255,255,255,.22);color:#fff;}
 
+.fab.menubtn{display:none;}          /* a phone's, and the admin's (see the narrow-window styles) */
+/* the reader is not there: said to the admin, on every page */
+.rlamp{display:flex;align-items:center;gap:8px;width:100%;margin-bottom:10px;padding:8px 12px;border-radius:var(--r);border:1px solid var(--bad-br);background:var(--bad-bg);color:var(--bad);font:inherit;font-size:12.5px;font-weight:800;text-align:start;cursor:pointer;}
+.rlamp[hidden]{display:none;}
+.rlamp .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--bad);animation:rlamp 1.6s ease-in-out infinite;}
+@keyframes rlamp{50%{opacity:.25;}}
+/* the report: figures in boxes, and two tables side by side — made to fit a sheet of paper */
+.rep-date{text-align:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px;}
+.rep-h{margin:16px 2px 8px;font-size:15px;font-weight:800;color:var(--navy);}
+.rep-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;}
+.rep-k{padding:10px 8px;border-radius:14px;border:1px solid var(--line-2);background:var(--panel);text-align:center;}
+.rep-k b{display:block;font-family:var(--mono);font-size:22px;line-height:1.2;color:var(--navy);}
+.rep-k span{font-size:12.5px;font-weight:800;color:var(--muted);}
+.rep-k.ok b{color:var(--ok);} .rep-k.warn b{color:var(--warn);} .rep-k.bad b,.rep-k.ban b{color:var(--bad);}
+.rep-two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;margin-top:6px;}
+.rep-two .tbl td,.rep-two .tbl th{padding:6px 9px;}
+@media (max-width:920px){ .rep-two{grid-template-columns:minmax(0,1fr);} }
+
 /* ---------- language switch — the app's own button ---------- */
-.side-lang{display:flex;justify-content:center;margin-top:18px;}
+.side-lang{flex:none;display:flex;justify-content:center;margin-top:12px;}
 .langbtn{
   display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;
   border:1px solid var(--line-2);background:var(--tint);color:var(--blue);
@@ -915,19 +933,49 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   background:var(--text);color:#fff;font-size:13px;font-weight:700;white-space:nowrap;
 }
 
+/* A PHONE, OR A NARROW WINDOW — THE ADMIN'S (asked for, 6 October 2026: «نسخة الموبايل دي ليا أنا بس كأدمن»). For him
+   (body.madm, set when it is the admin who is in) the menu becomes a bar across the top — the mark, and a button
+   that unfolds everything else (the pages, the language, who is signed in) and folds it away
+   again when a page is picked. Anyone else on a narrow screen has what there was before: the menu's lines wrapped
+   across the top. For both the page under it scrolls as one ordinary page, and a table moves sideways in its box. */
 @media (max-width:920px){
   #app{grid-template-columns:1fr;}
-  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;}
-  .brand .tagline,.brand .hr,.side-foot{display:none;}
-  .nav{flex:1;flex-direction:row;flex-wrap:wrap;margin-top:0;}
-  .nav button{width:auto;padding:8px 11px;font-size:13.5px;gap:7px;}
-  .nav .nb{margin-inline-start:2px;}
-  .nav .sep{display:none;}
-  .side-lang{margin-top:0;}
-  #out{--pad-x:14px;--pad-t:8px;}
-  .backbtn{right:14px;}
-  .cbrand .ncm{font-size:32px;}
+  #out{--pad-x:12px;--pad-t:8px;}
+  .backbtn{right:12px;}
+  .cbrand .ncm{font-size:30px;}
   .slots{grid-template-columns:1fr;}
+  .brand .tagline,.brand .hr{display:none;}
+
+  body:not(.madm) .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;}
+  body:not(.madm) .side-foot{display:none;}
+  body:not(.madm) .nav{flex:1;flex-direction:row;flex-wrap:wrap;gap:4px;margin-top:0;}
+  body:not(.madm) .navg{flex-direction:row;flex-wrap:wrap;gap:4px;padding:0;}
+  body:not(.madm) .navg + .navg::before{display:none;}
+  body:not(.madm) .nav button{width:auto;padding:4px 10px 4px 6px;font-size:13.5px;gap:7px;}
+  body:not(.madm) .nav button.on::after{display:none;}
+  body:not(.madm) .nav .nb{margin-inline-start:2px;}
+  body:not(.madm) .side-lang{margin-top:0;}
+
+  body.madm .side{position:sticky;top:0;z-index:60;height:auto;max-height:100vh;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 12px;
+        background:rgba(255,255,255,.94);border-inline-end:0;border-bottom:1px solid var(--line-2);box-shadow:0 4px 18px rgba(14,76,147,.10);}
+  body.madm .brand{flex-direction:row;align-items:baseline;gap:7px;}
+  body.madm .brand .ncm{font-size:24px;}
+  body.madm .brand .appname{font-size:14px;}
+  body.madm .menubtn{display:flex;width:36px;height:36px;margin-inline-start:auto;}
+  body.madm .side.open .menubtn{background:var(--blue);border-color:var(--blue);color:#fff;}
+  body.madm .nav,body.madm .side-lang,body.madm .side-foot{display:none;}
+  body.madm .side.open .nav{display:flex;flex:none;width:100%;margin-top:2px;max-height:calc(100vh - 190px);overflow-y:auto;}
+  body.madm .side.open .side-lang{display:flex;flex:1;margin-top:0;justify-content:flex-start;}
+  body.madm .side.open .side-foot{display:block;flex:2;margin-top:0;padding-top:0;}
+  body.madm .side.open .side-user{margin-bottom:0;}
+  body.madm .side.open .src-mini{display:none;}
+  body.madm .rlamp{margin-bottom:6px;}
+  body.madm .backbtn{top:10px;width:78px;height:34px;}
+  body.madm .multi-ta{min-height:110px;}
+  body.madm .panel-h{flex-wrap:wrap;gap:8px;}
+  body.madm .adm-row{flex-direction:column;align-items:stretch;gap:6px;}
+  body.madm .adm-k{width:auto;}
+  body.madm #drawer{width:100vw;}
 }
 /* A window too small to hold a fixed head and still leave room to read under
    it goes back to scrolling as one ordinary page. */
@@ -948,6 +996,15 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
   .pg-table,.pg-table > .panel{display:block;}
   .pg-table > .panel > .tblwrap{overflow:visible;}
   .side,.toolbar,.noprint,.credit,#drawer,#veil,#toast,#busy{display:none!important;}
+  /* ONE MAN'S FILE ON PAPER: his card — what it says of him, his permits, the photo of his id — and nothing else */
+  body.print-card #app{display:none!important;}
+  body.print-card #drawer{display:block!important;position:static;transform:none;width:auto;height:auto;border:0;box-shadow:none;background:#fff;}
+  body.print-card .dr-top{border-bottom:2px solid #1565c0;background:none;padding:0 0 8px;}
+  body.print-card .dr-top::before{content:"NCM · NUCLEAR CONCRETE MIXES";font-family:var(--cond);font-weight:700;letter-spacing:.12em;font-size:13px;color:#1565c0;direction:ltr;}
+  body.print-card .dr-top button{display:none!important;}
+  body.print-card .dr-top h2{text-align:end;font-size:16px;}
+  body.print-card .dr-body{overflow:visible;padding:10px 0 0;}
+  .rep-k{break-inside:avoid;} .rep-two{break-inside:avoid;}
   #app{display:block;}
   #out{display:block;padding:0;max-width:none;}
   .panel{border:none;box-shadow:none;background:#fff;}
@@ -967,6 +1024,8 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       <span class="hr"></span>
       <span class="appname">SYSTEM</span>
     </div>
+    <!-- on a phone the menu folds away behind this -->
+    <button type="button" class="fab menubtn" id="menu-btn" aria-label="القائمة" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav class="nav" id="nav">
       <!-- Four groups (asked for, 6 October 2026): looking someone up · what is on record · the lists that go out ·
            the admin's own pages, which are in nobody else's menu. «تجديد اليوم» stands with the lists; it too is his alone. -->
@@ -986,6 +1045,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
         <button data-view="rnw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.300-5.600"/><path d="M20 4v4h-4"/><path d="M12 8v4l2.500 2"/></svg><span data-i18n="navRnw">كشف التجديد</span><em class="nb" id="nb-rnw"></em></button>
         <button data-view="today" id="nav-today" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17M9 15l2 2 4-4"/></svg><span data-i18n="navToday"></span><em class="nb" id="nb-today"></em></button>
         <button data-view="check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5.2c0 4.6-3.2 8-8 9.3-4.8-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg><span data-i18n="navCheck">فحص الداتا</span><em class="nb" id="nb-check"></em></button>
+        <button data-view="cmp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 4L3.500 7.500M7 4l3.500 3.500M17 20V4M17 20l-3.500-3.500M17 20l3.500-3.500"/></svg><span data-i18n="navCmp">مقارنة ASE</span><em class="nb alert" id="nb-cmp"></em></button>
       </div>
       <div class="navg">
         <button data-view="log" id="nav-log" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="navLog"></span><em class="nb alert" id="nb-log"></em></button>
@@ -1004,6 +1064,8 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
       </button>
     </div>
     <div class="side-foot">
+      <!-- the admin's alone: the reader on the work PC has not been heard from for a while -->
+      <button type="button" class="rlamp" id="rlamp" hidden><span class="dot lost"></span><span id="rlamp-t"></span></button>
       <!-- who is signed in, and the way out — the online edition only -->
       <div class="side-user" id="side-user" hidden>
         <span id="user-name"></span>
@@ -1071,6 +1133,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
     <button class="fab" id="dr-x" aria-label="إغلاق"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
     <h2 id="dr-t"></h2>
     <button type="button" class="btn sm" id="dr-renew" hidden></button>
+    <button type="button" class="btn sm" id="dr-print" data-i18n="print"></button>
   </div>
   <div class="dr-body" id="dr-b"></div>
 </aside>
@@ -2099,7 +2162,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1b7c00da8096";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "510c7ac97d93";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2213,20 +2276,29 @@ async function unboxUsers(){
    noise without their PINs, as the page's own are). A name the admin has switched off is not at the gate. */
 let USERS_IN = null;                                // the users the page itself carries, once the gate has asked for the others
 const usersIn = () => USERS_IN || USERS;
+/* ANOTHER PASSWORD, GIVEN FROM THE ADMIN PAGE. For a user the page was built with, the new password's seal is kept in
+   the database beside the added users — marked here `over` — and from then on the page's own seal of him is refused
+   at this gate even when the old password opens it (see submitPin): his ordinary way in (`viewer`) and, for the
+   admin, his admin's way in (`admin`) each have their own. What the gate was last told is kept on the device, so a
+   gate that cannot reach the database still knows whose password was changed. */
+const GATE_USERS_KEY = "ncm_system_gate_users";
 async function gateUsers(){
   if(!ONLINE || !GATE || blocked()) return;
   if(!USERS_IN){ if(!USERS.length) return; USERS_IN = USERS.slice(); }
-  try{
-    const got = await gateCall("users", {}), off = new Set((got && got.off) || []);
-    const more = ((got && got.users) || []).filter(u => u && u.name && u.salt && u.iv && u.data && !USERS_IN.some(x => x.name === u.name));
-    const now = USERS_IN.filter(u => !off.has(u.name)).concat(more);
-    if(JSON.stringify(now.map(u => u.name + u.iv)) === JSON.stringify(USERS.map(u => u.name + u.iv))) return;
-    const picked = gateUser();
-    USERS = now;
-    if($("gate").hidden || gateBusy) return;
-    gateIdx = picked ? gateNames().indexOf(picked.name) : -1;
-    paintNames(); paintUser();
-  }catch(e){}
+  let got = null;
+  try{ got = await gateCall("users", {}); try{ localStorage.setItem(GATE_USERS_KEY, JSON.stringify(got)); }catch(x){} }
+  catch(e){ try{ got = JSON.parse(localStorage.getItem(GATE_USERS_KEY) || "null"); }catch(x){} }
+  if(!got || !USERS_IN) return;
+  const off = new Set(got.off || []), whole = u => u && u.name && u.salt && u.iv && u.data, built = n => USERS_IN.some(x => x.name === n);
+  const more = (got.users || []).filter(whole).map(u => built(u.name) ? Object.assign({}, u, { over: "viewer" }) : u);
+  const adm = (got.admins || []).filter(u => whole(u) && built(u.name)).map(u => Object.assign({}, u, { over: "admin" }));
+  const now = USERS_IN.concat(more, adm).filter(u => !off.has(u.name)), sig = list => JSON.stringify(list.map(u => u.name + u.iv + (u.over || "")));
+  if(sig(now) === sig(USERS)) return;
+  const picked = gateUser();
+  USERS = now;
+  if($("gate").hidden || gateBusy) return;
+  gateIdx = picked ? gateNames().indexOf(picked.name) : -1;
+  paintNames(); paintUser();
 }
 function blockHere(){
   try{ localStorage.setItem(BLOCK_KEY, String(Date.now())); }catch(e){}
@@ -2317,8 +2389,14 @@ const I18N = {
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
     cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
+    repOpen:"تقرير", repTitle:"تقرير التصاريح", repCompanies:"الشركات — تصاريح الأفراد", repMonth:"الشهر", rdSince:x => "القارئ واقف من " + x, menuAria:"القائمة",
+    lgWhenK:"الوقت", lgUserK:"المستخدم", lgActK:"الإجراء", lgDetailK:"التفاصيل",
+    navCmp:"مقارنة ASE", cmChecked:"اتراجع", cmSame:"مطابق", cmDiff:"فيه فرق", cmNone:"مفيش فروق", cmRun:"قارن من جديد", csvCmp:"مقارنة-ASE",
+    cmBusy:(a, b) => "بيقارن — " + a + " من " + b, cmWhat:"الفرق", cmAseSt:"حالة ASE", cmAseOrg:"شركة ASE", cmAseLNo:"خطاب ASE", cmAseLDate:"تاريخ خطاب ASE",
+    cmMissing:"مش موجود في ASE", cmViolation:"مخالفة في ASE", cmDeleted:"محذوف في ASE", cmLeft:"استقالة في ASE",
+    cmOther:"على شركة تانية في ASE", cmMoved:"خطاب تحويل", cmBanOurs:"ممنوع عندنا بس", cmLetter:"رقم الخطاب مختلف",
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
-    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adPinSaved:"الباسورد اتغيّر ✓",
+    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE",
     navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
@@ -2444,8 +2522,14 @@ const I18N = {
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
     cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
+    repOpen:"Report", repTitle:"Permits report", repCompanies:"Companies — individual permits", repMonth:"Month", rdSince:x => "The reader has been away since " + x, menuAria:"Menu",
+    lgWhenK:"Time", lgUserK:"User", lgActK:"Action", lgDetailK:"Details",
+    navCmp:"ASE compare", cmChecked:"Checked", cmSame:"Agree", cmDiff:"Differ", cmNone:"No differences", cmRun:"Compare again", csvCmp:"ASE-compare",
+    cmBusy:(a, b) => "Comparing — " + a + " of " + b, cmWhat:"Difference", cmAseSt:"ASE status", cmAseOrg:"ASE company", cmAseLNo:"ASE letter", cmAseLDate:"ASE letter date",
+    cmMissing:"Not in ASE", cmViolation:"Violation in ASE", cmDeleted:"Deleted in ASE", cmLeft:"Resigned in ASE",
+    cmOther:"Under another company in ASE", cmMoved:"Transfer letter", cmBanOurs:"Banned here only", cmLetter:"Letter number differs",
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
-    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adPinSaved:"Password changed ✓",
+    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet",
     navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
@@ -3075,7 +3159,12 @@ async function submitPin(){
     // what the PIN opens: the key, and with it where the data is kept. A PIN that opens nothing is a wrong try — that, and nothing else, is counted
     let got = null;
     for(const seal of USERS.filter(u => u.name === user.name)){
-      try{ got = JSON.parse(await unseal(seal, pin.value)); break; }catch(x){}
+      try{
+        const o = JSON.parse(await unseal(seal, pin.value));
+        // the page's own seal of a way in whose password was changed since: the old password is a wrong one
+        if(!seal.over && USERS.some(x => x.name === seal.name && x.over === (o.role === "admin" ? "admin" : "viewer"))) continue;
+        got = o; break;
+      }catch(x){}
     }
     if(!got){
       const left = await noteFail(user.name);
@@ -3134,6 +3223,7 @@ function signOut(message){
   DATA.emp = DATA.per = null; sig.per = sig.emp = ""; net.per = net.emp = null;
   st.multi.text = ""; st.multi.res = null;
   st.spc.text = ""; st.spc.res = null; st.spc.cat = "";
+  CMP.res = null; CMP.of = null; CMP.cat = "";
   st.ase.text = ""; st.ase.res = null; ASE.info = null; DESK.orders = []; DESK.beat = 0;      // the ASE list and its answers, and the desk's orders, go with him
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
   st.month = "";
@@ -3221,6 +3311,10 @@ function paintShell(){
   $("nav-src").hidden = $("nav-adm").hidden = !isAdmin();    // «الشيتات» and ADMIN are the admin's pages
   PERM_PAGES.forEach(v => { const b = document.querySelector('#nav button[data-view="' + v + '"]'); if(b) b.hidden = !can(v); });
   document.body.classList.toggle("noexp", !can("x-export"));
+  document.body.classList.toggle("madm", isAdmin());              // the phone's layout is the admin's (see the styles)
+  $("dr-print").hidden = !can("x-export");
+  $("menu-btn").setAttribute("aria-label", t("menuAria"));
+  readerLamp();
   cardsNav(); deskNav();
   $("nb-today").textContent = isAdmin() && RENEW.length ? RENEW.length : "";
   $("nb-emp").textContent = M.emp ? countBy(M.emp.list, e => !e.resigned) : "";    // the figure the page opens on
@@ -3239,7 +3333,7 @@ function paintShell(){
     : (kind, label) => '<div><span class="dot' + (lost(kind) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
         (lost(kind) ? t("lostMini") : DATA[kind] ? num(stamp(DATA[kind].lastModified)) : t("notYet")) + "</div>";
   $("src-mini").innerHTML = mini("per", "miniPer") + mini("emp", "miniEmp");
-  [].forEach.call($("nav").querySelectorAll("button"), b => b.classList.toggle("on", b.dataset.view === st.view));
+  [].forEach.call($("nav").querySelectorAll("button"), b => b.classList.toggle("on", b.dataset.view === (st.view === "rep" ? "home" : st.view)));
   paintBack();
 }
 /* BACK. Every move from one page to another leaves behind what that page was
@@ -3324,7 +3418,7 @@ function render(){
   const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -3527,7 +3621,51 @@ function renderHome(){
     h += soon.length ? boxTable("emp", soon) : '<div class="empty"><h3>' + t("noSoon") + "</h3></div>";
     h += "</section>";
   }
-  page(pgHead(t("navHome")), scrollPart(h));
+  page(pgHead(t("navHome"), '<div class="pg-acts noprint"><button class="btn sm" data-act="report">' + t("repOpen") + "</button></div>"), scrollPart(h));
+}
+
+/* THE REPORT (asked for, 6 October 2026): the dashboard's figures on one sheet of paper, for whoever is shown the
+   system — today's date, every figure the three lists' own boxes count (so a figure here and the list it stands for
+   are the same people), the companies, and what ends in each of the next twelve months. Opened from the dashboard. */
+function renderRep(){
+  const kpis = (view, title) => {
+    const L = LISTS[view], all = L.all();
+    return '<h3 class="rep-h">' + title + '</h3><div class="rep-kpis">' + L.chips.map(pair => {
+      const n = countBy(all, r => L.pick(r, pair[0]));
+      const tone = { valid: "ok", ok: "ok", expiring: "warn", soon: "warn", expired: "bad", banned: "ban", ban: "ban" }[pair[0]] || "";
+      return !n && pair[0] !== "all" ? "" : '<div class="rep-k ' + tone + '"><b>' + n.toLocaleString("en-US") + "</b><span>" + t(pair[1]) + "</span></div>";
+    }).join("") + "</div>";
+  };
+  let h = '<div class="rep-date">' + esc(fmt(NCM.today0())) + "</div>";
+  if(M.emp) h += kpis("emp", t("navEmp"));
+  if(M.ind) h += kpis("ind", t("navInd"));
+  if(M.veh) h += kpis("veh", t("navVeh"));
+  let left = "", right = "";
+  if(M.ind){
+    const by = new Map();
+    M.ind.list.forEach(g => { const k = g.cur.company || t("unspecified"); if(!by.has(k)) by.set(k, { n: 0 }); const c = by.get(k); c.n++; c[g.p.cat] = (c[g.p.cat] || 0) + 1; });
+    const rows = [...by.entries()].sort((a, b) => b[1].n - a[1].n), top = rows.slice(0, 12), rest = rows.slice(12);
+    if(rest.length){ const c = { n: 0 }; rest.forEach(r => Object.keys(r[1]).forEach(k => { c[k] = (c[k] || 0) + r[1][k]; })); top.push([t("otherCompanies"), c]); }
+    const cats = ["ok", "soon", "expired", "ban"];
+    left = '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + t("repCompanies") + '</h3></div><div class="tblwrap"><table class="tbl plain"><thead><tr><th class="nos">' + t("colCompany") + '</th><th class="nos">' + t("colTotal") + "</th>" +
+      cats.map(k => '<th class="nos">' + t(CAT_TILE[k][0]) + "</th>").join("") + "</tr></thead><tbody>" +
+      top.map(r => "<tr><td>" + esc(r[0]) + "</td><td><b>" + num(r[1].n) + "</b></td>" + cats.map(k => "<td>" + (r[1][k] ? num(r[1][k]) : dimDash) + "</td>").join("") + "</tr>").join("") + "</tbody></table></div></section>";
+  }
+  const kinds = [["emp", "segEmp", M.emp], ["ind", "segInd", M.ind], ["veh", "segVeh", M.veh]].filter(k => k[2]);
+  if(kinds.length){
+    const now = NCM.today0(), months = [];
+    for(let i = 0; i < 12; i++){ const d = new Date(now.getFullYear(), now.getMonth() + i, 1); months.push({ d, n: {} }); }
+    kinds.forEach(k => expiring(k[0]).forEach(x => {
+      const d = x[0], i = (d.getFullYear() - now.getFullYear()) * 12 + d.getMonth() - now.getMonth();
+      if(d >= now && i >= 0 && i < 12) months[i].n[k[0]] = (months[i].n[k[0]] || 0) + 1;
+    }));
+    const name = d => d.toLocaleDateString(isEN() ? "en-GB" : "ar-EG-u-nu-latn", { month: "long", year: "numeric" });
+    right = '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + t("monthsTitle") + '</h3></div><div class="tblwrap"><table class="tbl plain"><thead><tr><th class="nos">' + t("repMonth") + "</th>" +
+      kinds.map(k => '<th class="nos">' + t(k[1]) + "</th>").join("") + "</tr></thead><tbody>" +
+      months.map(m => "<tr><td>" + esc(name(m.d)) + "</td>" + kinds.map(k => "<td>" + (m.n[k[0]] ? num(m.n[k[0]]) : dimDash) + "</td>").join("") + "</tr>").join("") + "</tbody></table></div></section>";
+  }
+  h += '<div class="rep-two">' + left + right + "</div>";
+  page(pgHead(t("repTitle"), '<div class="pg-acts noprint"><button class="btn sm primary" data-act="print">' + t("print") + "</button></div>"), scrollPart(h));
 }
 
 /* ============================================================
@@ -4687,13 +4825,13 @@ const isAdmin = () => ONLINE ? !!session && session.role === "admin" : true;    
    change reaches a window that is already open. No list at all means everything a user may see. The admin's own
    pages are never on anybody's list: they are his because he is the admin, and nobody else's menu, page or message
    says that there is one. This is what the page shows — the sheets a user's key reads are the same for all. */
-const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "rnw", "check"];
+const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "rnw", "check", "cmp"];
 const PERM_CAN = ["x-export", "x-renew", "x-aseup"];
 const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1 };
 const perms = () => ONLINE && session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
-const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : can(v);
+const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : can(v === "rep" ? "home" : v);      // the report is the dashboard's, on paper
 const firstPage = () => PERM_PAGES.find(can) || "none";
 let permsTimer = null;
 /* What he sees is also remembered on the device, user by user: a sign-in the database cannot be reached for opens on
@@ -5042,7 +5180,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm" };
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle" };
 const logOpen = new Set();                          // the lines that stand open
 function logDetail(r){
   try{ return r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ return { text: r.detail }; }
@@ -5084,6 +5222,19 @@ function logToggle(id){
   if(!more) return;
   row.insertAdjacentHTML("afterend", '<tr class="lgmore"><td colspan="3">' + more + "</td></tr>");
   logOpen.add(String(id)); row.classList.add("open");
+}
+// the log as a workbook: a row a line, oldest first — when, who, on what device, what he did, and what a line opens on
+async function exportLog(){
+  const rows = LOG.filter(r => !logWho || r.who === logWho).slice().reverse();
+  if(!rows.length) return;
+  await renewResolve();
+  const plain = h => { const d = document.createElement("div"); d.innerHTML = String(h || "").replace(/<\/(span|div|p)>/g, "</$1> "); [].forEach.call(d.querySelectorAll(".lgrun,.lgchev"), x => x.remove()); return d.textContent.replace(/\s+/g, " ").trim(); };
+  await saveXLSX({
+    name: t("navLog"), rtl: !isEN(),
+    header: [t("colSerial"), t("lgWhenK"), t("lgUserK"), t("devName"), t("lgActK"), t("lgDetailK")],
+    rows: rows.map((r, i) => { const w = logLine(r); return [i + 1, stamp(Date.parse(r.at)), r.who || "", r.device || "", plain(w[0]), [plain(w[1]), plain(logMoreHTML(r))].filter(Boolean).join(" — ")]; })
+  }, t("navLog"));
+  toast(t("exported", rows.length));
 }
 // the search of a line, asked again on its own page
 function logRun(id){
@@ -5140,7 +5291,7 @@ async function paintLog(){
   const names = [...new Set(LOG.map(r => r.who).filter(Boolean))].sort();
   acts.innerHTML =
     '<select class="field" id="log-who"><option value="">' + t("lgEveryone") + "</option>" + names.map(n => '<option value="' + esc(n) + '"' + (n === logWho ? " selected" : "") + ">" + esc(n) + "</option>").join("") + "</select>" +
-    '<button class="btn sm" data-act="log-refresh">' + t("lgRefresh") + "</button>";
+    '<button class="btn sm" data-act="log-refresh">' + t("lgRefresh") + '</button><button class="btn sm" data-act="log-csv">' + t("exportExcel") + "</button>";
   const state = '<div class="today-state">' + (logErr ? pill("bad", t("todayOffline")) : '<span class="count">' + t("todayRead", num(stamp(logAt))) + "</span>") + "</div>";
   // the devices: the locked ones first — they are what is waiting for the admin
   const mine = ONLINE ? deviceId() : "";
@@ -5885,7 +6036,7 @@ function paintAse(){
          red box (asked for, 5 October 2026). */
       return r.hits.map((hit, k) => {
         const ours = ASE_OURS.test(hit[3] || "");
-        return '<tr><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
+        return "<tr" + (String(hit[2] || "").trim().toUpperCase() === CMP_MOVED ? ' class="banrow"' : "") + '><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
           cols.map((i, at) => '<td class="' + (at ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + '">' +
             (!hasCell(hit[i]) ? dimDash : i === 3 ? pill(ours ? "blue" : "red", hit[i]) : ours && i === 8 ? pill("warn", hit[i]) : esc(hit[i])) + "</td>").join("") + "</tr>";
       }).join("");
@@ -6062,6 +6213,179 @@ async function exportSpc(){
   toast(t("exported", mine.length));
 }
 
+/* THE READER, WHEN IT IS NOT THERE (asked for, 6 October 2026). The two updates of «الشيتات» and the card reader are
+   done by a reader that has to be awake on the work PC; with the two daily tasks stopped, nothing is updated while
+   it is away — and nobody would know. So whether it is there is asked for all the time, on any page — on this PC
+   from the small file it keeps, online from the database — and when it has not been heard from for three minutes
+   the admin, and only he, is told so at the foot of the menu, with the time it was last heard from. */
+const READER_AWAY = 180000;
+let readerAsked = false;
+function readerLamp(){
+  const b = $("rlamp");
+  if(!b) return;
+  const heard = ONLINE ? +DESK.beat || 0 : CARD.watcher ? +CARD.watcher.alive_at || 0 : 0;
+  const away = isAdmin() && readerAsked && (ONLINE ? !!session : true) && Date.now() - heard > READER_AWAY && deskReader() === "off";
+  b.hidden = !away;
+  if(away) $("rlamp-t").textContent = heard ? t("rdSince", stamp(heard).slice(0, 16)) : t("cdOff");
+}
+async function readerAsk(){
+  if(document.hidden) return;
+  if(!ONLINE){ await cardsSync(); readerAsked = true; }
+  else if(session && isAdmin() && link()){ await deskSync(); readerAsked = true; }
+  readerLamp();
+}
+// ONE MAN'S FILE ON PAPER: his card as it stands, printed alone (see the print styles)
+function printCard(){
+  if(!drawerRef || !can("x-export")) return;
+  logAct("print", { v: "card" });
+  document.body.classList.add("print-card");
+  window.print();
+}
+// the phone's menu (the admin's): unfolded by its button, folded away again when a page is picked
+function menuFold(open){
+  const side = document.querySelector(".side");
+  side.classList.toggle("open", !!open);
+  $("menu-btn").setAttribute("aria-expanded", !!open);
+}
+
+/* ============================================================
+   «مقارنة ASE» — WHERE OUR SHEETS AND THE ASE COPY DO NOT AGREE
+   ============================================================
+   Everyone of ours who has a national id — the permits sheet and the employees — is looked up in the copy of the ASE
+   export that «ASE SEARCH» keeps, a few hundred ids at a time, and a line is shown for each one whose record does
+   not agree with it. ASE may hold several rows for a man (a row a letter); what is read is the LATEST row under our
+   own company (ASE_OURS), by the letter's date. What counts as not agreeing:
+     · he is not in ASE at all;
+     · ASE says RULES VIOLATION, and we do not have him as banned;
+     · ASE says DELETED or RESIGNATION, and our permit for him is still valid;
+     · a TRANSFER LETTER was made for him («Перевод») — whatever our permit says: his row stands in red (asked for,
+       6 October 2026: «أي حد يظهر إنه اتعمله خطاب تحويل الصف بتاعه في الجدول يتلون بالأحمر»), here and on «ASE SEARCH»;
+     · ASE has him under another company only;
+     · we have him as banned, and ASE says nothing against him (ASE records only some kinds of ban — so this one is
+       often as it should be; he wants it listed all the same: «سيبها في الفروقات عادي، أنا كنت بقولك معلومة بس»);
+     · the letter number in our sheet is none of the letters ASE has for him.
+   Nothing is changed anywhere: the page reads, and says. It is done again when the sheets are read again, or asked for. */
+const CMP = { res: null, of: null, busy: false, err: false, done: 0, total: 0, cat: "" };
+const CMP_KINDS = ["missing", "violation", "deleted", "left", "moved", "other", "banours", "letter"];
+const CMP_WORD = { missing: "cmMissing", violation: "cmViolation", deleted: "cmDeleted", left: "cmLeft", moved: "cmMoved", other: "cmOther", banours: "cmBanOurs", letter: "cmLetter" };
+const CMP_TONE = { missing: "mute", violation: "ban", deleted: "bad", left: "warn", moved: "ban", other: "red", banours: "bad", letter: "white" };
+const CMP_MOVED = "ПЕРЕВОД";                         // ASE's own word for a transfer letter
+const cmpDate = v => { const m = /^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/.exec(String(v || "").trim()); return m ? +m[3] * 10000 + +m[2] * 100 + +m[1] : 0; };
+const cmpKey = v => normalize(v).toUpperCase().replace(/\s+/g, "");
+// everyone of ours who has a national id: a man is one line, whichever of the two sheets he is in
+function cmpPeople(){
+  const by = new Map(), id = v => /^\d{14}$/.test(v || "");
+  if(M.ind) M.ind.list.forEach(g => { if(id(g.nid)) by.set(g.nid, { nid: g.nid, g, emps: g.emp || [] }); });
+  if(M.emp) M.emp.list.forEach(e => {
+    if(e.foreign || !id(e.nid)) return;
+    const x = by.get(e.nid);
+    if(!x) by.set(e.nid, { nid: e.nid, g: null, emps: [e] }); else if(!x.g && x.emps.indexOf(e) < 0) x.emps.push(e);
+  });
+  return [...by.values()];
+}
+// what does not agree for one man, given the rows ASE has for him
+function cmpOne(x, hits){
+  const what = [], e = x.emps[0];
+  const valid = x.g ? x.g.p.cat === "ok" || x.g.p.cat === "soon" : x.emps.some(o => o.st.code === "VERIFIED" || o.st.code === "EXPIRING");
+  const banned = permitBan(x.g) || x.emps.some(empBan);
+  const letter = x.g ? x.g.cur.letter : (e.letter_number || "");
+  if(!hits.length) return { what: ["missing"], ase: null };
+  const latest = list => list.reduce((best, h) => !best || cmpDate(h[7]) >= cmpDate(best[7]) ? h : best, null);
+  const ours = hits.filter(h => ASE_OURS.test(h[3] || "")), ase = latest(ours.length ? ours : hits), says = String(ase[2] || "").trim().toUpperCase();
+  if(!ours.length) what.push("other");
+  else{
+    if(says === "RULES VIOLATION" && !banned) what.push("violation");
+    if(says === "DELETED" && valid) what.push("deleted");
+    if(says === "RESIGNATION" && valid) what.push("left");
+    if(says === CMP_MOVED) what.push("moved");
+    if(!says && banned) what.push("banours");
+  }
+  const mine = normalize(letter).toUpperCase().split(/\s+/).filter(Boolean);
+  if(mine.length && !hits.some(h => mine.indexOf(cmpKey(h[8])) >= 0 || mine.indexOf(cmpKey(h[10])) >= 0)) what.push("letter");
+  return { what, ase };
+}
+async function cmpRun(){
+  if(CMP.busy || !link() || (!M.ind && !M.emp)) return;
+  const of = M, people = cmpPeople(), by = new Map();
+  CMP.busy = true; CMP.err = false; CMP.done = 0; CMP.total = people.length; paintCmp();
+  try{
+    await aseInfo();
+    for(let i = 0; i < people.length; i += 400){
+      const got = await dbCall("system_ase_find", { p_ids: people.slice(i, i + 400).map(x => x.nid) });
+      (got || []).forEach(r => { if(!by.has(r[0])) by.set(r[0], []); by.get(r[0]).push(r.slice(1)); });
+      CMP.done = Math.min(people.length, i + 400);
+      if(st.view === "cmp") paintCmp();
+    }
+    const rows = [];
+    people.forEach(x => { const c = cmpOne(x, by.get(x.nid) || []); if(c.what.length) rows.push({ g: x.g, emps: x.emps, nid: x.nid, what: c.what, ase: c.ase }); });
+    const first = r => CMP_KINDS.indexOf(r.what[0]), name = r => sortText(r.g ? r.g.name : r.emps[0].full_name);
+    rows.sort((a, b) => first(a) - first(b) || name(a).localeCompare(name(b), "ar"));
+    CMP.res = { rows, checked: people.length, at: Date.now() }; CMP.of = of;
+    if(CMP.cat && !rows.some(r => r.what.indexOf(CMP.cat) >= 0)) CMP.cat = "";
+  }catch(e){ CMP.err = true; }
+  CMP.busy = false;
+  cmpNav();
+  if(st.view === "cmp") paintCmp();
+}
+function cmpNav(){ const nb = $("nb-cmp"); if(nb) nb.textContent = CMP.res && CMP.of === M && CMP.res.rows.length ? CMP.res.rows.length : ""; }
+const cmpRows = () => !CMP.res ? [] : CMP.cat ? CMP.res.rows.filter(r => r.what.indexOf(CMP.cat) >= 0) : CMP.res.rows;
+const cmpSays = r => !r.ase ? "" : String(r.ase[2] || "").trim() === "Перевод" ? "TRANSFER" : String(r.ase[2] || "").trim();
+const CMP_COLS = [
+  { tk:"colName", cls:"name", h:r => esc(dash(r.g ? r.g.name : r.emps[0].full_name)), x:r => r.g ? r.g.name : r.emps[0].full_name },
+  { tk:"colNid", cls:"nowrap", text:true, h:r => num(r.nid), x:r => r.nid },
+  { tk:"colPermit", cls:"nowrap", h:r => r.g ? permitPill(r.g.p) : empPermit(r.emps[0]), x:r => r.g ? permitText(r.g.p) : empPermitText(r.emps[0]), tone:r => r.g ? r.g.p.cls : r.emps[0].st.k },
+  { tk:"colCompany", cls:"nowrap", h:r => esc(dash(r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM"))), x:r => r.g ? r.g.cur.company : (r.emps[0].letter_company || "NCM") },
+  { tk:"letterNo", cls:"nowrap", text:true, h:r => letterOf(r, "letter", "letter_number") ? num(letterOf(r, "letter", "letter_number")) : dimDash, x:r => letterOf(r, "letter", "letter_number") },
+  { tk:"cmAseSt", cls:"nowrap", h:r => cmpSays(r) ? pill("white", cmpSays(r)) : dimDash, x:r => cmpSays(r) },
+  { tk:"cmAseOrg", cls:"nowrap", h:r => r.ase && r.ase[3] ? pill(ASE_OURS.test(r.ase[3]) ? "blue" : "red", r.ase[3]) : dimDash, x:r => r.ase ? r.ase[3] || "" : "" },
+  { tk:"cmAseLNo", cls:"nowrap", text:true, h:r => r.ase && r.ase[8] ? num(r.ase[8]) : dimDash, x:r => r.ase ? r.ase[8] || "" : "" },
+  { tk:"cmAseLDate", cls:"nowrap", h:r => r.ase && r.ase[7] ? num(r.ase[7]) : dimDash, x:r => r.ase ? r.ase[7] || "" : "" },
+  { tk:"cmWhat", cls:"nowrap", h:r => r.what.map(k => pill(CMP_TONE[k], t(CMP_WORD[k]))).join(" "), x:r => r.what.map(k => t(CMP_WORD[k])).join(" · ") }
+];
+function renderCmp(){
+  page(pgHead(t("navCmp"), '<div class="pg-acts noprint" id="cmp-acts"></div>'), '<div class="pg-table" id="cmpv"></div>');
+  paintCmp();
+  if(link() && !CMP.busy && (!CMP.res || CMP.of !== M)) cmpRun();
+}
+function paintCmp(){
+  const box = $("cmpv"), acts = $("cmp-acts");
+  if(!box || st.view !== "cmp") return;
+  acts.innerHTML = !link() || CMP.busy ? "" : '<button class="btn sm" data-act="cmp-run">' + t("cmRun") + "</button>";
+  if(!link()){ box.innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"; return; }
+  if(CMP.busy){ box.innerHTML = '<div class="empty"><h3>' + esc(t("cmBusy", CMP.done.toLocaleString("en-US"), CMP.total.toLocaleString("en-US"))) + "</h3></div>"; return; }
+  if(CMP.err){ box.innerHTML = '<div class="empty"><h3>' + t("noConn") + "</h3></div>"; return; }
+  const res = CMP.res;
+  if(!res || CMP.of !== M){ box.innerHTML = ""; return; }
+  if(ASE.info && !ASE.info.rows){ box.innerHTML = '<div class="empty"><h3>' + t("asNone") + "</h3></div>"; return; }
+  const n = {}, cat = CMP.cat, mine = cmpRows(), cols = written(CMP_COLS, mine), shown = mine.slice(0, SPC_SHOW);
+  res.rows.forEach(r => r.what.forEach(k => { n[k] = (n[k] || 0) + 1; }));
+  const btn = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-cmpcat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
+  const copy = ASE.info && ASE.info.rows ? '<span class="count">' + fileName(ASE.info.file || "") + " · " + num(stamp(+ASE.info.at)) + "</span>" : "";
+  const sum = '<div class="sum' + (cat ? " pick" : "") + '"><span class="pill white">' + t("cmChecked") + " " + num(res.checked) + '</span><span class="pill ok">' + t("cmSame") + " " + num(res.checked - res.rows.length) + "</span>" +
+    btn("", "bad", t("cmDiff"), res.rows.length) + CMP_KINDS.filter(k => n[k]).map(k => btn(k, CMP_TONE[k], t(CMP_WORD[k]), n[k])).join("") + copy + "</div>";
+  box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
+      '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="cmp-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    (!mine.length ? '<div class="empty"><h3>' + t("cmNone") + "</h3></div>" :
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    shown.map((r, i) => "<tr" + (r.what.indexOf("moved") >= 0 ? ' class="banrow"' : "") + ' data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
+      cols.map((c, k) => '<td class="' + (c.cls || "") + (k ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
+    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
+    "</tbody></table></div>") + "</section>";
+  freeze();
+}
+async function exportCmp(){
+  const mine = cmpRows();
+  if(!mine.length) return;
+  await saveXLSX({
+    name: t("csvCmp"), rtl: !isEN(),
+    header: [t("colSerial")].concat(CMP_COLS.map(c => t(c.tk))),
+    text: CMP_COLS.map((c, i) => c.text ? i + 1 : -1).filter(i => i >= 0),
+    rows: mine.map((r, n) => [n + 1].concat(CMP_COLS.map(c => xcell(c, r)))),
+    red: mine.map(r => r.what.indexOf("violation") >= 0 || r.what.indexOf("moved") >= 0)
+  }, t("csvCmp"));
+  toast(t("exported", mine.length));
+}
+
 /* ============================================================
    ADMIN — the users, and what each one sees
    ============================================================
@@ -6070,9 +6394,10 @@ async function exportSpc(){
    password or his removal. A user is added with a name and a password: the page seals, under that password, the
    same things the admin's own sign-in opened — with a viewer's token made for this user alone — and the database
    keeps the seal, so the gate has him the next time it is opened. The password itself goes nowhere.
-   The users the page was built with are listed too: what they see is set here like anyone's; their passwords are
-   the build's. The admin's own name is never switched off. */
-const ADM = { rows: [], at: 0, err: false, busy: "", pin: "" };
+   The users the page was built with are listed too: what they see is set here like anyone's, and so is another
+   password (see gateUsers: the new seal takes the place of the page's own). The admin's own name is never switched
+   off, and has two passwords to change: his ordinary way in, and the admin's. */
+const ADM = { rows: [], at: 0, err: false, busy: "", pin: "", pinAdmin: false };
 const admAll = () => PERM_PAGES.concat(PERM_CAN);
 const admMe = () => (link() || {}).u || "";
 async function admSync(){
@@ -6109,10 +6434,12 @@ function paintAdm(){
         '<h3 class="panel-t"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) + "</span> " + esc(u.name) + " " + pill(u.off ? "bad" : "ok", t(u.off ? "adOff" : "adOn")) + "</h3>" +
         '<div class="adm-acts">' +
           (u.name === me ? "" : '<button class="btn sm' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + t(u.off ? "adStart" : "adStop") + "</button>") +
-          (u.added ? '<button class="btn sm" data-adm-pin="' + esc(u.name) + '">' + t("adNewPin") + '</button><button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
+          '<button class="btn sm" data-adm-pin="' + esc(u.name) + '">' + t("adNewPin") + "</button>" +
+          (u.name === me ? '<button class="btn sm" data-adm-pin="' + esc(u.name) + '" data-adm-a="1">' + t("adAdmPin") + "</button>" : "") +
+          (u.added ? '<button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
         "</div></div>" +
         (ADM.pin === u.name ? '<div class="panel-b adm-form"><input class="field" id="adm-again" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
-          '<button class="btn primary" data-act="adm-repin"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === u.name ? "adSealing" : "adNewPin") + '</button><button class="btn" data-adm-pin="">' + t("cancel") + "</button></div>" : "") +
+          '<button class="btn primary" data-act="adm-repin"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === u.name ? "adSealing" : ADM.pinAdmin ? "adAdmPin" : "adNewPin") + '</button><button class="btn" data-adm-pin="">' + t("cancel") + "</button></div>" : "") +
         '<div class="panel-b adm-perms">' +
           '<div class="adm-row"><span class="adm-k">' + t("adPages") + '</span><div class="chips">' + PERM_PAGES.map(k => chip(u, k, t(VIEW_NAME[k]))).join("") + "</div></div>" +
           '<div class="adm-row"><span class="adm-k">' + t("adCan") + '</span><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div>" +
@@ -6142,27 +6469,45 @@ function admOff(name){
   const u = admUsers().find(x => x.name === name);
   if(u && name !== admMe()) admSet(name, u.pages, !u.off);
 }
-// what a new user's password opens: what the admin's own opened, with a viewer's token that is this user's alone
-async function admSeal(pin){
+// what a new password opens: what the admin's own opened, with a viewer's token that is this user's alone — or, for
+// the admin's own way in, with the admin's token, as the page's own seal of him has it
+async function admSeal(pin, admin){
   const l = link(), src = ONLINE ? session.src : CLOUD;
-  const token = [].map.call(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2, "0")).join("");
+  const token = admin ? l.rt : [].map.call(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2, "0")).join("");
   const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
   const material = await crypto.subtle.importKey("raw", new TextEncoder().encode(pin), "PBKDF2", false, ["deriveKey"]);
   const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: KDF_ROUNDS, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["encrypt"]);
-  const payload = JSON.stringify({ k: l.k, sheet: src.sheet || "", db: l.db, bucket: src.bucket || "", role: "viewer", rs: l.rs, rt: token });
+  const payload = JSON.stringify({ k: l.k, sheet: src.sheet || "", db: l.db, bucket: src.bucket || "", role: admin ? "admin" : "viewer", rs: l.rs, rt: token });
   const data = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(payload)));
-  return { p_salt: toB64(salt), p_iv: toB64(iv), p_data: toB64(data), p_key: await sha256hex(token) };
+  return { p_salt: toB64(salt), p_iv: toB64(iv), p_data: toB64(data), p_key: admin ? null : await sha256hex(token), p_admin: !!admin };
 }
-async function admPut(name, pin, mark){
+/* One name, two ways in, must not have one password: the gate takes whichever seal the password opens first. So a new
+   password is tried on every seal the name has — the page's own and the database's — and is refused when it opens
+   his OTHER way in. */
+async function admClash(name, pin, admin){
+  let seals = usersIn().filter(u => u.name === name);
+  try{
+    const got = await dbCall("system_gate_users", { p_device: "" });
+    seals = seals.concat(((got && got.users) || []).concat((got && got.admins) || []).filter(u => u && u.name === name && u.data));
+  }catch(e){}
+  for(const seal of seals){
+    try{ if((JSON.parse(await unseal(seal, pin)).role === "admin") !== !!admin) return true; }catch(e){}
+  }
+  return false;
+}
+async function admPut(name, pin, mark, admin){
   if(ADM.busy || !link()) return false;
   ADM.busy = mark; paintAdm();
-  let ok = false;
+  let ok = false, clash = false;
   try{
-    const got = await dbCall("system_user_put", Object.assign({ p_name: name, p_who: admMe() }, await admSeal(pin)));
-    ok = !!(got && got.ok);
+    clash = await admClash(name, pin, admin);
+    if(!clash){
+      const got = await dbCall("system_user_put", Object.assign({ p_name: name, p_who: admMe() }, await admSeal(pin, admin)));
+      ok = !!(got && got.ok);
+    }
   }catch(e){}
   ADM.busy = "";
-  if(!ok){ toast(t("adFail"), true); paintAdm(); }
+  if(!ok){ toast(t(clash ? "adPinClash" : "adFail"), true); paintAdm(); }
   return ok;
 }
 const admDigits = v => NCM.toLatinDigits(String(v || "")).replace(/\D/g, "");
@@ -6180,8 +6525,8 @@ async function admRepin(){
   const name = ADM.pin, pin = admDigits($("adm-again") ? $("adm-again").value : "");
   if(!name) return;
   if(pin.length !== PIN_LEN) return toast(t("adPinBad", PIN_LEN), true);
-  if(!(await admPut(name, pin, name))) return;
-  ADM.pin = "";
+  if(!(await admPut(name, pin, name, ADM.pinAdmin))) return;
+  ADM.pin = ""; ADM.pinAdmin = false;
   toast(t("adPinSaved"));
   await admSync();
 }
@@ -6205,6 +6550,14 @@ $("nav").addEventListener("click", e => {
   go(b.dataset.view);
 });
 $("back").addEventListener("click", goBack);
+$("menu-btn").addEventListener("click", () => menuFold(!document.querySelector(".side").classList.contains("open")));
+$("nav").addEventListener("click", e => { if(e.target.closest("button[data-view]")) menuFold(false); });
+$("dr-print").addEventListener("click", printCard);
+$("rlamp").addEventListener("click", () => { menuFold(false); if(st.view !== "src"){ leave(); go("src"); } });
+window.addEventListener("afterprint", () => document.body.classList.remove("print-card"));
+setInterval(readerLamp, 5000);
+setInterval(readerAsk, ONLINE ? 60000 : 30000);
+setTimeout(readerAsk, 4000);
 // the keys and the mouse button that mean "back" everywhere else mean it here too
 window.addEventListener("keydown", e => { if(e.altKey && e.key === "ArrowLeft"){ e.preventDefault(); goBack(); } });
 window.addEventListener("mouseup", e => { if(e.button === 3){ e.preventDefault(); goBack(); } });
@@ -6298,6 +6651,10 @@ document.addEventListener("click", e => {
     if(a === "ase-up") return $("ase-up").click();
     if(a === "ase-go") return aseGo();
     if(a === "spc-go") return goSpc();
+    if(a === "report"){ leave(); return go("rep"); }
+    if(a === "log-csv") return exportLog();
+    if(a === "cmp-run") return cmpRun();
+    if(a === "cmp-csv") return exportCmp();
     if(a === "adm-add") return admAdd();
     if(a === "adm-repin") return admRepin();
     if(a === "spc-clear"){ st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }
@@ -6365,9 +6722,11 @@ document.addEventListener("click", e => {
   const admO = tg.closest("[data-adm-off]");
   if(admO) return admOff(admO.dataset.admOff);
   const admN = tg.closest("[data-adm-pin]");
-  if(admN){ ADM.pin = admN.dataset.admPin; paintAdm(); if($("adm-again")) $("adm-again").focus(); return; }
+  if(admN){ ADM.pin = admN.dataset.admPin; ADM.pinAdmin = !!admN.dataset.admA; paintAdm(); if($("adm-again")){ $("adm-again").value = ""; $("adm-again").focus(); } return; }
   const admD = tg.closest("[data-adm-del]");
   if(admD) return admDel(admD.dataset.admDel);
+  const cmpcat = tg.closest("[data-cmpcat]");
+  if(cmpcat){ CMP.cat = CMP.cat === cmpcat.dataset.cmpcat ? "" : cmpcat.dataset.cmpcat; return paintCmp(); }
   const spcat = tg.closest("[data-spcat]");
   if(spcat){ st.spc.cat = st.spc.cat === spcat.dataset.spcat ? "" : spcat.dataset.spcat; return paintSpc(); }
   const spby = tg.closest("[data-spby]");

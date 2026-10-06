@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-BR+lC0tnlPA8fnzHKuijCIyUB/M/srq+sp26z4BNVRI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-KdmgunoCoxYz9+Laqk8LW8YOagRyC/8UJyw1aAZ/Kjs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2200,7 +2200,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "391f9eb1bc1f";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "db3646e4c338";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3211,7 +3211,17 @@ async function submitPin(){
         got = o; break;
       }catch(x){}
     }
+    // a password changed from the ADMIN page: the seal kept in the database takes the place of the page's own
+    if(got && !ONLINE) got = await sealOver(got, user.name, pin.value);
     if(!got){
+      // on this PC's own copy nothing is locked and nothing is counted: a wrong PIN is simply a wrong PIN
+      if(!ONLINE){
+        err.className = "gate-err"; err.textContent = t("connectBad");
+        const own = $("gate-form");
+        own.classList.add("shake"); setTimeout(() => own.classList.remove("shake"), 400);
+        pin.value = ""; paintBoxes(); pin.focus();
+        return;
+      }
       const left = await noteFail(user.name);
       if(!left){ pin.value = ""; return showGate(); }      // the third wrong PIN: the device is locked, and the gate says so
       err.className = "gate-err"; err.textContent = t("wrongLeft", left);
@@ -3239,8 +3249,31 @@ async function submitPin(){
     pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
     $("gate").hidden = true;
-    startOnline();
+    if(ONLINE) startOnline(); else startLocal();
   }finally{ gateBusy = false; }
+}
+/* A PASSWORD CHANGED FROM THE ADMIN PAGE, as this PC's own copy sees it. The page carries its own seals (the ones it
+   was built with); a password given later from ADMIN is sealed in the database instead. Online the gate is told of
+   those before anyone types (gateUsers); here there is nothing to ask with until a PIN has opened something — so the
+   page's own seal is opened first, and what it opens is then asked whether this way in has another seal now. If it
+   has, that one has to open with the same PIN; if it does not, the password was changed and this is not it. A
+   database out of reach leaves this PC's own seal as it was: he can still get into his own copy. */
+async function sealOver(got, name, pin){
+  let said = null;
+  try{
+    const r = await fetch(got.db + "/rest/v1/rpc/system_gate_users", { method: "POST", cache: "no-store",
+      headers: { apikey: got.k, Authorization: "Bearer " + got.k, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_token: got.rt, p_device: deviceId() }) });
+    if(r.ok) said = await r.json();
+  }catch(e){}
+  if(!said) return got;
+  if((said.off || []).indexOf(name) >= 0) return null;                    // switched off from ADMIN
+  const over = ((got.role === "admin" ? said.admins : said.users) || []).filter(u => u && u.name === name && u.salt && u.iv && u.data);
+  if(!over.length) return got;
+  for(const seal of over){
+    try{ return JSON.parse(await unseal(seal, pin)); }catch(e){}
+  }
+  return null;
 }
 /* The unsealed key lives in sessionStorage: it survives a reload of the tab
    and is gone the moment the browser is closed — so a PC that is walked away
@@ -4294,7 +4327,7 @@ const HIST_KEY = "ncm_system_history", HIST_MAX = 40;
 const HIST_PAGE = { ind: "multi", veh: "multi", ase: "ase", spc: "spc", ask: "ask" };       // which page a kept search belongs to
 const histHere = () => st.view === "ase" || st.view === "spc" || st.view === "ask" ? st.view : "multi";
 let HIST = [];
-const histSlot = () => ONLINE ? HIST_KEY + ":" + session.u : HIST_KEY;
+const histSlot = () => HIST_KEY + ":" + (session ? session.u : "");
 const toB64 = bytes => { let s = ""; for(let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s); };
 async function histCrypt(){
   const raw = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(session.k + "|ncm-system-history"));
@@ -4303,15 +4336,11 @@ async function histCrypt(){
 async function histLoad(){
   HIST = [];
   try{
-    if(ONLINE && !session) return;
+    if(!session) return;
     const kept = localStorage.getItem(histSlot());
     if(!kept) return;
-    let list;
-    if(!ONLINE) list = JSON.parse(kept);
-    else{
-      const o = JSON.parse(kept);
-      list = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(o.iv) }, await histCrypt(), b64(o.data))));
-    }
+    const o = JSON.parse(kept);
+    const list = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(o.iv) }, await histCrypt(), b64(o.data))));
     // what comes off the disk is taken for nothing more than what it should be
     if(Array.isArray(list)) HIST = list.filter(x => x && typeof x.t === "string" && x.t).slice(0, HIST_MAX * 3)
       .map(x => Object.assign({ m: HIST_PAGE[x.m] ? x.m : "ind", t: x.t.slice(0, 6000), n: +x.n || 0, f: +x.f || 0, at: +x.at || 0 },
@@ -4320,7 +4349,6 @@ async function histLoad(){
 }
 async function histSave(){
   try{
-    if(!ONLINE) return localStorage.setItem(histSlot(), JSON.stringify(HIST));
     if(!session) return;
     const slot = histSlot(), iv = crypto.getRandomValues(new Uint8Array(12));
     const data = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, await histCrypt(), new TextEncoder().encode(JSON.stringify(HIST))));
@@ -4867,8 +4895,9 @@ let localLink = null;
 // (kept on this PC from then on — asked for, 6 October 2026: no page asks for the PIN again; the PIN is asked for once)
 try{ if(!ONLINE) localLink = JSON.parse(localStorage.getItem(LINK_KEY) || sessionStorage.getItem(LINK_KEY) || "null"); }catch(e){}
 // what the list is reached with: where the database is, its key, the salt of the hashes, this user's token, and who he is
-const link = () => ONLINE ? (session && session.rt && session.src.db ? { db: session.src.db, k: session.k, rs: session.rs, rt: session.rt, u: session.u } : null) : localLink;
-const isAdmin = () => ONLINE ? !!session && session.role === "admin" : true;        // this PC's own copy is the admin's
+// what the list is reached with — the same in both editions: what this user's PIN opened
+const link = () => session && session.rt && session.src.db ? { db: session.src.db, k: session.k, rs: session.rs, rt: session.rt, u: session.u } : (ONLINE ? null : localLink);
+const isAdmin = () => !!session && session.role === "admin";        // both editions: what the PIN opened says it
 /* WHO SEES WHAT (asked for, 6 October 2026). The admin says, user by user, which pages are in his menu and what he
    may do on them; it is kept in the database (system_users.pages) and read at sign-in and every minute after, so a
    change reaches a window that is already open. No list at all means everything a user may see. The admin's own
@@ -4893,7 +4922,7 @@ let permsTimer = null;
    is a sign-in that is over. */
 const PERMS_KEY = "ncm_system_pages";
 async function permsSync(){
-  if(!ONLINE || !session || !link() || session.role === "admin") return;
+  if(!session || !link() || session.role === "admin") return;
   const mine = session, slot = PERMS_KEY + ":" + session.u;
   try{
     const me = await dbCall("system_user_me", { p_name: session.u });
@@ -5170,7 +5199,7 @@ function logCtx(){
 }
 let exportRows = 0;                                 // how many rows the file being saved holds
 function logAct(act, detail){
-  if(!ONLINE || !session || !session.rt || !session.sid) return;
+  if(!session || !session.rt || !session.sid) return;
   const l = link();
   if(!l) return;
   if(detail && typeof detail === "object") detail = logFit(detail);
@@ -7190,6 +7219,7 @@ const listsAgain = () => { if(!link()) return; deviceCheck(); renewSync(); if(st
 setInterval(async () => { if(!ONLINE || session || !blocked() || document.hidden) return; await gateState(); if(!blocked()) location.reload(); }, 30000);
 setInterval(() => { if(!document.hidden) listsAgain(); }, 60000);
 window.addEventListener("focus", () => { if(Date.now() - renewAt > 15000) listsAgain(); });
+let localOnce = false, localWatching = false;      // this PC's copy: its watchers are set the first time somebody signs in
 if(ONLINE){
   /* Online: nothing is drawn and nothing is fetched until someone has signed
      in. A browser that signed in before is let straight through — the key it
@@ -7241,11 +7271,28 @@ if(ONLINE){
   window.addEventListener("focus", back);
   document.addEventListener("visibilitychange", () => { if(!document.hidden) back(); });
   setInterval(idleTick, 20000);
-}else (async () => {
-  takePlace(true);          // a window that reloaded itself to take a newer copy of the system comes back where it was
+}else{
+  /* THIS PC'S OWN COPY. The same gate as the published one — the same seals, the same PINs, the same roles — and the
+     same pages; what is different is only what has to be: the sheets are read from this PC's own files, and the card
+     reader and «الشيتات» are here because the reader and the files are here. Signing in is what opens the database
+     too: no page asks for a PIN of its own any more. */
+  applyLang(); paintShell();
+  try{
+    const kept = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+    if(kept && kept.v === SESSION_V && kept.k && USERS.some(u => u.name === kept.u)){
+      if(Date.now() - (+kept.seen || 0) > IDLE_MS) sessionStorage.removeItem(SESSION_KEY);
+      else{ session = kept; lastTouch = +kept.seen; }
+    }
+  }catch(e){}
+  takePlace(!!session);          // a window that reloaded itself to take a newer copy of the system comes back where it was
+  if(session) startLocal(); else showGate();
+}
+async function startLocal(){
+  $("user-name").textContent = session.u; $("side-user").hidden = false;      // who is in, and the way out — as online
   histLoad();
-  if(localLink){ renewSync(); devicesSync(); }      // connected earlier in this window: the shared list is read straight away
   applyLang(); paintShell(); render();
+  renewSync(); devicesSync();
+  if(!localOnce){ localOnce = true; setInterval(idleTick, 20000); }
   const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
   if(emp && emp.sheets) DATA.emp = emp;
   if(per && per.sheets) DATA.per = per;
@@ -7261,6 +7308,8 @@ if(ONLINE){
   busy(false);
   if(live === false) render();
   if(!live) return;                                   // the browser will not let us; the sheets page takes over
+  if(localWatching) return;                           // signed in again: the sheets are read afresh, the watchers below are set once
+  localWatching = true;
   setInterval(() => { if(!document.hidden) sync(); }, WATCH_MS);
   window.addEventListener("focus", () => sync());
   document.addEventListener("visibilitychange", () => { if(!document.hidden) sync(); });
@@ -7290,7 +7339,7 @@ if(ONLINE){
   watchSelf();
   setInterval(() => { if(!document.hidden) watchSelf(); }, WATCH_MS);
   window.addEventListener("focus", watchSelf);
-})();
+}
 })();
 </script>
 </body>

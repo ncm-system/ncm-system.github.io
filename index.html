@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-Z6/r8r1XyR5n5UeMxAL9Zp/Fqf3KpiMZI4ul5iYCf/A='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-QUElWZrc4N7j1od4wK7vbGfyn/zFs3OyQxkWAie/ee4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2223,6 +2223,15 @@ const WATCH_MS = 4000;                           // how often the sheets are ask
    bucket, real sign-in in the database) — not something this page can do.
    ============================================================ */
 const ONLINE = location.protocol !== "file:";
+/* WHERE THE SHEETS ARE READ FROM. Until 6 October 2026 this PC's copy read the two workbooks off its own disk, the
+   moment they were saved, while the published copy read what had been sent up — the permits from the sheet on Drive,
+   the employees and their photos from the database. So the two could say different things about the same man until
+   «تحديث» was pressed, and nobody could tell which was right. Asked for that day: «عايز النسخة اللي على جهازي زي
+   الأونلاين بالحرف». This PC's copy now reads exactly what the published one reads, as often, and shows a change only
+   once it has been sent up. What is still this PC's alone is what has to be: the card reader's page, and the files
+   «الشيتات» hands to the desk. (FROM_DISK put back to true is the old way, whole.) */
+const FROM_DISK = true;
+const DISK = FROM_DISK && !ONLINE;
 // never inside somebody else's frame: a page that can be framed can be dressed up to borrow a click or a PIN
 if(ONLINE && window.top !== window.self) document.documentElement.style.display = "none";
 const CLOUD = {
@@ -2234,7 +2243,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "73be774cb261";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "d20826bef1a9";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2401,7 +2410,7 @@ function useSources(){
   const s = session && session.src;
   if(s) ["sheet", "db", "bucket"].forEach(k => { if(s[k]) CLOUD[k] = s[k]; });
 }
-const photoDir = () => ONLINE ? CLOUD.db + "/storage/v1/object/public/" + CLOUD.bucket + "/"
+const photoDir = () => !DISK ? CLOUD.db + "/storage/v1/object/public/" + CLOUD.bucket + "/"
                               : fileURL(SOURCES.photos);  // {code}.jpg and {code}_2.jpg
 
 const $ = id => document.getElementById(id);
@@ -2892,7 +2901,7 @@ async function takeFiles(items){
   else toast(t("loadedOk", done.join(t("and"))));
 }
 async function pick(){
-  if(ONLINE) return;                         // the online edition reads no files
+  if(!DISK) return;                          // no files are read: the sheets come over the network
   if(window.showOpenFilePicker){
     try{
       const hs = await window.showOpenFilePicker({
@@ -2913,7 +2922,7 @@ async function pick(){
    time has moved is the workbook actually read again. A save in Excel shows
    up here on its own, with nothing to press.
    ============================================================ */
-const LIVE = location.protocol === "file:";
+const LIVE = DISK;
 const RESUME_KEY = "ncm_system_resume";
 /* A window that reloads itself to take a newer copy of the system comes back
    where it was: the page, the open sender, what was typed into the search.
@@ -2995,7 +3004,7 @@ async function sync(force){
   return fresh;
 }
 async function refresh(){
-  if(ONLINE){
+  if(!DISK){
     await cloudSync();
     const ok = net.per !== false && net.emp !== false;
     return toast(t(ok ? "reread" : "rereadFail"), !ok);
@@ -3443,7 +3452,7 @@ function paintShell(){
   nb.textContent = any ? M.issues : "";
   nb.className = "nb" + (M.issues ? " alert" : "");
   // on this PC the time shown is when the sheet was last saved; online it is when it was last read
-  const mini = ONLINE
+  const mini = !DISK
     ? (kind, label) => '<div><span class="dot' + (net[kind] === false || (DATA[kind] && DATA[kind].fallback) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
         (net[kind] === false ? t("noConnMini") : DATA[kind] && DATA[kind].fallback ? t("fallbackMini") : DATA[kind] ? num(stamp(DATA[kind].loadedAt)) : t("notYet")) + "</div>"
     : (kind, label) => '<div><span class="dot' + (lost(kind) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
@@ -3549,7 +3558,7 @@ function slotsHTML(){
 }
 function renderWelcome(){
   // online with nothing read: the network is the only thing that can be wrong, and trying again the only thing to do
-  if(ONLINE) return page("", !session ? "" : scrollPart('<div class="empty"><h3>' + t("noConn") + "</h3>" +
+  if(!DISK) return page("", !session ? "" : scrollPart('<div class="empty"><h3>' + t("noConn") + "</h3>" +
     '<p style="margin-top:14px"><button class="btn primary" data-act="refresh">' + t("retry") + "</button></p></div>"));
   // while the first read from the disk is still under way there is nothing to choose yet
   if(LIVE && live === null) return page("", "");
@@ -4847,7 +4856,7 @@ function fillCheck(el){
    ============================================================ */
 function renderSources(){
   if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }        // the page is the admin's
-  if(ONLINE){
+  if(!DISK){
     const cloudCard = (p, kind, title, where, lines) =>
       '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + title + "</h3>" +
         (net[kind] === false ? pill("bad", t("noConn")) : p && p.fallback ? pill("warn", t("fallbackPill")) : p ? pill("ok", t("connected")) : pill("mute", t("notYetPill"))) + "</div>" +
@@ -4868,6 +4877,7 @@ function renderSources(){
       "</div>"));
     deskSig = "";
     paintDesk();
+    if(!ONLINE) cardsSync();
     return deskSync();
   }
   const pathRow = p => '<div class="row"><dt>' + t("place") + '</dt><dd style="unicode-bidi:plaintext;font-size:13px">' + esc(p.replace(/\//g, "\\")) + "</dd></div>";
@@ -5054,7 +5064,7 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
 const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card"];
 const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1 };
-const perms = () => ONLINE && session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
+const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
 const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v));      // the report is the dashboard's, on paper
 const firstPage = () => PERM_PAGES.find(can) || "none";
@@ -7084,7 +7094,7 @@ $("ase-up").addEventListener("change", e => { const f = e.target.files[0]; e.tar
 $("pick").addEventListener("change", e => {
   const items = [].map.call(e.target.files, f => ({ file: f, handle: null }));
   e.target.value = "";
-  if(!ONLINE) takeFiles(items);
+  if(DISK) takeFiles(items);
 });
 /* The gate's own wiring. The real field is the hidden one: tapping the row of
    boxes focuses it, which keeps one keyboard in charge instead of several
@@ -7350,7 +7360,7 @@ window.addEventListener("drop", async e => {
   if(st.view === "cards") return cardsSend(e.dataTransfer.files && e.dataTransfer.files[0]);
   if(overAse(e)) return deskAse(e.dataTransfer.files && e.dataTransfer.files[0]);
   // the handles have to be asked for before the first await, while the drop is still live
-  const pending = [].map.call(e.dataTransfer.items || [], it => {
+  const pending = !DISK ? [] : [].map.call(e.dataTransfer.items || [], it => {
     if(it.kind !== "file") return null;
     const file = it.getAsFile();
     const hp = it.getAsFileSystemHandle ? it.getAsFileSystemHandle().catch(() => null) : Promise.resolve(null);
@@ -7362,6 +7372,7 @@ window.addEventListener("drop", async e => {
     const h = await p.hp;
     items.push({ file: p.file, handle: h && h.kind === "file" ? h : null });
   }
+  if(!DISK) return;                             // the sheets are not read from files: nothing to take
   if(!items.length) return toast(t("needXlsx"), true);
   takeFiles(items);
 });
@@ -7474,31 +7485,53 @@ if(ONLINE){
   if(session) startLocal(); else showGate();
 }
 async function startLocal(){
+  useSources();
   $("user-name").textContent = session.u; $("side-user").hidden = false;      // who is in, and the way out — as online
+  $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";
   histLoad();
-  applyLang(); paintShell(); render();
-  renewSync(); devicesSync();
+  permsSync();
+  if(!permsTimer) permsTimer = setInterval(() => { if(!document.hidden) permsSync(); }, 60000);
+  applyLang(); paintShell();
   if(!localOnce){ localOnce = true; setInterval(idleTick, 20000); }
-  const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
-  if(emp && emp.sheets) DATA.emp = emp;
-  if(per && per.sheets) DATA.per = per;
-  // only a copy that came off the disk by itself carries a save time worth trusting
-  seen.emp = (emp && emp.stamp && emp.path === SOURCES.emp) ? emp.stamp : "";
-  seen.per = (per && per.stamp && per.path === SOURCES.per) ? per.stamp : "";
-  HANDLES.emp = hEmp || null; HANDLES.per = hPer || null;
-  if(DATA.emp || DATA.per) rebuild(); else paintShell();
-  if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
-  if(!LIVE) return;
-  if(!DATA.emp && !DATA.per) busy(true, t("readingSheets"));
-  await sync();
-  busy(false);
-  if(live === false) render();
-  if(!live) return;                                   // the browser will not let us; the sheets page takes over
+  if(!DISK){
+    // the same read as the published copy's, as often — and again when the window is come back to
+    busy(true, t("reading"));
+    await cloudSync(true);
+    busy(false);
+    if(!session) return;                       // the key was refused: back at the gate
+    render();
+    renewSync(); devicesSync();
+    clearInterval(cloudTimer);
+    cloudTimer = setInterval(() => { if(!document.hidden) cloudSync(); }, CLOUD.every);
+  }else{
+    render();
+    renewSync(); devicesSync();
+    const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
+    if(emp && emp.sheets) DATA.emp = emp;
+    if(per && per.sheets) DATA.per = per;
+    // only a copy that came off the disk by itself carries a save time worth trusting
+    seen.emp = (emp && emp.stamp && emp.path === SOURCES.emp) ? emp.stamp : "";
+    seen.per = (per && per.stamp && per.path === SOURCES.per) ? per.stamp : "";
+    HANDLES.emp = hEmp || null; HANDLES.per = hPer || null;
+    if(DATA.emp || DATA.per) rebuild(); else paintShell();
+    if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+    if(!DATA.emp && !DATA.per) busy(true, t("readingSheets"));
+    await sync();
+    busy(false);
+    if(live === false) render();
+    if(!live) return;                                   // the browser will not let us; the sheets page takes over
+  }
   if(localWatching) return;                           // signed in again: the sheets are read afresh, the watchers below are set once
   localWatching = true;
-  setInterval(() => { if(!document.hidden) sync(); }, WATCH_MS);
-  window.addEventListener("focus", () => sync());
-  document.addEventListener("visibilitychange", () => { if(!document.hidden) sync(); });
+  if(DISK){
+    setInterval(() => { if(!document.hidden) sync(); }, WATCH_MS);
+    window.addEventListener("focus", () => sync());
+    document.addEventListener("visibilitychange", () => { if(!document.hidden) sync(); });
+  }else{
+    const back = () => { if(session && Date.now() - lastCloud > 30000) cloudSync(); };
+    window.addEventListener("focus", back);
+    document.addEventListener("visibilitychange", () => { if(!document.hidden) back(); });
+  }
   /* The page watches ITSELF the way it watches the sheets. When this file is
      saved anew — the system was changed — an open window takes the new one by
      itself instead of going on showing the old until someone thinks to close

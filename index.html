@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-8F4s77D+bhAEo5fQc3/clWvORVUtNvP/XOlozvdE1Bw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-tgg2iwG+ZsqblbmYpwZ3p5WYWiG8zeXGvqYepoT75/Q='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -657,6 +657,9 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-row .chip{cursor:pointer;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
 .spc-seg{align-self:center;}
+/* «المساعد»: what it understood, as chips under the box — and what it could make nothing of, struck out */
+.ask-said{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;min-height:4px;}
+.ask-x{text-decoration:line-through;opacity:.75;}
 /* the boxes over a list that are pressed to show their own rows alone */
 .sumbtn{font-family:inherit;cursor:pointer;transition:box-shadow .15s,opacity .15s,transform .12s;}
 .sumbtn:hover{box-shadow:0 3px 10px rgba(14,76,147,.18);}
@@ -1052,6 +1055,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
         <button data-view="cards" id="nav-cards" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg><span data-i18n="navCards"></span><em class="nb" id="nb-cards"></em></button>
         <button data-view="src" id="nav-src" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span><em class="nb" id="nb-src"></em></button>
         <button data-view="adm" id="nav-adm" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><circle cx="12" cy="10" r="2.300"/><path d="M8.300 16.200c.800-1.700 2.100-2.500 3.700-2.500s2.900.800 3.700 2.500"/></svg><span data-i18n="navAdm">ADMIN</span></button>
+        <button data-view="ask" id="nav-ask" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.800 4.700L18.500 9.500l-4.700 1.800L12 16l-1.800-4.700L5.500 9.500l4.700-1.800L12 3z"/><path d="M18.500 15.500l.800 2.200 2.200.800-2.200.800-.800 2.200-.800-2.200-2.200-.800 2.200-.800.800-2.200z"/></svg><span data-i18n="navAsk">المساعد</span></button>
       </div>
     </nav>
     <!-- Same button as the app's: it names the language it switches TO. Only the
@@ -2162,7 +2166,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "510c7ac97d93";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e98fc8a40436";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2398,7 +2402,8 @@ const I18N = {
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
-    adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE",
+    adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص",
+    navAsk:"المساعد", askGo:"اسأل", csvAsk:"المساعد", askNeedsAse:"محتاج نسخة ASE",
     navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
     spHintPlace:"المحافظة أو المدينة اللي في العنوان", spHintLetter:"رقم الخطاب — أو الأرقام اللي بعد آخر /", spHintCompany:"اسم الشركة",
     spNone:"مفيش حد", spMore:n => "و " + n + " كمان — كلهم في ملف الإكسيل", spOld:"من طلب سابق", csvSpecial:"بحث-خاص",
@@ -2531,7 +2536,8 @@ const I18N = {
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
-    adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet",
+    adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file",
+    navAsk:"Assistant", askGo:"Ask", csvAsk:"Assistant", askNeedsAse:"Needs the ASE copy",
     navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
     spHintPlace:"The governorate or city in the address", spHintLetter:"The letter number — or the digits after its last /", spHintCompany:"The company's name",
     spNone:"Nobody", spMore:n => "and " + n + " more — all of them are in the Excel file", spOld:"From an earlier request", csvSpecial:"Special-search",
@@ -2704,7 +2710,8 @@ const st = {
   month: "",                                                    // the month of the chart whose list is open under it ("year-month"), or none
   multi: { text: "", mode: "ind", res: null },
   ase: { text: "", res: null },
-  spc: { by: "place", text: "", res: null, cat: "" },                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
+  spc: { by: "place", text: "", res: null, cat: "" },
+  ask: { text: "", res: null, cat: "" },                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
   veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
@@ -3224,6 +3231,7 @@ function signOut(message){
   st.multi.text = ""; st.multi.res = null;
   st.spc.text = ""; st.spc.res = null; st.spc.cat = "";
   CMP.res = null; CMP.of = null; CMP.cat = "";
+  st.ask.text = ""; st.ask.res = null; st.ask.cat = "";
   st.ase.text = ""; st.ase.res = null; ASE.info = null; DESK.orders = []; DESK.beat = 0;      // the ASE list and its answers, and the desk's orders, go with him
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
   st.month = "";
@@ -3308,11 +3316,11 @@ function paintShell(){
   // the admin's two pages are in the admin's menu only
   $("nav-today").hidden = $("nav-log").hidden = !isAdmin();
   $("nav-cards").hidden = ONLINE || !isAdmin();              // the reader runs on this PC: its page is this PC's alone
-  $("nav-src").hidden = $("nav-adm").hidden = !isAdmin();    // «الشيتات» and ADMIN are the admin's pages
+  $("nav-src").hidden = $("nav-adm").hidden = $("nav-ask").hidden = !isAdmin();    // «الشيتات», ADMIN and «المساعد» are the admin's pages
   PERM_PAGES.forEach(v => { const b = document.querySelector('#nav button[data-view="' + v + '"]'); if(b) b.hidden = !can(v); });
   document.body.classList.toggle("noexp", !can("x-export"));
   document.body.classList.toggle("madm", isAdmin());              // the phone's layout is the admin's (see the styles)
-  $("dr-print").hidden = !can("x-export");
+  $("dr-print").hidden = !can("x-export") || !can("x-card");
   $("menu-btn").setAttribute("aria-label", t("menuAria"));
   readerLamp();
   cardsNav(); deskNav();
@@ -3415,10 +3423,10 @@ const scrollPart = h => '<div class="pg-scroll">' + h + "</div>";
 function render(){
   if(!canSee(st.view)){ st.view = firstPage(); paintShell(); }       // a page that is not in this user's menu: he lands on the first that is
   if(st.view === "none") return page("", "");                         // nothing is in his menu at all
-  const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log";      // the card reader, the users and the log need no sheet to work
+  const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log" && st.view !== "ask";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, ask: renderAsk }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -3621,7 +3629,7 @@ function renderHome(){
     h += soon.length ? boxTable("emp", soon) : '<div class="empty"><h3>' + t("noSoon") + "</h3></div>";
     h += "</section>";
   }
-  page(pgHead(t("navHome"), '<div class="pg-acts noprint"><button class="btn sm" data-act="report">' + t("repOpen") + "</button></div>"), scrollPart(h));
+  page(pgHead(t("navHome"), can("x-report") ? '<div class="pg-acts noprint"><button class="btn sm" data-act="report">' + t("repOpen") + "</button></div>" : ""), scrollPart(h));
 }
 
 /* THE REPORT (asked for, 6 October 2026): the dashboard's figures on one sheet of paper, for whoever is shown the
@@ -4243,8 +4251,8 @@ const MULTI_CAP = 5000;                     // per line: more than either sheet 
    SEALED with the reader's own key (AES-GCM), a list per user: without the
    PIN it is noise, like everything else the online edition holds. */
 const HIST_KEY = "ncm_system_history", HIST_MAX = 40;
-const HIST_PAGE = { ind: "multi", veh: "multi", ase: "ase", spc: "spc" };       // which page a kept search belongs to
-const histHere = () => st.view === "ase" || st.view === "spc" ? st.view : "multi";
+const HIST_PAGE = { ind: "multi", veh: "multi", ase: "ase", spc: "spc", ask: "ask" };       // which page a kept search belongs to
+const histHere = () => st.view === "ase" || st.view === "spc" || st.view === "ask" ? st.view : "multi";
 let HIST = [];
 const histSlot = () => ONLINE ? HIST_KEY + ":" + session.u : HIST_KEY;
 const toB64 = bytes => { let s = ""; for(let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s); };
@@ -4302,7 +4310,7 @@ function histHTML(){
   return mine.map(o => {
     const x = o[0], terms = x.t.split("\n");
     return '<button type="button" class="hist-row" data-hist="' + o[1] + '">' +
-      (x.m === "ase" ? "" : x.m === "spc" ? pill("white", t(SPC_WORD[x.by] || SPC_WORD.place)) : pill(x.m === "veh" ? "link" : "white", t(x.m === "veh" ? "segVehicles" : "segPeople"))) +
+      (x.m === "ase" || x.m === "ask" ? "" : x.m === "spc" ? pill("white", t(SPC_WORD[x.by] || SPC_WORD.place)) : pill(x.m === "veh" ? "link" : "white", t(x.m === "veh" ? "segVehicles" : "segPeople"))) +
       '<span class="hist-t">' + esc(terms.slice(0, 2).join(" · ")) + (terms.length > 2 ? " <b>+" + (terms.length - 2) + "</b>" : "") + "</span>" +
       '<span class="hist-at num">' + esc(stamp(x.at)) + "</span></button>";
   }).join("") + '<button type="button" class="hist-clear" data-act="hist-clear">' + t("histClear") + "</button>";
@@ -4321,6 +4329,7 @@ function histPick(i){
   if(!x) return;
   if(x.m === "ase"){ st.ase.text = x.t; renderAse(); return aseGo(); }
   if(x.m === "spc"){ st.spc.by = x.by; st.spc.text = x.t; renderSpc(); return goSpc(); }
+  if(x.m === "ask"){ st.ask.text = x.t; renderAsk(); return goAsk(); }
   st.multi.mode = x.m; st.multi.text = x.t;
   renderMulti(); goMulti();
 }
@@ -4826,12 +4835,17 @@ const isAdmin = () => ONLINE ? !!session && session.role === "admin" : true;    
    pages are never on anybody's list: they are his because he is the admin, and nobody else's menu, page or message
    says that there is one. This is what the page shows — the sheets a user's key reads are the same for all. */
 const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "rnw", "check", "cmp"];
-const PERM_CAN = ["x-export", "x-renew", "x-aseup"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup" };
-const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1 };
+/* WHAT IS ADDED LATER IS A PERMISSION OF ITS OWN (asked for, 6 October 2026: «خلي اللي أنا حددته الصبح يظهر لمديري هو
+   بس اللي يظهر لحد ما… أحدد لو عايز يظهرله حاجة تانية ولا لا»). A user whose pages were chosen has a list, and
+   what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
+   own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
+   chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard" };
+const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1 };
 const perms = () => ONLINE && session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
-const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : can(v === "rep" ? "home" : v);      // the report is the dashboard's, on paper
+const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v));      // the report is the dashboard's, on paper
 const firstPage = () => PERM_PAGES.find(can) || "none";
 let permsTimer = null;
 /* What he sees is also remembered on the device, user by user: a sign-in the database cannot be reached for opens on
@@ -5180,7 +5194,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle" };
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk" };
 const logOpen = new Set();                          // the lines that stand open
 function logDetail(r){
   try{ return r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ return { text: r.detail }; }
@@ -5243,6 +5257,7 @@ function logRun(id){
   leave();
   if(d.m === "ase"){ st.ase.text = q; go("ase"); return aseGo(); }
   if(d.m === "spc"){ st.spc.by = SPC_BY.indexOf(d.by) < 0 ? "place" : d.by; st.spc.text = q; go("spc"); return goSpc(); }
+  if(d.m === "ask"){ st.ask.text = q; go("ask"); return goAsk(); }
   st.multi.mode = d.m === "veh" ? "veh" : "ind"; st.multi.text = q;
   go("multi"); goMulti();
 }
@@ -5264,7 +5279,7 @@ function logLine(r){
     case "blocked": return [pill("ban", t("lgBlocked")), esc(t(d.text === "admin" ? "lgByAdmin" : "lgByThree"))];
     case "unblocked": return [pill("ok", t("lgUnblocked")), esc(t("lgByAdmin"))];
     case "page": return [pill("white", t("lgPage")), pageName(d.v) + (d.o ? " — " + esc(d.o) : "")];
-    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "spc" ? t("navSpc") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
+    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "ask" ? t("navAsk") : d.m === "spc" ? t("navSpc") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
     case "ase": return [pill("warn", t("asUp")), esc(t("asRows", (+d.n || 0).toLocaleString("en-US")))];
     case "card": return [pill("white", t("lgCard")), whose()];
     case "export": return [pill("warn", t("lgExport")), esc(dash(d.f))];
@@ -6036,7 +6051,7 @@ function paintAse(){
          red box (asked for, 5 October 2026). */
       return r.hits.map((hit, k) => {
         const ours = ASE_OURS.test(hit[3] || "");
-        return "<tr" + (String(hit[2] || "").trim().toUpperCase() === CMP_MOVED ? ' class="banrow"' : "") + '><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
+        return "<tr" + (can("cmp") && String(hit[2] || "").trim().toUpperCase() === CMP_MOVED ? ' class="banrow"' : "") + '><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
           cols.map((i, at) => '<td class="' + (at ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + '">' +
             (!hasCell(hit[i]) ? dimDash : i === 3 ? pill(ours ? "blue" : "red", hit[i]) : ours && i === 8 ? pill("warn", hit[i]) : esc(hit[i])) + "</td>").join("") + "</tr>";
       }).join("");
@@ -6236,7 +6251,7 @@ async function readerAsk(){
 }
 // ONE MAN'S FILE ON PAPER: his card as it stands, printed alone (see the print styles)
 function printCard(){
-  if(!drawerRef || !can("x-export")) return;
+  if(!drawerRef || !can("x-export") || !can("x-card")) return;
   logAct("print", { v: "card" });
   document.body.classList.add("print-card");
   window.print();
@@ -6383,6 +6398,226 @@ async function exportCmp(){
     rows: mine.map((r, n) => [n + 1].concat(CMP_COLS.map(c => xcell(c, r)))),
     red: mine.map(r => r.what.indexOf("violation") >= 0 || r.what.indexOf("moved") >= 0)
   }, t("csvCmp"));
+  toast(t("exported", mine.length));
+}
+
+/* ============================================================
+   «المساعد» — THE ADMIN SAYS WHAT HE WANTS, AND IT IS BROUGHT
+   ============================================================
+   Asked for on 6 October 2026: «مساعد ذكي لو عايزه يطلعلي حاجة من السيستم يطلعها من غير ما أرجعلك هنا». The admin's
+   page. He writes what he is after the way he would say it — «الموظفين اللي تصريحهم هينتهي خلال شهر», «منتهي في البحيرة
+   شركة TITAN», «كل اللي في خطاب 9288», «العربيات الممنوعة», «اللي اتعملهم خطاب تحويل» — and the page reads it: WHO
+   (employees, individuals, vehicles), in WHAT STATE (valid, expired, near its end, banned …), ending WHEN (within so
+   many days, this month, next month, a named month), WHERE (a governorate or city of the address), of WHICH COMPANY,
+   on WHICH LETTER, in WHICH DEPARTMENT or JOB, by NAME or national id, and what ASE says of him. Kinds narrow each
+   other; two of one kind widen it. What it understood is shown as chips over the answer, and what it could make
+   nothing of is shown struck out — so a wrong answer is seen for what it is.
+   Nothing leaves the page: there is no service behind this that reads the question or the people it is about. It
+   is this page reading its own sheets — which is why it can be trusted with them, and why it knows only the kinds
+   of question written here. */
+const ASK_MONTHS = { "يناير": 0, "فبراير": 1, "مارس": 2, "ابريل": 3, "مايو": 4, "يونيو": 5, "يونيه": 5, "يوليو": 6, "يوليه": 6, "اغسطس": 7, "سبتمبر": 8, "اكتوبر": 9, "نوفمبر": 10, "ديسمبر": 11 };
+const ASK_UNIT = { "يوم": 1, "ايام": 1, "اسبوع": 7, "اسابيع": 7, "اسبوعين": 14, "شهر": 30, "شهور": 30, "اشهر": 30, "شهرين": 60, "سنه": 365, "سنتين": 730 };
+const ASK_STATE = [
+  ["ok", /(?:^| )(?:ساري\S*|سليم\S*)(?= |$)/g], ["expired", /(?:^| )(?:منتهي\S*|انته\S*|خلص\S*)(?= |$)/g],
+  ["soon", /(?:^| )(?:قرب\S*(?: انتهاء| ينتهي| تنتهي)?|هينته\S*|هتنته\S*|بينته\S*|هيخلص\S*|هتخلص\S*)(?= |$)/g],
+  ["ban", /(?:^| )(?:ممنوع\S*|منع|محظور\S*)(?= |$)/g], ["pending", /(?:^| )(?:في انتظار|انتظار|مستني\S*)(?= |$)/g],
+  ["undet", /(?:^| )غير محدد(?= |$)/g], ["temp", /(?:^| )موقت\S*(?= |$)/g], ["renew", /(?:^| )(?:عايز تجديد|تجديد)(?= |$)/g],
+  ["nopermit", /(?:^| )(?:بدون تصريح|من غير تصريح|مالوش تصريح|مالهمش تصريح)(?= |$)/g], ["resigned", /(?:^| )(?:استقال\S*|مستقيل\S*)(?= |$)/g]
+];
+const ASK_STATE_WORD = { ok: "cOk", expired: "cExpired", soon: "cSoon", ban: "cBan", pending: "cPending", undet: "cUndet", temp: "cTemp", renew: "cRenew", nopermit: "chNoPermit", resigned: "chResigned" };
+const ASK_STOP = new Set(("هات هاتلي طلع طلعلي وريني عايز عاوز عايزه اعرف كل اللي الي ناس حد في من علي عن و او هم هما دول ده دي دا بتاع بتوع لي ليا عندهم عنده عندنا " +
+  "تصريح تصاريح تصريحه تصريحهم تصاريحهم خلال كام عدد كم فيه هل اسماء اسامي بيانات داتا قايمه قائمه كشف شركه شركات خطاب خطابات رقم ارقام محافظه مدينه مركز " +
+  "عنوان عنوانه عنوانهم ساكن ساكنين سكان قسم وظيفه وظيفته اسم اسمه يوم ايام شهر اسبوع سنه جاي فات كلهم كله بس لسه هو هي ايه اي مين لو سمحت ممكن محتاج " +
+  "عايزك تطلع تجيب جيب جبلي تجيبلي بتوعهم معاهم معاه عليهم عليه ان انه الذين التي الذي موجود موجودين عامل اتعمل اتعملهم اتعمله لهم له ليهم ase اسيه واحد واحده نفر انفار شخص اشخاص بتاعه بتاعهم بتاعتهم ولا مع").split(" ").map(w => spcWord(w)));
+let askKnown = null;                                // what the sheets themselves name: places, companies, departments, jobs
+function askVocab(){
+  if(askKnown && askKnown.of === M) return askKnown;
+  const k = { of: M, places: new Set(), names: new Set(), companies: new Map(), depts: new Map(), jobs: new Set() }, plain = v => spcWords(v).join(" ");
+  const inAddr = new Map(), inName = new Map(), tally = (map, v) => new Set(spcWords(v)).forEach(w => { if(w.length > 1 && !/^\d+$/.test(w)) map.set(w, (map.get(w) || 0) + 1); });
+  const co = v => { v = normalize(v); if(v) k.companies.set(plain(v), v); }, job = v => spcWords(v).forEach(w => { if(w.length > 2) k.jobs.add(w); });
+  if(M.ind) M.ind.list.forEach(g => { tally(inAddr, g.cur.address); tally(inName, g.name); co(g.cur.company); job(g.cur.job); });
+  if(M.emp) M.emp.list.forEach(e => { tally(inAddr, e.address); tally(inName, e.full_name); co(e.letter_company || "NCM"); job(e.job_title);
+    const d = normalize(e.department); if(d) k.depts.set(plain(d), d); });
+  /* «محمد» is in a thousand names and in a few streets' names; «البحيرة» is in three hundred addresses and in no name. A
+     word is a PLACE when the addresses have it more than the names do, and a NAME when the names have it at all. */
+  inAddr.forEach((n, w) => { if(w.length > 2 && n > (inName.get(w) || 0)) k.places.add(w); });
+  inName.forEach((n, w) => { if(!k.places.has(w)) k.names.add(w); });
+  ["شارع", "قريه", "مركز", "منشاه", "عزبه", "كفر", "قسم", "مدينه", "محافظه", "حي", "بجوار", "امام", "خلف", "طريق", "ميدان", "برج", "عماره", "شقه", "ملك"].forEach(w => k.places.delete(spcWord(w)));
+  return askKnown = k;
+}
+// what was written, read: who, in what state, when, where, whose, which letter … — and what was left over
+function askRead(text){
+  const k = askVocab(), now = NCM.today0(), day = 86400000;
+  const a = { kind: "people", states: [], from: null, to: null, places: [], companies: [], letters: [], depts: [], jobs: [], names: [], ids: [], ase: [], said: [], unknown: [] };
+  let q = " " + normalize(text).split(/[\s،,؛;؟?!:]+/).filter(Boolean).map(w => /[\/]/.test(w) || /^\d/.test(w) ? w.toUpperCase() : spcWord(w)).join(" ") + " ";
+  const take = (re, fn) => { q = q.replace(re, (...m) => (fn(m) === false ? m[0] : " ")); q = q.replace(/\s+/g, " "); };
+  const span = (from, to) => { a.from = from; a.to = to; a.said.push(num(fmt(from)) + " ← " + num(fmt(to))); };
+  take(/ (\d{14})(?= )/g, m => { a.ids.push(m[1]); a.said.push(num(m[1])); });
+  // what ASE says of him
+  take(/ خطاب\S* (?:تحويل\S*|نقل\S*)(?= )/g, () => { a.ase.push("moved"); a.said.push(esc(t("cmMoved"))); });
+  take(/ (?:مش|غير) موجود\S* (?:في |ف )?(?:ASE|اسيه|اسي|ase)(?= )/gi, () => { a.ase.push("missing"); a.said.push(esc(t("cmMissing"))); });
+  take(/ مخالف\S*(?= )/g, () => { a.ase.push("violation"); a.said.push(esc(t("cmViolation"))); });
+  take(/ خطاب\S* (?:رقم )?(\S*\d\S*)(?= )/g, m => { a.letters.push(m[1]); a.said.push(esc(t("letterNo")) + " " + num(m[1])); });
+  // when
+  const past = / (?:اخر|آخر|من اخر) /.test(q);
+  take(/ (?:خلال|في خلال|بعد|لحد|لغايه|اخر|من اخر|في اخر) (\d+ )?(يوم|ايام|اسبوعين|اسبوع|اسابيع|شهرين|شهر|شهور|اشهر|سنتين|سنه)(?= )/g, m => {
+    const n = (m[1] ? +m[1] : 1) * ASK_UNIT[m[2]];
+    if(past) span(new Date(now.getTime() - n * day), now); else span(now, new Date(now.getTime() + n * day));
+  });
+  take(/ شهر (ده|دا|حالي|جاي|قادم|اللي جاي)(?= )/g, m => { const i = /^(ده|دا|حالي)$/.test(m[1]) ? 0 : 1; span(new Date(now.getFullYear(), now.getMonth() + i, 1), new Date(now.getFullYear(), now.getMonth() + i + 1, 0)); });
+  take(/ سنه (دي|ده|حاليه)(?= )/g, () => span(new Date(now.getFullYear(), 0, 1), new Date(now.getFullYear(), 11, 31)));
+  take(new RegExp(" (?:شهر )?(" + Object.keys(ASK_MONTHS).join("|") + ")(?: (\\d{4}))?(?= )", "g"), m => {
+    const mo = ASK_MONTHS[m[1]], y = m[2] ? +m[2] : now.getFullYear() + (mo < now.getMonth() ? 1 : 0);
+    span(new Date(y, mo, 1), new Date(y, mo + 1, 0));
+  });
+  take(/ (?:نهارده|انهارده)(?= )/g, () => span(now, now));
+  // in what state
+  ASK_STATE.forEach(pair => take(pair[1], () => { if(a.states.indexOf(pair[0]) < 0) a.states.push(pair[0]); }));
+  if(a.from && a.states.indexOf("soon") >= 0) a.states = a.states.filter(x => x !== "soon");            // «هينتهي خلال شهر»: the month says it
+  if(a.from && past && !a.states.length) a.states.push("expired");
+  a.states.forEach(x => a.said.push(esc(t(ASK_STATE_WORD[x]))));
+  // who
+  take(/ (?:مركب\S*|عربي\S*|سيار\S*)(?= )/g, () => { a.kind = "veh"; });
+  take(/ موظف\S*(?= )/g, () => { if(a.kind !== "veh") a.kind = "emp"; });
+  take(/ (?:فرد|افراد|اشخاص|شخص)(?= )/g, () => { if(a.kind === "people") a.kind = "ind"; });
+  if(a.kind !== "people") a.said.unshift(esc(t(a.kind === "veh" ? "navVeh" : a.kind === "emp" ? "navEmp" : "navInd")));
+  // a name he gives as a name
+  take(/ (?:اسمه|اسمها|اسم|باسم) (.+?) $/, m => { a.names = m[1].split(" ").filter(Boolean); a.said.push(esc(m[1])); return true; });
+  if(a.names.length) q = q.replace(/ (?:اسمه|اسمها|اسم|باسم) .*$/, " ");
+  // what the sheets themselves name, longest first: a company, a department
+  const named = (map, into, label) => [...map.keys()].sort((x, y) => y.length - x.length).forEach(key => {
+    if(key.length < 2) return;
+    const at = q.indexOf(" " + key + " ");
+    if(at < 0) return;
+    q = q.slice(0, at) + " " + q.slice(at + key.length + 1); into.push(key); a.said.push(esc(label) + " " + esc(map.get(key)));
+  });
+  named(k.companies, a.companies, t("colCompany"));
+  named(k.depts, a.depts, t("colDept"));
+  // the words that are left: a place, a job, part of a company's name — or nothing this page knows
+  q.split(" ").filter(Boolean).forEach(w => {
+    if(ASK_STOP.has(w)) return;
+    if(/^\d+$/.test(w)) return a.unknown.push(w);
+    if(k.places.has(w)){ a.places.push(w); return a.said.push(esc(t("address")) + " " + esc(w)); }
+    if(k.names.has(w)){ a.names.push(w); a.loose = true; return a.said.push(esc(t("colName")) + " " + esc(w)); }
+    if(k.jobs.has(w)){ a.jobs.push(w); return a.said.push(esc(t("colJob")) + " " + esc(w)); }
+    if(w.length > 2 && [...k.companies.keys()].some(c => c.split(" ").indexOf(w) >= 0)){ a.companies.push(w); return a.said.push(esc(t("colCompany")) + " " + esc(w)); }
+    a.unknown.push(w);
+  });
+  // nothing at all understood: what was written is somebody's name, a code, a plate
+  const other = a.states.length || a.from || a.places.length || a.companies.length || a.letters.length || a.depts.length || a.jobs.length || a.ids.length || a.ase.length;
+  a.bare = !other && (a.loose || !a.names.length);
+  return a;
+}
+function askFind(a, text){
+  const letters = a.letters.map(x => spcAsk(x, "letter")), has = (list, v) => list.some(w => v.indexOf(w) >= 0), inSpan = d => !!d && d >= a.from && d <= a.to;
+  if(a.kind === "veh"){
+    if(!M.veh) return [];
+    if(a.bare && a.unknown.length) return findVehicles(a.unknown.join(" ")).list.map(h => ({ g: h.g, emps: [] }));
+    const words = a.unknown.concat(a.places, a.jobs, a.companies);
+    return M.veh.list.filter(g => (!a.states.length || a.states.indexOf(g.p.cat) >= 0) && (!a.from || inSpan(g.p.date)) &&
+      (!words.length || words.every(w => (g.key + " " + spcWords(g.cur.owner + " " + g.cur.type).join(" ")).indexOf(w) >= 0)))
+      .sort((x, y) => (x.cur.row || 0) - (y.cur.row || 0)).map(g => ({ g, emps: [] }));
+  }
+  if(a.bare && (a.unknown.length || a.names.length) && a.kind !== "veh") return findPeople(a.names.concat(a.unknown).join(" ")).list.filter(h => a.kind !== "emp" || h.emps.length);
+  let rows = [];
+  if(a.kind !== "emp" && M.ind) rows = M.ind.list.map(g => ({ g, emps: g.emp || [] }));
+  if(a.kind !== "ind" && M.emp){
+    const seen = new Set(); rows.forEach(r => r.emps.forEach(e => seen.add(e.emp_code)));
+    const gone = a.states.indexOf("resigned") >= 0, anyone = a.ase.length > 0 || a.ids.length > 0;
+    M.emp.list.forEach(e => { if(!seen.has(e.emp_code) && (anyone || !!e.resigned === gone)) rows.push({ g: null, emps: [e] }); });      // those who left only when they are asked for
+  }
+  const states = a.states.filter(x => x !== "resigned"), names = a.names.map(w => foldArabic(w));
+  const moved = !a.ase.length || !CMP.res || CMP.of !== M ? null : new Set(CMP.res.rows.filter(r => a.ase.some(kind => r.what.indexOf(kind) >= 0)).map(r => r.nid));
+  rows = rows.filter(r => {
+    const e = r.emps[0], g = r.g;
+    const cat = g ? g.p.cat : SPC_EMP_CAT[e.st.code] || (e.st.code === "NO PERMIT" ? "nopermit" : ""), date = g ? g.p.date : e.pdate;
+    const k = g ? spcOf(g.cur, g.cur.address, g.cur.letter, g.cur.company) : spcOf(e, e.address, e.letter_number, e.letter_company || "NCM");
+    if(a.ids.length && a.ids.indexOf(g ? g.nid : e.nid) < 0) return false;
+    if(states.length && states.indexOf(cat) < 0) return false;
+    if(a.from && !inSpan(date)) return false;
+    if(a.places.length && !a.places.some(w => k.words.has(w))) return false;
+    if(a.companies.length && !a.companies.some(w => spcWords(g ? g.cur.company : (e.letter_company || "NCM")).join(" ").indexOf(w) >= 0)) return false;
+    if(letters.length && !letters.some(f => f(k))) return false;
+    if(a.depts.length && !r.emps.some(o => has(a.depts, spcWords(o.department).join(" ")))) return false;
+    if(a.jobs.length && !has(a.jobs, spcWords(g ? g.cur.job : e.job_title).join(" "))) return false;
+    if(names.length){ const all = g ? [...g.names.keys()] : [foldArabic(e.full_name)]; if(!all.some(n => names.every(w => n.indexOf(w) >= 0))) return false; }
+    if(a.ase.length && (!moved || !moved.has(g ? g.nid : e.nid))) return false;
+    return true;
+  });
+  const rowOf = r => r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
+  return rows.sort((x, y) => rowOf(x) - rowOf(y));
+}
+async function goAsk(){
+  if($("aq")) st.ask.text = $("aq").value;
+  const text = String(st.ask.text || "").trim();
+  st.ask.cat = "";
+  if(!text || (!M.ind && !M.emp && !M.veh)){ st.ask.res = null; return paintAsk(); }
+  const a = askRead(text);
+  // what ASE says of him needs the comparison done for the sheets as they are now
+  let needs = false;
+  if(a.ase.length && (!CMP.res || CMP.of !== M)){
+    if(link()){ st.ask.res = { a, rows: null, veh: false }; paintAsk(); await cmpRun(); }
+    needs = !CMP.res || CMP.of !== M;
+  }
+  const rows = needs ? [] : askFind(a, text);
+  st.ask.res = { a, rows, veh: a.kind === "veh", needs };
+  paintAsk();
+  logAct("search", { m: "ask", n: 1, f: rows.length, q: [text] });
+  histKeep({ m: "ask", t: text, n: 1, f: rows.length });
+}
+const askCat = r => st.ask.res && st.ask.res.veh ? r.g.p.cat : spcCat(r);
+const askRows = () => !st.ask.res || !st.ask.res.rows ? [] : st.ask.cat ? st.ask.res.rows.filter(r => askCat(r) === st.ask.cat) : st.ask.res.rows;
+function paintAsk(){
+  const res = st.ask.res, box = $("askv"), said = $("ask-said");
+  if(!box) return;
+  if(!res){ box.innerHTML = ""; said.innerHTML = ""; return; }
+  said.innerHTML = res.a.said.map(x => '<span class="pill blue">' + x + "</span>").join("") + res.a.unknown.map(w => '<span class="pill mute ask-x">' + esc(w) + "</span>").join("");
+  if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + esc(t("cmBusy", CMP.done.toLocaleString("en-US"), CMP.total.toLocaleString("en-US"))) + "</h3></div>"; return; }
+  if(res.needs){ box.innerHTML = '<div class="empty"><h3>' + t("askNeedsAse") + "</h3>" + (link() ? "" : '<p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p>") + "</div>"; return; }
+  if(!res.rows.length){ box.innerHTML = '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
+  const all = res.veh ? MULTI_COLS.veh : SPC_COLS, n = {}, mine = askRows(), cols = written(all, mine), shown = mine.slice(0, SPC_SHOW), cat = st.ask.cat;
+  res.rows.forEach(r => { const c = askCat(r); if(c) n[c] = (n[c] || 0) + 1; });
+  const btn = (c, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === c ? " on" : "") + '" data-askcat="' + c + '" aria-pressed="' + (cat === c) + '">' + label + " " + num(count) + "</button>";
+  const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + btn("", "ok", t("sumFound"), res.rows.length) + Object.keys(CAT_PILL).filter(c => n[c]).map(c => btn(c, CAT_PILL[c], t(CAT_TILE[c][0]), n[c])).join("") + "</div>";
+  const open = r => res.veh ? "veh:" + r.g.key : r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
+  box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
+      '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="ask-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    shown.map((r, i) => '<tr data-open="' + esc(open(r)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" + cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
+    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
+    "</tbody></table></div></section>";
+  freeze();
+}
+function renderAsk(){
+  page(
+    '<div class="multi-head noprint">' +
+      '<div class="multi-box">' +
+        '<input class="field spc-in" id="aq" type="text" spellcheck="false" autocomplete="off" aria-label="' + t("navAsk") + '">' +
+        '<div class="multi-bar">' +
+          '<button class="btn primary" data-act="ask-go">' + t("askGo") + "</button>" +
+          '<button class="btn" data-act="ask-clear">' + t("clear") + "</button>" +
+          histBtn() +
+        "</div>" +
+        '<div class="hist" id="hist" hidden></div>' +
+        '<div class="ask-said" id="ask-said"></div>' +
+      "</div>" +
+    "</div>",
+    '<div class="pg-table" id="askv"></div>');
+  $("aq").value = st.ask.text;
+  paintAsk();
+  $("aq").focus();
+}
+async function exportAsk(){
+  const res = st.ask.res, mine = askRows();
+  if(!res || !mine.length) return;
+  const cols = res.veh ? MULTI_COLS.veh : fileCols(SPC_COLS);
+  await saveXLSX({
+    name: t("csvAsk"), rtl: !isEN(),
+    header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
+    text: cols.map((c, i) => c.nid || c.tk === "colPlate" ? i + 1 : -1).filter(i => i >= 0),
+    rows: mine.map((r, i) => [i + 1].concat(cols.map(c => xcell(c, r)))),
+    red: mine.map(r => permitBan(r.g) || (r.emps || []).some(empBan))
+  }, t("csvAsk"));
   toast(t("exported", mine.length));
 }
 
@@ -6652,6 +6887,9 @@ document.addEventListener("click", e => {
     if(a === "ase-go") return aseGo();
     if(a === "spc-go") return goSpc();
     if(a === "report"){ leave(); return go("rep"); }
+    if(a === "ask-go") return goAsk();
+    if(a === "ask-clear"){ st.ask.text = ""; st.ask.res = null; st.ask.cat = ""; return renderAsk(); }
+    if(a === "ask-csv") return exportAsk();
     if(a === "log-csv") return exportLog();
     if(a === "cmp-run") return cmpRun();
     if(a === "cmp-csv") return exportCmp();
@@ -6725,6 +6963,8 @@ document.addEventListener("click", e => {
   if(admN){ ADM.pin = admN.dataset.admPin; ADM.pinAdmin = !!admN.dataset.admA; paintAdm(); if($("adm-again")){ $("adm-again").value = ""; $("adm-again").focus(); } return; }
   const admD = tg.closest("[data-adm-del]");
   if(admD) return admDel(admD.dataset.admDel);
+  const askcat = tg.closest("[data-askcat]");
+  if(askcat){ st.ask.cat = st.ask.cat === askcat.dataset.askcat ? "" : askcat.dataset.askcat; return paintAsk(); }
   const cmpcat = tg.closest("[data-cmpcat]");
   if(cmpcat){ CMP.cat = CMP.cat === cmpcat.dataset.cmpcat ? "" : cmpcat.dataset.cmpcat; return paintCmp(); }
   const spcat = tg.closest("[data-spcat]");
@@ -6753,6 +6993,7 @@ out.addEventListener("input", e => {
   if(e.target.id === "mt"){ st.multi.text = e.target.value; return multiLines(); }
   if(e.target.id === "at"){ st.ase.text = e.target.value; return aseLines(); }
   if(e.target.id === "sp"){ st.spc.text = e.target.value; return; }
+  if(e.target.id === "aq"){ st.ask.text = e.target.value; return; }
   if(e.target.id === "sq"){
     clearTimeout(lqTimer);
     lqTimer = setTimeout(() => { sndState().q = e.target.value; (st.view === "rnw" ? paintRenew : paintSenders)(); }, 160);
@@ -6774,6 +7015,7 @@ out.addEventListener("keydown", e => {
   if(e.target.id === "mt" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); goMulti(); }
   if(e.target.id === "at" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); aseGo(); }
   if(e.target.id === "sp" && e.key === "Enter"){ e.preventDefault(); goSpc(); }        // one line: Enter asks
+  if(e.target.id === "aq" && e.key === "Enter"){ e.preventDefault(); goAsk(); }
   if((e.target.id === "adm-name" || e.target.id === "adm-pin") && e.key === "Enter"){ e.preventDefault(); admAdd(); }
   if(e.target.id === "adm-again" && e.key === "Enter"){ e.preventDefault(); admRepin(); }
 });

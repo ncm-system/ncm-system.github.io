@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-lsTreRk9Y7kfzAN1ipfgICV9bJKBcVQ/rAKYV/yKKkc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-tq4LYp38EL1VVr94G+bad4KhLyDVaGiIJ8vL4xYK6Zo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2099,7 +2099,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "46d3d96abc6d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "627a0d05facd";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2622,8 +2622,8 @@ const st = {
   ase: { text: "", res: null },
   spc: { by: "place", text: "", res: null, cat: "" },                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
-  ind: { status: "all", company: "", mail: "", q: "", sort: { k: "name", d: 1 } },
-  veh: { status: "all", mail: "", q: "", sort: { k: "plate", d: 1 } },
+  ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
+  veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
   snd: { kind: "per", q: "", open: null, tab: "ind" },  // kind: permits by sender, or the employees' lists · open: whose sheet is on screen, or none (the list)
   rnw: { q: "", open: null, tab: "" }                    // the renewal page: the same, without the switch
 };
@@ -3627,7 +3627,13 @@ function scoped(view){            // everything but the status chip, so the chip
   const L = LISTS[view], f = st[view], fq = foldArabic(f.q);
   return L.all().filter(r => L.match(r, f) && (!fq || r.hay.includes(fq)));
 }
+/* AS THE SHEET HAS THEM (asked for, 6 October 2026). «تصاريح الأفراد» and «تصاريح المركبات» open in the order of the
+   Excel sheet: every line on screen is the row of the sheet it is read from — a man's (or a vehicle's) current
+   permit — and the lines stand as those rows do, top to bottom. A column's heading still sorts by that column: once
+   for A to Z, again for Z to A, and a third time back to the sheet's own order. */
+const SHEET_ORDER = { k: "row", d: 1 };
 function sortRows(rows, cols, sort){
+  if(sort.k === "row") return rows.slice().sort((a, b) => (((a.cur && a.cur.row) || 0) - ((b.cur && b.cur.row) || 0)) * sort.d);
   const col = cols.find(c => c.k === sort.k) || cols[0];
   return rows.slice().sort((a, b) => {
     const x = col.sv(a), y = col.sv(b);
@@ -6371,7 +6377,8 @@ document.addEventListener("click", e => {
   if(chip){ f.status = chip.dataset.chip; return paintTable(view); }
   const th = tg.closest("th[data-sort]");
   if(th){
-    f.sort = { k: th.dataset.sort, d: f.sort.k === th.dataset.sort ? -f.sort.d : 1 };
+    const same = f.sort.k === th.dataset.sort;
+    f.sort = same && f.sort.d < 0 && view !== "emp" ? Object.assign({}, SHEET_ORDER) : { k: th.dataset.sort, d: same ? -f.sort.d : 1 };
     return paintTable(view);
   }
 });

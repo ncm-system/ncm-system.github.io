@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-OH7txVegTwiLaXqnSmWky4SVJy+4yMeNISC2D0vIDSM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-0V/FQAWTbot09YVuth7h89bJcXQnSwwg7VBIxqOgaq4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2167,7 +2167,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2ec6333fb072";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "bd0c7b4f235d";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2444,6 +2444,7 @@ const I18N = {
     devT:"الأجهزة", devName:"الجهاز", devLast:"آخر مستخدم", devSeen:"آخر مرة", devState:"الحالة", devOpen:"شغال", devLocked:"مقفول", devWrong:n => n + " رمز غلط", devUnlock:"فك القفل", devLock:"قفل الجهاز", devThis:"جهازك ده",
     devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.",
     lgPage:"فتح صفحة", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
+    lgClear:"مسح السجل", lgClearSure:who => who ? "تمسح سجل «" + who + "»؟ مش هيرجع." : "تمسح سجل النشاط كله؟ مش هيرجع.", lgCleared:"اتمسح السجل ✓",
     lgOpenSearch:"افتح البحث", lgPageK:"الصفحة", lgRowsK:"الصفوف", lgByK:"البحث بـ",
     lgEveryone:"كل المستخدمين", lgRefresh:"تحديث", lgNone:"مفيش نشاط متسجّل", lgMore:"الأقدم", lgUntil:"لحد",
     idleOut:"اتقفل لعدم الاستخدام", iconOnly:"السيستم بيفتح من الأيقونة بتاعته بس",
@@ -2579,6 +2580,7 @@ const I18N = {
     devT:"Devices", devName:"Device", devLast:"Last user", devSeen:"Last seen", devState:"State", devOpen:"Open", devLocked:"Locked", devWrong:n => n + " wrong " + (n === 1 ? "PIN" : "PINs"), devUnlock:"Unlock", devLock:"Lock device", devThis:"This device",
     devLockSure:"Lock this device? It will not open the system until you unlock it.",
     lgPage:"Opened page", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
+    lgClear:"Clear the log", lgClearSure:who => who ? "Clear the log of “" + who + "”? It cannot be brought back." : "Clear the whole activity log? It cannot be brought back.", lgCleared:"The log is cleared ✓",
     lgOpenSearch:"Open the search", lgPageK:"Page", lgRowsK:"Rows", lgByK:"Searched by",
     lgEveryone:"All users", lgRefresh:"Refresh", lgNone:"No activity recorded", lgMore:"Older", lgUntil:"until",
     idleOut:"Locked after inactivity", iconOnly:"This system opens from its own icon only",
@@ -5242,6 +5244,21 @@ function logToggle(id){
   row.insertAdjacentHTML("afterend", '<tr class="lgmore"><td colspan="3">' + more + "</td></tr>");
   logOpen.add(String(id)); row.classList.add("open");
 }
+/* «مسح السجل» (asked for, 6 October 2026). The admin's, and asked twice: with a user picked in the box it is that
+   user's lines that go, with nobody picked it is all of them. They go from the database — there is no getting them
+   back; the devices' list under the log is another thing and stays. */
+async function logClear(){
+  if(!isAdmin() || !link() || logBusy) return;
+  if(!confirm(t("lgClearSure", logWho))) return;
+  try{
+    await dbCall("system_log_clear", { p_who: logWho || null });
+    LOG = logWho ? LOG.filter(r => r.who !== logWho) : []; logOpen.clear(); logSig = "";
+    if(!LOG.some(r => r.who === logWho)) logWho = "";
+    toast(t("lgCleared"));
+    await logSync();
+  }catch(e){ toast(t("adFail"), true); }
+  paintLog();
+}
 // the log as a workbook: a row a line, oldest first — when, who, on what device, what he did, and what a line opens on
 async function exportLog(){
   const rows = LOG.filter(r => !logWho || r.who === logWho).slice().reverse();
@@ -5311,7 +5328,7 @@ async function paintLog(){
   const names = [...new Set(LOG.map(r => r.who).filter(Boolean))].sort();
   acts.innerHTML =
     '<select class="field" id="log-who"><option value="">' + t("lgEveryone") + "</option>" + names.map(n => '<option value="' + esc(n) + '"' + (n === logWho ? " selected" : "") + ">" + esc(n) + "</option>").join("") + "</select>" +
-    '<button class="btn sm" data-act="log-refresh">' + t("lgRefresh") + '</button><button class="btn sm" data-act="log-csv">' + t("exportExcel") + "</button>";
+    '<button class="btn sm" data-act="log-refresh">' + t("lgRefresh") + '</button><button class="btn sm" data-act="log-csv">' + t("exportExcel") + '</button><button class="btn sm danger" data-act="log-clear">' + t("lgClear") + "</button>";
   const state = '<div class="today-state">' + (logErr ? pill("bad", t("todayOffline")) : '<span class="count">' + t("todayRead", num(stamp(logAt))) + "</span>") + "</div>";
   // the devices: the locked ones first — they are what is waiting for the admin
   const mine = ONLINE ? deviceId() : "";
@@ -6362,19 +6379,22 @@ async function cmpRun(){
       CMP.done = Math.min(people.length, i + 400);
       if(st.view === "cmp") paintCmp();
     }
-    const rows = [];
-    people.forEach(x => { const c = cmpOne(x, by.get(x.nid) || []); if(c.what.length) rows.push({ g: x.g, emps: x.emps, nid: x.nid, what: c.what, ase: c.ase }); });
-    const first = r => CMP_KINDS.indexOf(r.what[0]), name = r => sortText(r.g ? r.g.name : r.emps[0].full_name);
-    rows.sort((a, b) => first(a) - first(b) || name(a).localeCompare(name(b), "ar"));
-    CMP.res = { rows, checked: people.length, at: Date.now() }; CMP.of = of;
-    if(CMP.cat && !rows.some(r => r.what.indexOf(CMP.cat) >= 0)) CMP.cat = "";
+    // everyone looked up is kept, the ones who agree too: every box over the list can be pressed (asked for, 6 October 2026)
+    const all = people.map(x => { const c = cmpOne(x, by.get(x.nid) || []); return { g: x.g, emps: x.emps, nid: x.nid, what: c.what, ase: c.ase }; });
+    const first = r => r.what.length ? CMP_KINDS.indexOf(r.what[0]) : 99, name = r => sortText(r.g ? r.g.name : r.emps[0].full_name);
+    all.sort((a, b) => first(a) - first(b) || name(a).localeCompare(name(b), "ar"));
+    const rows = all.filter(r => r.what.length);
+    CMP.res = { rows, all, checked: people.length, at: Date.now() }; CMP.of = of;
+    if(CMP.cat && CMP.cat[0] !== "*" && !rows.some(r => r.what.indexOf(CMP.cat) >= 0)) CMP.cat = "";
   }catch(e){ CMP.err = true; }
   CMP.busy = false;
   cmpNav();
   if(st.view === "cmp") paintCmp();
 }
 function cmpNav(){ const nb = $("nb-cmp"); if(nb) nb.textContent = CMP.res && CMP.of === M && CMP.res.rows.length ? CMP.res.rows.length : ""; }
-const cmpRows = () => !CMP.res ? [] : CMP.cat ? CMP.res.rows.filter(r => r.what.indexOf(CMP.cat) >= 0) : CMP.res.rows;
+// «*all»: everyone looked up · «*same»: those who agree · nothing: those who do not · a kind: those of that kind
+const cmpRows = () => !CMP.res ? [] : CMP.cat === "*all" ? CMP.res.all : CMP.cat === "*same" ? CMP.res.all.filter(r => !r.what.length) :
+  CMP.cat ? CMP.res.rows.filter(r => r.what.indexOf(CMP.cat) >= 0) : CMP.res.rows;
 const cmpSays = r => !r.ase ? "" : String(r.ase[2] || "").trim() === "Перевод" ? "TRANSFER" : String(r.ase[2] || "").trim();
 const CMP_COLS = [
   { tk:"colName", cls:"name", h:r => esc(dash(r.g ? r.g.name : r.emps[0].full_name)), x:r => r.g ? r.g.name : r.emps[0].full_name },
@@ -6386,7 +6406,7 @@ const CMP_COLS = [
   { tk:"cmAseOrg", cls:"nowrap", h:r => r.ase && r.ase[3] ? pill(ASE_OURS.test(r.ase[3]) ? "blue" : "red", r.ase[3]) : dimDash, x:r => r.ase ? r.ase[3] || "" : "" },
   { tk:"cmAseLNo", cls:"nowrap", text:true, h:r => r.ase && r.ase[8] ? num(r.ase[8]) : dimDash, x:r => r.ase ? r.ase[8] || "" : "" },
   { tk:"cmAseLDate", cls:"nowrap", h:r => r.ase && r.ase[7] ? num(r.ase[7]) : dimDash, x:r => r.ase ? r.ase[7] || "" : "" },
-  { tk:"cmWhat", cls:"nowrap", h:r => r.what.map(k => pill(CMP_TONE[k], t(CMP_WORD[k]))).join(" "), x:r => r.what.map(k => t(CMP_WORD[k])).join(" · ") }
+  { tk:"cmWhat", cls:"nowrap", h:r => r.what.length ? r.what.map(k => pill(CMP_TONE[k], t(CMP_WORD[k]))).join(" ") : pill("ok", t("cmSame")), x:r => r.what.length ? r.what.map(k => t(CMP_WORD[k])).join(" · ") : t("cmSame") }
 ];
 function renderCmp(){
   page(pgHead(t("navCmp"), '<div class="pg-acts noprint" id="cmp-acts"></div>'), '<div class="pg-table" id="cmpv"></div>');
@@ -6407,7 +6427,7 @@ function paintCmp(){
   res.rows.forEach(r => r.what.forEach(k => { n[k] = (n[k] || 0) + 1; }));
   const btn = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-cmpcat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
   const copy = ASE.info && ASE.info.rows ? '<span class="count">' + fileName(ASE.info.file || "") + " · " + num(stamp(+ASE.info.at)) + "</span>" : "";
-  const sum = '<div class="sum' + (cat ? " pick" : "") + '"><span class="pill white">' + t("cmChecked") + " " + num(res.checked) + '</span><span class="pill ok">' + t("cmSame") + " " + num(res.checked - res.rows.length) + "</span>" +
+  const sum = '<div class="sum pick">' + btn("*all", "white", t("cmChecked"), res.checked) + btn("*same", "ok", t("cmSame"), res.checked - res.rows.length) +
     btn("", "bad", t("cmDiff"), res.rows.length) + CMP_KINDS.filter(k => n[k]).map(k => btn(k, CMP_TONE[k], t(CMP_WORD[k]), n[k])).join("") + copy + "</div>";
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
       '<div class="noprint" style="display:flex;gap:8px"><button class="btn sm" data-act="cmp-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
@@ -6925,6 +6945,7 @@ document.addEventListener("click", e => {
     if(a === "ask-clear"){ st.ask.text = ""; st.ask.res = null; st.ask.cat = ""; return renderAsk(); }
     if(a === "ask-csv") return exportAsk();
     if(a === "log-csv") return exportLog();
+    if(a === "log-clear") return logClear();
     if(a === "cmp-run") return cmpRun();
     if(a === "cmp-csv") return exportCmp();
     if(a === "app-install") return appInstall();

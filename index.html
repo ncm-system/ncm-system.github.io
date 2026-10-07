@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-ooKTb9u5Iqo/58TQjXDqJ3qKJAZ8QyX7O+Xrhdk6bDw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-p86PjS8R79SZXr7RyDPh56jWkprwo7yv+ftrEMLPV8o='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -278,6 +278,17 @@ html,body{height:100%;overflow:hidden;}
 #dr-renew{flex:none;}
 #dr-renew[hidden]{display:none;}
 #dr-renew.on{background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
+#dr-edit{flex:none;}
+#dr-edit[hidden]{display:none;}
+/* «تعديل التصريح»: the small form at the head of a card, and the line that says a change has not reached the work sheet yet */
+.editbox{margin:12px 14px 4px;padding:14px;border:1.5px solid var(--blue);border-radius:var(--r-lg);background:var(--tint);display:flex;flex-direction:column;gap:10px;}
+.editbox-t{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:800;color:var(--navy);}
+.editbox .field{width:100%;text-align:center;}
+.editbox .chips{justify-content:center;}
+.editbox-b{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.editnote{margin:12px 14px 0;}
+.edits-state{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.tbl td.act .btn + .btn{margin-inline-start:4px;}
 .pg-acts{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
 .pg-acts .field{width:auto;min-width:200px;}
 .today-state{display:flex;justify-content:center;margin:4px 0 12px;}
@@ -1137,6 +1148,7 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
         <button data-view="log" id="nav-log" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="navLog"></span><em class="nb alert" id="nb-log"></em></button>
         <button data-view="cards" id="nav-cards" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg><span data-i18n="navCards"></span><em class="nb" id="nb-cards"></em></button>
         <button data-view="src" id="nav-src" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span data-i18n="navSrc">الشيتات</span><em class="nb" id="nb-src"></em></button>
+        <button data-view="edits" id="nav-edits" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8"/><path d="M16.500 3.500a2.100 2.100 0 0 1 3 3L7 19l-4 1 1-4L16.500 3.500z"/></svg><span data-i18n="navEdits">تعديلات</span><em class="nb" id="nb-edits"></em></button>
         <button data-view="adm" id="nav-adm" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><circle cx="12" cy="10" r="2.300"/><path d="M8.300 16.200c.800-1.700 2.100-2.500 3.700-2.500s2.900.800 3.700 2.500"/></svg><span data-i18n="navAdm">ADMIN</span></button>
         <button data-view="ask" id="nav-ask" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.800 4.700L18.500 9.500l-4.700 1.800L12 16l-1.800-4.700L5.500 9.500l4.700-1.800L12 3z"/><path d="M18.500 15.500l.800 2.200 2.200.800-2.200.800-.800 2.200-.800-2.200-2.200-.800 2.200-.800.800-2.200z"/></svg><span data-i18n="navAsk">المساعد</span></button>
       </div>
@@ -1220,6 +1232,7 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
     <button class="fab" id="dr-x" aria-label="إغلاق"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
     <h2 id="dr-t"></h2>
     <button type="button" class="btn sm" id="dr-renew" hidden></button>
+    <button type="button" class="btn sm" id="dr-edit" hidden></button>
     <button type="button" class="btn sm" id="dr-print" data-i18n="print"></button>
   </div>
   <div class="dr-body" id="dr-b"></div>
@@ -2258,7 +2271,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cf36b61519f9";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "19311613f7dd";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2494,7 +2507,14 @@ const I18N = {
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
-    adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص",
+    adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
+    navEdits:"تعديلات", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
+    edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
+    edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
+    edGone:"اتجاهل", edRetry:"ارفع تاني", edDrop:"تجاهل", edDropSure:"تتجاهل التعديل ده؟ مش هيتكتب في الورك شيت", edUnknown:"الصف مش في مكانه", edApplying:"الإرفاق شغال",
+    edApplyFail:"الإرفاق ما تمّش", edEmpty:"فاضي", dkEdits:"إرفاق التعديلات", dkF_ed_done:v => "اترفق " + v[0] + " تعديل في الورك شيت", dkF_ed_bad:v => v[0] + " تعديل ما اترفقش — راجعه",
+    dkF_ed_none:"مفيش تعديلات مستنية", dkEEdWait:"فيه تعديلات لسه ما اترفقتش — أرفقها الأول من صفحة «تعديلات»", dkEEdList:"قايمة التعديلات ما اتقرتش",
     appInstall:"تثبيت التطبيق على الموبايل",
     navAsk:"المساعد", askGo:"اسأل", csvAsk:"المساعد", askNeedsAse:"محتاج نسخة ASE",
     navSpc:"بحث خاص", spPlace:"محافظة / مدينة", spLetter:"رقم الخطاب", spCompany:"الشركة",
@@ -2630,7 +2650,14 @@ const I18N = {
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
-    adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file",
+    adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
+    navEdits:"Edits", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
+    edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
+    edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
+    edGone:"Dismissed", edRetry:"Send again", edDrop:"Dismiss", edDropSure:"Dismiss this edit? It will not be written into the work sheet", edUnknown:"The row has moved", edApplying:"Applying",
+    edApplyFail:"The edits were not applied", edEmpty:"empty", dkEdits:"Applying the edits", dkF_ed_done:v => v[0] + " edits written into the work sheet", dkF_ed_bad:v => v[0] + " edits were not written — look at them",
+    dkF_ed_none:"No edits waiting", dkEEdWait:"There are edits not applied yet — apply them first, from «Edits»", dkEEdList:"The list of edits could not be read",
     appInstall:"Install the app on this phone",
     navAsk:"Assistant", askGo:"Ask", csvAsk:"Assistant", askNeedsAse:"Needs the ASE copy",
     navSpc:"Special search", spPlace:"Governorate / city", spLetter:"Letter number", spCompany:"Company",
@@ -3363,6 +3390,7 @@ function signOut(message){
   CMP.res = null; CMP.of = null; CMP.cat = "";
   st.ask.text = ""; st.ask.res = null; st.ask.cat = "";
   Object.keys(PICK).forEach(k => delete PICK[k]);
+  EDITS.list = []; EDITS.over = new Map(); EDITS.who = new Map(); EDITS.of = null; $("nb-edits").textContent = "";
   st.ase.text = ""; st.ase.res = null; ASE.info = null; DESK.orders = []; DESK.beat = 0;      // the ASE list and its answers, and the desk's orders, go with him
   st.emp.q = st.ind.q = st.veh.q = ""; st.snd = { kind: "per", q: "", open: null, tab: "ind" }; st.rnw = { q: "", open: null, tab: "" }; st.view = "multi";
   st.month = "";
@@ -3391,7 +3419,7 @@ async function startOnline(){
   busy(false);
   if(!session) return;                       // the key was refused: back at the gate
   render();
-  renewSync(); devicesSync();
+  renewSync(); devicesSync(); editsSync();
   clearInterval(cloudTimer);
   cloudTimer = setInterval(() => { if(!document.hidden) cloudSync(); }, CLOUD.every);
 }
@@ -3401,7 +3429,8 @@ async function startOnline(){
    redrawing the whole page would take the cursor out of his hands. */
 function rebuild(quiet){
   builtDay = NCM.today0().getTime();
-  M = NCM.buildModel(DATA);
+  M = NCM.buildModel(withEdits(DATA));
+  if(EDITS.of !== DATA.per) editsResolve();      // the sheet was read again: are the rows that were changed still the rows they were?
   if(st.multi.res) runMulti();          // the list stays; its answers come from the new sheets
   paintShell();
   if(quiet && st.view === "multi" && $("mt")) return paintMulti(true);
@@ -3447,7 +3476,7 @@ function paintShell(){
   // the admin's two pages are in the admin's menu only
   $("nav-today").hidden = $("nav-log").hidden = !isAdmin();
   $("nav-cards").hidden = ONLINE || !isAdmin();              // the reader runs on this PC: its page is this PC's alone
-  $("nav-src").hidden = $("nav-adm").hidden = $("nav-ask").hidden = !isAdmin();    // «الشيتات», ADMIN and «المساعد» are the admin's pages
+  $("nav-src").hidden = $("nav-adm").hidden = $("nav-ask").hidden = $("nav-edits").hidden = !isAdmin();    // «الشيتات», ADMIN and «المساعد» are the admin's pages
   PERM_PAGES.forEach(v => { const b = document.querySelector('#nav button[data-view="' + v + '"]'); if(b) b.hidden = !can(v); });
   document.body.classList.toggle("noexp", !can("x-export"));
   document.body.classList.toggle("madm", isAdmin());              // the phone's layout is the admin's (see the styles)
@@ -3558,7 +3587,7 @@ function render(){
   const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log" && st.view !== "ask";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, ask: renderAsk }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, ask: renderAsk, edits: renderEdits }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -5083,9 +5112,10 @@ function openDrawer(ref){
         g.records.map((r, n, a) => permitRecHTML(r, n, a.length, true)).reverse().join("");
   }else return;
   $("dr-t").textContent = title;
-  $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn();
+  $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn(); paintEditBtn();
   logCard(ref);
   $("dr-b").innerHTML = h;
+  editNote();
   $("dr-b").scrollTop = 0;
   $("drawer").classList.add("on"); $("veil").classList.add("on");
   $("drawer").setAttribute("aria-hidden", "false");
@@ -5140,9 +5170,9 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard" };
-const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1 };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit" };
+const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
 const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v));      // the report is the dashboard's, on paper
@@ -5494,7 +5524,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk" };
+const VIEW_NAME = { multi: "navSearch", home: "navHome", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits" };
 const logOpen = new Set();                          // the lines that stand open
 function logDetail(r){
   try{ return r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ return { text: r.detail }; }
@@ -5990,10 +6020,10 @@ function cardsTick(){
    ============================================================ */
 const DESK_KEY = "ncm_system_desk";
 const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE";          // the desk knows a thing of ours by these names
-const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE" };
+const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات" };
 const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the copy on ASE SEARCH is what goes into the work sheet
 const DESK_KINDS = ["employees", "sheet", "ase"];
-const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse" };
+const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits" };
 // the steps an order goes through, by kind: sent · taken up · then its own
 const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"] };
 const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
@@ -6005,7 +6035,8 @@ const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_l
   work_sheet_open: "dkEOpen", work_sheet_missing: "dkEMissing", work_sheet_changed: "dkEChanged", work_sheet_busy: "dkEHeld", not_an_export: "dkENotAse",
   export_columns_changed: "dkECols", sheet_columns_changed: "dkESheetCols", export_empty: "dkEEmpty", export_much_smaller: "dkESmall", no_room: "dkERoom",
   wrong_password: "dkEPass", excel_check_failed: "dkECheck", file_check_failed: "dkECheck", not_received: "dkENotHere",
-  copy_same: "dkESame", copy_empty: "dkENoCopy", copy_changed: "dkECopyBusy", copy_failed: "dkECopyFail" };
+  copy_same: "dkESame", copy_empty: "dkENoCopy", copy_changed: "dkECopyBusy", copy_failed: "dkECopyFail",
+  sh_edits_waiting: "dkEEdWait", ed_list_failed: "dkEEdList" };
 // what a routine says of its own end -> how it is to be taken (ok · aside: said, nothing to do · warn · bad) and the words for it
 const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp_found"], emp_skipped: ["warn", "dkF_emp_skipped"], emp_failed: ["bad", "dkF_emp_failed"],
   emp_unverified: ["bad", "dkF_emp_unverified"], emp_blank: ["aside", "dkF_emp_blank"], emp_missing: ["aside", "dkF_emp_missing"],
@@ -6013,7 +6044,8 @@ const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp
   ph_up: ["ok", "dkF_ph_up"], ph_failed: ["bad", "dkF_ph_failed"], ph_refused: ["bad", "dkF_ph_refused"], ph_unknown: ["bad", "dkF_ph_unknown"], ph_twice: ["bad", "dkF_ph_twice"],
   ph_unchecked: ["warn", "dkF_ph_unchecked"], ph_changed: ["warn", "dkF_ph_changed"], ph_differs: ["warn", "dkF_ph_differs"], ph_unclear: ["warn", "dkF_ph_unclear"],
   ph_other: ["aside", "dkF_ph_other"],
-  sh_same: ["ok", "dkF_sh_same"], sh_up: ["ok", "dkF_sh_up"], sh_ids: ["aside", "dkF_sh_ids"], vf_ok: ["ok", "dkF_vf_ok"], vf_bad: ["bad", "dkF_vf_bad"], vf_none: ["bad", "dkF_vf_none"] };
+  sh_same: ["ok", "dkF_sh_same"], sh_up: ["ok", "dkF_sh_up"], sh_ids: ["aside", "dkF_sh_ids"], vf_ok: ["ok", "dkF_vf_ok"], vf_bad: ["bad", "dkF_vf_bad"], vf_none: ["bad", "dkF_vf_none"],
+  ed_done: ["ok", "dkF_ed_done"], ed_bad: ["bad", "dkF_ed_bad"], ed_none: ["aside", "dkF_ed_none"] };
 // sent: asked for here and not yet taken by the desk · orders: the desk's own list · owed: what this window has still to announce the end of
 const DESK = { sent: [], orders: [], stamp: 0, owed: new Set() };
 let deskSig = "", deskBusy = false;
@@ -6062,6 +6094,7 @@ async function deskCloud(){
   finally{ deskBusy = false; }
   deskNav();
   if(st.view === "src" && $("desk")) paintDesk();
+  if(st.view === "edits") paintEdits();
 }
 // is the reader on the work PC there? On that PC its own files say; online, the desk's last word to the database does
 const deskReader = () => !ONLINE ? cardsReader() : Date.now() - (DESK.beat || 0) > 25000 ? "off" :
@@ -6104,6 +6137,7 @@ async function deskSync(){
   }finally{ deskBusy = false; }
   deskNav();
   if(st.view === "src" && $("desk")) paintDesk();
+  if(st.view === "edits") paintEdits();
 }
 // the menu: how many things asked for here are on their way
 function deskNav(){
@@ -7020,6 +7054,203 @@ async function exportAsk(brief){
 }
 
 /* ============================================================
+   «تعديل التصريح» — A PERMIT CELL CHANGED FROM THE SYSTEM — AND «تعديلات»
+   ============================================================
+   Asked for on 7 October 2026. Someone who was «فى انتظار الرد» gets his answer while Khaled is away: he, or whoever
+   he gave the right to (x-edit — off for a user with a chosen list until the admin presses its chip), opens the man's
+   card — or a vehicle's — presses «تعديل التصريح», and puts in the date the permit runs to, or one of the sheet's own
+   words: منع · منع جنائى · منع نهائى · غير محدد موقف · فى انتظار الرد. It is the permit of the row the card opens on —
+   his latest request — and of the individuals' and the vehicles' sheets only.
+
+   WHERE IT GOES. The page speaks to a function of the database (system-edit) with the user's own token; the database
+   checks he may, writes the edit down (system_edits), and sends the one cell to a small script that lives beside the
+   sheet on Drive. So the Drive sheet has it at once, from wherever it was done — and nobody is ever handed the Drive
+   sheet's address to write to: the page does not know where that script is («مش عايز مديري يبقى معاه لينك الدرايف»).
+   THE WORK SHEET ON THE WORK PC is not touched by any of this. The edits wait on the admin's page «تعديلات» — who
+   changed what, from what to what, when, and whether Drive took it — and «إرفاق التعديلات» there has the desk write
+   them into work sheet.xlsx (tools/edits_apply.py: Excel itself, on a copy, a backup first). Until then «تحديث» of the
+   work sheet is refused, for the file would go up without them and take them off Drive.
+
+   NOTHING THAT SAYS WHO: an edit names its sheet, its row, and a salted hash of the row's own id — the national id's
+   digits (a row without one: its name), or the plate. The page, the Drive script and the desk each work that hash
+   out from the row in front of them, and an edit is acted on only where it still matches: a row that moved is left
+   alone and said to have moved.
+
+   WHAT IS ON SCREEN. An edit not yet in the work sheet is shown over what the sheet says, in both copies of the
+   system (this PC's reads the work sheet itself, which does not have it yet) — and the card says so. */
+const EDIT_WORDS = ["منع", "منع جنائى", "منع نهائى", "غير محدد موقف", "فى انتظار الرد"];
+const EDIT_COL = { ind: { id: 4, name: 2, permit: 8 }, veh: { id: 2, permit: 5 } };      // where a row's own id and its permit stand (the core's IND_COL and VEH_COL)
+const EDITS = { list: [], over: new Map(), who: new Map(), of: null, busy: false, err: false, seen: "" };
+const editBare = v => String(v === null || v === undefined ? "" : v).replace(/\s+/g, "");
+const editKey = (kind, c) => kind === "ind" ? (digitsOnly(c[EDIT_COL.ind.id]) || "N:" + editBare(c[EDIT_COL.ind.name])) : editBare(c[EDIT_COL.veh.id]);
+const editHash = (kind, c) => sha256hex(link().rs + "|" + kind + "|" + editKey(kind, c));
+const editRows = kind => (DATA.per && DATA.per.sheets && DATA.per.sheets[kind] && DATA.per.sheets[kind].rows) || [];
+const editLive = e => !e.applied && !e.gone;
+// the sheets with the changes that have not reached the work sheet laid over them — for the model, never kept
+function withEdits(data){
+  if(!data.per || EDITS.of !== data.per || !EDITS.over.size) return data;
+  const laid = kind => {
+    const sh = data.per.sheets[kind], col = EDIT_COL[kind].permit;
+    return !sh ? sh : Object.assign({}, sh, { rows: sh.rows.map(r => {
+      const v = EDITS.over.get(kind + ":" + r.n);
+      if(v === undefined) return r;
+      const c = r.c.slice(); c[col] = v;
+      return Object.assign({}, r, { c });
+    }) });
+  };
+  return { emp: data.emp, per: Object.assign({}, data.per, { sheets: Object.assign({}, data.per.sheets, { ind: laid("ind"), veh: laid("veh") }) }) };
+}
+/* Which edits still stand on the row they were made on (its hash is worked out from the row as the sheet has it now),
+   and so which are laid over the sheet — the latest of a row wins — and whose card each one opens. */
+async function editsResolve(){
+  const per = DATA.per, over = new Map(), who = new Map();
+  if(per && link()){
+    const at = { ind: new Map(editRows("ind").map(r => [r.n, r])), veh: new Map(editRows("veh").map(r => [r.n, r])) };
+    for(const e of EDITS.list.slice().sort((a, b) => a.id - b.id)){
+      const r = at[e.kind] && at[e.kind].get(e.row);
+      if(!r || await editHash(e.kind, r.c) !== e.ref) continue;
+      const c = r.c, label = normalize(c[2]);
+      who.set(e.id, { label, open: e.kind === "ind" ? "ind:" + (normalize(c[EDIT_COL.ind.id]) ? "ID:" + digitsOnly(c[EDIT_COL.ind.id]) : "NAME:" + label) : "veh:" + foldArabic(label) });
+      if(editLive(e)) over.set(e.kind + ":" + e.row, e.new);
+    }
+  }
+  if(DATA.per !== per) return;                     // read again while this was being worked out: the next one has it
+  const same = over.size === EDITS.over.size && [...over].every(x => EDITS.over.get(x[0]) === x[1]);
+  // drawn again only when what is laid over the sheet is not what the model was built with
+  const again = over.size ? (EDITS.of !== per || !same) : (EDITS.of === per && EDITS.over.size > 0);
+  EDITS.over = over; EDITS.who = who; EDITS.of = per;
+  if(again) rebuild(true);
+}
+async function editsSync(){
+  if(!link() || EDITS.busy) return;
+  EDITS.busy = true;
+  try{ const r = await dbCall("system_edit_list", {}); EDITS.list = r && Array.isArray(r.edits) ? r.edits : []; EDITS.err = false; }
+  catch(e){ EDITS.err = true; }
+  finally{ EDITS.busy = false; }
+  editsNav();
+  await editsResolve();
+  if(st.view === "edits") paintEdits();
+}
+function editsNav(){ const nb = $("nb-edits"); if(nb) nb.textContent = isAdmin() ? (EDITS.list.filter(editLive).length || "") : ""; }
+// the card on screen, when it is one of the permits sheet's: its sheet, and the row it opens on
+function editOf(ref){
+  if(!ref) return null;
+  const i = ref.indexOf(":"), kind = ref.slice(0, i), g = (kind === "ind" || kind === "veh") && M[kind] ? M[kind].groups.get(ref.slice(i + 1)) : null;
+  return g ? { kind, g, row: g.cur.row } : null;
+}
+function paintEditBtn(){
+  const b = $("dr-edit");
+  b.hidden = !editOf(drawerRef) || !can("x-edit") || !link();
+  b.textContent = t("edBtn");
+}
+function editNote(){
+  const x = editOf(drawerRef);
+  if(!x || EDITS.of !== DATA.per || !EDITS.over.has(x.kind + ":" + x.row)) return;
+  const n = document.createElement("div");
+  n.className = "note warn editnote"; n.textContent = t("edPill");
+  $("dr-b").insertBefore(n, $("dr-b").firstChild);
+}
+function editOpen(){
+  const x = editOf(drawerRef);
+  if(!x || !can("x-edit") || $("editbox")) return;
+  const box = document.createElement("div");
+  box.className = "editbox noprint"; box.id = "editbox";
+  box.innerHTML = '<div class="editbox-t"><span>' + t("edBtn") + '</span><span class="count">' + t("rowN") + " " + num(x.row) + "</span></div>" +
+    '<input class="field num" id="ed-date" type="text" inputmode="numeric" autocomplete="off" placeholder="' + t("edDate") + '">' +
+    '<div class="chips">' + EDIT_WORDS.map(w => '<button type="button" class="chip" data-ed-word="' + esc(w) + '">' + esc(w) + "</button>").join("") + "</div>" +
+    '<div class="editbox-b"><button class="btn primary sm" data-act="edit-save">' + t("edSave") + '</button><button class="btn sm" data-act="edit-x">' + t("edCancel") + '</button><span class="count" id="ed-msg"></span></div>';
+  $("dr-b").insertBefore(box, $("dr-b").firstChild);
+  $("dr-b").scrollTop = 0;
+  $("ed-date").focus();
+}
+// what was put in: a word of the sheet's own, or a real date written day/month/year — or nothing that can be used
+function editValue(){
+  const on = document.querySelector("#editbox [data-ed-word].on");
+  if(on) return on.dataset.edWord;
+  const m = /^(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{4})$/.exec(NCM.toLatinDigits(($("ed-date").value || "").trim()));
+  if(!m) return "";
+  const d = +m[1], mo = +m[2], y = +m[3], when = new Date(y, mo - 1, d);
+  if(y < 2020 || y > 2049 || when.getMonth() !== mo - 1 || when.getDate() !== d) return "";
+  return String(d).padStart(2, "0") + "/" + String(mo).padStart(2, "0") + "/" + y;
+}
+const editCall = body => { const l = link(); return fetch(l.db + "/functions/v1/system-edit", { method: "POST", cache: "no-store",
+  headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ token: l.rt }, body)) }).then(r => r.json()); };
+let editBusy = false;
+async function editSave(){
+  const x = editOf(drawerRef), ref0 = drawerRef;
+  if(!x || !link() || editBusy || !$("editbox")) return;
+  const value = editValue(), row = editRows(x.kind).find(r => r.n === x.row);
+  if(!value){ $("ed-msg").textContent = t("edBadDate"); return; }
+  if(!row){ $("ed-msg").textContent = t("edFail"); return; }
+  editBusy = true;
+  $("ed-msg").textContent = t("edSaving");
+  try{
+    const got = await editCall({ action: "add", name: link().u || "", kind: x.kind, ref: await editHash(x.kind, row.c), row: x.row, old: x.g.cur.permit, value });
+    if(!got || !got.ok){ if($("ed-msg")) $("ed-msg").textContent = t(got && got.error === "not_allowed" ? "edNo" : "edFail"); return; }
+    toast(t(got.drive === "done" ? "edSaved" : "edSavedWait"), got.drive !== "done");
+    await editsSync();
+    if(drawerRef === ref0 && $("drawer").classList.contains("on")) openDrawer(ref0);          // his card again, saying what it says now
+  }catch(e){ if($("ed-msg")) $("ed-msg").textContent = t("edFail"); }
+  finally{ editBusy = false; }
+}
+/* «تعديلات» — the admin's page. Every edit, the newest first: whose it is (a row that is still where it was opens its
+   card), from what to what, who made it and when, whether Drive took it, and whether the work sheet has it. */
+function renderEdits(){
+  if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }       // the page is the admin's: anyone else lands on the search
+  page(pgHead(t("navEdits"), '<div class="pg-acts noprint" id="edits-acts"></div>'), '<div class="pg-table" id="editsv"></div>');
+  paintEdits();
+  editsSync(); deskSync();
+}
+function paintEdits(){
+  const box = $("editsv"), acts = $("edits-acts");
+  if(!box || st.view !== "edits") return;
+  if(!link()){ acts.innerHTML = ""; box.innerHTML = '<div class="empty"><h3>' + t("noConn") + "</h3></div>"; return; }
+  const live = EDITS.list.filter(editLive), o = deskNow("edits"), going = deskLive(o);
+  // an applying that has just come to its end: the list is asked for again, once
+  if(o && !going && o.id !== EDITS.seen){ EDITS.seen = o.id; editsSync(); }
+  acts.innerHTML = '<button class="btn sm primary" data-act="edits-apply"' + (live.length && !going ? "" : " disabled") + ">" + t("edApply") + (live.length ? " " + num(live.length) : "") + "</button>" +
+    '<button class="btn sm" data-act="edits-refresh">' + t("lgRefresh") + "</button>";
+  const said = !o ? "" : going ? pill("blue", t("edApplying")) : o.status === "done"
+    ? deskFacts(o).map(f => pill(DESK_FACT[f[0]][0] === "aside" ? "mute" : DESK_FACT[f[0]][0], t(DESK_FACT[f[0]][1], f.slice(1)))).join("")
+    : pill("bad", t("edApplyFail")) + (DESK_ERR[o.error] ? pill("bad", t(DESK_ERR[o.error])) : "");
+  const cell = v => v ? esc(v) : '<span class="dim">' + t("edEmpty") + "</span>";
+  const drive = e => pill(e.drive === "done" ? "ok" : e.drive === "failed" ? "bad" : "warn", t(e.drive === "done" ? "edDriveDone" : e.drive === "failed" ? "edDriveFail" : "edDriveWait"));
+  const sheet = e => e.applied ? pill("ok", t("edApplied")) : e.gone ? pill("mute", t("edGone")) : pill("warn", t("edPending")) + (e.apply_note ? " " + pill("bad", e.apply_note) : "");
+  box.innerHTML = '<section class="panel"><div class="panel-h"><div class="edits-state">' + said + '</div><span class="count">' + t("rows", EDITS.list.length) + "</span></div>" +
+    (!EDITS.list.length ? '<div class="empty"><h3>' + t(EDITS.err ? "noConn" : "edNone") + "</h3></div>" :
+    '<div class="tblwrap"><table class="tbl"><thead><tr>' + ["#", t("edWho"), t("edChange"), t("edBy"), t("colSent"), t("edDrive"), t("edSheet"), ""].map(x => '<th class="nos">' + x + "</th>").join("") + "</tr></thead><tbody>" +
+    EDITS.list.map((e, i) => {
+      const w = EDITS.who.get(e.id);
+      return "<tr" + (w ? ' data-open="' + esc(w.open) + '"' : ' style="cursor:default"') + (editLive(e) ? "" : ' class="unpicked"') + '><td class="ix">' + (EDITS.list.length - i) + "</td>" +
+        '<td class="name">' + (w ? esc(w.label) : '<span class="dim">' + t("edUnknown") + "</span>") + " " + pill("white", t(e.kind === "veh" ? "segVehicles" : "segPeople")) + "</td>" +
+        '<td class="nowrap">' + cell(e.old) + " ← <b>" + esc(e.new) + "</b></td>" +
+        '<td class="nowrap">' + esc(e.by || "") + '</td><td class="nowrap">' + num(stamp(+e.at)) + "</td>" +
+        '<td class="nowrap">' + drive(e) + '</td><td class="nowrap">' + sheet(e) + "</td>" +
+        '<td class="act nowrap">' + (!editLive(e) ? "" : (e.drive === "done" ? "" : '<button class="btn sm" data-ed-retry="' + (+e.id) + '">' + t("edRetry") + "</button>") +
+          '<button class="btn sm danger" data-ed-drop="' + (+e.id) + '">' + t("edDrop") + "</button>") + "</td></tr>";
+    }).join("") + "</tbody></table></div>") + "</section>";
+}
+// «إرفاق التعديلات»: an order for the desk on the work PC, put down the way the others are
+function editsApply(){
+  if(!isAdmin() || deskLive(deskNow("edits")) || !EDITS.list.some(editLive)) return;
+  if(ONLINE) return deskAskOnline(cardsId(), "edits", "");
+  const id = cardsId(), name = DESK_ORDER + " [" + id + "] " + DESK_WORD.edits + ".txt";
+  cardsPut(new Blob(["run"], { type: "text/plain" }), name);
+  DESK.sent.unshift({ id, kind: "edits", name, file: "", at: Date.now() });
+  deskKeep(); deskNav(); paintEdits();
+  [3200, 9000].forEach(ms => setTimeout(deskSync, ms));
+}
+async function editRetry(id){
+  try{ await editCall({ action: "retry", id }); }catch(e){ toast(t("noConn"), true); }
+  editsSync();
+}
+async function editDrop(id){
+  if(!confirm(t("edDropSure"))) return;
+  try{ await dbCall("system_edit_drop", { p_id: id }); }catch(e){ toast(t("noConn"), true); }
+  editsSync();
+}
+
+/* ============================================================
    ADMIN — the users, and what each one sees
    ============================================================
    The admin's page, in his menu only. Every user is a box: his pages and what he may do, each a chip that is on or
@@ -7250,6 +7481,7 @@ $("pin").addEventListener("blur", () => $("pinboxes").classList.remove("focus"))
 $("pin").addEventListener("keydown", e => { if(e.key === "Enter") submitPin(); });
 $("logout").addEventListener("click", () => { logAct("out"); signOut(); });
 $("dr-renew").addEventListener("click", renewPress);
+$("dr-edit").addEventListener("click", editOpen);
 $("link-go").addEventListener("click", connectGo);
 $("link-no").addEventListener("click", connectClose);
 $("link-pin").addEventListener("keydown", e => { if(e.key === "Enter") connectGo(); else if(e.key === "Escape") connectClose(); });
@@ -7259,6 +7491,18 @@ document.addEventListener("change", e => { if(e.target.id === "log-who"){ logWho
 document.addEventListener("click", e => {
   const tg = e.target;
   // the ✕ of a row of «تجديد اليوم» sits inside a row that opens a card: it is asked first
+  const edRetry = tg.closest("[data-ed-retry]");
+  if(edRetry) return editRetry(+edRetry.dataset.edRetry);
+  const edDrop = tg.closest("[data-ed-drop]");
+  if(edDrop) return editDrop(+edDrop.dataset.edDrop);
+  const edWord = tg.closest("[data-ed-word]");            // one word, or none: a word picked empties the date
+  if(edWord){
+    const was = edWord.classList.contains("on");
+    [].forEach.call(document.querySelectorAll("#editbox [data-ed-word]"), b => b.classList.remove("on"));
+    if(!was){ edWord.classList.add("on"); $("ed-date").value = ""; }
+    $("ed-msg").textContent = "";
+    return;
+  }
   const del = tg.closest("[data-today-del]");
   if(del) return todayRemove([+del.dataset.todayDel]);
   const gone = tg.closest("[data-cards-drop]");       // a file that never reached the reader, put away
@@ -7299,6 +7543,10 @@ document.addEventListener("click", e => {
     if(a === "spc-go") return goSpc();
     if(a === "report"){ leave(); return go("rep"); }
     if(a === "ask-go") return goAsk();
+    if(a === "edit-save") return editSave();
+    if(a === "edit-x"){ const b = $("editbox"); if(b) b.remove(); return; }
+    if(a === "edits-apply") return editsApply();
+    if(a === "edits-refresh"){ editsSync(); return deskSync(); }
     if(a === "ask-clear"){ pickDrop("ask"); st.ask.text = ""; st.ask.res = null; st.ask.cat = ""; return renderAsk(); }
     if(a === "ask-csv") return exportAsk();
     if(a === "log-csv") return exportLog();
@@ -7433,6 +7681,7 @@ document.addEventListener("click", e => {
 let lqTimer = null;
 out.addEventListener("input", e => {
   if(e.target.id === "mt"){ st.multi.text = e.target.value; return multiLines(); }
+  if(e.target.id === "ed-date"){ [].forEach.call(document.querySelectorAll("#editbox [data-ed-word].on"), b => b.classList.remove("on")); $("ed-msg").textContent = ""; return; }
   if(e.target.id === "at"){ st.ase.text = e.target.value; return aseLines(); }
   if(e.target.id === "sp"){ st.spc.text = e.target.value; return; }
   if(e.target.id === "aq"){ st.ask.text = e.target.value; return; }
@@ -7539,7 +7788,7 @@ if(ONLINE){
 window.addEventListener("focus", newDay);
 document.addEventListener("visibilitychange", () => { if(!document.hidden) newDay(); });
 // the shared renewal list (and the log, while its page is open) is read again every minute, and when the window is looked at
-const listsAgain = () => { if(!link()) return; deviceCheck(); renewSync(); if(st.view === "log") logSync(); else devicesSync(); };
+const listsAgain = () => { if(!link()) return; deviceCheck(); renewSync(); editsSync(); if(st.view === "log") logSync(); else devicesSync(); };
 // a locked device goes on asking, every half minute, whether the admin has let it back in: when he has, the gate comes back by itself
 setInterval(async () => { if(!ONLINE || session || !blocked() || document.hidden) return; await gateState(); if(!blocked()) location.reload(); }, 30000);
 setInterval(() => { if(!document.hidden) listsAgain(); }, 60000);
@@ -7628,12 +7877,12 @@ async function startLocal(){
     busy(false);
     if(!session) return;                       // the key was refused: back at the gate
     render();
-    renewSync(); devicesSync();
+    renewSync(); devicesSync(); editsSync();
     clearInterval(cloudTimer);
     cloudTimer = setInterval(() => { if(!document.hidden) cloudSync(); }, CLOUD.every);
   }else{
     render();
-    renewSync(); devicesSync();
+    renewSync(); devicesSync(); editsSync();
     const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
     if(emp && emp.sheets) DATA.emp = emp;
     if(per && per.sheets) DATA.per = per;

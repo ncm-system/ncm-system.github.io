@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-MVLEsZVD84ZoIV07a1XemxGH9jetS379FHp8Ky1ZWVU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-jHOIRhXiw2Qq0jJvzV/oMr8gw2eiFPyv4lW/ZvF+9Fg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -370,7 +370,7 @@ tr.lgrow.open .lgchev{transform:rotate(-135deg);vertical-align:-1px;}
 .btn.primary:hover{background:var(--blue-soft);}
 .btn.danger{background:var(--bad-bg);border-color:var(--bad-br);color:var(--bad);}
 /* a user who may not export or print has no such buttons */
-body.noexp [data-act$="csv"],body.noexp [data-act="print"],body.noexp button[data-snd]{display:none!important;}
+body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[data-snd],body.noexp button[data-snd-brief]{display:none!important;}
 .btn.sm{padding:7px 12px;font-size:13px;border-radius:var(--r-sm);}
 @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -2257,7 +2257,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "0fed7285788d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "a1f33dac762a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2486,7 +2486,7 @@ const I18N = {
     cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
     repOpen:"تقرير", repTitle:"تقرير التصاريح", repCompanies:"الشركات — تصاريح الأفراد", repMonth:"الشهر", rdSince:x => "القارئ واقف من " + x, menuAria:"القائمة",
     lgWhenK:"الوقت", lgUserK:"المستخدم", lgActK:"الإجراء", lgDetailK:"التفاصيل",
-    navCmp:"مقارنة ASE", cmChecked:"اتراجع", cmSame:"مطابق", cmDiff:"فيه فرق", cmNone:"مفيش فروق", cmRun:"قارن من جديد", csvCmp:"مقارنة-ASE",
+    navCmp:"مقارنة ASE", cmChecked:"اتراجع", cmSame:"مطابق", cmDiff:"فيه فرق", cmNone:"مفيش فروق", cmRun:"قارن من جديد", csvCmp:"مقارنة-ASE", csvAse:"ASE-SEARCH",
     cmBusy:(a, b) => "بيقارن — " + a + " من " + b, cmWhat:"الفرق", cmAseSt:"حالة ASE", cmAseOrg:"شركة ASE", cmAseLNo:"خطاب ASE", cmAseLDate:"تاريخ خطاب ASE",
     cmMissing:"مش موجود في ASE", cmViolation:"مخالفة في ASE", cmDeleted:"محذوف في ASE", cmLeft:"استقالة في ASE",
     cmOther:"على شركة تانية في ASE", cmMoved:"خطاب تحويل", cmBanOurs:"ممنوع عندنا بس", cmLetter:"رقم الخطاب مختلف",
@@ -2622,7 +2622,7 @@ const I18N = {
     cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
     repOpen:"Report", repTitle:"Permits report", repCompanies:"Companies — individual permits", repMonth:"Month", rdSince:x => "The reader has been away since " + x, menuAria:"Menu",
     lgWhenK:"Time", lgUserK:"User", lgActK:"Action", lgDetailK:"Details",
-    navCmp:"ASE compare", cmChecked:"Checked", cmSame:"Agree", cmDiff:"Differ", cmNone:"No differences", cmRun:"Compare again", csvCmp:"ASE-compare",
+    navCmp:"ASE compare", cmChecked:"Checked", cmSame:"Agree", cmDiff:"Differ", cmNone:"No differences", cmRun:"Compare again", csvCmp:"ASE-compare", csvAse:"ASE-SEARCH",
     cmBusy:(a, b) => "Comparing — " + a + " of " + b, cmWhat:"Difference", cmAseSt:"ASE status", cmAseOrg:"ASE company", cmAseLNo:"ASE letter", cmAseLDate:"ASE letter date",
     cmMissing:"Not in ASE", cmViolation:"Violation in ASE", cmDeleted:"Deleted in ASE", cmLeft:"Resigned in ASE",
     cmOther:"Under another company in ASE", cmMoved:"Transfer letter", cmBanOurs:"Banned here only", cmLetter:"Letter number differs",
@@ -3986,6 +3986,36 @@ const BRIEF = { ind: ["name", "job", "nid", "addr", "permit"], veh: ["plate", "p
 const empBrief = e => empBan(e) ? stLabel(e) : e.resigned ? t("resigned") : e.pdate ? fmt(e.pdate) : (e.permit_date || stLabel(e));
 const PAPER = { emp: [{ k: "pb", tk: "colPermit", cls: "nowrap", h: r => r.pdate && !empBan(r) && !r.resigned ? num(fmt(r.pdate)) : esc(empBrief(r)), x: empBrief, tone: r => r.resigned ? "bad" : r.st.k }] };
 const briefCols = view => { const all = LISTS[view].cols.concat(PAPER[view] || []); return BRIEF[view].map(k => all.find(c => c.k === k)).filter(Boolean); };
+/* THE SAME TWO FILES ON EVERY PAGE THAT LISTS PEOPLE OR VEHICLES (asked for, 7 October 2026: «طبق كل التعديلات… التصدير
+   والتصدير المختصر والاختيار على كل الصفحات») — «بحث», «بحث خاص», «المساعد», «مقارنة ASE», «ASE SEARCH», and a sender's
+   sheet on «تصدير بيانات» and «كشف التجديد»: «تصدير مختصر» beside «تصدير كامل», «اختيار» with them, and the paper the
+   short one. The short file of people is the individuals' — م · الاسم · الوظيفة · الرقم القومي · العنوان · التصريح — whether
+   the man is in the permits sheet or an employee only (his permit is then the date it runs to, or the word that stands
+   in its place); of vehicles, م · رقم السيارة · التصريح. */
+const PEOPLE_SHORT = ["colName", "colJob", "colNid", "address", "colPermit"], VEH_SHORT = ["colPlate", "colPermit"];
+// is it vehicles that the page on screen is listing?
+const vehNow = () => st.view === "multi" ? !!st.multi.res && st.multi.res.mode === "veh" : st.view === "ask" ? !!st.ask.res && !!st.ask.res.veh : false;
+const shortOut = c => (vehNow() ? VEH_SHORT : PEOPLE_SHORT).indexOf(c.tk) < 0 ? " fullonly" : "";      // on paper: the short columns
+const rowPermit = r => r.g ? permitText(r.g.p) : empBrief(r.emps[0]);
+function shortCols(veh){
+  if(veh) return VEH_SHORT.map(tk => MULTI_COLS.veh.find(c => c.tk === tk));
+  return PEOPLE_SHORT.slice(0, 4).map(tk => MULTI_COLS.ind.find(c => c.tk === tk))
+    .concat([{ tk: "colPermit", x: rowPermit, tone: r => r.g ? r.g.p.cls : r.emps[0].resigned ? "bad" : r.emps[0].st.k }]);
+}
+async function saveShort(nameKey, rows, veh, more){
+  if(!rows.length) return;
+  const cols = shortCols(veh).concat(more || []);
+  await saveXLSX({
+    name: t(nameKey), rtl: !isEN(),
+    header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
+    text: cols.map((c, i) => c.nid || c.tk === "colPlate" ? i + 1 : -1).filter(i => i >= 0),
+    rows: rows.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
+    red: rows.map(r => permitBan(r.g) || (r.emps || []).some(empBan))
+  }, t(nameKey));
+  toast(t("exported", rows.length));
+}
+// the two export buttons of a page, and its print button
+const exportBtns = act => '<button class="btn sm primary" data-act="' + act + '-brief">' + t("exportBrief") + '</button><button class="btn sm" data-act="' + act + '">' + t("exportFull") + "</button>";
 /* PICKING ROWS BY HAND — on every page that lists people or vehicles: «الموظفين», the two permits pages, «بحث»,
    «بحث خاص», «مقارنة ASE» and «المساعد» (asked for, 6 October 2026: «شغل زر الاختيار في كل حاجة»). «اختيار», over
    the list, switches it on: every row then has a box, and beside the button stand «اختيار الكل» (everyone the list
@@ -4005,8 +4035,12 @@ const listSrc = v => ({ id: r => LISTS[v].open(r), shown: () => listRows(v), all
   order: rows => sortRows(rows, LISTS[v].cols, st[v].sort), paint: () => paintTable(v, true) });
 /* What each page gives: `id` a row's name · `shown` the rows its list has now · `all` every row it could have, whatever
    is pressed over it · `paint` draws its list again. */
+// a sender's sheet («تصدير بيانات», «كشف التجديد»): a row is what opens its card; the tab on screen, and all its tabs
+const sndNow = () => { const sn = sndState(), e = sn.open === null ? null : sndList().find(x => x.k === sn.open), sheets = e ? senderSheets(e) : []; return { sheets, tab: sheets.find(x => x.kind === sn.tab) || sheets[0] }; };
+const sndSrc = { id: x => x, shown: () => { const n = sndNow(); return n.tab ? n.tab.open : []; }, all: () => [].concat(...sndNow().sheets.map(x => x.open)), paint: () => render() };
 const PICK_SRC = {
-  emp: listSrc("emp"), ind: listSrc("ind"), veh: listSrc("veh"),
+  emp: listSrc("emp"), ind: listSrc("ind"), veh: listSrc("veh"), snd: sndSrc, rnw: sndSrc,
+  ase: { id: x => x.id, shown: () => aseItems(aseShown()), all: () => aseItems((st.ase.res && st.ase.res.rows) || []), paint: () => paintAse() },
   multi: { id: r => multiOpen(r), shown: () => st.multi.res ? multiRows(st.multi.res).filter(pickable) : [], all: () => st.multi.res ? st.multi.res.rows.filter(pickable) : [], paint: () => paintMulti(true) },
   spc: { id: personKey, shown: () => st.spc.res ? spcRows(st.spc.res) : [], all: () => st.spc.res ? st.spc.res.rows : [], paint: () => paintSpc() },
   cmp: { id: personKey, shown: () => cmpRows(), all: () => CMP.res ? CMP.res.all : [], paint: () => paintCmp() },
@@ -4227,7 +4261,7 @@ function paintSenders(){
       '<div class="tblwrap"><table class="tbl plain"><thead><tr><th>' + t("navEmp") + "</th><th>" + t("colTotal") + "</th><th></th></tr></thead><tbody>" +
         rows.map(e =>
           "<tr" + (e.total ? ' data-snd-open="' + esc(e.k) + '"' : "") + '><td class="name">' + esc(sndName(e)) + "</td><td><b>" + cell(e.total) +
-            '</b></td><td><button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportExcel") + "</button></td></tr>").join("") +
+            '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>").join("") +
       "</tbody></table></div>";
     return;
   }
@@ -4237,7 +4271,7 @@ function paintSenders(){
       ["sender", "colIndOk", "colIndBan", "colVehOk", "colVehBan", "colTotal"].map(k => "<th>" + t(k) + "</th>").join("") + "<th></th></tr></thead><tbody>" +
       rows.map(e =>
         "<tr" + (e.total ? ' data-snd-open="' + esc(e.k) + '"' : "") + '><td class="name">' + esc(e.name || t("notSpecified")) + "</td><td>" + cell(e.n.indok) + "</td><td>" + cell(e.n.indban) + "</td><td>" + cell(e.n.vehok) + "</td><td>" + cell(e.n.vehban) +
-          "</td><td><b>" + cell(e.total) + '</b></td><td><button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportExcel") + "</button></td></tr>").join("") +
+          "</td><td><b>" + cell(e.total) + '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>").join("") +
     "</tbody></table></div>";
 }
 /* What the workbook of one sender holds — built once, used twice: the page
@@ -4252,7 +4286,7 @@ function empSheet(list, opt){
   const collar = x => x.category === "blue" || x.category === "white" ? { v: x.category.toUpperCase(), h: pill(x.category, x.category.toUpperCase()) } : x.category;
   const standing = x => ({ v: stLabel(x) + (x.resigned ? " (" + t("resigned") + ")" : ""), tone: x.resigned ? "bad" : XTONE[x.st.k] || "",
                            h: pill(x.st.k, stLabel(x)) + (x.resigned ? " " + pill("bad", t("resigned")) : "") });
-  const cols = [
+  const every = [
     ["colSerial", "ix", (x, n) => n + 1], ["colCode", "nowrap", x => x.emp_code], ["colName", "name", x => x.full_name], ["colJob", "mid", x => x.job_title],
     ["colDept", "mid", x => x.department], ["colNid", "nowrap", x => x.national_id], ["address", "wide", x => x.address], ["colType", "nowrap", collar],
     ["colStatus", "nowrap", standing], ["colPermitDate", "nowrap", x => x.pdate ? fmt(x.pdate) : x.permit_date]
@@ -4261,6 +4295,8 @@ function empSheet(list, opt){
     [["letterNo", "nowrap", x => x.letter_number], ["letterDate", "nowrap", x => x.letter_date], ["colCompany", "nowrap", x => x.letter_company], ["letterNote", "mid", x => x.letter_note]],
     opt.ban ? [["banReason", "mid", x => x.ban_reason]] : [],
     opt.gone ? [["resignEnd", "nowrap", x => x.resignation_end_date]] : []);
+  // the short one (opt.brief): up to the address, and then the permit — the date it runs to, or the word in its place
+  const cols = !opt.brief ? every : every.slice(0, 7).concat([["colPermit", "nowrap", x => ({ v: empBrief(x), tone: XTONE[x.resigned ? "bad" : x.st.k] || "", h: esc(empBrief(x)) })]]);
   const keep = ["colNid", "letterNo"];                     // these stay exactly as written: text, never numbers (a code is a number, and sorts as one)
   return {
     kind: "emp", name: t("navEmp"), rtl: !isEN(),
@@ -4270,7 +4306,15 @@ function empSheet(list, opt){
     rows: list.map((x, n) => cols.map(c => c[2](x, n)))
   };
 }
-function senderSheets(e){
+const SHEET_SHORT = { ind: ["colSerial", "colName", "colJob", "colNid", "address", "colPermit"], veh: ["colSerial", "colPlate", "colPermit"],
+                      emp: ["colSerial", "colCode", "colName", "colJob", "colDept", "colNid", "address"] };
+// a sheet of people or of vehicles, cut down to its short columns
+function shortSheet(sh){
+  const at = SHEET_SHORT[sh.kind].map(k => sh.header.indexOf(t(k))).filter(i => i >= 0);
+  return Object.assign({}, sh, { header: at.map(i => sh.header[i]), cls: at.map(i => sh.cls[i]), rows: sh.rows.map(row => at.map(i => row[i])),
+                                 text: sh.text.map(i => at.indexOf(i)).filter(i => i >= 0) });
+}
+function senderSheets(e, brief){
   /* Two kinds of workbook come out of here, column for column the same but for one thing.
      The data export keeps the valid first and the bans after them, each by name.
      The renewal list (e.renew) is everything near its end, the soonest first, and
@@ -4312,9 +4356,9 @@ function senderSheets(e){
   if(e.emps && e.emps.length){
     // in the order of the codes, as asked (the soonest first on the renewal list); a banned employee's row is red wherever it falls
     const list = rn ? e.emps.slice().sort((a, b) => a.dl - b.dl) : e.emps, gone = e.k === "resigned";      // the resigned carry one column more: when the resignation ends
-    sheets.push(empSheet(list, { left: rn, ban: true, gone }));
+    sheets.push(empSheet(list, { left: rn, ban: true, gone, brief }));
   }
-  return sheets;
+  return brief ? sheets.map(sh => sh.kind === "emp" ? sh : shortSheet(sh)) : sheets;
 }
 /* «كشف التجديد» — everything whose permit runs out within the window the whole
    system calls "near its end" (EXPIRY_WINDOW days: thirty): people and vehicles
@@ -4341,7 +4385,7 @@ function paintRenew(){
       ["sender", "segPeople", "segVehicles", "navEmp", "colTotal"].map(k => "<th>" + t(k) + "</th>").join("") + "<th></th></tr></thead><tbody>" +
       rows.map(e =>
         "<tr" + (e.total ? ' data-snd-open="' + esc(e.k) + '"' : "") + '><td class="name">' + (e.tk ? "<b>" + esc(sndName(e)) + "</b>" : esc(sndName(e))) + "</td><td>" + cell(e.ind) + "</td><td>" + cell(e.veh) + "</td><td>" + cell(e.emps) +
-          "</td><td><b>" + (e.total ? num(e.total) : dimDash) + '</b></td><td><button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportExcel") + "</button></td></tr>").join("") +
+          "</td><td><b>" + (e.total ? num(e.total) : dimDash) + '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>").join("") +
     "</tbody></table></div>";
 }
 function renderRenew(){
@@ -4371,15 +4415,26 @@ function renderSenderSheet(e){
   if(banAt > 0 && !tab.red.every(Boolean)) keep[banAt] = false;       // «سبب المنع»: for a sheet of the banned, and no other
   const kept = list => list.filter((x, ci) => keep[ci]);
   const lead = tab.kind === "emp" ? 3 : 2, fz = frozen(tab.header.map((x, ci) => ci < lead)), fzKept = kept(fz);
+  /* THE SAME AS A LIST PAGE (asked for, 7 October 2026): «تصدير مختصر» and «تصدير كامل», «طباعة» — the paper is the short
+     columns — and «اختيار»: rows picked on any of the sheet's tabs are what the two files and the paper hold. */
+  const view = st.view, pk = PICK[view], mine = new Set(picked(view)), only = (pickPaper || (!!pk && pk.on && pk.only)) && mine.size > 0;
+  const idx = tab.rows.map((row, i) => i).filter(i => !only || mine.has(tab.open[i]));
+  const heads = SHEET_SHORT[tab.kind].map(k => t(k)), out = tab.header.map(x => heads.indexOf(x) < 0 ? " fullonly" : ""), outKept = kept(out);
+  // an employee's permit on paper: the date it runs to, or the word in its place — a column the paper alone has
+  const empOf = tab.kind === "emp" && M.emp ? new Map(M.emp.list.map(x => ["emp:" + x.emp_code, x])) : null;
   page(
-    pgHead(name, '<div style="display:flex;gap:8px"><button class="btn sm primary" data-snd="' + esc(e.k) + '">' + t("exportExcel") + "</button></div>") +
-    '<div class="toolbar"><div class="seg">' + sheets.map(s =>
-        '<button data-snd-tab="' + s.kind + '" class="' + (s === tab ? "on" : "") + '">' + s.name + " " + num(s.rows.length) + "</button>").join("") +
-      '</div><span class="count" id="count">' + t("rows", tab.rows.length) + "</span></div>",
+    pgHead(name, '<div style="display:flex;gap:8px"><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '">' + t("exportBrief") + '</button><button class="btn sm" data-snd="' + esc(e.k) + '">' + t("exportFull") +
+      '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div>") +
+    '<div class="toolbar"><div class="seg">' + sheets.map(sh =>
+        '<button data-snd-tab="' + sh.kind + '" class="' + (sh === tab ? "on" : "") + '">' + sh.name + " " + num(sh.rows.length) + "</button>").join("") +
+      '</div><span class="count" id="count">' + t("rows", idx.length) + "</span>" + pickBar() + "</div>",
     '<div class="pg-table"><section class="panel" id="tbl"><div class="tblwrap"><table class="tbl' + (kept(tab.header).length >= 13 ? " dense" : "") + '"><thead><tr>' +
-      kept(tab.header).map((x, i) => '<th class="nos' + fzKept[i] + '">' + esc(x) + "</th>").join("") + "</tr></thead><tbody>" +
-      tab.rows.map((row, i) => '<tr' + (tab.red[i] ? ' class="banrow"' : "") + ' data-open="' + esc(tab.open[i]) + '">' + row.map((c, ci) => keep[ci] ? '<td class="' + tab.cls[ci] + fz[ci] + '">' + cellHTML(c) + "</td>" : "").join("") + "</tr>").join("") +
+      kept(tab.header).map((x, i) => '<th class="nos' + fzKept[i] + outKept[i] + '">' + esc(x) + "</th>").join("") + (empOf ? '<th class="nos paperonly">' + t("colPermit") + "</th>" : "") + "</tr></thead><tbody>" +
+      idx.map(i => '<tr' + (tab.red[i] ? ' class="banrow"' : "") + ' data-open="' + esc(tab.open[i]) + '">' +
+        tab.rows[i].map((c, ci) => keep[ci] ? '<td class="' + tab.cls[ci] + fz[ci] + out[ci] + '">' + (ci === 1 ? pickBox(view, tab.open[i]) : "") + cellHTML(c) + "</td>" : "").join("") +
+        (empOf ? '<td class="paperonly nowrap">' + (empOf.get(tab.open[i]) ? esc(empBrief(empOf.get(tab.open[i]))) : "") + "</td>" : "") + "</tr>").join("") +
     "</tbody></table></div></section></div>");
+  paintPicks();
 }
 function renderSenders(){
   if(!M.ind && !M.veh) return page(pgHead(t("navSnd")), scrollPart('<div class="note warn">' + t("sheetNotLoaded") + "</div>"));
@@ -4397,12 +4452,20 @@ function renderSenders(){
     '<div class="pg-table"><section class="panel" id="tbl"></section></div>');
   paintSenders();
 }
-async function exportSender(k){
+async function exportSender(k, brief){
   const e = sndList().find(x => x.k === k);
   if(!e || !e.total) return;
+  let sheets = senderSheets(e, brief);
+  // on his own sheet, with rows picked: the file holds those alone, numbered afresh
+  const mine = new Set(sndState().open === k ? picked() : []);
+  if(mine.size) sheets = sheets.map(sh => {
+    const at = sh.open.map((id, i) => mine.has(id) ? i : -1).filter(i => i >= 0);
+    return Object.assign({}, sh, { open: at.map(i => sh.open[i]), red: at.map(i => sh.red[i]), rows: at.map((i, n) => [n + 1].concat(sh.rows[i].slice(1))) });
+  }).filter(sh => sh.rows.length);
+  if(!sheets.length) return;
   // a file name may not hold  \ / : * ? " < > |
-  await saveXLSX(senderSheets(e), ((e.renew ? t("navRnw") + " - " : "") + sndName(e)).replace(/[\\\/:*?"<>|]/g, " ").replace(/\s+/g, " ").trim().slice(0, 60));
-  toast(t("exported", e.total));
+  await saveXLSX(sheets, ((e.renew ? t("navRnw") + " - " : "") + sndName(e)).replace(/[\\\/:*?"<>|]/g, " ").replace(/\s+/g, " ").trim().slice(0, 60));
+  toast(t("exported", sheets.reduce((n, sh) => n + sh.rows.length, 0)));
 }
 
 /* «تصدير Excel» writes a real workbook: what is on screen — the same rows, in
@@ -4752,9 +4815,9 @@ function paintMulti(keep){
   box.innerHTML =
     (lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "") +
     '<section class="panel"><div class="panel-h">' + sum +
-      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + '<button class="btn sm" data-act="multi-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("multi-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
     shown.map(r => {
       const lead = '<td class="ix fz fz0">' + r.n + "</td>", term = '<span class="term">' + esc(r.term) + "</span>";
       if(r.miss) return '<tr class="miss">' + lead + '<td colspan="' + cols.length + '">' + term + pill("bad", t("missRow")) + "</td></tr>";
@@ -4765,7 +4828,7 @@ function paintMulti(keep){
       const typed = (res.mode === "veh" ? foldArabic(r.term) : r.term) !== key
         ? '<span class="typed">' + t("typed") + esc(r.term) + "</span>" : "";
       return '<tr data-open="' + esc(multiOpen(r)) + '">' + lead +
-        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + '">' + (i ? "" : pickBox("multi", multiOpen(r))) + c.h(r) + (i === 0 ? typed : "") + "</td>").join("") + "</tr>";
+        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("multi", multiOpen(r))) + c.h(r) + (i === 0 ? typed : "") + "</td>").join("") + "</tr>";
     }).join("") + "</tbody></table></div></section>";
   paintPicks();
   freeze();
@@ -4806,9 +4869,10 @@ function goMulti(){
   histAdd();
   if(st.multi.res && st.multi.res.terms) logAct("search", { m: st.multi.res.mode, n: st.multi.res.terms, f: st.multi.res.found, q: parseTerms(st.multi.text).terms });
 }
-async function exportMulti(){
+async function exportMulti(brief){
   const res = st.multi.res;
   if(!res || !res.rows.length) return;
+  if(brief) return saveShort("csvSearch", pickedRows("multi", multiRows(res)).filter(pickable), res.mode === "veh");
   const cols = res.mode === "veh" ? MULTI_COLS.veh : fileCols(MULTI_COLS.ind), rows = [], red = [], at = tk => cols.findIndex(c => c.tk === tk);
   pickedRows("multi", multiRows(res)).forEach(r => {
     if(r.more) return;
@@ -6199,6 +6263,7 @@ async function aseGo(){
   if($("at")) st.ase.text = $("at").value;
   const terms = aseTerms(st.ase.text);
   if(!terms.length || !link()) return;
+  pickDrop("ase");
   st.ase.res = { terms, rows: null };
   paintAse();
   try{
@@ -6285,6 +6350,20 @@ function paintAseHead(){
       : '<span class="count">' + t("asNone") + "</span>") +
     (i && i.loading ? pill("blue", t("asLoadingBy", i.loading_by || "")) : can("x-aseup") ? '<button class="btn sm" data-act="ase-up">' + t("asUp") + "</button>" : "");
 }
+/* «ASE SEARCH» HAS THE SAME THREE THINGS (asked for, 7 October 2026): «اختيار» over its answers, and two files — the
+   full one, every column the copy of ASE has, and the short one: م · الاسم · الوظيفة · الرقم القومي · الحالة · الشركة ·
+   رقم الخطاب. The paper is the short one. A line of ASE has no card of ours to be known by, so it is known by where it
+   stands: which line of the search brought it, and which of that line's answers it is. */
+const ASE_SHORT = [1, 4, 0, 2, 3, 8];
+const aseMoved = hit => can("cmp") && String(hit[2] || "").trim().toUpperCase() === CMP_MOVED;
+const aseShown = () => { const res = st.ase.res; return !res || !res.rows ? [] : st.ase.cat === "found" ? res.rows.filter(r => r.hits.length) : st.ase.cat === "miss" ? res.rows.filter(r => !r.hits.length) : res.rows; };
+function aseItems(lines){
+  const res = st.ase.res, items = [];
+  if(!res || !res.rows) return items;
+  const where = new Map(res.rows.map((r, i) => [r, i]));
+  lines.forEach(r => r.hits.forEach((hit, k) => items.push({ id: "ase:" + where.get(r) + ":" + k, hit })));
+  return items;
+}
 function paintAse(){
   const box = $("ares"), res = st.ase.res;
   if(!box) return;
@@ -6297,24 +6376,47 @@ function paintAse(){
   const acat = st.ase.cat, abtn = (k, cls, label, c) => '<button type="button" class="pill ' + cls + " sumbtn" + (acat === k ? " on" : "") + '" data-acat="' + k + '" aria-pressed="' + (acat === k) + '">' + label + " " + num(c) + "</button>";
   const sum = '<div class="sum pick">' + abtn("", "white", t("sumAsked"), res.terms.length) + abtn("found", "ok", t("sumFound"), found.length) +
     (found.length < res.rows.length ? abtn("miss", "bad", t("sumMiss"), res.rows.length - found.length) : "") + "</div>";
-  const lines = acat === "found" ? found : acat === "miss" ? res.rows.filter(r => !r.hits.length) : res.rows;
+  const lines = aseShown(), where = new Map(res.rows.map((r, i) => [r, i]));
+  const out = i => ASE_SHORT.indexOf(i) < 0 ? " fullonly" : "";            // on paper: the short columns
+  /* A row of our own — the company is NCM, or TITAN NCM, or written some way near those — is picked out for
+     everyone: its company in the blue box, its letter number in the yellow one; any other company stands in the
+     red box (asked for, 5 October 2026). */
+  const line = (hit, id, lead) => {
+    const ours = ASE_OURS.test(hit[3] || "");
+    return "<tr" + (aseMoved(hit) ? ' class="banrow"' : "") + '><td class="ix fz fz0">' + lead + "</td>" +
+      cols.map((i, n) => '<td class="' + (n ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + out(i) + '">' + (n ? "" : pickBox("ase", id)) +
+        (!hasCell(hit[i]) ? dimDash : i === 3 ? pill(ours ? "blue" : "red", hit[i]) : ours && i === 8 ? pill("warn", hit[i]) : esc(hit[i])) + "</td>").join("") + "</tr>";
+  };
+  // «عرض الاختيار», and the paper when lines are picked: those lines alone, one under the other
+  const mine = paperRows("ase", null);
   let n = 0;
-  box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + "</div>" +
-    '<div class="tblwrap"><table class="tbl full plain"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((i, at) => '<th class="nos' + (at ? "" : " fz fz1 fzl") + '">' + t(ASE_COLS[i]) + "</th>").join("") + "</tr></thead><tbody>" +
-    lines.map(r => {
+  box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("ase-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    '<div class="tblwrap"><table class="tbl full plain"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((i, at) => '<th class="nos' + (at ? "" : " fz fz1 fzl") + out(i) + '">' + t(ASE_COLS[i]) + "</th>").join("") + "</tr></thead><tbody>" +
+    (mine && mine.length ? mine.map((x, k) => line(x.hit, x.id, k + 1)).join("") : lines.map(r => {
       n++;
       if(!r.hits.length) return '<tr class="miss"><td class="ix fz fz0">' + n + '</td><td colspan="' + cols.length + '"><span class="term">' + esc(r.term) + "</span>" + pill("bad", t("asMiss")) + "</td></tr>";
-      /* A row of our own — the company is NCM, or TITAN NCM, or written some way near those — is picked out for
-         everyone: its company in the blue box, its letter number in the yellow one; any other company stands in the
-         red box (asked for, 5 October 2026). */
-      return r.hits.map((hit, k) => {
-        const ours = ASE_OURS.test(hit[3] || "");
-        return "<tr" + (can("cmp") && String(hit[2] || "").trim().toUpperCase() === CMP_MOVED ? ' class="banrow"' : "") + '><td class="ix fz fz0">' + (k ? "" : n) + "</td>" +
-          cols.map((i, at) => '<td class="' + (at ? (i === 1 ? "name" : "nowrap") : "nowrap num fz fz1 fzl") + '">' +
-            (!hasCell(hit[i]) ? dimDash : i === 3 ? pill(ours ? "blue" : "red", hit[i]) : ours && i === 8 ? pill("warn", hit[i]) : esc(hit[i])) + "</td>").join("") + "</tr>";
-      }).join("");
-    }).join("") + "</tbody></table></div></section>";
+      return r.hits.map((hit, k) => line(hit, "ase:" + where.get(r) + ":" + k, k ? "" : n)).join("");
+    }).join("")) + "</tbody></table></div></section>";
+  paintPicks();
   freeze();
+}
+/* The file of «ASE SEARCH»: what is on screen, a row a line of ASE — and a line of the search that ASE has nobody for
+   keeps its place, with what was typed and «مش موجود» in red. With lines picked, it is those alone. Everything in it
+   stays text, exactly as ASE has it. */
+async function exportAse(brief){
+  const res = st.ase.res;
+  if(!res || !res.rows) return;
+  const idx = brief ? ASE_SHORT : ASE_COLS.map((k, i) => i), rows = [], red = [];
+  const put = (cells, isRed) => { rows.push([rows.length + 1].concat(cells)); red.push(!!isRed); };
+  if(picked("ase").length) pickedRows("ase", []).forEach(x => put(idx.map(i => x.hit[i] || ""), aseMoved(x.hit)));
+  else aseShown().forEach(r => {
+    if(!r.hits.length) return put(idx.map(i => i === 0 ? r.term : i === 2 ? { v: t("asMiss"), tone: "bad" } : ""));
+    r.hits.forEach(hit => put(idx.map(i => hit[i] || ""), aseMoved(hit)));
+  });
+  if(!rows.length) return;
+  await saveXLSX({ name: t("csvAse"), rtl: !isEN(), header: [t("colSerial")].concat(idx.map(i => t(ASE_COLS[i]))), text: idx.map((i, at) => at + 1), rows, red }, t("csvAse"));
+  toast(t("exported", rows.length));
 }
 
 /* ============================================================
@@ -6424,11 +6526,11 @@ function paintSpc(){
     Object.keys(CAT_PILL).filter(k => cats[k]).map(k => box1(k, CAT_PILL[k], t(CAT_TILE[k][0]), cats[k])).join("") + "</div>";
   box.innerHTML = note +
     '<section class="panel"><div class="panel-h">' + sum +
-      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + '<button class="btn sm" data-act="spc-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("spc-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
     shown.map((r, n) => '<tr data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (n + 1) + "</td>" +
-      cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + '">' + (i ? "" : pickBox("spc", personKey(r))) + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>").join("") +
+      cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("spc", personKey(r))) + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>").join("") +
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div></section>";
   paintPicks();
@@ -6474,9 +6576,10 @@ function goSpc(){
   logAct("search", { m: "spc", by: st.spc.res.by, n: st.spc.res.terms, f: st.spc.res.rows.length, q: [String(st.spc.text || "").trim()] });
   histKeep({ m: "spc", by: st.spc.res.by, t: String(st.spc.text || "").trim(), n: st.spc.res.terms, f: st.spc.res.rows.length });
 }
-async function exportSpc(){
+async function exportSpc(brief){
   const res = st.spc.res, mine = res ? pickedRows("spc", spcRows(res)) : [];
   if(!mine.length) return;
+  if(brief) return saveShort("csvSpecial", mine);
   const cols = fileCols(SPC_COLS);
   await saveXLSX({
     name: t("csvSpecial"), rtl: !isEN(),
@@ -6668,7 +6771,7 @@ function paintCmp(){
   const sum = '<div class="sum pick">' + btn("*all", "white", t("cmChecked"), res.checked) + btn("*same", "ok", t("cmSame"), res.checked - res.rows.length) +
     btn("", "bad", t("cmDiff"), res.rows.length) + CMP_KINDS.filter(k => n[k]).map(k => btn(k, CMP_TONE[k], t(CMP_WORD[k]), n[k])).join("") + copy + "</div>";
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
-      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + '<button class="btn sm" data-act="cmp-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("cmp-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t("cmNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
     shown.map((r, i) => "<tr" + (r.what.indexOf("moved") >= 0 ? ' class="banrow"' : "") + ' data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
@@ -6678,9 +6781,10 @@ function paintCmp(){
   paintPicks();
   freeze();
 }
-async function exportCmp(){
+async function exportCmp(brief){
   const mine = pickedRows("cmp", cmpRows());
   if(!mine.length) return;
+  if(brief) return saveShort("csvCmp", mine, false, [CMP_COLS[CMP_COLS.length - 1]]);
   await saveXLSX({
     name: t("csvCmp"), rtl: !isEN(),
     header: [t("colSerial")].concat(CMP_COLS.map(c => t(c.tk))),
@@ -6872,9 +6976,9 @@ function paintAsk(){
   const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + btn("", "ok", t("sumFound"), res.rows.length) + Object.keys(CAT_PILL).filter(c => n[c]).map(c => btn(c, CAT_PILL[c], t(CAT_TILE[c][0]), n[c])).join("") + "</div>";
   const open = r => res.veh ? "veh:" + r.g.key : r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
-      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + '<button class="btn sm" data-act="ask-csv">' + t("exportExcel") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
-    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
-    shown.map((r, i) => '<tr data-open="' + esc(open(r)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" + cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + (j ? "" : pickBox("ask", open(r))) + c.h(r) + "</td>").join("") + "</tr>").join("") +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("ask-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    shown.map((r, i) => '<tr data-open="' + esc(open(r)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" + cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (j ? "" : pickBox("ask", open(r))) + c.h(r) + "</td>").join("") + "</tr>").join("") +
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div></section>";
   paintPicks();
@@ -6899,9 +7003,10 @@ function renderAsk(){
   paintAsk();
   $("aq").focus();
 }
-async function exportAsk(){
+async function exportAsk(brief){
   const res = st.ask.res, mine = pickedRows("ask", askRows());
   if(!res || !mine.length) return;
+  if(brief) return saveShort("csvAsk", mine, res.veh);
   const cols = res.veh ? MULTI_COLS.veh : fileCols(SPC_COLS);
   await saveXLSX({
     name: t("csvAsk"), rtl: !isEN(),
@@ -7204,7 +7309,7 @@ document.addEventListener("click", e => {
     if(a === "adm-repin") return admRepin();
     if(a === "spc-clear"){ pickDrop("spc"); st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }
     if(a === "spc-csv") return exportSpc();
-    if(a === "ase-clear"){ st.ase.text = ""; st.ase.res = null; st.ase.cat = ""; return renderAse(); }
+    if(a === "ase-clear"){ pickDrop("ase"); st.ase.text = ""; st.ase.res = null; st.ase.cat = ""; return renderAse(); }
     if(a === "refresh") return refresh();
     if(a === "csv") return exportList(st.view);
     if(a === "csv-brief") return exportList(st.view, true);
@@ -7228,6 +7333,12 @@ document.addEventListener("click", e => {
     if(a === "month-x"){ st.month = ""; return paintMonth(); }
     if(a === "multi-go") return goMulti();
     if(a === "multi-csv") return exportMulti();
+    if(a === "multi-csv-brief") return exportMulti(true);
+    if(a === "spc-csv-brief") return exportSpc(true);
+    if(a === "cmp-csv-brief") return exportCmp(true);
+    if(a === "ask-csv-brief") return exportAsk(true);
+    if(a === "ase-csv") return exportAse();
+    if(a === "ase-csv-brief") return exportAse(true);
     if(a === "multi-clear"){ pickDrop("multi"); st.multi.text = ""; st.multi.res = null; st.multi.cat = ""; return renderMulti(); }
     if(a === "hist") return histToggle();
     if(a === "hist-clear"){ const here = histHere(); HIST = HIST.filter(x => HIST_PAGE[x.m] !== here); histSave(); return histToggle(false); }      // this page's searches only
@@ -7238,6 +7349,8 @@ document.addEventListener("click", e => {
       return;
     }
   }
+  const sndShort = tg.closest("[data-snd-brief]");
+  if(sndShort) return exportSender(sndShort.dataset.sndBrief, true);
   const snd = tg.closest("[data-snd]");
   if(snd) return exportSender(snd.dataset.snd);
   const sndKind = tg.closest("[data-snd-kind]");
@@ -7245,7 +7358,7 @@ document.addEventListener("click", e => {
   const sndTab = tg.closest("[data-snd-tab]");
   if(sndTab){ sndState().tab = sndTab.dataset.sndTab; return render(); }
   const sndOpen = tg.closest("[data-snd-open]");
-  if(sndOpen){ leave(); const s = sndState(); s.open = sndOpen.dataset.sndOpen; s.tab = ""; return render(); }
+  if(sndOpen){ leave(); pickDrop(st.view); const s = sndState(); s.open = sndOpen.dataset.sndOpen; s.tab = ""; return render(); }
   const goTo = tg.closest("[data-go]");
   if(goTo){
     const parts = goTo.dataset.go.split(":");

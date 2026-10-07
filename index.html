@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-p86PjS8R79SZXr7RyDPh56jWkprwo7yv+ftrEMLPV8o='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-v7Mv/cK6flV8sYyB58pgxUNnPPy+eWQCcN4PLawwIPw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2271,7 +2271,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "19311613f7dd";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "173f74949804";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2512,7 +2512,7 @@ const I18N = {
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
-    edGone:"اتجاهل", edRetry:"ارفع تاني", edDrop:"تجاهل", edDropSure:"تتجاهل التعديل ده؟ مش هيتكتب في الورك شيت", edUnknown:"الصف مش في مكانه", edApplying:"الإرفاق شغال",
+    edGone:"اتجاهل", edRetry:"ارفع تاني", edDrop:"تجاهل", edDropSure:"تتجاهل التعديل ده؟ مش هيتكتب في الورك شيت", edDropHand:"التعديل ده موجود على الدرايف بس صفه اتغيّر مكانه في الورك شيت. لو تجاهلته لازم تكتبه بإيدك في الورك شيت. تتجاهله؟", edUnknown:"الصف مش في مكانه", edApplying:"الإرفاق شغال",
     edApplyFail:"الإرفاق ما تمّش", edEmpty:"فاضي", dkEdits:"إرفاق التعديلات", dkF_ed_done:v => "اترفق " + v[0] + " تعديل في الورك شيت", dkF_ed_bad:v => v[0] + " تعديل ما اترفقش — راجعه",
     dkF_ed_none:"مفيش تعديلات مستنية", dkEEdWait:"فيه تعديلات لسه ما اترفقتش — أرفقها الأول من صفحة «تعديلات»", dkEEdList:"قايمة التعديلات ما اتقرتش",
     appInstall:"تثبيت التطبيق على الموبايل",
@@ -2655,7 +2655,7 @@ const I18N = {
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
-    edGone:"Dismissed", edRetry:"Send again", edDrop:"Dismiss", edDropSure:"Dismiss this edit? It will not be written into the work sheet", edUnknown:"The row has moved", edApplying:"Applying",
+    edGone:"Dismissed", edRetry:"Send again", edDrop:"Dismiss", edDropSure:"Dismiss this edit? It will not be written into the work sheet", edDropHand:"This edit is on the Drive sheet, but its row has moved in the work sheet. Dismissed, it has to be written into the work sheet by hand. Dismiss it?", edUnknown:"The row has moved", edApplying:"Applying",
     edApplyFail:"The edits were not applied", edEmpty:"empty", dkEdits:"Applying the edits", dkF_ed_done:v => v[0] + " edits written into the work sheet", dkF_ed_bad:v => v[0] + " edits were not written — look at them",
     dkF_ed_none:"No edits waiting", dkEEdWait:"There are edits not applied yet — apply them first, from «Edits»", dkEEdList:"The list of edits could not be read",
     appInstall:"Install the app on this phone",
@@ -7226,8 +7226,9 @@ function paintEdits(){
         '<td class="nowrap">' + cell(e.old) + " ← <b>" + esc(e.new) + "</b></td>" +
         '<td class="nowrap">' + esc(e.by || "") + '</td><td class="nowrap">' + num(stamp(+e.at)) + "</td>" +
         '<td class="nowrap">' + drive(e) + '</td><td class="nowrap">' + sheet(e) + "</td>" +
+        // «تجاهل» is there only where it leaves nothing behind: an edit Drive holds is let go only when the work sheet could not take it
         '<td class="act nowrap">' + (!editLive(e) ? "" : (e.drive === "done" ? "" : '<button class="btn sm" data-ed-retry="' + (+e.id) + '">' + t("edRetry") + "</button>") +
-          '<button class="btn sm danger" data-ed-drop="' + (+e.id) + '">' + t("edDrop") + "</button>") + "</td></tr>";
+          (e.drive !== "done" || e.apply_note ? '<button class="btn sm danger" data-ed-drop="' + (+e.id) + '">' + t("edDrop") + "</button>" : "")) + "</td></tr>";
     }).join("") + "</tbody></table></div>") + "</section>";
 }
 // «إرفاق التعديلات»: an order for the desk on the work PC, put down the way the others are
@@ -7245,7 +7246,8 @@ async function editRetry(id){
   editsSync();
 }
 async function editDrop(id){
-  if(!confirm(t("edDropSure"))) return;
+  const e = EDITS.list.find(x => x.id === id);
+  if(!confirm(t(e && e.drive === "done" ? "edDropHand" : "edDropSure"))) return;
   try{ await dbCall("system_edit_drop", { p_id: id }); }catch(e){ toast(t("noConn"), true); }
   editsSync();
 }

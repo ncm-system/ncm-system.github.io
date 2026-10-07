@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-jHOIRhXiw2Qq0jJvzV/oMr8gw2eiFPyv4lW/ZvF+9Fg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-ooKTb9u5Iqo/58TQjXDqJ3qKJAZ8QyX7O+Xrhdk6bDw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1058,6 +1058,7 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
   .pg-table,.pg-table > .panel{display:block;}
   .pg-table > .panel > .tblwrap{overflow:visible;}
   .side,.toolbar,.noprint,.credit,#drawer,#veil,#toast,#busy{display:none!important;}
+  .pg-head button{display:none!important;}            /* the page's name is printed; the buttons beside it are not */
   /* ONE MAN'S FILE ON PAPER: his card — what it says of him, his permits, the photo of his id — and nothing else */
   body.print-card #app{display:none!important;}
   body.print-card #drawer{display:block!important;position:static;transform:none;width:auto;height:auto;border:0;box-shadow:none;background:#fff;}
@@ -2257,7 +2258,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a1f33dac762a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "cf36b61519f9";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

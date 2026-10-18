@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-aFq1XyfsKnwV2gkY5d4kdzQCHp4fkYSW4T+l2rWhEpk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-/Ge+35t7ASZDS4yHL/gHghhibJi8OmQfAqNEJIp6184='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -286,7 +286,8 @@ html,body{height:100%;overflow:hidden;}
 .iss-seg{margin-bottom:12px;}
 /* «الكروت»: the three parts as tiles, the search under them, then the list */
 .iss-top{display:flex;flex-direction:column;align-items:center;gap:12px;margin:2px 0 14px;}
-.iss-top .tiles{width:100%;max-width:860px;grid-template-columns:repeat(3,minmax(0,1fr));}
+.iss-top .tiles{width:100%;max-width:1100px;}
+#iss-tiles .tiles{max-width:860px;grid-template-columns:repeat(3,minmax(0,1fr));}
 @media (max-width:520px){ .iss-top .tile{padding:10px 6px;} .iss-top .tile-v{font-size:22px;} .tile-s{font-size:11px;flex-direction:column;gap:2px;} }
 .iss-top .tile{gap:5px;padding:13px 12px;cursor:pointer;}
 .iss-top .tile-v{font-size:28px;}
@@ -964,6 +965,57 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
 #zoom.on{display:flex;}
 #zoom img{max-width:100%;max-height:92vh;border-radius:var(--r);}
 
+
+/* THE DARK LOOK (asked for, 18 October 2026): the moon beside the language button; remembered on the device.
+   The screen only — what is printed stays as it was. */
+@media screen{
+html.dark{
+  --bg:#0e1621;--panel:#15202c;--panel-2:#1a2735;--tint:#1c2b3c;
+  --blue:#4c9be8;--blue-soft:#5aa6ee;--blue-deep:#9cc8f5;--navy:#cfe1f6;--grey:#a9b8c8;
+  --ok:#5fd396;--ok-bg:#123224;--ok-br:#2f7a52;
+  --warn:#f0b35a;--warn-bg:#3a2a12;--warn-br:#8a6223;
+  --bad:#f08484;--bad-bg:#3b1a1a;--bad-br:#8c3a3a;
+  --ban:#ff9a9a;--mute:#a9b8c8;--mute-bg:#1f2a36;--mute-br:#3a4b5e;
+  --text:#e7eef6;--text-2:#cbd7e3;--muted:#a3b3c4;--line:#223246;--line-2:#2e4561;
+  --card:rgba(46,84,130,.35);--card-line:#2e4561;
+  color-scheme:dark;
+}
+html.dark{background-image:radial-gradient(900px 460px at 50% -10%, rgba(76,155,232,.10) 0%, transparent 62%),radial-gradient(760px 520px at 92% 88%, rgba(76,155,232,.07) 0%, transparent 66%);}
+html.dark .side{background:linear-gradient(180deg,rgba(21,32,44,.94),rgba(14,22,33,.9));box-shadow:none;}
+html.dark body.madm .side{background:rgba(21,32,44,.97);}
+html.dark .nav button:hover svg,html.dark .side-user .fab,html.dark .urole,html.dark .lgterms .term,html.dark .pill.white,
+html.dark label.pick span,html.dark .busy-card{background:var(--panel-2);color:var(--text);}
+html.dark .tile{background:rgba(26,39,53,.78);border-color:var(--line-2);box-shadow:0 6px 16px rgba(0,0,0,.25);}
+html.dark .tile.job{background:rgba(46,84,130,.45);}
+html.dark .tile.ok{background:rgba(18,80,48,.55);border-color:#2f7a52;}
+html.dark .tile.ok .tile-k,html.dark .tile.ok .tile-v{color:#8fe3b6;}
+html.dark .tile.warn{background:rgba(110,76,20,.55);border-color:#8a6223;}
+html.dark .tile.warn .tile-k,html.dark .tile.warn .tile-v{color:#f6cf8c;}
+html.dark .tile.bad{background:rgba(110,32,32,.55);border-color:#8c3a3a;}
+html.dark .tile.bad .tile-k,html.dark .tile.bad .tile-v{color:#f6a9a9;}
+html.dark .tile-s .g{color:#8fe3b6;}
+html.dark .tile-s .n{color:#f6cf8c;}
+html.dark .iss-day{color:#8fe3b6;}
+html.dark .panel,html.dark .chk,html.dark .dr-top,html.dark .row,html.dark .dropcard{background:rgba(21,32,44,.9);}
+html.dark .chip{background:rgba(26,39,53,.85);color:var(--text);}
+html.dark .chip.on{background:#ffd24d;color:#0b1114;}
+html.dark .tbl .fz{background:#172331;}
+html.dark .tbl tbody tr:hover .fz,html.dark .tbl tbody tr:hover td{background:#1d2c3e;}
+html.dark .tbl tr.banrow td,html.dark .tbl tr.banrow .fz{background:#4a1c1c;}
+html.dark .tbl tr.banrow:hover td,html.dark .tbl tr.banrow:hover .fz{background:#5a2222;}
+html.dark .tbl tr.miss .fz,html.dark .tbl tr.miss:hover .fz{background:#3a1e1e;}
+html.dark .tbl tr.flag .fz,html.dark .tbl tr.flag:hover .fz{background:#3a2c16;}
+html.dark .permit{background:color-mix(in srgb, var(--tone) 22%, #15202c);}
+html.dark .shot{background:var(--panel-2);}
+html.dark .banner.ban{background:#4a1c1c;}
+html.dark #busy{background:rgba(14,22,33,.8);}
+html.dark .pill.ban{color:#fff;}
+html.dark input,html.dark textarea,html.dark select{color:var(--text);}
+html.dark img.logo,html.dark .brand img{filter:brightness(1.15);}
+.themebtn svg .sun{display:none;}
+html.dark .themebtn svg .moon{display:none;}
+html.dark .themebtn svg .sun{display:inline;}
+}
 /* ---------- busy / toast / tooltip ---------- */
 #busy{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;background:rgba(237,242,248,.78);backdrop-filter:blur(5px);}
 #busy.on{display:flex;}
@@ -1080,6 +1132,9 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
   .pg-scroll{overflow:visible;padding:0;}
   .pg-table,.pg-table > .panel{display:block;}
   .pg-table > .panel > .tblwrap{overflow-x:auto;overflow-y:visible;}
+  /* the first column stays while the table is dragged sideways (asked for, 18 October 2026) — narrower, so there is room beside it */
+  .tbl td.fz1,.tbl th.fz1{max-width:38vw;white-space:normal;}
+  .tbl .fz1.name{min-width:30vw;}
 }
 @media print{
   .backbtn{display:none !important;}
@@ -1179,6 +1234,7 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
          interface changes — names, jobs and everything else read from the
          sheets are shown exactly as they are written there. -->
     <div class="side-lang">
+      <button class="langbtn themebtn" id="theme" type="button" aria-label="Dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="moon" d="M20.500 14.200A8.500 8.500 0 1 1 9.800 3.500a6.800 6.800 0 0 0 10.700 10.700z"/><g class="sun"><circle cx="12" cy="12" r="4.200"/><path d="M12 2.500v2.200M12 19.300v2.200M2.500 12h2.200M19.300 12h2.200M5.300 5.300l1.600 1.600M17.100 17.100l1.600 1.600M5.300 18.700l1.600-1.600M17.100 6.900l1.600-1.600"/></g></svg></button>
       <button class="langbtn" id="lang" type="button" aria-label="Switch language">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.6" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M3.5 14.5h17" stroke="currentColor" stroke-width="1.5"/><path d="M12 3.4c2.2 2.4 3.3 5.3 3.3 8.6s-1.1 6.2-3.3 8.6c-2.2-2.4-3.3-5.3-3.3-8.6S9.8 5.8 12 3.4z" stroke="currentColor" stroke-width="1.5"/></svg>
         <span id="lang-t">EN</span>
@@ -1278,6 +1334,8 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
      figure here and a figure on a guard's phone cannot disagree.
      ============================================================ -->
 <script id="core">
+// the dark look, put on before anything is drawn (the page holds exactly two scripts: the online build allows no third)
+try{ if(localStorage.getItem("ncm_theme") === "dark") document.documentElement.classList.add("dark"); }catch(e){}
 const NCM = (() => {
 "use strict";
 
@@ -1358,6 +1416,12 @@ const GOV = {
   "26":"سوهاج","27":"قنا","28":"أسوان","29":"الأقصر","31":"البحر الأحمر","32":"الوادي الجديد",
   "33":"مطروح","34":"شمال سيناء","35":"جنوب سيناء","88":"خارج الجمهورية"
 };
+// numbers that differ in one digit: each number under its 14 forms with one digit left out
+const nidKeys = d => [...d].map((_, i) => d.slice(0, i) + "*" + d.slice(i + 1));
+function nidWild(list, of){ const m = new Map(); list.forEach(x => nidKeys(of(x)).forEach(k => { if(!m.has(k)) m.set(k, []); m.get(k).push(x); })); return m; }
+function nidNear(list, of, each){ const m = nidWild(list, of); list.forEach(a => { const seen = new Set(); nidKeys(of(a)).forEach(k => (m.get(k) || []).forEach(b => { if(b !== a && of(b) !== of(a) && !seen.has(b)){ seen.add(b); each(a, b); } })); }); }
+// the first two words of two names, folded, are the same
+const nidSameName = (a, b) => { const two = s => normalize(s).split(" ").slice(0, 2).map(foldArabic).join(" "); return !!two(a) && two(a) === two(b); };
 function nidInfo(d){
   if(!/^\d{14}$/.test(d) || !/^[23]/.test(d) || !GOV[d.slice(7, 9)]) return null;
   const birth = mkDate((d[0] === "2" ? 1900 : 2000) + +d.slice(1, 3), +d.slice(3, 5), +d.slice(5, 7));
@@ -1790,6 +1854,11 @@ function runChecks(M){
     add("x-none", "بين الشيتين", "info", "موظف موجود ومالوش صف في شيت التصاريح",
       "مصري على رأس العمل ورقمه القومي مش موجود في «تصاريح أفراد»", base.concat(["الوظيفة", "حالة التصريح"]),
       E.filter(e => e.works && !e.foreign && !link(e)).map(e => row(e, [e.job_title, e.st.label])));
+    const nearE = [], idx = nidWild(E.filter(e => !e.foreign), e => e.nid);
+    ind.list.forEach(g => { if(g.nid.length !== 14 || emp.byNid.has(g.nid)) return;
+      nidKeys(g.nid).forEach(k => (idx.get(k) || []).forEach(e => { if(e.nid !== g.nid && nidSameName(g.name, e.full_name)) nearE.push({ open: "ind:" + g.key, cells: [g.name, g.nationalId, "كود " + e.emp_code + " — " + e.national_id] }); })); });
+    add("x-near", "بين الشيتين", "warn", "رقم في شيت التصاريح فرقه رقم واحد عن رقم موظف", "نفس أول الاسم — غالباً واحد من الرقمين اتكتب غلط",
+      ["الاسم", "الرقم في شيت التصاريح", "الموظف ورقمه"], nearE);
     add("x-date", "بين الشيتين", "warn", "تاريخ التصريح مختلف بين الشيتين",
       "التاريخ في شيت الموظفين غير آخر تصريح في شيت التصاريح", base.concat(["في شيت الموظفين", "في شيت التصاريح"]),
       E.filter(e => { const g = link(e); return !e.resigned && e.pdate && g && g.p.date && fmt(e.pdate) !== g.p.main; })
@@ -1824,6 +1893,17 @@ function runChecks(M){
     byName.forEach(arr => { if(arr.length > 1) arr.forEach(g => sameName.push({ open: "ind:" + g.key, cells: [g.name, g.nationalId] })); });
     add("p-samename", "تصاريح الأفراد", "info", "نفس الاسم بأكتر من رقم قومي", "ممكن يكونوا شخصين فعلاً — محتاجة نظرة بس",
       ["الاسم", "الرقم القومي"], sameName);
+    /* A NUMBER THAT LOOKS MISTYPED (asked for, 18 October 2026 — one was found by a printed card: 207… in the sheet,
+       307… on the card). A birth date in it that no worker has (under 16, over 75), and two men of the sheet whose
+       numbers differ in one digit and whose names begin alike. */
+    const oldYoung = [];
+    G.forEach(g => { const x = g.nid && nidInfo(g.nid); if(x && (x.age < 16 || x.age > 75)) oldYoung.push({ open: "ind:" + g.key, cells: [g.name, g.nationalId, x.birth, String(x.age)] }); });
+    add("p-age", "تصاريح الأفراد", "warn", "تاريخ ميلاد مش منطقي في الرقم القومي", "السن اللي طالع من الرقم أقل من 16 أو أكتر من 75 — غالباً أول رقم أو سنة الميلاد اتكتبت غلط",
+      ["الاسم", "الرقم القومي", "تاريخ الميلاد منه", "السن"], oldYoung);
+    const near = [];
+    nidNear(G.filter(g => g.nid.length === 14), g => g.nid, (a, b) => nidSameName(a.name, b.name) && near.push({ open: "ind:" + a.key, cells: [a.name, a.nationalId, b.nationalId] }));
+    add("p-near", "تصاريح الأفراد", "warn", "رقمين قوميين فرقهم رقم واحد", "نفس أول الاسم ورقم واحد بس مختلف — غالباً نفس الشخص واتكتب غلط مرة",
+      ["الاسم", "الرقم القومي", "الرقم القريب منه"], near);
     add("p-day", "تصاريح الأفراد", "warn", "تاريخ إرسال مش مقري", "خانة Mail Day فيها حاجة مش تاريخ",
       ["صف الإكسيل", "الاسم", "المكتوب"], sendBad);
     add("p-year", "تصاريح الأفراد", "warn", "سنة تصريح غريبة", "تاريخ تصريح بره 2020 – 2035",
@@ -2294,7 +2374,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "b33d03820722";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0d259b6079cb";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2577,7 +2657,7 @@ const I18N = {
     navLog:"سجل النشاط", lgIn:"دخل السيستم", lgOut:"خرج", lgIdle:"اتقفل لعدم الاستخدام", lgWrong:"رمز غلط", lgBlocked:"الجهاز اتقفل", lgUnblocked:"اتفك قفل الجهاز", lgByThree:"بعد 3 محاولات غلط", lgByAdmin:"من الأدمن", roleGate:"قبل الدخول",
     devT:"الأجهزة", devName:"الجهاز", devLast:"آخر مستخدم", devSeen:"آخر مرة", devState:"الحالة", devOpen:"شغال", devLocked:"مقفول", devWrong:n => n + " رمز غلط", devUnlock:"فك القفل", devLock:"قفل الجهاز", devThis:"جهازك ده",
     devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.",
-    lgPage:"فتح صفحة", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
+    lgPage:"فتح صفحة", lgGive:"تم تسليم التصريح", lgUngive:"إلغاء التسليم", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
     lgClear:"مسح السجل", lgClearSure:who => who ? "تمسح سجل «" + who + "»؟ مش هيرجع." : "تمسح سجل النشاط كله؟ مش هيرجع.", lgCleared:"اتمسح السجل ✓",
     lgOpenSearch:"افتح البحث", lgPageK:"الصفحة", lgRowsK:"الصفوف", lgByK:"البحث بـ",
     lgEveryone:"كل المستخدمين", lgRefresh:"تحديث", lgNone:"مفيش نشاط متسجّل", lgMore:"الأقدم", lgUntil:"لحد",
@@ -2720,7 +2800,7 @@ const I18N = {
     navLog:"Activity log", lgIn:"Signed in", lgOut:"Signed out", lgIdle:"Locked after inactivity", lgWrong:"Wrong PIN", lgBlocked:"Device locked", lgUnblocked:"Device unlocked", lgByThree:"after 3 wrong PINs", lgByAdmin:"by the admin", roleGate:"Before sign-in",
     devT:"Devices", devName:"Device", devLast:"Last user", devSeen:"Last seen", devState:"State", devOpen:"Open", devLocked:"Locked", devWrong:n => n + " wrong " + (n === 1 ? "PIN" : "PINs"), devUnlock:"Unlock", devLock:"Lock device", devThis:"This device",
     devLockSure:"Lock this device? It will not open the system until you unlock it.",
-    lgPage:"Opened page", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
+    lgPage:"Opened page", lgGive:"Permit handed over", lgUngive:"Handing over undone", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
     lgClear:"Clear the log", lgClearSure:who => who ? "Clear the log of “" + who + "”? It cannot be brought back." : "Clear the whole activity log? It cannot be brought back.", lgCleared:"The log is cleared ✓",
     lgOpenSearch:"Open the search", lgPageK:"Page", lgRowsK:"Rows", lgByK:"Searched by",
     lgEveryone:"All users", lgRefresh:"Refresh", lgNone:"No activity recorded", lgMore:"Older", lgUntil:"until",
@@ -4110,6 +4190,15 @@ function pickedRows(view, rows){
 }
 // the box of a row (while picking is on), and the three things that stand over a list
 const pickBox = (view, id) => PICK[view] && PICK[view].on ? '<label class="pick noprint"><input type="checkbox" data-pick="' + esc(id) + '"><span></span></label>' : "";
+/* THE BOXES AS TILES (asked for, 18 October 2026: the pages laid out as «الكروت» is) — each box of a page, pressed as
+   before (its own data-… attribute), drawn as a tile over the list; the one pressed stands out. */
+const TILE_TONE = { ok: "ok", warn: "warn", bad: "bad", ban: "ban", mute: "mute", white: "", blue: "job", link: "job", red: "bad" };
+function pageTiles(attr, items){
+  const n = Math.min(items.length, 8);
+  return '<div class="iss-top noprint"><div class="tiles" style="--n:' + n + ";--half:" + Math.ceil(n / 2) + '">' + items.map(x =>
+    '<button type="button" class="tile ' + (TILE_TONE[x.tone] || "") + (x.on ? " picked" : "") + '" ' + attr + '="' + esc(x.k) + '" aria-pressed="' + !!x.on + '">' +
+    '<span class="tile-k">' + esc(x.label) + '</span><span class="tile-v num">' + num(x.n) + "</span></button>").join("") + "</div></div>";
+}
 const pickBar = () => !can("x-export") ? "" : '<button class="btn sm" id="pick-mode" data-act="pick-mode"></button><button class="btn sm" id="pick-btn" data-act="pick-all" hidden></button><button class="btn sm" id="pick-show" data-act="pick-show" hidden></button><span class="count" id="picked" hidden></span>';
 /* A box pressed answers at once: the rows on screen, the count beside the list and the «اختيار الكل» button are the
    only things that change — a list of two thousand rows is not drawn again for one box. Every list calls this when it
@@ -5655,6 +5744,8 @@ function logLine(r){
     case "print": return [pill("warn", t("lgPrint")), pageName(d.v)];
     case "renew": return [pill("ok", t("lgRenew")), whose()];
     case "unrenew": return [pill("bad", t("lgUnrenew")), whose()];
+    case "give": return [pill("ok", t("lgGive")), whose()];
+    case "ungive": return [pill("bad", t("lgUngive")), whose()];
     default: return [pill("mute", r.act), esc(d.text || "")];
   }
 }
@@ -6580,11 +6671,10 @@ function paintSpc(){
   if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
   const cats = {}, mine = paperRows("spc", spcRows(res)), cols = written(SPC_COLS, mine), shown = mine.slice(0, SPC_SHOW), cat = st.spc.cat;
   res.rows.forEach(r => { const k = spcCat(r); if(k) cats[k] = (cats[k] || 0) + 1; });
-  const box1 = (k, cls, label, n) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-spcat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(n) + "</button>";
-  const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + box1("", "ok", t("sumFound"), res.rows.length) +
-    Object.keys(CAT_PILL).filter(k => cats[k]).map(k => box1(k, CAT_PILL[k], t(CAT_TILE[k][0]), cats[k])).join("") + "</div>";
-  box.innerHTML = note +
-    '<section class="panel"><div class="panel-h">' + sum +
+  const tiles = pageTiles("data-spcat", [{ k: "", tone: "blue", label: t("sumFound"), n: res.rows.length, on: !cat }]
+    .concat(Object.keys(CAT_PILL).filter(k => cats[k]).map(k => ({ k, tone: CAT_PILL[k], label: t(CAT_TILE[k][0]), n: cats[k], on: cat === k }))));
+  box.innerHTML = note + tiles +
+    '<section class="panel"><div class="panel-h"><span class="count">' + t("rows", mine.length) + "</span>" +
       '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("spc-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
       cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
@@ -6825,11 +6915,11 @@ function paintCmp(){
   if(ASE.info && !ASE.info.rows){ box.innerHTML = '<div class="empty"><h3>' + t("asNone") + "</h3></div>"; return; }
   const n = {}, cat = CMP.cat, mine = paperRows("cmp", cmpRows()), cols = written(CMP_COLS, mine), shown = mine.slice(0, SPC_SHOW);
   res.rows.forEach(r => r.what.forEach(k => { n[k] = (n[k] || 0) + 1; }));
-  const btn = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-cmpcat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
   const copy = ASE.info && ASE.info.rows ? '<span class="count">' + fileName(ASE.info.file || "") + " · " + num(stamp(+ASE.info.at)) + "</span>" : "";
-  const sum = '<div class="sum pick">' + btn("*all", "white", t("cmChecked"), res.checked) + btn("*same", "ok", t("cmSame"), res.checked - res.rows.length) +
-    btn("", "bad", t("cmDiff"), res.rows.length) + CMP_KINDS.filter(k => n[k]).map(k => btn(k, CMP_TONE[k], t(CMP_WORD[k]), n[k])).join("") + copy + "</div>";
-  box.innerHTML = '<section class="panel"><div class="panel-h">' + sum +
+  const tiles = pageTiles("data-cmpcat", [{ k: "*all", tone: "white", label: t("cmChecked"), n: res.checked, on: cat === "*all" },
+    { k: "*same", tone: "ok", label: t("cmSame"), n: res.checked - res.rows.length, on: cat === "*same" }, { k: "", tone: "bad", label: t("cmDiff"), n: res.rows.length, on: !cat }]
+    .concat(CMP_KINDS.filter(k => n[k]).map(k => ({ k, tone: CMP_TONE[k], label: t(CMP_WORD[k]), n: n[k], on: cat === k }))));
+  box.innerHTML = tiles + '<section class="panel"><div class="panel-h"><div class="sum">' + copy + '<span class="count">' + t("rows", mine.length) + "</span></div>" +
       '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("cmp-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t("cmNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
@@ -7488,6 +7578,7 @@ async function issGive(opens, on){
       done++;
     }
     if(done) toast(on ? t("isDone", opens.length) : t("isNot"));
+    for(const o of opens){ const who = renewWho(o); if(who) logAct(on ? "give" : "ungive", { s: who.src, h: await renewHash(who.id) }); }
   }catch(e){ toast(t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn"), true); }
   await issuedSync();
 }
@@ -7692,6 +7783,10 @@ window.addEventListener("mouseup", e => { if(e.button === 3){ e.preventDefault()
 /* Same switch as the app's: the choice is remembered on this PC, and whatever
    is on screen is redrawn in the other language where it stands — the list
    typed into the search box, its answers and the open page all stay. */
+$("theme").addEventListener("click", () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  try{ localStorage.setItem("ncm_theme", dark ? "dark" : "light"); }catch(e){}
+});
 $("lang").addEventListener("click", () => {
   lang = isEN() ? "ar" : "en";
   try{ localStorage.setItem(LANG_KEY, lang); }catch(e){}

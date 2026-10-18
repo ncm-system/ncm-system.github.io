@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-Q+3ndJKRqZjllExc02K/vs/jK4mY78LdLSwSPdNteRQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-nsB1hm+EYQvcr6e5wX9yD6E0WLdVkTaSzddAXc2up3k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -284,6 +284,7 @@ html,body{height:100%;overflow:hidden;}
 #dr-give[hidden]{display:none;}
 #dr-give.on{background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
 .iss-seg{margin-bottom:12px;}
+.iss-q{width:min(420px,100%);padding:9px 13px;font-size:15px;}
 .iss-give{white-space:nowrap;}
 /* «تعديل التصريح»: the small form at the head of a card, and the line that says a change has not reached the work sheet yet */
 .editbox{margin:12px 14px 4px;padding:14px;border:1.5px solid var(--blue);border-radius:var(--r-lg);background:var(--tint);display:flex;flex-direction:column;gap:10px;}
@@ -2278,7 +2279,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "b63cf8fe23f2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0a1e6bd23c3e";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2842,7 +2843,7 @@ const st = {
   ase: { text: "", res: null, cat: "" },
   spc: { by: "place", text: "", res: null, cat: "" },
   ask: { text: "", res: null, cat: "" },
-  issued: { seg: "ind", cat: "" },                              // «الكروت»: people or vehicles, and the box that was pressed                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
+  issued: { seg: "ind", cat: "", q: "" },                              // «الكروت»: people or vehicles, and the box that was pressed                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
   veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
@@ -7279,6 +7280,7 @@ async function editDrop(id){
 
    «تم تسليم التصريح» is x-give (off for a user with a chosen list until the admin presses its chip); the page is
    «issued» (the same). Undoing a handing over is the admin's alone. */
+let issTimer = null;
 const ISS = { list: [], byRef: new Map(), of: null, h: null, back: null, busy: false, err: false, loaded: false };
 const issHash = (kind, key) => sha256hex(link().rs + "|" + kind + "|" + key);
 // every row of the sheets with its hash — worked out once for each reading of the sheets
@@ -7356,8 +7358,16 @@ function issBuild(){
   return { rows: list, lost: lost.filter(c => (c.kind === "veh") === (seg === "veh")) };
 }
 const issCat = r => r.given ? "given" : "not";
+const issWords = () => normalize(st.issued.q).split(/[\s,،]+/).map(foldArabic).filter(Boolean);
+function issHits(rows){
+  const words = issWords();
+  if(!words.length) return rows;
+  const cols = issCols(st.issued.seg === "veh");
+  return rows.filter(r => { const hay = foldArabic(cols.map(c => { const v = c.x(r); return v === null || v === undefined ? "" : String(v); }).join(" ") + " " + (r.emps || []).map(e => e.emp_code).join(" "));
+    return words.every(w => hay.indexOf(w) >= 0); });
+}
 const issAll = () => issBuild().rows;
-const issShown = () => { const all = issAll(), c = st.issued.cat; return c === "given" || c === "not" ? all.filter(r => issCat(r) === c) : all; };
+const issShown = () => { const all = issHits(issAll()), c = st.issued.cat; return c === "given" || c === "not" ? all.filter(r => issCat(r) === c) : all; };
 const ISS_COLS = [
   { tk:"isState", cls:"nowrap", h:r => r.given ? pill("ok", t("isGiven")) + ' <span class="dim">' + num(stamp(+r.given.given)) + "</span>" : pill("warn", t("isNot")),
     x:r => r.given ? t("isGiven") : t("isNot"), tone:r => r.given ? "ok" : "warn" },
@@ -7366,8 +7376,10 @@ const ISS_COLS = [
 ];
 const issCols = veh => (veh ? MULTI_COLS.veh : SPC_COLS).slice(0, 1).concat(ISS_COLS, (veh ? MULTI_COLS.veh : SPC_COLS).slice(1));
 function renderIssued(){
-  page(pgHead(t("navIssued"), '<div class="pg-acts noprint"><button class="btn sm" data-act="iss-refresh">' + t("lgRefresh") + "</button></div>"),
+  page(pgHead(t("navIssued"), '<div class="pg-acts noprint"><input class="field iss-q" id="iss-q" type="search" spellcheck="false" autocomplete="off" aria-label="' + t("search") + '">' +
+      '<button class="btn sm" data-act="iss-refresh">' + t("lgRefresh") + "</button></div>"),
     '<div class="pg-table" id="issv"></div>');
+  $("iss-q").value = st.issued.q;
   paintIssued();
   issuedSync();
 }
@@ -7381,6 +7393,7 @@ function paintIssued(){
     return;
   }
   const seg = st.issued.seg, veh = seg === "veh", res = issBuild(), cat = st.issued.cat;
+  res.rows = issHits(res.rows);
   const n = { given: res.rows.filter(r => r.given).length };
   n.not = res.rows.length - n.given;
   const segs = '<div class="seg iss-seg noprint">' + ["ind", "veh"].map(k => '<button data-isseg="' + k + '" class="' + (seg === k ? "on" : "") + '">' + t(k === "veh" ? "segVehicles" : "segPeople") + "</button>").join("") + "</div>";
@@ -7915,6 +7928,7 @@ out.addEventListener("input", e => {
   if(e.target.id === "ed-date"){ [].forEach.call(document.querySelectorAll("#editbox [data-ed-word].on"), b => b.classList.remove("on")); $("ed-msg").textContent = ""; return; }
   if(e.target.id === "at"){ st.ase.text = e.target.value; return aseLines(); }
   if(e.target.id === "sp"){ st.spc.text = e.target.value; return; }
+  if(e.target.id === "iss-q"){ st.issued.q = e.target.value; clearTimeout(issTimer); issTimer = setTimeout(paintIssued, 180); return; }
   if(e.target.id === "aq"){ st.ask.text = e.target.value; return; }
   if(e.target.id === "sq"){
     clearTimeout(lqTimer);

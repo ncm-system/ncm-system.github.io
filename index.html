@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-nsB1hm+EYQvcr6e5wX9yD6E0WLdVkTaSzddAXc2up3k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2pkW29+UquX2g9QMFk4B0XMXILdEOLBEggRAQWB1zqw=' 'sha256-vlsx8IfKF+izgtOZKg/RZ7R1Udm5esHCoIvg8iRUQY8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -284,7 +284,7 @@ html,body{height:100%;overflow:hidden;}
 #dr-give[hidden]{display:none;}
 #dr-give.on{background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
 .iss-seg{margin-bottom:12px;}
-.iss-q{width:min(420px,100%);padding:9px 13px;font-size:15px;}
+.iss-miss{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:2px 0 10px;}
 .iss-give{white-space:nowrap;}
 /* «تعديل التصريح»: the small form at the head of a card, and the line that says a change has not reached the work sheet yet */
 .editbox{margin:12px 14px 4px;padding:14px;border:1.5px solid var(--blue);border-radius:var(--r-lg);background:var(--tint);display:flex;flex-direction:column;gap:10px;}
@@ -2279,7 +2279,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "0a1e6bd23c3e";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "1549f86c12af";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2516,7 +2516,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isGivePicked:n => "تم تسليم التصريح للمختارين (" + n + ")", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", csvIssued:"الكروت", canGive:"تم تسليم التصريح", isKind:"النوع", isSrc:"المصدر", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", canGive:"تم تسليم التصريح", isKind:"النوع", isSrc:"المصدر", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -2659,7 +2659,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isGivePicked:n => "Mark the selected as handed over (" + n + ")", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", csvIssued:"Cards", canGive:"Permit handed over", isKind:"Kind", isSrc:"Source", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", canGive:"Permit handed over", isKind:"Kind", isSrc:"Source", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -2843,7 +2843,7 @@ const st = {
   ase: { text: "", res: null, cat: "" },
   spc: { by: "place", text: "", res: null, cat: "" },
   ask: { text: "", res: null, cat: "" },
-  issued: { seg: "ind", cat: "", q: "" },                              // «الكروت»: people or vehicles, and the box that was pressed                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
+  issued: { seg: "emp", cat: "", q: "" },                              // «الكروت»: employees, individuals or vehicles · the box pressed · what was typed                        // «المساعد»: what was asked, what was understood and brought                    // «بحث خاص»: what is asked by (place · letter · company), what was typed, and everyone it brought
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
   veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
@@ -4033,7 +4033,7 @@ const briefCols = view => { const all = LISTS[view].cols.concat(PAPER[view] || [
    in its place); of vehicles, م · رقم السيارة · التصريح. */
 const PEOPLE_SHORT = ["colName", "colJob", "colNid", "address", "colPermit"], VEH_SHORT = ["colPlate", "colPermit"];
 // is it vehicles that the page on screen is listing?
-const vehNow = () => st.view === "multi" ? !!st.multi.res && st.multi.res.mode === "veh" : st.view === "ask" ? !!st.ask.res && !!st.ask.res.veh : st.view === "issued" ? st.issued.seg === "veh" : false;
+const vehNow = () => st.view === "multi" ? !!st.multi.res && st.multi.res.mode === "veh" : st.view === "ask" ? !!st.ask.res && !!st.ask.res.veh : false;
 const shortOut = c => (vehNow() ? VEH_SHORT : PEOPLE_SHORT).indexOf(c.tk) < 0 ? " fullonly" : "";      // on paper: the short columns
 const rowPermit = r => r.g ? permitText(r.g.p) : empBrief(r.emps[0]);
 function shortCols(veh){
@@ -4083,8 +4083,7 @@ const PICK_SRC = {
   multi: { id: r => multiOpen(r), shown: () => st.multi.res ? multiRows(st.multi.res).filter(pickable) : [], all: () => st.multi.res ? st.multi.res.rows.filter(pickable) : [], paint: () => paintMulti(true) },
   spc: { id: personKey, shown: () => st.spc.res ? spcRows(st.spc.res) : [], all: () => st.spc.res ? st.spc.res.rows : [], paint: () => paintSpc() },
   cmp: { id: personKey, shown: () => cmpRows(), all: () => CMP.res ? CMP.res.all : [], paint: () => paintCmp() },
-  ask: { id: r => st.ask.res && st.ask.res.veh ? "veh:" + r.g.key : personKey(r), shown: () => askRows(), all: () => (st.ask.res && st.ask.res.rows) || [], paint: () => paintAsk() },
-  issued: { id: r => issOpen(r), shown: () => issShown(), all: () => issAll(), paint: () => paintIssued() }
+  ask: { id: r => st.ask.res && st.ask.res.veh ? "veh:" + r.g.key : personKey(r), shown: () => askRows(), all: () => (st.ask.res && st.ask.res.rows) || [], paint: () => paintAsk() }
 };
 const picked = v => { const p = PICK[v || st.view]; return p && p.on ? p.ids : []; };
 // everyone picked on a page, wherever what is pressed over the list has left them — or, with nobody picked, the rows given
@@ -4113,7 +4112,6 @@ function paintPicks(){
   if($("pick-show")){ $("pick-show").hidden = !on || (!mine.size && !only); $("pick-show").textContent = t(only ? "pickShowAll" : "pickShow"); $("pick-show").classList.toggle("primary", only); }
   if($("pick-btn")){ const shown = on ? S.shown() : []; $("pick-btn").hidden = !on || only; $("pick-btn").textContent = t(shown.length && shown.every(r => mine.has(S.id(r))) ? "pickNone" : "pickAll"); }
   if($("picked")){ $("picked").hidden = !on; $("picked").textContent = mine.size ? t("pickedN", mine.size) : ""; }
-  if($("iss-give-picked")){ $("iss-give-picked").hidden = !on || !mine.size; $("iss-give-picked").textContent = t("isGivePicked", mine.size); }
 }
 /* ON PAPER the list is everyone picked — those hidden at the moment by what is pressed over the list too. So when the
    page is about to be printed its list is drawn with them, and when the printing is over it is drawn as it was. */
@@ -7328,8 +7326,12 @@ const issCards = open => issKeys(open).map(k => ISS.byRef.get(k[0] + ":" + k[1])
 const issOpen = r => r.veh ? "veh:" + r.g.key : personKey(r);
 const issDay = c => { const m = /^(\d\d)\/(\d\d)\/(\d{4})$/.exec(c.until || ""); return m ? m[3] + m[2] + m[1] : ""; };
 // every carded row of the sheet on screen (people or vehicles), with its cards; and the cards nobody of ours has
+/* The three parts (asked for the same day): «موظفين» — a man who is one of ours on duty, whether or not the permits
+   sheet has him too · «أفراد» — everyone else · «مركبات». */
+const ISS_SEGS = ["emp", "ind", "veh"];
+const issSeg = r => r.veh ? "veh" : (r.emps || []).some(e => !e.resigned) ? "emp" : "ind";
 function issBuild(){
-  const seg = st.issued.seg, rows = new Map(), lost = [];
+  const rows = new Map(), lost = [];
   if(!ISS.back || ISS.of !== M) return { rows: [], lost: [] };
   ISS.list.forEach(c => {
     const key = ISS.back[c.kind] && ISS.back[c.kind].get(c.ref);
@@ -7343,7 +7345,6 @@ function issBuild(){
       if(e) r = e.per ? { g: e.per, emps: e.per.emp || [e] } : { g: null, emps: [e] };
     }
     if(!r){ lost.push(c); return; }
-    if(!!r.veh !== (seg === "veh")) return;
     const id = issOpen(r);
     if(!rows.has(id)) rows.set(id, r);
   });
@@ -7352,22 +7353,26 @@ function issBuild(){
     const cs = issCards(issOpen(r)), withCode = cs.filter(c => c.code).sort((a, b) => issDay(b).localeCompare(issDay(a)));
     r.cards = cs; r.given = cs.filter(c => c.given).sort((a, b) => b.given - a.given)[0] || null;
     r.code = withCode.length ? withCode[0].code : ""; r.until = withCode.length ? withCode[0].until : "";
+    r.seg = issSeg(r);
   });
-  const rowOf = r => r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
+  const rowOf = r => r.seg === "emp" ? (parseInt(r.emps[0].emp_code, 10) || 0) : r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
   list.sort((a, b) => rowOf(a) - rowOf(b));
-  return { rows: list, lost: lost.filter(c => (c.kind === "veh") === (seg === "veh")) };
+  return { rows: list, lost };
 }
 const issCat = r => r.given ? "given" : "not";
-const issWords = () => normalize(st.issued.q).split(/[\s,،]+/).map(foldArabic).filter(Boolean);
-function issHits(rows){
-  const words = issWords();
-  if(!words.length) return rows;
-  const cols = issCols(st.issued.seg === "veh");
-  return rows.filter(r => { const hay = foldArabic(cols.map(c => { const v = c.x(r); return v === null || v === undefined ? "" : String(v); }).join(" ") + " " + (r.emps || []).map(e => e.emp_code).join(" "));
-    return words.every(w => hay.indexOf(w) >= 0); });
+/* THE SEARCH TAKES MANY (asked for the same day): a line — or what stands between commas — is one thing looked for,
+   and a row that answers any of them is shown; within one, every word has to be somewhere in the row (its name, id,
+   plate, card's code, employee's code, job …). What answers nothing at all, in any of the three parts, is said under
+   the box. */
+const issTerms = () => String(st.issued.q || "").split(/[\n,،;؛]+/).map(x => normalize(x)).filter(Boolean)
+  .map(x => ({ text: x, words: x.split(/\s+/).map(foldArabic).filter(Boolean) })).filter(x => x.words.length);
+const issHay = r => r.hay || (r.hay = foldArabic(issCols(r.veh).map(c => { const v = c.x(r); return v === null || v === undefined ? "" : String(v); }).join(" ") +
+  " " + (r.emps || []).map(e => e.emp_code + " " + e.national_id).join(" ")));
+const issAnswers = (r, term) => { const hay = issHay(r); return term.words.every(w => hay.indexOf(w) >= 0); };
+function issHits(rows, terms){
+  terms = terms || issTerms();
+  return terms.length ? rows.filter(r => terms.some(x => issAnswers(r, x))) : rows;
 }
-const issAll = () => issBuild().rows;
-const issShown = () => { const all = issHits(issAll()), c = st.issued.cat; return c === "given" || c === "not" ? all.filter(r => issCat(r) === c) : all; };
 const ISS_COLS = [
   { tk:"isState", cls:"nowrap", h:r => r.given ? pill("ok", t("isGiven")) + ' <span class="dim">' + num(stamp(+r.given.given)) + "</span>" : pill("warn", t("isNot")),
     x:r => r.given ? t("isGiven") : t("isNot"), tone:r => r.given ? "ok" : "warn" },
@@ -7376,9 +7381,9 @@ const ISS_COLS = [
 ];
 const issCols = veh => (veh ? MULTI_COLS.veh : SPC_COLS).slice(0, 1).concat(ISS_COLS, (veh ? MULTI_COLS.veh : SPC_COLS).slice(1));
 function renderIssued(){
-  page(pgHead(t("navIssued"), '<div class="pg-acts noprint"><input class="field iss-q" id="iss-q" type="search" spellcheck="false" autocomplete="off" aria-label="' + t("search") + '">' +
-      '<button class="btn sm" data-act="iss-refresh">' + t("lgRefresh") + "</button></div>"),
-    '<div class="pg-table" id="issv"></div>');
+  page(pgHead(t("navIssued"), '<div class="pg-acts noprint"><button class="btn sm" data-act="iss-refresh">' + t("lgRefresh") + "</button></div>"),
+    '<div class="multi-head noprint"><div class="multi-box"><textarea class="multi-ta" id="iss-q" spellcheck="false" autocomplete="off" aria-label="' + t("search") + '"></textarea>' +
+    '<div class="iss-miss" id="iss-miss"></div></div></div><div class="pg-table" id="issv"></div>');
   $("iss-q").value = st.issued.q;
   paintIssued();
   issuedSync();
@@ -7392,52 +7397,41 @@ function paintIssued(){
     if(ISS.loaded && ISS.of !== M) issIndex().then(() => paintIssued());
     return;
   }
-  const seg = st.issued.seg, veh = seg === "veh", res = issBuild(), cat = st.issued.cat;
-  res.rows = issHits(res.rows);
-  const n = { given: res.rows.filter(r => r.given).length };
-  n.not = res.rows.length - n.given;
-  const segs = '<div class="seg iss-seg noprint">' + ["ind", "veh"].map(k => '<button data-isseg="' + k + '" class="' + (seg === k ? "on" : "") + '">' + t(k === "veh" ? "segVehicles" : "segPeople") + "</button>").join("") + "</div>";
+  if(ISS_SEGS.indexOf(st.issued.seg) < 0) st.issued.seg = "emp";
+  const seg = st.issued.seg, veh = seg === "veh", built = issBuild(), terms = issTerms(), cat = st.issued.cat;
+  const found = issHits(built.rows, terms), rows = found.filter(r => r.seg === seg);
+  // what was looked for and is in none of the three parts
+  const miss = terms.filter(x => !built.rows.some(r => issAnswers(r, x)));
+  if($("iss-miss")) $("iss-miss").innerHTML = miss.map(x => pill("bad", t("isMiss") + ": " + esc(x.text))).join("");
+  const segN = k => found.filter(r => r.seg === k).length;
+  const segs = '<div class="seg iss-seg">' + ISS_SEGS.map(k => '<button data-isseg="' + k + '" class="' + (seg === k ? "on" : "") + '">' +
+    t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : "segPeople") + " " + num(segN(k)) + "</button>").join("") + "</div>";
+  const n = { given: rows.filter(r => r.given).length };
+  n.not = rows.length - n.given;
+  const lost = built.lost.filter(c => (c.kind === "veh") === veh);
   const b = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-iscat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
-  const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + b("", "blue", t("isAll"), res.rows.length) + b("given", "ok", t("isGiven"), n.given) + b("not", "warn", t("isNot"), n.not) +
-    (res.lost.length ? b("lost", "bad", t("isLost"), res.lost.length) : "") + "</div>";
-  if(cat === "lost"){
+  const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + b("", "blue", t("isAll"), rows.length) + b("given", "ok", t("isGiven"), n.given) + b("not", "warn", t("isNot"), n.not) +
+    (lost.length && !terms.length ? b("lost", "bad", t("isLost"), lost.length) : "") + "</div>";
+  if(cat === "lost" && lost.length){
     box.innerHTML = segs + '<section class="panel"><div class="panel-h">' + sum + '</div><div class="note">' + t("isLostNote") + "</div>" +
       '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos">#</th><th class="nos">' + t("isCode") + '</th><th class="nos">' + t("isUntil") + '</th><th class="nos">' + t("isState") + "</th></tr></thead><tbody>" +
-      res.lost.map((c, i) => '<tr style="cursor:default"><td class="ix">' + (i + 1) + '</td><td class="nowrap"><b>' + esc(c.code || "—") + '</b></td><td class="nowrap">' + num(c.until || "—") + '</td><td class="nowrap">' +
+      lost.map((c, i) => '<tr style="cursor:default"><td class="ix">' + (i + 1) + '</td><td class="nowrap"><b>' + esc(c.code || "—") + '</b></td><td class="nowrap">' + num(c.until || "—") + '</td><td class="nowrap">' +
         (c.given ? pill("ok", t("isGiven")) : pill("warn", t("isNot"))) + "</td></tr>").join("") + "</tbody></table></div></section>";
     return;
   }
-  const mine = paperRows("issued", issShown()), all = issCols(veh), cols = written(all, mine), shown = mine.slice(0, SPC_SHOW);
-  const may = can("x-give"), np = picked("issued").length;
-  box.innerHTML = segs + '<section class="panel"><div class="panel-h">' + sum +
-      '<div class="noprint" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + pickBar() +
-        (may ? '<button class="btn sm primary" id="iss-give-picked" data-act="iss-give-picked"' + (np ? "" : " hidden") + ">" + esc(t("isGivePicked", np)) + "</button>" : "") +
-        (can("x-export") ? exportBtns("iss-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button>" : "") + "</div></div>" +
-    (!mine.length ? '<div class="empty"><h3>' + t("isNone") + "</h3></div>" :
+  const mine = cat === "given" || cat === "not" ? rows.filter(r => issCat(r) === cat) : rows;
+  const cols = written(issCols(veh), mine), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
+  box.innerHTML = segs + '<section class="panel"><div class="panel-h">' + sum + "</div>" +
+    (!mine.length ? '<div class="empty"><h3>' + t(terms.length ? "spNone" : "isNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + (may ? '<th class="nos noprint"></th>' : "") + "</tr></thead><tbody>" +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + (may ? '<th class="nos"></th>' : "") + "</tr></thead><tbody>" +
     shown.map((r, i) => { const id = issOpen(r);
       return '<tr data-open="' + esc(id) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
-        cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (j ? "" : pickBox("issued", id)) + c.h(r) + "</td>").join("") +
-        (may ? '<td class="act noprint">' + (r.given ? "" : '<button class="btn sm iss-give" data-iss-give="' + esc(id) + '">' + t("isGive") + "</button>") + "</td>" : "") + "</tr>"; }).join("") +
+        cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") +
+        (may ? '<td class="act">' + (r.given ? "" : '<button class="btn sm iss-give" data-iss-give="' + esc(id) + '">' + t("isGive") + "</button>") + "</td>" : "") + "</tr>"; }).join("") +
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div>") + "</section>";
-  paintPicks();
   freeze();
-}
-async function exportIssued(brief){
-  const veh = st.issued.seg === "veh", mine = pickedRows("issued", issShown());
-  if(!mine.length || !can("x-export")) return;
-  if(brief) return saveShort("csvIssued", mine, veh, ISS_COLS);
-  const cols = (veh ? MULTI_COLS.veh : fileCols(SPC_COLS)).concat(ISS_COLS);
-  await saveXLSX({
-    name: t("csvIssued"), rtl: !isEN(),
-    header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
-    text: cols.map((c, i) => c.nid || c.tk === "colPlate" ? i + 1 : -1).filter(i => i >= 0),
-    rows: mine.map((r, i) => [i + 1].concat(cols.map(c => xcell(c, r)))),
-    red: mine.map(r => permitBan(r.g) || (r.emps || []).some(empBan))
-  }, t("csvIssued"));
-  toast(t("exported", mine.length));
 }
 /* «تم تسليم التصريح» (on) — or, the admin only, its undoing — for the rows given by what opens them. A row that has
    cards has them all marked; one without (a card not in the file) is put down by its own first key. */
@@ -7461,7 +7455,6 @@ async function issGive(opens, on){
     }
     if(done) toast(on ? t("isDone", opens.length) : t("isNot"));
   }catch(e){ toast(t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn"), true); }
-  if(on) pickDrop("issued");
   await issuedSync();
 }
 function paintGiveBtn(){
@@ -7794,9 +7787,6 @@ document.addEventListener("click", e => {
     if(a === "adm-repin") return admRepin();
     if(a === "spc-clear"){ pickDrop("spc"); st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }
     if(a === "spc-csv") return exportSpc();
-    if(a === "iss-csv") return exportIssued();
-    if(a === "iss-csv-brief") return exportIssued(true);
-    if(a === "iss-give-picked") return issGive(picked("issued").slice(), true);
     if(a === "iss-refresh") return issuedSync();
     if(a === "ase-clear"){ pickDrop("ase"); st.ase.text = ""; st.ase.res = null; st.ase.cat = ""; return renderAse(); }
     if(a === "refresh") return refresh();
@@ -7898,7 +7888,7 @@ document.addEventListener("click", e => {
   const cmpcat = tg.closest("[data-cmpcat]");
   if(cmpcat){ CMP.cat = CMP.cat === cmpcat.dataset.cmpcat ? "" : cmpcat.dataset.cmpcat; return paintCmp(); }
   const isseg = tg.closest("[data-isseg]");
-  if(isseg){ if(st.issued.seg !== isseg.dataset.isseg){ st.issued.seg = isseg.dataset.isseg; st.issued.cat = ""; pickDrop("issued"); } return paintIssued(); }
+  if(isseg){ if(st.issued.seg !== isseg.dataset.isseg){ st.issued.seg = isseg.dataset.isseg; st.issued.cat = ""; } return paintIssued(); }
   const iscat = tg.closest("[data-iscat]");
   if(iscat){ st.issued.cat = st.issued.cat === iscat.dataset.iscat ? "" : iscat.dataset.iscat; return paintIssued(); }
   const spcat = tg.closest("[data-spcat]");

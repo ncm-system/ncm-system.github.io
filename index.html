@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-Hq4n5+Oh8ljkUiv8Y73NYfBUE8L8kv3NSC5GKrjQbxc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-gVzHXOUW3WZCzblgvvmCyE8vzrc/RbkkYQCAsUdMf68='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -935,6 +935,12 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .shots{padding:0 14px 16px;margin-top:14px;display:flex;flex-direction:column;gap:9px;}
 .shot{margin:0;overflow:hidden;border-radius:var(--r);background:#f7fafd;border:1px solid #cdd7e2;}
 .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
+/* «صور البطاقة» / «صور الرخصة»: the two faces side by side, the day they went with them, earlier days a press away */
+.idph{margin:12px 14px 4px;padding:12px;border:1px solid var(--line-2);border-radius:var(--r-lg);background:var(--panel-2);display:flex;flex-direction:column;gap:10px;}
+.idph-h{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:800;color:var(--navy);}
+.idph-two{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.idph-two .shot{margin:0;}
+.idph .chips{justify-content:center;}
 /* the box that picks a row for the file and the paper (the employees' list) */
 label.pick{display:inline-flex;align-items:center;vertical-align:middle;margin-inline-end:8px;cursor:pointer;}
 label.pick input{position:absolute;opacity:0;width:0;height:0;}
@@ -2378,7 +2384,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e572ce6d2221";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5afaddce7d48";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2615,7 +2621,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت · اتسلم " + g + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", canPhoto:"صور البطايق والرخص", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت · اتسلم " + g + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -2758,7 +2764,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards · handed " + g + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", idphInd:"ID card photos", idphVeh:"Licence photos", canPhoto:"ID and licence photos", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards · handed " + g + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -5233,6 +5239,7 @@ function openDrawer(ref){
   logCard(ref);
   $("dr-b").innerHTML = h;
   editNote();
+  idPhotos(ref);
   $("dr-b").scrollTop = 0;
   $("drawer").classList.add("on"); $("veil").classList.add("on");
   $("drawer").setAttribute("aria-hidden", "false");
@@ -5287,8 +5294,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
@@ -7633,6 +7640,39 @@ async function giveClick(){
   else await issGive([ref], true);
   if(drawerRef === ref) paintGiveBtn();
 }
+/* «صور البطاقة» / «صور الرخصة» (asked for, 18 October 2026): the photos of every batch that went with a man or a
+   vehicle — read out of the Word files all over this PC and tied to their rows by tools/id_photos.py — kept in
+   «صور البطايق» beside the page, with cards/id-photos.json saying whose they are. This PC's copy only (Khaled's
+   choice: nothing of it goes online); x-photo, off for a user with a chosen list until the admin presses its chip. */
+let IDPH = null, idphAsk = null;
+function idPhotosIndex(){
+  if(IDPH || ONLINE) return Promise.resolve(IDPH);
+  if(!idphAsk) idphAsk = beside(CARDS_DIR + "id-photos.json").then(text => { try{ IDPH = JSON.parse(text || "null"); }catch(e){ IDPH = null; } idphAsk = null; return IDPH; });
+  return idphAsk;
+}
+const idphSrc = p => String(p || "").split("/").map(encodeURIComponent).join("/");
+async function idPhotos(ref){
+  const i = ref.indexOf(":"), type = ref.slice(0, i), key = ref.slice(i + 1);
+  if((type !== "ind" && type !== "veh") || !can("x-photo") || ONLINE) return;
+  const x = await idPhotosIndex();
+  if(!x || drawerRef !== ref) return;
+  const g = type === "ind" ? M.ind && M.ind.groups.get(key) : null, k = type === "veh" ? key : g && g.nid;
+  const sets = k && x[type] && x[type][k];
+  if(!sets || !sets.length) return;
+  const sec = document.createElement("section");
+  sec.className = "idph";
+  const show = n => {
+    const s = sets[n];
+    sec.innerHTML = '<div class="idph-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span><span class="count num">' + num(s.day.split("-").reverse().join("/")) + "</span></div>" +
+      '<div class="idph-two">' + ["f", "b"].filter(side => s[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(s[side])) + '" alt="" loading="lazy"></figure>').join("") + "</div>" +
+      (sets.length > 1 ? '<div class="chips">' + sets.map((o, m) => '<button type="button" class="chip' + (m === n ? " on" : "") + '" data-idph="' + m + '">' + num(o.day.split("-").reverse().join("/")) + "</button>").join("") + "</div>" : "");
+  };
+  show(0);
+  sec.addEventListener("click", e => { const b = e.target.closest("[data-idph]"); if(b){ e.stopPropagation(); show(+b.dataset.idph); } });
+  const rec = $("dr-b").querySelector("article.rec");
+  if(rec) rec.insertAdjacentElement("afterend", sec); else $("dr-b").insertBefore(sec, $("dr-b").firstChild);
+}
+
 /* ============================================================
    ADMIN — the users, and what each one sees
    ============================================================

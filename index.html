@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-3oGBPmKmMTHH4zLjCicGK3Ly6K9RKA4IJpCvz15K6T0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-h6Np+hYX2oN6rpihL3ObMfis/OyGI5O4LiYlJ1wOk5I='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2388,7 +2388,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "0c900b84bfad";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "48796d2ba4fa";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7688,7 +7688,17 @@ async function idPhotos(ref){
   let sets = null;
   if(DISK){ const x = await idPhotosIndex(); sets = k && x && x[type] && x[type][k]; }
   else sets = await idPhotosCloud(type, k);
-  if(!sets || !sets.length || drawerRef !== ref) return;
+  if(drawerRef !== ref) return;
+  /* none of his own: «لا يوجد صورة» under every request, as the app shows an employee with no photo (asked for, 19 October
+     2026). Only when the answer came back empty — a failed call or no index on this PC says nothing. */
+  const empty = DISK ? !!(IDPH && IDPH[type]) && !(sets && sets.length) : Array.isArray(sets) && !sets.length;
+  if(empty){
+    [].forEach.call(document.querySelectorAll("#dr-b .occ-shots"), b => {
+      b.innerHTML = '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span></div><figure class="shot"><div class="noshot">' + t("noPhoto") + "</div></figure>";
+    });
+    return;
+  }
+  if(!sets || !sets.length) return;
   /* each day's photos under the request sent that day; a day no request of his has (a batch whose day the sheet
      never wrote) under the latest request sent before it — or the first one — with its own day over it */
   const boxes = [].slice.call(document.querySelectorAll("#dr-b .occ-shots"));

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-gVzHXOUW3WZCzblgvvmCyE8vzrc/RbkkYQCAsUdMf68='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-ebGha7iCiZm4U8LlfWbrzOjb0RIOF8g49NagAmrt9vA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2384,7 +2384,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "5afaddce7d48";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "69db54153e26";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7642,23 +7642,37 @@ async function giveClick(){
 }
 /* «صور البطاقة» / «صور الرخصة» (asked for, 18 October 2026): the photos of every batch that went with a man or a
    vehicle — read out of the Word files all over this PC and tied to their rows by tools/id_photos.py — kept in
-   «صور البطايق» beside the page, with cards/id-photos.json saying whose they are. This PC's copy only (Khaled's
-   choice: nothing of it goes online); x-photo, off for a user with a chosen list until the admin presses its chip. */
+   «صور البطايق» beside the page, with cards/id-photos.json saying whose they are; online, from their own private bucket
+   (tools/photo_upload.py, 19 October 2026). x-photo, off for a user with a chosen list until the admin presses its chip. */
 let IDPH = null, idphAsk = null;
 function idPhotosIndex(){
-  if(IDPH || ONLINE) return Promise.resolve(IDPH);
+  if(IDPH || !DISK) return Promise.resolve(IDPH);
   if(!idphAsk) idphAsk = beside(CARDS_DIR + "id-photos.json").then(text => { try{ IDPH = JSON.parse(text || "null"); }catch(e){ IDPH = null; } idphAsk = null; return IDPH; });
   return idphAsk;
 }
-const idphSrc = p => String(p || "").split("/").map(encodeURIComponent).join("/");
+const idphSrc = p => /^https:\/\//.test(String(p || "")) ? String(p) : String(p || "").split("/").map(encodeURIComponent).join("/");
+/* ONLINE: the photos are in their own private bucket, each under a salted hash of what the page knows the row by (the
+   same hash «الكروت» uses); the function system-photo answers the admin, or a user given x-photo, with links that
+   last ten minutes — and anyone else with nothing. */
+async function idPhotosCloud(type, k){
+  const l = link();
+  if(!l || !k) return null;
+  try{
+    const r = await fetch(l.db + "/functions/v1/system-photo", { method: "POST", cache: "no-store",
+      headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "sign", token: l.rt, name: l.u || "", kind: type, ref: await issHash(type, k) }) });
+    const got = await r.json();
+    return got && got.ok ? got.sets : null;
+  }catch(e){ return null; }
+}
 async function idPhotos(ref){
   const i = ref.indexOf(":"), type = ref.slice(0, i), key = ref.slice(i + 1);
-  if((type !== "ind" && type !== "veh") || !can("x-photo") || ONLINE) return;
-  const x = await idPhotosIndex();
-  if(!x || drawerRef !== ref) return;
+  if((type !== "ind" && type !== "veh") || !can("x-photo")) return;
   const g = type === "ind" ? M.ind && M.ind.groups.get(key) : null, k = type === "veh" ? key : g && g.nid;
-  const sets = k && x[type] && x[type][k];
-  if(!sets || !sets.length) return;
+  let sets = null;
+  if(DISK){ const x = await idPhotosIndex(); sets = k && x && x[type] && x[type][k]; }
+  else sets = await idPhotosCloud(type, k);
+  if(!sets || !sets.length || drawerRef !== ref) return;
   const sec = document.createElement("section");
   sec.className = "idph";
   const show = n => {

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-lGmjvBu+tc1PaLw8zgWqeAL8vwV+CzZDjJ1B1AALT/s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-3oGBPmKmMTHH4zLjCicGK3Ly6K9RKA4IJpCvz15K6T0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2388,7 +2388,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "6a228343ee55";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0c900b84bfad";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7703,6 +7703,15 @@ async function idPhotos(ref){
     }
     if(!put.has(at)) put.set(at, []);
     put.get(at).push(x);
+  });
+  /* a request with no photos of its own shows the man's photos nearest before its day — or his first ones — so a card
+     never opens without the photos he has (asked for, 19 October 2026: «مش كل الصور بتظهر») */
+  const byDay = sets.slice().sort((a, z) => a.day.localeCompare(z.day));
+  boxes.forEach((b, at) => {
+    if(put.has(at)) return;
+    const d = days[at];
+    const near = d ? byDay.filter(x => x.day <= d).pop() || byDay[0] : byDay[byDay.length - 1];
+    if(near) put.set(at, [near]);
   });
   put.forEach((list, at) => {
     boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span></div>' +

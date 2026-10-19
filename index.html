@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-k1bGLBeoZM4l+Uoguat3zqYhYdEPJswnTNGh7mg4mqs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-lGmjvBu+tc1PaLw8zgWqeAL8vwV+CzZDjJ1B1AALT/s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -962,10 +962,6 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
 .banner .bt{font-size:13px;font-weight:800;}
 .banner .bv{font-size:16.5px;font-weight:800;text-align:end;unicode-bidi:plaintext;}
 .banner .bx{font-size:12px;font-weight:700;opacity:.85;margin-top:2px;text-align:end;}
-.occ-n{
-  display:flex;align-items:center;gap:8px;padding:12px 16px 0;font-size:12.5px;font-weight:800;color:var(--navy);
-}
-.occ-n .cur{background:#f7c58a;border:1px solid #d98b2b;color:#8a4e04;border-radius:999px;padding:1px 9px;}
 /* ONE REQUEST AT A TIME, AS IN THE APP: a chip a request (1 the first sent), the latest pressed; on paper, all of them */
 .occ-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:12px;}
 .occ-chip{min-width:36px;height:36px;padding:0 8px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--text);font-family:var(--mono);font-size:15px;font-weight:800;}
@@ -2392,7 +2388,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "42d8cae401bd";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "6a228343ee55";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2718,7 +2714,7 @@ const I18N = {
     wipeConfirm:"مسح نسخة الداتا المحفوظة جوّه المتصفح؟ الشيتات نفسها مش هتتلمس.", wiped:"اتمسحت نسخة السيستم",
     birth:"تاريخ الميلاد", age:"السن", years:n => n + " سنة", birthGov:"محافظة الميلاد", gender:"النوع", male:"ذكر", female:"أنثى",
     permit:"تصريح", letterNo:"رقم الخطاب", companyName:"اسم الشركة", letterDate:"تاريخ الخطاب", aseNote:"ملاحظة",
-    permitNofM:(a, b) => "تصريح " + a + " من " + b, shownInApp:"اللي بيظهر في التطبيق", rowN:"صف",
+    rowN:"صف",
     address:"العنوان", sender:"المرسل", notes:"ملاحظات", notSpecified:"غير محدد",
     codeLabel:"الكود", noName:"اسم غير مسجل", foreignPill:"أجنبي", permitStatus:"حالة التصريح",
     grpPersonal:"البيانات الشخصية", passport:"رقم الجواز", phone:"رقم الهاتف",
@@ -2861,7 +2857,7 @@ const I18N = {
     wipeConfirm:"Clear the copy of the data saved in the browser? The sheets themselves are not touched.", wiped:"Saved copy cleared",
     birth:"Date of birth", age:"Age", years:n => "\u200E" + n + " years", birthGov:"Governorate of birth", gender:"Gender", male:"Male", female:"Female",
     permit:"Permit", letterNo:"Letter number", companyName:"Company name", letterDate:"Letter date", aseNote:"Note",
-    permitNofM:(a, b) => "Permit " + a + " of " + b, shownInApp:"Shown in the app", rowN:"Row",
+    rowN:"Row",
     address:"Address", sender:"Sender", notes:"Notes", notSpecified:"Not specified",
     codeLabel:"CODE", noName:"Name not recorded", foreignPill:"Foreign", permitStatus:"Permit status",
     grpPersonal:"PERSONAL DETAILS", passport:"Passport number", phone:"Phone",
@@ -5193,8 +5189,6 @@ function permitRecHTML(r, i, total, veh){
   const send = r.dayText ? r.dayText + (r.dayNote ? " " + r.dayNote : "") : r.day;
   const ase = veh ? "" : rowHTML(t("letterNo"), r.letter) + rowHTML(t("companyName"), r.company) + rowHTML(t("letterDate"), r.ldate) + rowHTML(t("aseNote"), r.anote);
   return '<article class="rec">' +
-    '<div class="occ-n">' + t("permitNofM", num(i + 1), num(total)) + (i === total - 1 ? ' <span class="cur">' + t("shownInApp") + "</span>" : "") +
-      '<span style="margin-inline-start:auto;color:var(--muted)">' + t("rowN") + " " + num(r.row) + "</span></div>" +
     bannerHTML(r.p) +
     group("NCM DATA", rowHTML(t("colSent"), send) +
       (veh ? rowHTML(t("colType"), r.type) + rowHTML(t("colOwner"), r.owner)
@@ -7710,9 +7704,8 @@ async function idPhotos(ref){
     if(!put.has(at)) put.set(at, []);
     put.get(at).push(x);
   });
-  const label = d => d ? num(d.split("-").reverse().join("/")) : "";
   put.forEach((list, at) => {
-    boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span><span class="count">' + label(x.day) + "</span></div>" +
+    boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span></div>' +
       ["f", "b"].filter(side => x[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(x[side])) + '" alt="" loading="lazy"></figure>').join("")).join("");
   });
 }

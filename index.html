@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-N6ujhL+WGSJ5fEkffTW6UMWsILSEpsUr/UAn9aqZSIw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-k1D/JZ3+FqqnvTdgwQWiK8aiVVLb6lceSSeg4V5zQ1k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2392,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "c0e0a1d232b2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "50cbd1f409b7";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2610,12 +2610,12 @@ const I18N = {
     todayBy:"اتضاف", todayDel:"شيل من القايمة", todayMissing:"مش موجود في الشيتات على الجهاز ده", todayNone:"مفيش حد في تجديد اليوم",
     todayRead:x => "آخر قراية " + x, todayOffline:"تعذر الاتصال بقاعدة البيانات",
     navCards:"قارئ البطاقات", cdDrop:"اسحب ملف البطايق هنا",
-    cdPick:"اختيار ملف", cdDropHere:"افلت ملف البطايق هنا", cdBadType:"الملف لازم يكون وورد \u200E.docx أو PDF", cdEmptyFile:"الملف ده فاضي", cdSent:"اتبعت للقارئ ✓",
+    cdPick:"اختيار ملف", cdFixed:"اقرا الورد الثابت", cdDropHere:"افلت ملف البطايق هنا", cdBadType:"الملف لازم يكون وورد \u200E.docx أو PDF", cdEmptyFile:"الملف ده فاضي", cdSent:"اتبعت للقارئ ✓",
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", cdClear:"مسح السجل", cdClearSure:"تمسح سجل قارئ البطاقات؟", cdCleared:"اتمسح السجل ✓",
-    cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر التصدير",
+    cdColSt:"الحالة", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
     cdDoneToast:(f, n) => "«" + f + "» اتقرا — " + n + " شخص ✓", cdFailToast:f => "«" + f + "» ماتقراش",
@@ -2753,12 +2753,12 @@ const I18N = {
     todayBy:"Added", todayDel:"Take off the list", todayMissing:"Not in the sheets on this device", todayNone:"Nobody in today's renewals",
     todayRead:x => "Last read " + x, todayOffline:"Cannot reach the database",
     navCards:"Card reader", cdDrop:"Drop the cards file here",
-    cdPick:"Choose a file", cdDropHere:"Drop the cards file here", cdBadType:"The file must be Word \u200E.docx or PDF", cdEmptyFile:"This file is empty", cdSent:"Sent to the reader ✓",
+    cdPick:"Choose a file", cdFixed:"Read the fixed Word file", cdDropHere:"Drop the cards file here", cdBadType:"The file must be Word \u200E.docx or PDF", cdEmptyFile:"This file is empty", cdSent:"Sent to the reader ✓",
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", cdClear:"Clear the record", cdClearSure:"Clear the card reader's record?", cdCleared:"Record cleared ✓",
-    cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the export folder",
+    cdColSt:"Status", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
     cdDoneToast:(f, n) => "«" + f + "» was read — " + n + (n === 1 ? " person ✓" : " people ✓"), cdFailToast:f => "«" + f + "» could not be read",
@@ -5853,7 +5853,8 @@ async function paintLog(){
    behind it.
    ============================================================ */
 const CARDS_KEY = "ncm_system_cards", CARDS_SEEN_KEY = "ncm_system_cards_seen", CARDS_CLEARED_KEY = "ncm_system_cards_cleared";
-const CARDS_CLEAR = "مسح السجل";                     // the reader knows an order to clear its record by this name
+const CARDS_CLEAR = "مسح السجل";
+const CARDS_FIXED = "id person .docx";              // the fixed Word file in «FOR WORK» the reader takes when «اقرا الورد الثابت» is pressed                     // the reader knows an order to clear its record by this name
 const CARDS_PREFIX = "وارد قارئ البطاقات";              // the reader knows a file of ours by this name
 const CARDS_DIR = "cards/", CARDS_EXPORT = "التصدير/";
 const CARDS_ALIVE = 20000;                           // a reader not heard from for this long is not waiting any more
@@ -6003,6 +6004,22 @@ async function cardsSend(file){
   if(st.view === "cards" && $("cards")) paintCards();
   [3200, 9000].forEach(ms => setTimeout(cardsSync, ms));          // has it landed where the reader looks, and has it been taken
 }
+/* «اقرا الورد الثابت» (asked for, 19 October 2026: «السيستم يقرا البطايق من الورد الثابت أول ما أضغط اقرا»): the same box
+   as a file handed over, with no file in it — «fixed.txt» says the reader is to take «FOR WORK\id person .docx» itself. */
+async function cardsFixed(){
+  if(ONLINE || !isAdmin()) return;
+  const id = cardsId(), file = CARDS_FIXED;
+  let box;
+  try{ box = await NCM.zip([["fixed.txt", file], ["known.json", JSON.stringify(await cardsKnownList())]]); }
+  catch(e){ return toast(t("cdUnread", file), true); }
+  cardsPut(new Blob([box], { type: "application/zip" }), CARDS_PREFIX + " [" + id + "] " + file + ".zip");
+  CARD.sent.unshift({ id, file, name: CARDS_PREFIX + " [" + id + "] " + file + ".zip", size: 0, at: Date.now() });
+  cardsKeep();
+  toast(t("cdSent"));
+  cardsNav();
+  if(st.view === "cards" && $("cards")) paintCards();
+  [3200, 9000].forEach(ms => setTimeout(cardsSync, ms));
+}
 function renderCards(){
   if(ONLINE || !isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }      // the page is the admin's, on this PC
   cardsSig = "";
@@ -6011,7 +6028,8 @@ function renderCards(){
       '<div class="dropcard cards-drop">' +
         '<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/><path d="M9.500 11h2.500M9.500 13.200h4"/></svg>' +
         "<h2>" + t("cdDrop") + "</h2>" +
-        '<button class="btn primary" data-act="cards-pick">' + t("cdPick") + "</button>" +
+        '<span class="desk-two"><button class="btn primary" data-act="cards-fixed">' + t("cdFixed") + "</button>" +
+        '<button class="btn" data-act="cards-pick">' + t("cdPick") + "</button></span>" +
       "</div>" +
       '<div id="cards"></div>' +
     "</div>"));
@@ -7781,6 +7799,9 @@ async function idPhotos(ref){
   const newest = byDay[byDay.length - 1], today = occDay(new Date());
   const ended = x => x === newest && x.exp && x.exp < today ? " " + pill("bad", t(type === "veh" ? "idphVehEnd" : "idphIndEnd")) : "";
   put.forEach((list, at) => {
+    /* ONE SET A REQUEST (asked for, 19 October 2026: «أضغط على 1 يظهر صورة بطاقته، أضغط على 2 نفس الكلام — مش الصورتين
+       يظهروا تحت بعض»): the photos sent that day, else the newest of those that fell under it */
+    list = [list.find(x => x.day === days[at]) || list.slice().sort((a, z) => z.day.localeCompare(a.day))[0]];
     boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + ended(x) + '</span></div>' +
       ["f", "b"].filter(side => x[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(x[side])) + '" alt="" loading="lazy"></figure>').join("")).join("");
   });
@@ -8083,6 +8104,7 @@ document.addEventListener("click", e => {
     const a = act.dataset.act;
     if(a === "pick") return pick();
     if(a === "cards-pick") return $("cards-pick").click();
+    if(a === "cards-fixed") return cardsFixed();
     if(a === "cards-clear") return cardsClear();
     if(a === "desk-run") return deskAsk(act.dataset.kind);
     if(a === "desk-ase") return $("ase-pick").click();

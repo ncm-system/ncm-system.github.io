@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-bz4zU4s6rL+QU54lzeOICJrHTvW1AF5ZaIPfKdtgsG8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-CDGe//lz5JVoX05tKL6GJp7802fDhpYn8I+aaRLKdfE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2388,7 +2388,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "b3ab89c9b10a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "271af92e46d0";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7410,7 +7410,7 @@ async function editDrop(id){
 
    «تم تسليم التصريح» is x-give (off for a user with a chosen list until the admin presses its chip); the page is
    «issued» (the same). Undoing a handing over is the admin's alone. */
-let issTimer = null;
+let issTimer = null, issPainted = "";
 const ISS = { list: [], byRef: new Map(), of: null, h: null, back: null, busy: false, err: false, loaded: false };
 const issHash = (kind, key) => sha256hex(link().rs + "|" + kind + "|" + key);
 // every row of the sheets with its hash — worked out once for each reading of the sheets
@@ -7483,7 +7483,13 @@ function issBuild(){
   const list = [...rows.values()];
   list.forEach(r => {
     const cs = issCards(issOpen(r)), withCode = cs.filter(c => c.code).sort((a, b) => issDay(b).localeCompare(issDay(a)));
-    r.cards = cs; r.given = cs.filter(c => c.given).sort((a, b) => b.given - a.given)[0] || null;
+    /* handed over or not is the NEWEST card's (asked for, 19 October 2026: a man handed his old card — or an employee
+       put down as handed his on 18 October — who has a new card since is «لسه ماتسلمش» until it is pressed): the newest
+       card by when it came in is handed over itself, or a handing over was recorded with it or after it came in */
+    const coded = cs.filter(c => c.code).sort((a, b) => (+b.at || 0) - (+a.at || 0) || b.id - a.id), latest = coded[0];
+    const handed = cs.filter(c => c.given).sort((a, b) => b.given - a.given);
+    r.cards = cs;
+    r.given = !latest ? handed[0] || null : latest.given ? latest : handed.find(c => c !== latest && (+c.at || 0) >= (+latest.at || 0)) || null;
     r.code = withCode.length ? withCode[0].code : ""; r.until = withCode.length ? withCode[0].until : "";
     r.seg = issSeg(r);
   });
@@ -7602,6 +7608,11 @@ function paintIssued(){
   }
   const mine = cat === "given" || cat === "not" ? rows.filter(r => issCat(r) === cat) : rows;
   const cols = issCols(veh), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
+  /* the same list painted again (a card handed over, the list asked for anew): it stays where it was scrolled to —
+     it went back to its top every time (19 October 2026: «لما أجي أسلم حد يطلع في أول الجدول») */
+  const same = issPainted === [seg, cat, st.issued.mode, st.issued.q].join("|"), at = box.querySelector(".tblwrap");
+  const keep = same && at ? { y: at.scrollTop, x: at.scrollLeft, w: window.scrollY } : null;
+  issPainted = [seg, cat, st.issued.mode, st.issued.q].join("|");
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + '<span class="count">' + t("rows", mine.length) + "</span></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t(terms.length ? "spNone" : "isNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
@@ -7613,6 +7624,8 @@ function paintIssued(){
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div>") + "</section>";
   freeze();
+  const now = box.querySelector(".tblwrap");
+  if(keep && now){ now.scrollTop = keep.y; now.scrollLeft = keep.x; if(window.scrollY !== keep.w) window.scrollTo(0, keep.w); }
 }
 /* «تم تسليم التصريح» (on) — or, the admin only, its undoing — for the rows given by what opens them. A row that has
    cards has them all marked; one without (a card not in the file) is put down by its own first key. */

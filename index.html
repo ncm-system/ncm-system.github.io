@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-CDGe//lz5JVoX05tKL6GJp7802fDhpYn8I+aaRLKdfE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-RqoQs3bnT6J85rVYLOVNfUe8/iYgEjSLKtJl2B7N8KY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2388,7 +2388,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "271af92e46d0";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "8fad6e8cadcd";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7410,8 +7410,8 @@ async function editDrop(id){
 
    «تم تسليم التصريح» is x-give (off for a user with a chosen list until the admin presses its chip); the page is
    «issued» (the same). Undoing a handing over is the admin's alone. */
-let issTimer = null, issPainted = "";
-const ISS = { list: [], byRef: new Map(), of: null, h: null, back: null, busy: false, err: false, loaded: false };
+let issTimer = null, issPainted = "", issFrom = null;      // issFrom: the row of «الكروت» a card was opened from
+const ISS = { list: [], byRef: new Map(), rows: new Map(), of: null, h: null, back: null, busy: false, err: false, loaded: false };
 const issHash = (kind, key) => sha256hex(link().rs + "|" + kind + "|" + key);
 // every row of the sheets with its hash — worked out once for each reading of the sheets
 async function issIndex(){
@@ -7461,9 +7461,13 @@ const issDay = c => { const m = /^(\d\d)\/(\d\d)\/(\d{4})$/.exec(c.until || "");
 /* The three parts (asked for the same day): «موظفين» — a man who is one of ours on duty, whether or not the permits
    sheet has him too · «أفراد» — everyone else · «مركبات». */
 const ISS_SEGS = ["emp", "ind", "veh"];
-const issSeg = r => r.veh ? "veh" : (r.emps || []).some(e => !e.resigned) ? "emp" : "ind";
+/* ONE ROW A CARD, AND THE CARD ALONE (asked for, 19 October 2026: «حتى لو موظفين يظهر في الكروت… الصفحة دي تبقى
+   مستقلة لوحدها وشاملة كل الكروت اللي بتيجي، ملهاش علاقة بأي حاجة تانية»): a man's card is under «أفراد» even when
+   he is one of our employees, a vehicle's under «مركبات», and «موظفين» holds the employees put down by their code; each
+   row is handed over or not by its own card, never by another row of the same man. */
+const issCardKey = c => c.kind + ":" + c.ref;
 function issBuild(){
-  const rows = new Map(), lost = [];
+  const rows = [], lost = [];
   if(!ISS.back || ISS.of !== M) return { rows: [], lost: [] };
   ISS.list.forEach(c => {
     const key = ISS.back[c.kind] && ISS.back[c.kind].get(c.ref);
@@ -7474,28 +7478,16 @@ function issBuild(){
       if(g) r = { g, emps: g.emp || [] }; else if(emps.length) r = { g: null, emps };
     }else{
       const e = key && M.emp && M.emp.byCode.get(key);
-      if(e) r = e.per ? { g: e.per, emps: e.per.emp || [e] } : { g: null, emps: [e] };
+      if(e) r = e.per ? { g: e.per, emps: [e] } : { g: null, emps: [e] };
     }
     if(!r){ lost.push(c); return; }
-    const id = issOpen(r);
-    if(!rows.has(id)) rows.set(id, r);
-  });
-  const list = [...rows.values()];
-  list.forEach(r => {
-    const cs = issCards(issOpen(r)), withCode = cs.filter(c => c.code).sort((a, b) => issDay(b).localeCompare(issDay(a)));
-    /* handed over or not is the NEWEST card's (asked for, 19 October 2026: a man handed his old card — or an employee
-       put down as handed his on 18 October — who has a new card since is «لسه ماتسلمش» until it is pressed): the newest
-       card by when it came in is handed over itself, or a handing over was recorded with it or after it came in */
-    const coded = cs.filter(c => c.code).sort((a, b) => (+b.at || 0) - (+a.at || 0) || b.id - a.id), latest = coded[0];
-    const handed = cs.filter(c => c.given).sort((a, b) => b.given - a.given);
-    r.cards = cs;
-    r.given = !latest ? handed[0] || null : latest.given ? latest : handed.find(c => c !== latest && (+c.at || 0) >= (+latest.at || 0)) || null;
-    r.code = withCode.length ? withCode[0].code : ""; r.until = withCode.length ? withCode[0].until : "";
-    r.seg = issSeg(r);
+    r.card = c; r.cards = [c]; r.given = c.given ? c : null; r.code = c.code || ""; r.until = c.until || ""; r.seg = c.kind;
+    rows.push(r);
   });
   const rowOf = r => r.seg === "emp" ? (parseInt(r.emps[0].emp_code, 10) || 0) : r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
-  list.sort((a, b) => rowOf(a) - rowOf(b));
-  return { rows: list, lost };
+  rows.sort((a, b) => rowOf(a) - rowOf(b));
+  ISS.rows = new Map(rows.map(r => [issCardKey(r.card), r]));
+  return { rows, lost };
 }
 const issCat = r => r.given ? "given" : "not";
 /* THE SEARCH, ONE OR MANY — he picks (asked for the same day). «فردي»: what is typed is one thing, every word of it
@@ -7618,9 +7610,9 @@ function paintIssued(){
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
       cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + (may ? '<th class="nos"></th>' : "") + "</tr></thead><tbody>" +
     shown.map((r, i) => { const id = issOpen(r);
-      return '<tr data-open="' + esc(id) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
+      return '<tr data-open="' + esc(id) + '" data-iss-card="' + esc(issCardKey(r.card)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
         cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") +
-        (may ? '<td class="act">' + (r.given ? "" : '<button class="btn sm primary iss-give" data-iss-give="' + esc(id) + '">' + t("isGive") + "</button>") + "</td>" : "") + "</tr>"; }).join("") +
+        (may ? '<td class="act">' + (r.given ? "" : '<button class="btn sm primary iss-give" data-iss-give="' + esc(issCardKey(r.card)) + '">' + t("isGive") + "</button>") + "</td>" : "") + "</tr>"; }).join("") +
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div>") + "</section>";
   freeze();
@@ -7635,7 +7627,9 @@ async function issGive(opens, on){
   if(!on && !isAdmin()) return;
   await issIndex();
   const by = { ind: [], veh: [], emp: [] };
+  const asCard = o => /^(ind|emp|veh):[0-9a-f]{64}$/.test(o);
   opens.forEach(o => {
+    if(asCard(o)){ const i = o.indexOf(":"); by[o.slice(0, i)].push(o.slice(i + 1)); return; }
     const cs = issCards(o);
     if(on) (cs.length ? cs.map(c => [c.kind, c.ref]) : issKeys(o).slice(0, 1)).forEach(k => by[k[0]].push(k[1]));
     else cs.forEach(c => by[c.kind].push(c.ref));
@@ -7648,7 +7642,7 @@ async function issGive(opens, on){
       done++;
     }
     if(done) toast(on ? t("isDone", opens.length) : t("isNot"));
-    for(const o of opens){ const who = renewWho(o); if(who) logAct(on ? "give" : "ungive", { s: who.src, h: await renewHash(who.id) }); }
+    for(const o of opens){ const r = asCard(o) && ISS.rows.get(o), who = renewWho(r ? issOpen(r) : o); if(who) logAct(on ? "give" : "ungive", { s: who.src, h: await renewHash(who.id) }); }
   }catch(e){ toast(t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn"), true); }
   await issuedSync();
 }
@@ -7656,8 +7650,9 @@ function paintGiveBtn(){
   const b = $("dr-give"), ref = drawerRef || "", type = ref.slice(0, ref.indexOf(":"));
   if(st.view !== "issued" || !(type === "ind" || type === "emp" || type === "veh") || !can("x-give") || !link()){ b.hidden = true; return; }
   if(!ISS.loaded || ISS.of !== M){ b.hidden = true; if(!ISS.busy && !ISS.err) issuedSync(); else if(ISS.loaded) issIndex().then(() => { if(drawerRef === ref) paintGiveBtn(); }); return; }
-  const given = issCards(ref).some(c => c.given);
-  if(!given && !issKeys(ref).length){ b.hidden = true; return; }
+  const own = issFrom && issFrom.open === ref ? ISS.byRef.get(issFrom.card) : null;
+  const given = own ? !!own.given : issCards(ref).some(c => c.given);
+  if(!own && !given && !issKeys(ref).length){ b.hidden = true; return; }
   b.hidden = false;
   b.classList.toggle("on", given);
   b.textContent = t(given ? "isGiven" : "isGive");
@@ -7666,9 +7661,10 @@ function paintGiveBtn(){
 async function giveClick(){
   const ref = drawerRef;
   if(!ref) return;
-  const given = issCards(ref).some(c => c.given);
-  if(given){ if(!isAdmin() || !confirm(t("isUndo"))) return; await issGive([ref], false); }
-  else await issGive([ref], true);
+  const own = issFrom && issFrom.open === ref ? ISS.byRef.get(issFrom.card) : null, what = own ? issCardKey(own) : ref;
+  const given = own ? !!own.given : issCards(ref).some(c => c.given);
+  if(given){ if(!isAdmin() || !confirm(t("isUndo"))) return; await issGive([what], false); }
+  else await issGive([what], true);
   if(drawerRef === ref) paintGiveBtn();
 }
 /* «صور البطاقة» / «صور الرخصة» (asked for, 18 October 2026): the photos of every batch that went with a man or a
@@ -8023,6 +8019,8 @@ document.addEventListener("click", e => {
   }
   const issB = tg.closest("[data-iss-give]");
   if(issB) return issGive([issB.dataset.issGive], true);
+  const issR = tg.closest("#issv tr[data-iss-card]");
+  issFrom = issR ? { open: issR.dataset.open, card: issR.dataset.issCard } : null;
   const opener = tg.closest("[data-open]");
   if(opener && opener.dataset.open){ openDrawer(opener.dataset.open); return; }
   if(tg.closest("#veil") || tg.closest("#dr-x")) return closeDrawer();

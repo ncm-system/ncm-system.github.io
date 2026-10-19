@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-YpchT0uipuak1Rju2NRVkjzF7Ed0P5lq0zU4YhcvLYA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-GgXBe1rEgv1LG7W0zSM3fFdh9FhdSOYdhFcGEglwCe8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -287,10 +287,13 @@ html,body{height:100%;overflow:hidden;}
 /* «الكروت»: the three parts as tiles, the search under them, then the list */
 .iss-top{display:flex;flex-direction:column;align-items:center;gap:12px;margin:2px 0 14px;}
 .iss-top .tiles{width:100%;max-width:1100px;}
-#iss-tiles .tiles{max-width:860px;grid-template-columns:repeat(3,minmax(0,1fr));}
-@media (max-width:520px){ .iss-top .tile{padding:10px 6px;} .iss-top .tile-v{font-size:22px;} .tile-s{font-size:11px;flex-direction:column;gap:2px;} }
-.iss-top .tile{gap:5px;padding:13px 12px;cursor:pointer;}
-.iss-top .tile-v{font-size:28px;}
+/* the four boxes small and side by side, on every screen (asked for, 19 October 2026) */
+#iss-tiles .tiles{max-width:720px;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+.iss-top .tile{gap:3px;padding:8px 6px;cursor:pointer;}
+.iss-top .tile-k{font-size:12.5px;}
+.iss-top .tile-v{font-size:21px;}
+.iss-top .tile-s{font-size:11px;}
+@media (max-width:520px){ #iss-tiles .tiles{gap:5px;} .iss-top .tile{padding:7px 3px;} .iss-top .tile-k{font-size:11px;} .iss-top .tile-v{font-size:17px;} .iss-top .tile-s{font-size:10px;flex-direction:column;gap:1px;} }
 .tile-s{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;font-size:12px;font-weight:800;}
 .tile-s .g{color:#0c6b3d;}
 .tile-s .n{color:#7a4703;}
@@ -2388,7 +2391,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "17e6ac1c8feb";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "14a95581f831";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

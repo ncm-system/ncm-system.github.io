@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-g0tS77tSXXaYiSfksUkbxcnWsd501JSHjQ5JofPMSm8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-k1bGLBeoZM4l+Uoguat3zqYhYdEPJswnTNGh7mg4mqs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2392,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "0696e287fd25";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "42d8cae401bd";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2727,7 +2727,7 @@ const I18N = {
     drEmp:c => "موظف — كود " + c,
     drInd:"تصاريح فرد", noNameShort:"بدون اسم", nidNotReg:"رقم قومي غير مسجل",
     nPermits:n => n + (n === 1 ? " تصريح" : " تصاريح"), empLink:c => "موظف NCM — كود " + c,
-    fromNid:"من الرقم القومي", nameForms:"الاسم مكتوب بأكتر من شكل", permitsNewest:"التصاريح — الأحدث فوق",
+    fromNid:"من الرقم القومي", nameForms:"الاسم مكتوب بأكتر من شكل",
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
   },
   en: {
@@ -2870,7 +2870,7 @@ const I18N = {
     drEmp:c => "Employee — code " + c,
     drInd:"Individual's permits", noNameShort:"No name", nidNotReg:"National ID not registered",
     nPermits:n => "\u200E" + n + (n === 1 ? " permit" : " permits"), empLink:c => "NCM employee — code " + c,
-    fromNid:"FROM THE NATIONAL ID", nameForms:"NAME WRITTEN MORE THAN ONE WAY", permitsNewest:"Permits — newest first",
+    fromNid:"FROM THE NATIONAL ID", nameForms:"NAME WRITTEN MORE THAN ONE WAY",
     drVeh:"Vehicle permits", plateForms:"PLATE WRITTEN MORE THAN ONE WAY"
   }
 };

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-k1D/JZ3+FqqnvTdgwQWiK8aiVVLb6lceSSeg4V5zQ1k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-7XYB0aV9OwTcufJI7DUvyqB0g1LDvHu2tRWgjxQfoy8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2392,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "50cbd1f409b7";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "142a028ddf3a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7528,10 +7528,13 @@ function issBuild(){
       if(g) r = { g, emps: g.emp || [] }; else if(emps.length) r = { g: null, emps };
     }else{
       const e = key && M.emp && M.emp.byCode.get(key);
+      if(e && e.resigned) return;          // «موظفين» = اللي على رأس العمل بس (خالد، 19 أكتوبر 2026: «الموظفين 377 إزاي المستلم 391؟»)
       if(e) r = e.per ? { g: e.per, emps: [e] } : { g: null, emps: [e] };
     }
     if(!r) r = { out: true, veh: c.kind === "veh", x: c.x || {} };
     r.card = c; r.cards = [c]; r.given = c.given ? c : null; r.code = c.code || ""; r.until = c.until || ""; r.seg = r.out ? "out" : c.kind;
+    // an employee put down by his code: «الكارت ساري حتى» is his permit's own date, «تاريخ التصريح» in the employees' sheet (asked for the same day)
+    if(r.seg === "emp" && !r.until){ const e = r.emps[0]; r.until = e.pdate ? fmt(e.pdate) : (e.permit_date || ""); }
     rows.push(r);
   });
   const rowOf = r => r.out ? 2e9 + (+r.card.id || 0) : r.seg === "emp" ? (parseInt(r.emps[0].emp_code, 10) || 0) : r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);

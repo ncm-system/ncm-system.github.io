@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-ebGha7iCiZm4U8LlfWbrzOjb0RIOF8g49NagAmrt9vA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-g0tS77tSXXaYiSfksUkbxcnWsd501JSHjQ5JofPMSm8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -966,6 +966,14 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
   display:flex;align-items:center;gap:8px;padding:12px 16px 0;font-size:12.5px;font-weight:800;color:var(--navy);
 }
 .occ-n .cur{background:#f7c58a;border:1px solid #d98b2b;color:#8a4e04;border-radius:999px;padding:1px 9px;}
+/* ONE REQUEST AT A TIME, AS IN THE APP: a chip a request (1 the first sent), the latest pressed; on paper, all of them */
+.occ-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:12px;}
+.occ-chip{min-width:36px;height:36px;padding:0 8px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--text);font-family:var(--mono);font-size:15px;font-weight:800;}
+.occ-chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.occ-item.off{display:none;}
+.occ-shots:empty{display:none;}
+.occ-shots .shots-h{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:800;color:var(--navy);padding:0 2px;}
+@media print{ body.print-card .occ-item.off{display:block!important;} body.print-card .occ-bar{display:none!important;} }
 .dr-sec{display:flex;align-items:center;gap:10px;margin:20px 2px 10px;font-size:13.5px;font-weight:800;color:var(--navy);}
 .dr-sec::after{content:'';flex:1;height:1px;background:var(--line-2);}
 .dr-sec b{font-family:var(--mono);color:var(--blue);}
@@ -2384,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "69db54153e26";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0696e287fd25";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5165,6 +5173,22 @@ function bannerHTML(p){
     '<div class="bv">' + (p.date ? num(p.main) : esc(permitText(p))) + "</div>" +
     (p.date ? '<div class="bx">' + esc(countdown(p.dl)) + (p.note ? " · " + esc(p.note) : "") + "</div>" : "") + "</div></div>";
 }
+/* A CARD WITH MORE THAN ONE REQUEST, AS THE APP DRAWS IT: a numbered chip a request (in the order they went), the
+   latest pressed; under the card, the request pressed — its banner, its data, and the photos that went with it
+   (idPhotos fills them). Every request is in the page, the others hidden, so a man's file on paper still has them all. */
+const occDay = d => d ? d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") : "";
+function occBar(n){
+  if(n < 2) return "";
+  return '<div class="occ-bar noprint">' + Array.from({ length: n }, (_, i) => '<button type="button" class="occ-chip' + (i === n - 1 ? " on" : "") + '" data-occ="' + i + '">' + num(i + 1) + "</button>").join("") + "</div>";
+}
+function occItems(records, veh){
+  return records.map((r, n, a) => '<div class="occ-item' + (n === a.length - 1 ? "" : " off") + '" data-occ-i="' + n + '">' + permitRecHTML(r, n, a.length, veh) +
+    '<div class="shots occ-shots" data-day="' + occDay(r.dayDate) + '"></div></div>').reverse().join("");      // the newest first in the page, as before
+}
+function occPick(n){
+  [].forEach.call(document.querySelectorAll("#dr-b .occ-chip"), b => b.classList.toggle("on", +b.dataset.occ === n));
+  [].forEach.call(document.querySelectorAll("#dr-b .occ-item"), x => x.classList.toggle("off", +x.dataset.occI !== n));
+}
 function permitRecHTML(r, i, total, veh){
   const send = r.dayText ? r.dayText + (r.dayNote ? " " + r.dayNote : "") : r.day;
   const ase = veh ? "" : rowHTML(t("letterNo"), r.letter) + rowHTML(t("companyName"), r.company) + rowHTML(t("letterDate"), r.ldate) + rowHTML(t("aseNote"), r.anote);
@@ -5218,21 +5242,19 @@ function openDrawer(ref){
           '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : pill("mute", t("nidNotReg"))) +
             '<span class="pill warn">' + t("nPermits", g.records.length) + "</span>" +
             (g.emp ? g.emp.map(e => '<button class="pill link" data-open="emp:' + esc(e.emp_code) + '" style="cursor:pointer">' + esc(t("empLink", e.emp_code)) + "</button>").join("") : "") +
-          "</div></div>" +
+          "</div>" + occBar(g.records.length) + "</div>" +
           group(t("fromNid"), nidRows(g.nid)) +
           (g.names.size > 1 ? group(t("nameForms"), [...g.names.values()].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
-        '<div class="dr-sec">' + t("permitsNewest") + " <b>" + g.records.length + "</b></div>" +
-        g.records.map((r, n, a) => permitRecHTML(r, n, a.length)).reverse().join("");
+        occItems(g.records, false);
   }else if(type === "veh" && M.veh){
     const g = M.veh.groups.get(key); if(!g) return;
     title = t("drVeh");
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head"><h2 class="nm">' + esc(g.plate) + "</h2>" +
-          '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div></div>" +
+          '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div>" + occBar(g.records.length) + "</div>" +
           (g.forms.size > 1 ? group(t("plateForms"), [...g.forms].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
-        '<div class="dr-sec">' + t("permitsNewest") + " <b>" + g.records.length + "</b></div>" +
-        g.records.map((r, n, a) => permitRecHTML(r, n, a.length, true)).reverse().join("");
+        occItems(g.records, true);
   }else return;
   $("dr-t").textContent = title;
   $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn(); paintEditBtn(); paintGiveBtn();
@@ -7673,18 +7695,26 @@ async function idPhotos(ref){
   if(DISK){ const x = await idPhotosIndex(); sets = k && x && x[type] && x[type][k]; }
   else sets = await idPhotosCloud(type, k);
   if(!sets || !sets.length || drawerRef !== ref) return;
-  const sec = document.createElement("section");
-  sec.className = "idph";
-  const show = n => {
-    const s = sets[n];
-    sec.innerHTML = '<div class="idph-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span><span class="count num">' + num(s.day.split("-").reverse().join("/")) + "</span></div>" +
-      '<div class="idph-two">' + ["f", "b"].filter(side => s[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(s[side])) + '" alt="" loading="lazy"></figure>').join("") + "</div>" +
-      (sets.length > 1 ? '<div class="chips">' + sets.map((o, m) => '<button type="button" class="chip' + (m === n ? " on" : "") + '" data-idph="' + m + '">' + num(o.day.split("-").reverse().join("/")) + "</button>").join("") + "</div>" : "");
-  };
-  show(0);
-  sec.addEventListener("click", e => { const b = e.target.closest("[data-idph]"); if(b){ e.stopPropagation(); show(+b.dataset.idph); } });
-  const rec = $("dr-b").querySelector("article.rec");
-  if(rec) rec.insertAdjacentElement("afterend", sec); else $("dr-b").insertBefore(sec, $("dr-b").firstChild);
+  /* each day's photos under the request sent that day; a day no request of his has (a batch whose day the sheet
+     never wrote) under the latest request sent before it — or the first one — with its own day over it */
+  const boxes = [].slice.call(document.querySelectorAll("#dr-b .occ-shots"));
+  if(!boxes.length) return;
+  const days = boxes.map(b => b.dataset.day);
+  const put = new Map();
+  sets.forEach(x => {
+    let at = days.indexOf(x.day);
+    if(at < 0){
+      days.forEach((d, n) => { if(d && d <= x.day && (at < 0 || d > days[at])) at = n; });
+      if(at < 0) at = days.length - 1;                // before every request of his: under the first one (last in the page)
+    }
+    if(!put.has(at)) put.set(at, []);
+    put.get(at).push(x);
+  });
+  const label = d => d ? num(d.split("-").reverse().join("/")) : "";
+  put.forEach((list, at) => {
+    boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span><span class="count">' + label(x.day) + "</span></div>" +
+      ["f", "b"].filter(side => x[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(x[side])) + '" alt="" loading="lazy"></figure>').join("")).join("");
+  });
 }
 
 /* ============================================================
@@ -7925,6 +7955,7 @@ $("logout").addEventListener("click", () => { logAct("out"); signOut(); });
 $("dr-renew").addEventListener("click", renewPress);
 $("dr-edit").addEventListener("click", editOpen);
 $("dr-give").addEventListener("click", giveClick);
+$("dr-b").addEventListener("click", e => { const c = e.target.closest("[data-occ]"); if(c){ e.stopPropagation(); occPick(+c.dataset.occ); } });
 $("link-go").addEventListener("click", connectGo);
 $("link-no").addEventListener("click", connectClose);
 $("link-pin").addEventListener("keydown", e => { if(e.key === "Enter") connectGo(); else if(e.key === "Escape") connectClose(); });

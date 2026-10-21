@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-7XYB0aV9OwTcufJI7DUvyqB0g1LDvHu2tRWgjxQfoy8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-yvCp3E0MzBkmVLXWdNavBNTN6/FOhtjNRvYkAKrnun0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2392,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "142a028ddf3a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "b7220b313913";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2646,7 +2646,7 @@ const I18N = {
     asNotAse:"الملف مش تصدير ASE", asUpFail:"الرفع ماكملش — النسخة اللي قبله زي ما هي", asLoadingBy:n => n + " بيرفع ملف دلوقتي",
     asId:"الرقم القومي", asName:"الاسم", asStatus:"الحالة", asOrg:"الشركة", asPos:"الوظيفة", asArea:"منطقة الدخول", asCit:"الجنسية",
     asLDate:"تاريخ الخطاب", asLNo:"رقم الخطاب", asConfirm:"التأكيد", asOwner:"رقم خطاب المالك", asNote:"ملاحظة",
-    dkTitle:"التحديث", dkSources:"مصادر البيانات", dkEmp:"قاعدة بيانات الموظفين والصور", dkSheet:"work sheet على الدرايف", dkAse:"ASE Data",
+    dkTitle:"التحديث", dkSources:"مصادر البيانات", dkEmp:"قاعدة بيانات الموظفين والصور", dkSheet:"work sheet على الدرايف", dkAse:"ASE Data", dkLetters:"خطابات الموظفين من ASE", dkL3:"ASE ← شيت الموظفين", dkL4:"قاعدة البيانات", dkF_lt_done:v => "اتحدّث خطاب " + v[0] + " موظف (" + v[1] + " خانة)", dkF_lt_same:"خطابات الموظفين مطابقة لـ ASE", dkF_lt_missing:v => v[0] + " موظف مش موجود في ASE", dkEEmpChanged:"شيت الموظفين اتحفظ أثناء التحديث — ماتغيّرش", dkEAseCols:"أعمدة ASE Data اتغيّرت", dkEEmpCols:"أعمدة شيت الموظفين اتغيّرت",
     dkRun:"تحديث", dkAsePick:"رفع ملف ASE", dkIdph:"صور البطايق والرخص", dkIdphPick:"رفع ورد الصور", dkP3:"الصور بتتقري وبتتربط بالناس", dkIdphBusy:"فيه ورد صور بيتضاف دلوقتي", needDocx:"اختار ملف ورد (.docx)", dkENotWord:"الملف مش ورد صور (مفيش فيه جدول صور)", dkF_ip_tied:v => "اتربط " + v[0] + " من " + v[1] + " صف بأصحابهم", dkF_ip_left:v => v[0] + " صف ماتربطش بحد في الشيت", dkF_ip_up:v => "اترفع " + v[0] + " صورة أونلاين", dkF_ip_known:"الملف ده كان متضاف قبل كده", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
     dkQueued:"مستني القارئ", dkRunning:"شغّال", dkDone:"تم", dkDoneWarn:"تم — فيه ملاحظات", dkDoneBad:"تم — فيه مشكلة", dkFailed:"ماتمّش", dkBusy:"القارئ مشغول", dkLost:"الطلب ما وصلش فولدر التصدير",
     dkA1:"اتبعت", dkA2:"استلام", dkA3:"إكسيل", dkA4:"فحص", dkA5:"تبديل", dkA6:"نسخة البحث", dkAseSys:"ASE من السيستم", dkFromSys:"نسخة ASE SEARCH",
@@ -2789,7 +2789,7 @@ const I18N = {
     asNotAse:"Not an ASE export", asUpFail:"The upload did not finish — the copy before it is as it was", asLoadingBy:n => n + " is uploading a file now",
     asId:"National ID", asName:"Name", asStatus:"Status", asOrg:"Organization", asPos:"Position", asArea:"Access area", asCit:"Citizenship",
     asLDate:"Letter date", asLNo:"Letter number", asConfirm:"Confirm", asOwner:"Owner letter number", asNote:"Note",
-    dkTitle:"Updates", dkSources:"Data sources", dkEmp:"Employees database and photos", dkSheet:"Work sheet on the Drive", dkAse:"ASE Data",
+    dkTitle:"Updates", dkSources:"Data sources", dkEmp:"Employees database and photos", dkSheet:"Work sheet on the Drive", dkAse:"ASE Data", dkLetters:"Employees' letters from ASE", dkL3:"ASE → employees sheet", dkL4:"Database", dkF_lt_done:v => v[0] + " employees' letters updated (" + v[1] + " cells)", dkF_lt_same:"The employees' letters match ASE", dkF_lt_missing:v => v[0] + " employees not in ASE", dkEEmpChanged:"The employees sheet was saved meanwhile — left as it was", dkEAseCols:"The ASE Data columns changed", dkEEmpCols:"The employees sheet columns changed",
     dkRun:"Update", dkAsePick:"Upload ASE file", dkIdph:"ID card and licence photos", dkIdphPick:"Upload a Word file of photos", dkP3:"Reading the photos and tying them to people", dkIdphBusy:"A Word file of photos is being added right now", needDocx:"Pick a Word file (.docx)", dkENotWord:"Not a Word file of photos (no table of photos in it)", dkF_ip_tied:v => v[0] + " of " + v[1] + " rows tied to their owners", dkF_ip_left:v => v[0] + " rows tied to nobody in the sheet", dkF_ip_up:v => v[0] + " photos put online", dkF_ip_known:"This file had been added before", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
     dkQueued:"Waiting for the reader", dkRunning:"Running", dkDone:"Done", dkDoneWarn:"Done — with notes", dkDoneBad:"Done — with a problem", dkFailed:"Not done", dkBusy:"Reader busy", dkLost:"The request did not reach the export folder",
     dkA1:"Sent", dkA2:"Received", dkA3:"Excel", dkA4:"Checking", dkA5:"Replacing", dkA6:"Search copy", dkAseSys:"ASE from the system", dkFromSys:"The ASE SEARCH copy",
@@ -6184,13 +6184,14 @@ function cardsTick(){
    ============================================================ */
 const DESK_KEY = "ncm_system_desk";
 const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE", DESK_IDPH = "وارد صور البطايق";          // the desk knows a thing of ours by these names
-const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات" };
+const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات", letters: "خطابات" };
 const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the copy on ASE SEARCH is what goes into the work sheet
 // «رفع ورد الصور» (asked for, 19 October 2026): this PC's copy only — the file is read where the photos are
-const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph"]);
-const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph" };
+// «خطابات الموظفين من ASE» (asked for, 21 October 2026): this PC's copy only — the employees' sheet and ASE Data are here
+const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters"]);
+const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", letters: "dkLetters" };
 // the steps an order goes through, by kind: sent · taken up · then its own
-const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"] };
+const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"] };
 const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
 // why an order was not done, in the desk's word for it -> ours
 const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_long: "dkELong", program_missing: "dkEProgram",
@@ -6201,7 +6202,8 @@ const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_l
   export_columns_changed: "dkECols", sheet_columns_changed: "dkESheetCols", export_empty: "dkEEmpty", export_much_smaller: "dkESmall", no_room: "dkERoom",
   wrong_password: "dkEPass", excel_check_failed: "dkECheck", file_check_failed: "dkECheck", not_received: "dkENotHere",
   copy_same: "dkESame", copy_empty: "dkENoCopy", copy_changed: "dkECopyBusy", copy_failed: "dkECopyFail",
-  sh_edits_waiting: "dkEEdWait", ed_list_failed: "dkEEdList", not_a_word: "dkENotWord" };
+  sh_edits_waiting: "dkEEdWait", ed_list_failed: "dkEEdList", not_a_word: "dkENotWord",
+  emp_sheet_changed: "dkEEmpChanged", ase_columns_changed: "dkEAseCols", ase_sheet_missing: "dkEAseCols", emp_columns_changed: "dkEEmpCols", check_failed: "dkECheck" };
 // what a routine says of its own end -> how it is to be taken (ok · aside: said, nothing to do · warn · bad) and the words for it
 const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp_found"], emp_skipped: ["warn", "dkF_emp_skipped"], emp_failed: ["bad", "dkF_emp_failed"],
   emp_unverified: ["bad", "dkF_emp_unverified"], emp_blank: ["aside", "dkF_emp_blank"], emp_missing: ["aside", "dkF_emp_missing"],
@@ -6211,7 +6213,8 @@ const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp
   ph_other: ["aside", "dkF_ph_other"],
   sh_same: ["ok", "dkF_sh_same"], sh_up: ["ok", "dkF_sh_up"], sh_ids: ["aside", "dkF_sh_ids"], vf_ok: ["ok", "dkF_vf_ok"], vf_bad: ["bad", "dkF_vf_bad"], vf_none: ["bad", "dkF_vf_none"],
   ed_done: ["ok", "dkF_ed_done"], ed_bad: ["bad", "dkF_ed_bad"], ed_none: ["aside", "dkF_ed_none"],
-  ip_tied: ["ok", "dkF_ip_tied"], ip_left: ["warn", "dkF_ip_left"], ip_up: ["ok", "dkF_ip_up"], ip_known: ["aside", "dkF_ip_known"] };
+  ip_tied: ["ok", "dkF_ip_tied"], ip_left: ["warn", "dkF_ip_left"], ip_up: ["ok", "dkF_ip_up"], ip_known: ["aside", "dkF_ip_known"],
+  lt_done: ["ok", "dkF_lt_done"], lt_same: ["ok", "dkF_lt_same"], lt_missing: ["aside", "dkF_lt_missing"] };
 // sent: asked for here and not yet taken by the desk · orders: the desk's own list · owed: what this window has still to announce the end of
 const DESK = { sent: [], orders: [], stamp: 0, owed: new Set() };
 let deskSig = "", deskBusy = false;
@@ -6371,6 +6374,7 @@ function deskStep(o){
   if(o.status !== "running" || o.step === "queued" || o.step === "expected") return 1;
   if(o.kind === "sheet") return o.step === "verify" ? 3 : 2;
   if(o.kind === "idph") return 2;
+  if(o.kind === "letters") return o.step === "sync" ? 3 : 2;
   if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
   return o.step === "verify" ? 3 : o.step === "swap" ? 4 : o.step === "copy" ? 5 : 2;
 }

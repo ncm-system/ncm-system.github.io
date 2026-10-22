@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-8CWtwEPopvelSiMp71Jw8XYnO1lB1XTpaxZGLE2cpJU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-Ibs1bAiBVH9++AqC+R8IXLdaxH9vkdPU7n+h/j7qlVA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2392,7 +2392,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1500863563c2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "30116b5d0ded";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3168,6 +3168,7 @@ async function sync(force){
   return fresh;
 }
 async function refresh(){
+  if(st.view === "src") deskAskAll();
   if(!DISK){
     await cloudSync();
     const ok = net.per !== false && net.emp !== false;
@@ -6329,6 +6330,25 @@ function deskAsk(kind){
   DESK.sent.unshift({ id, kind, name, file, at: Date.now() });
   deskKeep(); deskNav(); paintDesk();
   [3200, 9000].forEach(ms => setTimeout(deskSync, ms));          // has it landed where the desk looks, and has it been taken
+}
+/* «تحديث الشيتات» on «الشيتات» (asked for, 22 October 2026: «زر تحديث الشيتات اللي فوق ده يحدّث كل الشيتات»): besides
+   reading the sheets into the page again, every sheet is brought up to date at once — the employees' letters from ASE (this
+   PC), the employees' sheet into the database, then the work sheet to Drive — in that order (the desk takes them one by
+   one, by their ids). One already on its way is not asked for twice. An ASE export needs a file, and stays its own button. */
+function deskAskAll(){
+  if(!isAdmin()) return;
+  const kinds = (ONLINE ? [] : ["letters"]).concat(["employees", "sheet"]).filter(k => !deskLive(deskNow(k)));
+  if(!kinds.length) return;
+  const now = Date.now(), p = n => String(n).padStart(2, "0");
+  kinds.forEach((kind, i) => {
+    const d = new Date(now + i * 1000);
+    const id = d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()) + "-" + (Math.random().toString(36).slice(2, 5) + "000").slice(0, 3);
+    if(ONLINE) return deskAskOnline(id, kind, "");
+    const name = DESK_ORDER + " [" + id + "] " + DESK_WORD[kind] + ".txt";
+    setTimeout(() => cardsPut(new Blob(["run"], { type: "text/plain" }), name), i * 400);
+    DESK.sent.unshift({ id, kind, name, file: "", at: now + i });
+  });
+  if(!ONLINE){ deskKeep(); deskNav(); paintDesk(); [3200, 9000].forEach(ms => setTimeout(deskSync, ms)); }
 }
 // online: the order is put in the database; it is shown at once, and the database's own word takes its place
 function deskAskOnline(id, kind, file){

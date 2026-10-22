@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-hrtgcbWI2Ny9EdHF2JqC6FY241lL5O9N0MHe8zgI5KE=' 'sha256-Ibs1bAiBVH9++AqC+R8IXLdaxH9vkdPU7n+h/j7qlVA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-j3UdKzV8ig5DAFE4yJm8mWGx2X3CFem2uisjl2zVHUM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -137,6 +137,16 @@ html,body{height:100%;overflow:hidden;}
 /* the reader is not there: said to the admin, on every page */
 .rlamp{display:flex;align-items:center;gap:8px;width:100%;margin-bottom:10px;padding:8px 12px;border-radius:var(--r);border:1px solid var(--bad-br);background:var(--bad-bg);color:var(--bad);font:inherit;font-size:12.5px;font-weight:800;text-align:start;cursor:pointer;}
 .rlamp[hidden]{display:none;}
+/* the network, in a small box at the foot of the menu (asked for, 22 October 2026: «سرعة النت في صندوق صغير ومتصل ولا لا») */
+.netbox{display:flex;align-items:center;gap:8px;margin:12px 4px 2px;padding:6px 11px;border-radius:var(--r);border:1px solid var(--line-2);background:var(--panel-2);font-size:12.5px;font-weight:800;color:var(--text-2);}
+.netbox[hidden]{display:none;}
+body.madm .side:not(.open) .netbox{display:none;}body.madm .side.open .netbox{order:1;flex-basis:100%;margin:2px 0 0;}body.madm .side.open .nav,body.madm .side.open .side-lang,body.madm .side.open .side-foot{order:2;}
+@media (max-width:720px){ body:not(.madm) .netbox{margin:0;} }
+.netbox .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--ok);}
+.netbox.slow .dot{background:var(--warn);}
+.netbox.off{border-color:var(--bad-br);background:var(--bad-bg);color:var(--bad);}
+.netbox.off .dot{background:var(--bad);animation:rlamp 1.6s ease-in-out infinite;}
+.netbox .net-v{margin-inline-start:auto;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;font-weight:700;color:var(--muted);}
 .rlamp .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--bad);animation:rlamp 1.6s ease-in-out infinite;}
 @keyframes rlamp{50%{opacity:.25;}}
 /* the report: figures in boxes, and two tables side by side — made to fit a sheet of paper */
@@ -1213,6 +1223,7 @@ html.dark .themebtn svg .sun{display:inline;}
       <span class="hr"></span>
       <span class="appname">SYSTEM</span>
     </div>
+    <div class="netbox" id="netbox" hidden><span class="dot"></span><span id="net-t"></span><span class="net-v" id="net-v"></span></div>
     <!-- on a phone the menu folds away behind this -->
     <button type="button" class="fab menubtn" id="menu-btn" aria-label="القائمة" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav class="nav" id="nav">
@@ -1352,6 +1363,8 @@ html.dark .themebtn svg .sun{display:inline;}
      figure here and a figure on a guard's phone cannot disagree.
      ============================================================ -->
 <script id="core">
+/* not inside another site's frame (a page that shows ours inside its own could dress it up and catch what is typed) */
+if(window.top !== window.self){ try{ window.top.location.replace(window.self.location.href); }catch(e){ document.documentElement.style.display = "none"; } }
 // the dark look, put on before anything is drawn (the page holds exactly two scripts: the online build allows no third)
 try{ if(localStorage.getItem("ncm_theme") === "dark") document.documentElement.classList.add("dark"); }catch(e){}
 const NCM = (() => {
@@ -2392,7 +2405,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "30116b5d0ded";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "1ba456796857";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2629,7 +2642,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", netWait:"بيقيس…", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -2772,7 +2785,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", netWait:"Measuring…", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -5315,8 +5328,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
@@ -8010,6 +8023,44 @@ window.addEventListener("beforeprint", () => pickPrint(true));
 window.addEventListener("afterprint", () => { pickPrint(false); document.body.classList.remove("print-card"); });
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); if(!ONLINE || !session || !isAdmin()) return; appAsk = e; if(st.view === "adm") paintAdm(); });
 window.addEventListener("appinstalled", () => { appAsk = null; if(st.view === "adm") paintAdm(); });
+/* THE NETWORK (asked for, 22 October 2026: «في الشريط الجانبي سرعة النت في صندوق صغير كده ومتصل ولا لا»): connected or not
+   the moment the browser says so, and the speed measured every minute while the page is on screen — the system's own
+   logo (38 KB, three at once, never from the cache) timed from the published site; on this PC, the same file over the
+   internet. Nothing is sent anywhere. A new thing: «x-net», off for a user whose pages were chosen until it is given. */
+const NET = { ok: navigator.onLine, mbps: 0, at: 0, busy: false };
+const NET_FILE = ONLINE ? "icon-512.png" : "https://ncm-system.github.io/icon-512.png";
+function netPaint(){
+  const box = $("netbox");
+  if(!box) return;
+  box.hidden = !session || !can("x-net");
+  if(box.hidden) return;
+  const slow = NET.ok && NET.at && NET.mbps < 1;
+  box.className = "netbox" + (NET.ok ? (slow ? " slow" : "") : " off");
+  $("net-t").textContent = t(!NET.ok ? "netOff" : slow ? "netSlow" : "netOn");
+  $("net-v").textContent = !NET.ok ? "" : !NET.at ? t("netWait") : (NET.mbps >= 10 ? Math.round(NET.mbps) : NET.mbps.toFixed(1)) + " Mbps";
+}
+async function netMeasure(){
+  if(NET.busy || document.hidden || !session || !can("x-net")) return netPaint();
+  if(!navigator.onLine){ NET.ok = false; return netPaint(); }
+  NET.busy = true;
+  try{
+    const t0 = performance.now();
+    const got = await Promise.all([0, 1, 2].map(i => fetch(NET_FILE + "?n=" + Date.now() + i, { cache: "no-store", signal: AbortSignal.timeout(15000) })
+      .then(r => r.ok ? r.arrayBuffer() : Promise.reject(new Error("bad")))));
+    const secs = Math.max((performance.now() - t0) / 1000, 0.05), bytes = got.reduce((n, b) => n + b.byteLength, 0);
+    NET.ok = true; NET.mbps = bytes * 8 / secs / 1e6; NET.at = Date.now();
+  }catch(e){
+    NET.ok = false;                 // nothing came back: as good as no network
+  }
+  NET.busy = false;
+  netPaint();
+}
+window.addEventListener("online", () => { NET.ok = true; netPaint(); netMeasure(); });
+window.addEventListener("offline", () => { NET.ok = false; netPaint(); });
+document.addEventListener("visibilitychange", () => { if(!document.hidden && Date.now() - NET.at > 60000) netMeasure(); });
+setInterval(netMeasure, 60000);
+setTimeout(netMeasure, 2500);
+setInterval(netPaint, 5000);
 setInterval(readerLamp, 5000);
 setInterval(readerAsk, ONLINE ? 60000 : 30000);
 setTimeout(readerAsk, 4000);

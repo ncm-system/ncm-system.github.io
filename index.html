@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-wHKSKseykGoR2jqzBCKMLDEPRO4YCdgx4I13IAO9lzw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-wNJ1wGzazzVY2q/eDCvHh1f+Lk9wJfgvz6RCYY8ZKGQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1227,32 +1227,72 @@ html.dark .themebtn svg .sun{display:inline;}
   body.print-card .grp{padding:0 10px;}
   body.print-card .rows{gap:3px;}
 }
-/* THE WELCOME (asked for, 22 October 2026: «تصميم موشن جرافيك للسيستم… في السيستم كمان»): after signing in, the logo
-   comes together in the company's colours and the page shows through. «x-intro»; nothing of it where motion is turned off. */
-#intro{position:fixed;inset:0;z-index:400;display:grid;place-items:center;cursor:pointer;
-  background:radial-gradient(700px 480px at 82% 6%, rgba(75,165,72,.30), transparent 62%),radial-gradient(820px 600px at 6% 100%, rgba(30,117,214,.45), transparent 66%),linear-gradient(170deg,#0f4887 0%,#0b3466 48%,#06203f 100%);}
+/* THE OPENING (asked for, 22 October 2026: «زى الى فى الفيديو ده بلوجو الشركه صفحه افتتاحيه للسيستم… واعمله على مزاجك»): after
+   signing in, the company's emblem rises in white on a light trail over a glowing horizon, a ring closes on it to a point, the
+   point opens into white and the logo (drawn as shapes, «motion/ncm-logo.svg») comes in on green and blue speed lines.
+   About 4½ seconds; a click ends it. «x-intro»; nothing of it where motion is turned off, nor on paper. */
+#intro{position:fixed;inset:0;z-index:400;display:grid;place-items:center;cursor:pointer;overflow:hidden;
+  background:radial-gradient(70vmax 50vmax at 50% 105%, rgba(30,117,214,.55), transparent 62%),radial-gradient(60vmax 40vmax at 85% 0%, rgba(75,165,72,.22), transparent 60%),linear-gradient(175deg,#0c3d75 0%,#082c57 50%,#041a35 100%);}
 #intro[hidden]{display:none;}
-#intro.out{animation:introOut .45s ease forwards;}
-.intro-in{display:flex;flex-direction:column;align-items:center;}
-.intro-ncm{font-family:var(--sans),'Arial Black',sans-serif;font-weight:900;font-size:150px;line-height:1;direction:ltr;display:flex;gap:4px;}
-.intro-ncm span{display:inline-block;opacity:0;transform:translateY(80px);}
-.intro-ncm span:nth-child(1){color:#fff;}.intro-ncm span:nth-child(2){color:#6fd16b;}.intro-ncm span:nth-child(3){color:#c3d1e0;}
-.intro-tag{margin-top:18px;font-family:var(--cond);font-weight:600;font-size:20px;letter-spacing:.42em;text-indent:.42em;color:#cfe0f5;opacity:0;direction:ltr;}
-.intro-hr{width:0;height:3px;border-radius:3px;margin:22px 0 18px;background:linear-gradient(90deg,transparent,#6fd16b,transparent);}
-.intro-app{font-family:var(--cond);font-weight:700;font-size:44px;letter-spacing:.6em;text-indent:.6em;color:#8cc8ff;opacity:0;direction:ltr;}
-#intro.go .intro-ncm span{animation:introUp .7s cubic-bezier(.34,1.56,.64,1) forwards;}
-#intro.go .intro-ncm span:nth-child(2){animation:introUp .7s cubic-bezier(.34,1.56,.64,1) .15s forwards,introGlow 1.2s ease .6s;}
-#intro.go .intro-ncm span:nth-child(3){animation-delay:.3s;}
-#intro.go .intro-tag{animation:introFade .6s ease .7s forwards;}
-#intro.go .intro-hr{animation:introLine .7s ease .9s forwards;}
-#intro.go .intro-app{animation:introApp .8s ease 1.1s forwards;}
-@keyframes introUp{to{opacity:1;transform:none;}}
-@keyframes introGlow{50%{text-shadow:0 0 40px rgba(111,209,107,.9);}}
-@keyframes introFade{to{opacity:1;}}
-@keyframes introLine{to{width:220px;}}
-@keyframes introApp{from{opacity:0;letter-spacing:1.1em;}to{opacity:1;letter-spacing:.3em;text-indent:.3em;}}
-@keyframes introOut{to{opacity:0;transform:scale(1.04);}}
-@media (max-width:600px){ .intro-ncm{font-size:96px;} .intro-tag{font-size:13px;} .intro-app{font-size:30px;} }
+#intro.out{animation:itrOut .45s ease forwards;}
+#intro > *{pointer-events:none;}
+.itr-hz{position:absolute;left:50%;bottom:-64vh;width:160vw;height:84vh;margin-left:-80vw;border-radius:50%;opacity:0;
+  border-top:2px solid rgba(214,236,255,.95);box-shadow:0 -10px 50px rgba(120,190,255,.75),inset 0 18px 60px rgba(120,190,255,.35);}
+.itr-trail{position:absolute;left:50%;bottom:0;width:6px;height:0;margin-left:-3px;border-radius:6px;opacity:0;
+  background:linear-gradient(to bottom,#fff,rgba(160,215,255,.75) 35%,rgba(160,215,255,0));box-shadow:0 0 22px 4px rgba(140,200,255,.55);}
+.itr-rise{position:absolute;left:50%;top:50%;width:132px;height:98px;margin:-49px 0 0 -66px;opacity:0;
+  filter:drop-shadow(0 0 14px rgba(190,230,255,.95)) drop-shadow(0 0 40px rgba(120,190,255,.7));}
+.itr-ring{position:absolute;left:50%;top:50%;width:80vmax;height:80vmax;margin:-40vmax 0 0 -40vmax;border-radius:50%;opacity:0;
+  border:4px solid #6fd16b;box-shadow:0 0 50px rgba(111,209,107,.65),inset 0 0 60px rgba(30,117,214,.7);}
+.itr-flash{position:absolute;inset:0;background:#fff;clip-path:circle(0 at 50% 50%);}
+.itr-stage{position:relative;display:flex;flex-direction:column;align-items:center;width:min(780px,88vw);}
+.itr-lines{position:absolute;left:-60vw;right:0;top:4%;height:60%;}
+.itr-lines i{position:absolute;left:0;height:6px;width:46vw;border-radius:6px;opacity:0;
+  background:linear-gradient(90deg,rgba(59,155,79,0),#3b9b4f 70%,rgba(255,255,255,.9));}
+.itr-lines i:nth-child(1){top:6%;} .itr-lines i:nth-child(2){top:24%;height:3px;background:linear-gradient(90deg,rgba(45,95,153,0),#2d5f99 70%,#fff);}
+.itr-lines i:nth-child(3){top:44%;height:9px;} .itr-lines i:nth-child(4){top:62%;height:4px;background:linear-gradient(90deg,rgba(45,95,153,0),#2d5f99 70%,#fff);}
+.itr-lines i:nth-child(5){top:80%;height:3px;} .itr-lines i:nth-child(6){top:96%;height:5px;background:linear-gradient(90deg,rgba(119,119,111,0),#a9a9a5 70%,#fff);}
+.itr-logo{position:relative;width:100%;height:auto;overflow:visible;direction:ltr;}
+.itr-stage,.itr-rise{direction:ltr;}
+.itr-logo .il{opacity:0;transform-box:fill-box;transform-origin:50% 50%;}
+.itr-logo #ilg-e{transform:scale(0) rotate(-220deg);}
+.itr-logo #ilg-t{opacity:0;}
+.itr-app{margin-top:6px;font-family:var(--cond);font-weight:700;font-size:clamp(26px,5vw,46px);letter-spacing:.6em;text-indent:.6em;color:#2d5f99;opacity:0;direction:ltr;}
+.itr-fly{position:absolute;inset:0;}
+.itr-fly i{position:absolute;left:0;width:150px;height:3px;border-radius:3px;opacity:0;
+  background:linear-gradient(90deg,rgba(45,95,153,0),#2d5f99);}
+.itr-fly i::after{content:"";position:absolute;right:-5px;top:-4px;width:11px;height:11px;border-radius:50%;background:#3b9b4f;}
+.itr-fly i:nth-child(1){top:18%;} .itr-fly i:nth-child(2){top:76%;width:110px;} .itr-fly i:nth-child(3){top:88%;width:190px;}
+#intro.go .itr-hz{animation:itrHz 1.9s ease .1s forwards;}
+#intro.go .itr-trail{animation:itrTrail 1.2s cubic-bezier(.2,.8,.2,1) .2s forwards;}
+#intro.go .itr-rise{animation:itrRise 1.2s cubic-bezier(.2,.8,.2,1) .2s both,itrSink .45s cubic-bezier(.6,0,.9,.4) 1.45s forwards;}
+#intro.go .itr-ring{animation:itrRing .6s cubic-bezier(.6,0,.4,1) 1.3s forwards;}
+#intro.go .itr-flash{animation:itrFlash .6s cubic-bezier(.7,0,.3,1) 1.85s forwards;}
+#intro.go .itr-lines i{animation:itrLine .75s cubic-bezier(.2,.7,.3,1) forwards;}
+#intro.go .itr-lines i:nth-child(1){animation-delay:2.05s;} #intro.go .itr-lines i:nth-child(2){animation-delay:2.12s;}
+#intro.go .itr-lines i:nth-child(3){animation-delay:2.18s;} #intro.go .itr-lines i:nth-child(4){animation-delay:2.25s;}
+#intro.go .itr-lines i:nth-child(5){animation-delay:2.32s;} #intro.go .itr-lines i:nth-child(6){animation-delay:2.38s;}
+#intro.go #ilg-n{animation:itrDash .55s cubic-bezier(.2,.9,.25,1.15) 2.2s forwards;}
+#intro.go #ilg-c{animation:itrDash .55s cubic-bezier(.2,.9,.25,1.15) 2.3s forwards;}
+#intro.go #ilg-m{animation:itrDash .55s cubic-bezier(.2,.9,.25,1.15) 2.4s forwards;}
+#intro.go #ilg-e{animation:itrPop .8s cubic-bezier(.34,1.56,.64,1) 2.5s forwards;}
+#intro.go #ilg-t{animation:itrFade .6s ease 2.95s forwards;}
+#intro.go .itr-app{animation:itrApp .8s ease 3.15s forwards;}
+#intro.go .itr-fly i{animation:itrFly .9s cubic-bezier(.3,.6,.4,1) forwards;}
+#intro.go .itr-fly i:nth-child(1){animation-delay:3.2s;} #intro.go .itr-fly i:nth-child(2){animation-delay:3.35s;} #intro.go .itr-fly i:nth-child(3){animation-delay:3.5s;}
+@keyframes itrHz{0%{opacity:0;transform:translateY(8vh);}25%{opacity:1;transform:none;}70%{opacity:1;}100%{opacity:0;}}
+@keyframes itrTrail{0%{opacity:0;height:0;}12%{opacity:1;}80%{opacity:1;height:50vh;}100%{opacity:0;height:50vh;}}
+@keyframes itrRise{0%{opacity:0;transform:translateY(48vh) scale(.45);}15%{opacity:1;}100%{opacity:1;transform:none;}}
+@keyframes itrSink{0%{opacity:1;transform:none;}100%{opacity:0;transform:scale(.05) rotate(-120deg);}}
+@keyframes itrRing{0%{opacity:0;transform:scale(1.25);}30%{opacity:1;}100%{opacity:1;transform:scale(.004);}}
+@keyframes itrFlash{to{clip-path:circle(75% at 50% 50%);}}
+@keyframes itrLine{0%{opacity:0;transform:translateX(-30vw) scaleX(.3);}35%{opacity:1;}100%{opacity:0;transform:translateX(70vw) scaleX(1);}}
+@keyframes itrDash{0%{opacity:0;transform:translateX(-160px) skewX(-22deg);}60%{opacity:1;}100%{opacity:1;transform:none;}}
+@keyframes itrPop{0%{opacity:0;transform:scale(0) rotate(-220deg);}100%{opacity:1;transform:none;}}
+@keyframes itrFade{from{opacity:0;}to{opacity:1;}}
+@keyframes itrApp{from{opacity:0;letter-spacing:1.2em;}to{opacity:1;letter-spacing:.6em;}}
+@keyframes itrFly{0%{opacity:0;transform:translateX(-20vw) translateY(4vh);}20%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateX(115vw) translateY(-6vh);}}
+@keyframes itrOut{to{opacity:0;transform:scale(1.04);}}
 @media (prefers-reduced-motion: reduce){ #intro{display:none !important;} }
 @media print{ #intro{display:none !important;} }
 </style>
@@ -1399,7 +1439,7 @@ html.dark .themebtn svg .sun{display:inline;}
 <div id="busy"><div class="busy-card"><span class="spinner"></span><span id="busy-t">جارٍ القراءة</span></div></div>
 <div id="toast" role="status"></div>
 <!-- the welcome: the logo comes together over the page for two seconds after signing in (22 October 2026); a click ends it -->
-<div id="intro" hidden aria-hidden="true"><div class="intro-in"><div class="intro-ncm"><span>N</span><span>C</span><span>M</span></div><div class="intro-tag">NUCLEAR CONCRETE MIXES</div><div class="intro-hr"></div><div class="intro-app">SYSTEM</div></div></div>
+<div id="intro" hidden aria-hidden="true"><div class="itr-hz"></div><div class="itr-trail"></div><svg class="itr-rise" viewBox="722 38 246 182" aria-hidden="true"><path fill="rgba(255,255,255,.55)" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="#fff" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#fff" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#fff" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></svg><div class="itr-ring"></div><div class="itr-flash"></div><div class="itr-stage"><div class="itr-lines"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="itr-logo" viewBox="0 0 1000 320" aria-hidden="true"><defs><linearGradient id="ilg-gg" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0" stop-color="#2f8a3f"/><stop offset="0.45" stop-color="#3b9b4f"/><stop offset="1" stop-color="#43a957"/></linearGradient></defs><path id="ilg-n" class="il" fill="#2d5f99" d="M27 51H60V213H27Z M27 51H66L232 213H193Z M199 51H232V213H199Z"/><path id="ilg-c" class="il" fill="#3b9b4f" d="M463 51H343A81 81 0 0 0 343 213H463V179H346A47 47 0 0 1 346 85H463Z"/><path id="ilg-m" class="il" fill="#77776f" d="M486 213V51H526L594 148L662 51H702V213H668V104L606 190H582L520 104V213Z"/><g id="ilg-e" class="il"><path fill="#a9a9a5" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="url(#ilg-gg)" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#2d5f99" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#2d5f99" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></g><text id="ilg-t" x="25" y="290" font-family="Arial,'Helvetica Neue',sans-serif" font-size="64" textLength="940" lengthAdjust="spacing" fill="#929290">NUCLEAR CONCRETE MIXES</text></svg><div class="itr-app">SYSTEM</div></div><div class="itr-fly"><i></i><i></i><i></i></div></div>
 <div id="tip"></div>
 <input type="file" id="pick" accept=".xlsx" multiple hidden>
 <input type="file" id="cards-pick" accept=".docx,.docm,.pdf" hidden>
@@ -2457,7 +2497,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a284e6d8d7eb";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2f647f7d4971";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3538,7 +3578,7 @@ function playIntro(){
   el.hidden = false; el.classList.remove("go", "out"); void el.offsetWidth; el.classList.add("go");
   let over = false;
   const end = () => { if(over) return; over = true; el.classList.add("out"); setTimeout(() => { el.hidden = true; el.classList.remove("go", "out"); }, 450); };
-  const timer = setTimeout(end, 2300);
+  const timer = setTimeout(end, 4500);
   el.onclick = () => { clearTimeout(timer); end(); };
 }
 async function sealOver(got, name, pin){

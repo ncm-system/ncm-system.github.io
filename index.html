@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-Lmo8dCHc5YCYzGrCk9mAYFoiElE3fvFopdQjrAcbxTE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-0ZjaibKU2tViuZMBOmC5sEUWrqkPYactx4LDxmHf1HE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -13,7 +13,7 @@
 <meta name="referrer" content="no-referrer">
 <!-- The window's own icon — what the taskbar and Alt+Tab show for it — is the
      company mark, the same file the desktop shortcut wears. -->
-<link rel="icon" href="ncm-logo.ico" sizes="16x16 24x24 32x32 48x48 64x64 128x128 256x256" type="image/x-icon">
+<link rel="icon" href="ncm-logo.ico?v=2" sizes="16x16 24x24 32x32 48x48 64x64 128x128 256x256" type="image/x-icon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
@@ -1299,6 +1299,138 @@ html.dark .themebtn svg .sun{display:inline;}
   animation:navIn .45s cubic-bezier(.2,.8,.25,1.12) calc(var(--i,0) * 55ms) both;}
 @keyframes navIn{from{opacity:0;transform:translateX(34px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion: reduce){ .side.navin *{animation:none !important;} }
+/* WAITING, IN MOTION (asked for, 22 October 2026, after a video he sent: «الموشن جرافيك ده فى انتظار قارئ البطاقات وهو شغال
+   وانتظار تحميل الشيتات والرفع»): a dark stage in the company's green and blue, a field of points drifting, sparks rising.
+   The card reader — its cards in a tilted grid, lit one after another as a beam passes, and the count of what it has read ·
+   the sheets being read — rings going round the emblem · an upload or a routine — the thing going along a wire of light
+   from where it is to where it goes, and a ring that fills. Only for whoever has «x-wait»; the plain ones stay for the rest. */
+.mo{position:relative;overflow:hidden;border-radius:14px;margin:14px 0 2px;min-height:150px;display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:22px 30px;padding:20px 22px;color:#cfeee0;
+  background:radial-gradient(120% 90% at 50% 125%,rgba(59,155,79,.32),transparent 60%),radial-gradient(80% 70% at 50% -25%,rgba(45,95,153,.42),transparent 65%),linear-gradient(160deg,#0b211d,#07171b 55%,#05111b);
+  box-shadow:inset 0 0 0 1px rgba(111,209,107,.2),0 8px 24px rgba(5,17,27,.18);}
+.mo::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(rgba(140,230,180,.22) 1px,transparent 1.3px);background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(closest-side,#000,transparent);mask-image:radial-gradient(closest-side,#000,transparent);animation:moDrift 16s linear infinite;}
+@keyframes moDrift{to{background-position:22px 44px;}}
+.mo > *{position:relative;}
+.mo-dots{position:absolute !important;inset:0;pointer-events:none;}
+.mo-dots i{position:absolute;bottom:12%;width:3px;height:3px;border-radius:50%;background:#8ff0b8;box-shadow:0 0 6px #6fd16b;opacity:0;animation:moDot 4.2s linear infinite;}
+.mo-dots i:nth-child(1){left:8%;}.mo-dots i:nth-child(2){left:19%;animation-delay:1.1s;}.mo-dots i:nth-child(3){left:31%;animation-delay:2.3s;}
+.mo-dots i:nth-child(4){left:44%;animation-delay:.5s;}.mo-dots i:nth-child(5){left:57%;animation-delay:3s;}.mo-dots i:nth-child(6){left:68%;animation-delay:1.7s;}
+.mo-dots i:nth-child(7){left:79%;animation-delay:.2s;}.mo-dots i:nth-child(8){left:90%;animation-delay:2.7s;}.mo-dots i:nth-child(9){left:50%;animation-delay:3.6s;background:#9cc7ff;box-shadow:0 0 6px #5b9be0;}
+@keyframes moDot{0%{opacity:0;transform:translateY(12px);}20%{opacity:.9;}100%{opacity:0;transform:translateY(-70px);}}
+.mo-num{display:flex;flex-direction:column;align-items:center;min-width:130px;}
+.mo-n{font-family:var(--cond);font-weight:700;font-size:56px;line-height:1;color:#effff6;letter-spacing:.02em;text-shadow:0 0 22px rgba(111,209,107,.5);direction:ltr;}
+.mo-l{width:160px;height:2px;margin:9px 0 7px;background:linear-gradient(90deg,transparent,#6fd16b,transparent);box-shadow:0 0 10px #6fd16b;}
+.mo-k{font-size:13px;font-weight:800;letter-spacing:.03em;color:#a9e2c4;text-align:center;}
+/* the reader */
+.mo-grid{display:grid;grid-template-columns:repeat(4,48px);gap:8px;transform:perspective(620px) rotateY(16deg) rotateX(14deg);}
+.mo-grid b{position:relative;height:31px;border-radius:5px;overflow:hidden;background:linear-gradient(160deg,rgba(111,209,107,.17),rgba(45,95,153,.14));border:1px solid rgba(111,209,107,.3);}
+.mo-grid b::before{content:"";position:absolute;right:5px;left:17px;top:7px;height:3px;border-radius:2px;background:rgba(200,255,220,.38);box-shadow:0 7px 0 rgba(200,255,220,.22),0 14px 0 rgba(200,255,220,.15);}
+.mo-grid b::after{content:"";position:absolute;left:5px;top:7px;width:8px;height:12px;border-radius:2px;background:rgba(200,255,220,.25);}
+.mo-grid::after{content:"";position:absolute;top:-12px;bottom:-12px;width:34px;opacity:0;background:linear-gradient(90deg,transparent,rgba(170,255,210,.5),transparent);filter:blur(2px);}
+.mo.on .mo-grid b{animation:moLit 3.6s ease-in-out infinite;animation-delay:calc(var(--k) * .3s);}
+.mo.on .mo-grid::after{animation:moBeam 2.4s ease-in-out infinite;}
+.mo:not(.on) .mo-grid{animation:moBreath 3s ease-in-out infinite;}
+@keyframes moLit{0%,100%{border-color:rgba(111,209,107,.3);box-shadow:none;}7%{border-color:#ffb547;box-shadow:0 0 12px rgba(255,181,71,.55),inset 0 0 10px rgba(255,181,71,.25);}22%{border-color:#6fd16b;box-shadow:0 0 12px rgba(111,209,107,.5);}42%{border-color:rgba(111,209,107,.3);box-shadow:none;}}
+@keyframes moBeam{0%{right:-40px;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{right:calc(100% + 6px);opacity:0;}}
+@keyframes moBreath{50%{opacity:.55;}}
+/* the ring */
+.mo-ring{position:relative;width:120px;height:120px;flex:none;}
+.mo-ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.mo-ring .r1,.mo-ring .r2,.mo-ring .r3{transform-box:fill-box;transform-origin:center;}
+.mo-ring .r1{animation:spin 7s linear infinite;}
+.mo-ring .r2{animation:spin 10s linear infinite reverse;}
+.mo-ring .r3{transform:rotate(-90deg);transition:stroke-dasharray .6s ease;filter:drop-shadow(0 0 4px #6fd16b);}
+.mo-ring.round .r3{animation:moRound 1.3s linear infinite;}
+@keyframes moRound{from{transform:rotate(-90deg);}to{transform:rotate(270deg);}}
+.mo-c{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--cond);font-weight:700;font-size:30px;color:#effff6;direction:ltr;text-shadow:0 0 14px rgba(111,209,107,.5);}
+.mo-c svg{position:static;width:46px;height:auto;filter:drop-shadow(0 0 8px rgba(160,230,255,.6));animation:moBreath 2.4s ease-in-out infinite;}
+/* the wire */
+.mo-flow{display:flex;align-items:center;flex:1 1 220px;max-width:430px;}
+.mo-end{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;flex:none;color:#a6f5c9;background:rgba(111,209,107,.1);border:1px solid rgba(111,209,107,.38);box-shadow:0 0 18px rgba(111,209,107,.2);}
+.mo-end + .mo-wire + .mo-end{color:#a9cdfa;background:rgba(45,95,153,.18);border-color:rgba(120,170,240,.45);box-shadow:0 0 18px rgba(45,95,153,.35);}
+.mo-wire{position:relative;flex:1;height:2px;margin:0 10px;background:linear-gradient(90deg,rgba(111,209,107,.18),rgba(111,209,107,.55),rgba(111,209,107,.18));}
+.mo-wire i{position:absolute;top:-3px;right:0;width:16px;height:8px;border-radius:4px;opacity:0;background:#c6ffdf;box-shadow:0 0 10px #6fd16b,0 0 2px #fff;animation:moPacket 1.8s linear infinite;}
+.mo:not(.on) .mo-wire i{animation-duration:3.6s;filter:saturate(.4);}
+.mo-wire i:nth-child(2){animation-delay:.6s;}.mo-wire i:nth-child(3){animation-delay:1.2s;}
+@keyframes moPacket{0%{right:0;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{right:calc(100% - 16px);opacity:0;}}
+.mo-side{display:flex;flex-direction:column;align-items:center;gap:6px;}
+/* small: in a box of «الشيتات», over «ASE SEARCH» */
+.mo.sm{min-height:0;margin:2px 0;padding:14px 16px;gap:14px 20px;}
+.mo.sm .mo-ring{width:76px;height:76px;}
+.mo.sm .mo-c{font-size:18px;}
+.mo.sm .mo-end{width:40px;height:40px;border-radius:11px;}
+.mo.sm .mo-k{font-size:12px;}
+.ase-copy .mo{flex:1 1 100%;}
+/* the sheets being read: the box that says so becomes the stage */
+#busy .busy-mo{display:none;}
+#busy.mo-on .busy-card{flex-direction:column;gap:12px;padding:26px 46px 22px;border:0;color:#d9f6e7;overflow:hidden;position:relative;
+  background:radial-gradient(120% 90% at 50% 125%,rgba(59,155,79,.35),transparent 60%),radial-gradient(80% 70% at 50% -25%,rgba(45,95,153,.45),transparent 65%),linear-gradient(160deg,#0b211d,#07171b 55%,#05111b);
+  box-shadow:inset 0 0 0 1px rgba(111,209,107,.22),0 18px 50px rgba(5,17,27,.35);}
+#busy.mo-on .spinner{display:none;}
+#busy.mo-on .busy-mo{display:block;}
+#busy.mo-on #busy-t{position:relative;letter-spacing:.02em;}
+/* the steps of what is waited on, on the stage itself (22 October 2026: «تشيل الخطوات… وتخليهم فى الرسم ده») */
+.mo .steps{flex:1 1 100%;order:9;margin:8px 0 0;}
+.mo .steps li{color:rgba(190,230,210,.55);}
+.mo .steps li::before{background:rgba(255,255,255,.05);border-color:rgba(111,209,107,.3);color:rgba(190,230,210,.65);}
+.mo .steps li::after{background:rgba(111,209,107,.2);}
+.mo .steps li.done{color:#86e8b0;}
+.mo .steps li.done::before{background:rgba(111,209,107,.18);border-color:#6fd16b;color:#a6f5c9;box-shadow:0 0 10px rgba(111,209,107,.45);}
+.mo .steps li.done::after{background:#6fd16b;box-shadow:0 0 6px #6fd16b;}
+.mo .steps li.on{color:#ffd28a;}
+.mo .steps li.on::before{background:#ffb547;border-color:#ffb547;color:#1b1203;animation:moStep 1.5s ease-in-out infinite;}
+.mo .steps small{color:rgba(190,230,210,.65);}
+@keyframes moStep{0%,100%{box-shadow:0 0 12px rgba(255,181,71,.6);}50%{box-shadow:0 0 0 8px rgba(255,181,71,.16),0 0 20px rgba(255,181,71,.85);}}
+/* «الشيتات», a page each: all of them — their titles, buttons and a word each; one — the whole page, its motion as large as it goes */
+.desk-back{display:none;justify-self:start;gap:6px;}
+.desk.one{grid-template-columns:minmax(0,1fr);}
+.desk.one .desk-back{display:inline-flex;}
+.desk.one .desk-card:not(.open){display:none;}
+.desk:not(.one) .desk-card .panel-b{display:none;}
+.desk:not(.one) .desk-card{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
+.desk:not(.one) .desk-card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(21,101,192,.14);}
+.desk:not(.one) .desk-card .panel-h{border-bottom:0;}
+.desk-mini{margin-inline-start:auto;margin-inline-end:10px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;background:var(--tint);color:var(--muted);white-space:nowrap;}
+.desk-mini.blue{background:rgba(21,101,192,.12);color:var(--blue);}
+.desk-mini.ok{background:var(--ok-bg);color:var(--ok);}
+.desk-mini.warn{background:rgba(255,181,71,.18);color:#8a5200;}
+.desk-mini.bad{background:rgba(220,60,60,.12);color:var(--bad);}
+.desk.one .desk-mini{display:none;}
+.desk.one .desk-card.open .panel-b{min-height:min(64vh,620px);}
+.desk.one .mo{flex:1;min-height:min(56vh,560px);gap:30px 70px;}
+.desk.one .mo > :not(.mo-dots){zoom:1.7;}
+.desk.one .mo.sm .mo-ring{width:120px;height:120px;}
+.desk.one .mo.sm .mo-c{font-size:30px;}
+.desk.one .mo.sm .mo-end{width:50px;height:50px;border-radius:14px;}
+@media (max-width:760px){ .desk.one .mo > :not(.mo-dots){zoom:1.1;} }
+/* …over the whole screen (22 October 2026: «عايزه يبقا باكبر حجم للشاشه»): a wait that begins opens there by itself; a click
+   or Esc puts it back in its box, and a click on the box opens it again. What it shows is the box's, kept up as it changes. */
+.mo{cursor:zoom-in;}
+#mofull{position:fixed;inset:0;z-index:390;display:none;cursor:zoom-out;}
+#mofull.on{display:block;animation:moIn .35s ease;}
+@keyframes moIn{from{opacity:0;transform:scale(1.03);}}
+#mofull .mo{position:absolute;inset:0;margin:0;border-radius:0;gap:40px 110px;padding:90px 40px 60px;cursor:zoom-out;}
+#mofull .mo > :not(.mo-dots){zoom:2.3;}
+#mofull .mo.sm .mo-ring{width:120px;height:120px;}
+#mofull .mo.sm .mo-c{font-size:30px;}
+#mofull .mo.sm .mo-end{width:50px;height:50px;border-radius:14px;}
+#mofull .mo.sm .mo-k{font-size:13px;}
+.mofull-t{position:absolute;top:30px;left:70px;right:70px;z-index:2;text-align:center;font-size:21px;font-weight:800;color:#bfe9d3;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;}
+.mofull-x{position:absolute;top:22px;left:22px;z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid rgba(111,209,107,.4);background:rgba(111,209,107,.08);color:#bfe9d3;font-size:18px;cursor:pointer;}
+.mofull-x:hover{background:rgba(111,209,107,.2);}
+@media (max-width:1100px){ #mofull .mo > :not(.mo-dots){zoom:1.7;} }
+@media (max-width:760px){ #mofull .mo > :not(.mo-dots){zoom:1.25;} #mofull .mo{gap:28px;} }
+@media (max-width:420px){ #mofull .mo > :not(.mo-dots){zoom:1;} }
+@media print{ #mofull{display:none !important;} }
+/* the sheets being read: the whole screen */
+#busy.mo-on{background:#05111b;backdrop-filter:none;}
+#busy.mo-on .busy-card{position:absolute;inset:0;border-radius:0;justify-content:center;gap:34px;box-shadow:none;}
+#busy.mo-on .busy-mo{zoom:2.4;}
+#busy.mo-on #busy-t{font-size:24px;}
+@media (max-width:760px){ #busy.mo-on .busy-mo{zoom:1.6;} #busy.mo-on #busy-t{font-size:19px;} }
+@media (prefers-reduced-motion: reduce){ .mo *,.mo::before,.mo::after,#busy .busy-mo *{animation:none !important;} }
 @media (prefers-reduced-motion: reduce){ #intro{display:none !important;} }
 @media print{ #intro{display:none !important;} }
 </style>
@@ -1442,7 +1574,8 @@ html.dark .themebtn svg .sun{display:inline;}
 
 <div id="zoom"><img id="zoom-img" alt=""></div>
 <div id="dropveil" data-i18n="dropHere">افلت الشيتات هنا</div>
-<div id="busy"><div class="busy-card"><span class="spinner"></span><span id="busy-t">جارٍ القراءة</span></div></div>
+<div id="mofull" aria-hidden="true"><div class="mofull-t" id="mofull-t"></div><button type="button" class="mofull-x" aria-label="✕">✕</button><div id="mofull-in"></div></div>
+<div id="busy"><div class="busy-card"><span class="spinner"></span><span class="busy-mo"><div class="mo-ring round" aria-hidden="true"><svg viewBox="-60 -60 120 120"><circle class="r1" r="55" fill="none" stroke="rgba(111,209,107,.45)" stroke-width="1.4" stroke-dasharray="2 7"/><circle class="r2" r="47" fill="none" stroke="#3f7fd0" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="70 225"/><circle r="38" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/><circle class="r3" r="38" fill="none" stroke="#6fd16b" stroke-width="6" stroke-linecap="round" stroke-dasharray="52 238.8"/><g class="r1"><circle r="55" fill="none"/><circle cx="55" cy="0" r="3.2" fill="#c6ffdf"/></g></svg><span class="mo-c"><svg viewBox="722 38 246 182" aria-hidden="true"><path fill="#a9a9a5" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="#4cb35f" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#5b9be0" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#5b9be0" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></svg></span></div></span><span id="busy-t">جارٍ القراءة</span></div></div>
 <div id="toast" role="status"></div>
 <!-- the welcome: the logo comes together over the page for two seconds after signing in (22 October 2026); a click ends it -->
 <div id="intro" hidden aria-hidden="true"><div class="itr-hz"></div><div class="itr-trail"></div><svg class="itr-rise" viewBox="722 38 246 182" aria-hidden="true"><path fill="rgba(255,255,255,.55)" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="#fff" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#fff" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#fff" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></svg><div class="itr-ring"></div><div class="itr-flash"></div><div class="itr-stage"><div class="itr-lines"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="itr-logo" viewBox="0 0 1000 320" aria-hidden="true"><defs><linearGradient id="ilg-gg" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0" stop-color="#2f8a3f"/><stop offset="0.45" stop-color="#3b9b4f"/><stop offset="1" stop-color="#43a957"/></linearGradient></defs><path id="ilg-n" class="il" fill="#2d5f99" d="M27 51H60V213H27Z M27 51H66L232 213H193Z M199 51H232V213H199Z"/><path id="ilg-c" class="il" fill="#3b9b4f" d="M463 51H343A81 81 0 0 0 343 213H463V179H346A47 47 0 0 1 346 85H463Z"/><path id="ilg-m" class="il" fill="#77776f" d="M486 213V51H526L594 148L662 51H702V213H668V104L606 190H582L520 104V213Z"/><g id="ilg-e" class="il"><path fill="#a9a9a5" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="url(#ilg-gg)" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#2d5f99" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#2d5f99" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></g><text id="ilg-t" x="25" y="290" font-family="Arial,'Helvetica Neue',sans-serif" font-size="64" textLength="940" lengthAdjust="spacing" fill="#929290">NUCLEAR CONCRETE MIXES</text></svg><div class="itr-app">SYSTEM</div></div><div class="itr-fly"><i></i><i></i><i></i></div></div>
@@ -2503,7 +2636,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "ac01316266d2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "f660778e89e1";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2740,7 +2873,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", netWait:"بيقيس…", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", netWait:"بيقيس…", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -2883,7 +3016,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", netWait:"Measuring…", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", netWait:"Measuring…", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -3117,6 +3250,7 @@ function toast(msg, bad){
 }
 function busy(on, text){
   $("busy").classList.toggle("on", !!on);
+  $("busy").classList.toggle("mo-on", !!on && !!session && can("x-wait"));
   if(text) $("busy-t").textContent = text;
 }
 const stamp = ms => {
@@ -3799,6 +3933,7 @@ const BRAND =
 let shownPage = "", enterTimer = null;
 function page(head, body){
   out.innerHTML = '<div class="pg-fixed">' + BRAND + head + "</div>" + body;
+  setTimeout(moSync, 0);                           // the waiting over the whole screen is this page's or nobody's
   /* Opened, or only redrawn? The page is the same page while it is the same
      view, showing the same sender's sheet (or none), with something read or
      nothing. Only a page that was not on screen a moment ago arrives with
@@ -5227,6 +5362,7 @@ function fillCheck(el){
    ============================================================ */
 function renderSources(){
   if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }        // the page is the admin's
+  if(String(shownPage).split("|")[0] !== "src") st.desk = "";                    // come to from elsewhere: all the boxes
   if(!DISK){
     const cloudCard = (p, kind, title, where, lines) =>
       '<section class="panel"><div class="panel-h"><h3 class="panel-t">' + title + "</h3>" +
@@ -5446,8 +5582,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
@@ -6189,6 +6325,83 @@ const cardsWhen = ms => num(stamp(ms));
 const CARDS_STEPS = ["cdS1", "cdS2", "cdS3", "cdS4", "cdS5"];
 // which step a file is at: 1 sent and waiting to be taken · 2 its photos being taken out · 3 being read · 4 the sheet being written
 const cardsStep = j => j.status === "queued" || j.status === "lost" ? 1 : j.step === "extract" ? 2 : j.step === "write" ? 4 : 3;
+/* WAITING, IN MOTION — the pieces (see «.mo» in the styles). «x-wait»: whoever does not have it keeps the plain line. */
+const moOn = () => can("x-wait");
+const MO_DOTS = '<span class="mo-dots" aria-hidden="true">' + "<i></i>".repeat(9) + "</span>";
+const MO_C = 238.8;                                  // round the ring that fills
+function moRing(center, pct){
+  const going = pct === null || pct === undefined;
+  return '<div class="mo-ring' + (going ? " round" : "") + '" aria-hidden="true"><svg viewBox="-60 -60 120 120">' +
+    '<circle class="r1" r="55" fill="none" stroke="rgba(111,209,107,.45)" stroke-width="1.4" stroke-dasharray="2 7"/>' +
+    '<circle class="r2" r="47" fill="none" stroke="#3f7fd0" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="70 225"/>' +
+    '<circle r="38" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>' +
+    '<circle class="r3" r="38" fill="none" stroke="#6fd16b" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + (going ? "52 " + MO_C : (MO_C * Math.max(0, Math.min(100, pct)) / 100).toFixed(1) + " " + MO_C) + '"/>' +
+    '<g class="r1"><circle r="55" fill="none"/><circle cx="55" cy="0" r="3.2" fill="#c6ffdf"/></g></svg><span class="mo-c">' + center + "</span></div>";
+}
+const MO_ICON = {
+  sheet: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M8.500 12h7M8.500 15.500h7M12 12v7"/>',
+  word: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M8.500 12l1.300 5 1.700-4 1.700 4 1.300-5"/>',
+  db: '<ellipse cx="12" cy="5.500" rx="7" ry="2.700"/><path d="M5 5.500v13c0 1.500 3.100 2.700 7 2.700s7-1.200 7-2.700v-13M5 12c0 1.500 3.100 2.700 7 2.700s7-1.200 7-2.700"/>',
+  cloud: '<path d="M7 18.500h10a4 4 0 0 0 .600-7.950A5.500 5.500 0 0 0 7.100 9.200 4.700 4.700 0 0 0 7 18.500z"/>',
+  photo: '<rect x="3" y="5" width="18" height="14" rx="2.400"/><circle cx="9" cy="11" r="2"/><path d="M5.800 16c.6-1.500 1.800-2.200 3.200-2.200s2.600.7 3.200 2.200M15 10h3.500M15 13.500h3.500"/>'
+};
+const moIcon = k => '<span class="mo-end"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + MO_ICON[k] + "</svg></span>";
+const moFlow = (from, to) => '<div class="mo-flow" aria-hidden="true">' + moIcon(from) + '<span class="mo-wire"><i></i><i></i><i></i></span>' + moIcon(to) + "</div>";
+// a file the card reader has: the grid lights up while it reads; the figure is what it has got so far
+function moReader(j, at, steps){
+  const n = at >= 3 ? +j.read || 0 : at === 2 ? +j.images || 0 : 0;
+  let grid = "";
+  for(let k = 0; k < 12; k++) grid += '<b style="--k:' + ((k * 5) % 12) + '"></b>';
+  return '<div class="mo' + (j.status === "reading" ? " on" : "") + '" data-mo="c:' + esc(j.id) + '">' + MO_DOTS + '<div class="mo-grid" aria-hidden="true">' + grid + "</div>" +
+    '<div class="mo-num"><span class="mo-n">' + esc(String(n)) + '</span><span class="mo-l"></span><span class="mo-k">' + (at >= 2 ? esc(t(at >= 3 ? "moRead" : "moPhotos")) : "") + "</span></div>" + (steps || "") + "</div>";
+}
+// an order of «الشيتات» on its way: from where to where, and which of its steps it is at
+const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"] };
+function moDesk(kind, at, id, steps){
+  const list = DESK_STEPS[kind] || [], way = MO_WAY[kind] || ["sheet", "db"];
+  return '<div class="mo sm' + (at > 1 ? " on" : "") + '" data-mo="d:' + esc(id || kind) + '">' + MO_DOTS + moFlow(way[0], way[1]) +
+    '<div class="mo-side">' + moRing((at + 1) + "/" + list.length, 100 * (at + 1) / Math.max(1, list.length)) + "</div>" + (steps || "") + "</div>";
+}
+// over the whole screen: the stage of the page that is open, kept up as it changes; one that has been put back stays back
+let moKey = "";
+const moShut = new Set();
+function moSource(){
+  let src = null;
+  ["cards", "desk", "ase-copy"].some(id => { const b = $(id); return b && (src = b.querySelector(".mo.on") || b.querySelector(".mo")); });
+  return src;
+}
+function moSync(){
+  const full = $("mofull");
+  if(!full) return;
+  const src = moOn() ? moSource() : null;
+  if(!src){ full.classList.remove("on"); $("mofull-in").innerHTML = ""; moKey = ""; return; }
+  const key = src.dataset.mo || "";
+  if(key !== moKey){ moKey = key; if(!moShut.has(key)) full.classList.add("on"); }
+  if(!full.classList.contains("on")) return;
+  const panel = src.closest(".panel"), head = panel && panel.querySelector(".panel-t");
+  $("mofull-t").textContent = head ? head.textContent : "";
+  const now = $("mofull-in").querySelector(".mo");
+  // the same stage: its figures and its ring move on in place, so nothing on it starts over
+  if(now && now.dataset.mo === key && now.className === src.className && !!now.querySelector(".mo-grid") === !!src.querySelector(".mo-grid")){
+    [".mo-n", ".mo-c", ".mo-k", ".steps"].forEach(q => { const a = src.querySelector(q), b = now.querySelector(q); if(a && b && b.innerHTML !== a.innerHTML) b.innerHTML = a.innerHTML; });
+    const a = src.querySelector(".mo-ring"), b = now.querySelector(".mo-ring");
+    if(a && b){ b.className = a.className; b.querySelector(".r3").setAttribute("stroke-dasharray", a.querySelector(".r3").getAttribute("stroke-dasharray")); }
+    return;
+  }
+  $("mofull-in").innerHTML = src.outerHTML;
+}
+(function(){
+  const full = document.getElementById("mofull");
+  if(!full) return;
+  const shut = () => { if(!full.classList.contains("on")) return; full.classList.remove("on"); if(moKey) moShut.add(moKey); };
+  full.addEventListener("click", shut);
+  document.addEventListener("keydown", e => { if(e.key === "Escape") shut(); });
+  document.addEventListener("click", e => {
+    const m = e.target.closest && e.target.closest(".mo");
+    if(!m || full.contains(m)) return;
+    moShut.delete(m.dataset.mo || ""); moKey = ""; moSync();
+  });
+})();
 function cardsJobHTML(j){
   if(j.status === "lost")
     return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
@@ -6197,10 +6410,10 @@ function cardsJobHTML(j){
   // under a step, what is known of it: how many photos came out, how many people have been read so far
   const sub = i => i === 2 && j.images ? "<small>" + t("cdImages", j.images) + "</small>" :
     i === 3 && (j.read || j.tries > 1) ? "<small>" + [j.read ? t("cdRead", j.read) : "", j.tries > 1 ? t("cdTry", j.tries) : ""].filter(Boolean).join(" · ") + "</small>" : "";
+  const steps = '<ol class="steps">' + CARDS_STEPS.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + sub(i) + "</li>").join("") + "</ol>";
   return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
       '<span class="count"><span class="num" data-since="' + (+j.received_at || 0) + '"></span></span></div>' +
-    '<div class="panel-b"><ol class="steps">' + CARDS_STEPS.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + sub(i) + "</li>").join("") + "</ol>" +
-      (j.status === "reading" ? '<div class="scan"><span></span></div>' : "") +
+    '<div class="panel-b">' + (moOn() ? moReader(j, at, steps) : steps + (j.status === "reading" ? '<div class="scan"><span></span></div>' : "")) +
     "</div></section>";
 }
 const cardsCat = {};                                // file by file: which of its boxes was pressed
@@ -6270,6 +6483,7 @@ function paintCards(){
   const drop = document.querySelector(".cards-drop");
   if(drop) drop.classList.toggle("small", list.length > 0);          // with something to show, the drop box makes room for it
   const history = ended.slice(1);
+  setTimeout(moSync, 0);
   box.innerHTML =
     going.map(j => cardsJobHTML(j)).join("") +
     (ended.length ? '<div data-job="' + esc(ended[0].id) + '">' + cardsResultHTML(ended[0]) + "</div>" : "") +
@@ -6320,6 +6534,7 @@ const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edit
 const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the copy on ASE SEARCH is what goes into the work sheet
 // «رفع ورد الصور» (asked for, 19 October 2026): this PC's copy only — the file is read where the photos are
 // «خطابات الموظفين من ASE» (asked for, 21 October 2026): this PC's copy only — the employees' sheet and ASE Data are here
+if(st.desk === undefined) st.desk = "";
 const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive"]);          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
 const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", letters: "dkLetters", drive: "dkDrive" };
 // the steps an order goes through, by kind: sent · taken up · then its own
@@ -6548,10 +6763,10 @@ function deskCardHTML(kind){
     body = '<div class="desk-line"><p class="note warn" style="margin:0">' + t("dkLost") + '</p><button class="btn sm" data-desk-drop="' + esc(o.id) + '">' + t("cdDismiss") + "</button></div>";
   else if(live){
     const at = deskStep(o);
+    const steps = '<ol class="steps">' + DESK_STEPS[kind].map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>";
     body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
         '<span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span></div>' +
-      '<ol class="steps">' + DESK_STEPS[kind].map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>" +
-      (at > 1 ? '<div class="scan"><span></span></div>' : "");
+      (moOn() ? moDesk(kind, at, o.id, steps) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   else if(o.status === "done" && ase){
     const r = o.result || {}, left = (+r.room || 0) - (+r.rows_after || 0);
@@ -6578,7 +6793,10 @@ function deskCardHTML(kind){
       (why ? '<p class="desk-said bad">' + esc(why) + (o.detail ? '<small dir="auto">' + esc(o.detail) + "</small>" : "") + "</p>" : "") +
       (facts ? '<ul class="desk-facts">' + facts + "</ul>" : "") + (rows ? '<ul class="desk-rows">' + rows + "</ul>" : "");
   }
-  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + btn + "</div>" +
+  // on the page of all of them, where each one stands, in a word (each opens on its own page: 22 October 2026)
+  const mtone = !o ? "" : live ? "blue" : o.status === "done" ? deskTone(o) : "bad";
+  const mini = !o ? "" : '<span class="desk-mini ' + mtone + '">' + esc(t(live ? (o.status === "queued" ? "dkQueued" : "dkRunning") : o.status === "done" ? (mtone === "ok" ? "dkDone" : mtone === "warn" ? "dkDoneWarn" : "dkDoneBad") : "dkFailed")) + "</span>";
+  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '" data-desk="' + kind + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + mini + btn + "</div>" +
     '<div class="panel-b">' + body + "</div></section>";
 }
 function paintDesk(){
@@ -6589,11 +6807,37 @@ function paintDesk(){
   const now = DESK_KINDS.map(deskNow);
   // drawn again only when something on it has changed — the clock of a thing on its way runs in its own place
   const sig = JSON.stringify([lang, now.map(o => o && [o.id, o.status, o.step, o.error, o.finished_at, o.file, o.result ? JSON.stringify(o.result).length : 0])]);
-  if(sig === deskSig && box.firstChild) return deskTick();
+  if(sig === deskSig && box.firstChild){ deskTick(); return deskShow(); }
   deskSig = sig;
-  box.innerHTML = DESK_KINDS.map(deskCardHTML).join("");
+  box.innerHTML = '<button type="button" class="btn sm desk-back" data-desk-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>' + t("navSrc") + "</button>" +
+    DESK_KINDS.map(deskCardHTML).join("");
   deskTick();
+  deskShow();
 }
+/* «الشيتات» A PAGE EACH (asked for, 22 October 2026: «نخلى الشيتات كل شيت فى صفحة جوة الصفحة الرئيسية للشيتات عشان الموشن جيرافك
+   ياخد اكبر حجم ممكن»): on the page of all of them each box is its title, its button and where it stands; pressed, it is the
+   whole page — its steps, its motion as large as the page, how it ended — and a box that is set going opens on its own. */
+function deskShow(){
+  const box = $("desk");
+  if(!box) return;
+  if(st.desk && DESK_KINDS.indexOf(st.desk) < 0) st.desk = "";
+  box.classList.toggle("one", !!st.desk);
+  [].forEach.call(box.querySelectorAll(".desk-card"), c => c.classList.toggle("open", c.dataset.desk === st.desk));
+  moSync();
+}
+document.addEventListener("click", e => {
+  const box = $("desk"), el = e.target;
+  if(!box || !el.closest || !box.contains(el)) return;
+  if(el.closest("[data-desk-back]")){ st.desk = ""; return deskShow(); }
+  const c = el.closest(".desk-card");
+  if(!c) return;
+  const act = el.closest("button, input, a, label");
+  if(act && !act.matches("[data-act=desk-run], [data-act=desk-ase], [data-act=desk-idph]")) return;
+  if(!act && box.classList.contains("one")) return;
+  if(st.desk !== c.dataset.desk){ st.desk = c.dataset.desk; deskShow(); }
+});
+// a file dragged onto the page: all the boxes, so that the ASE box is there to take it
+document.addEventListener("dragenter", () => { if(st.view === "src" && st.desk && st.desk !== "ase"){ st.desk = ""; deskShow(); } });
 // how long each thing on its way has been on its way
 function deskTick(){
   if(st.view !== "src") return;
@@ -6678,6 +6922,7 @@ async function aseUpload(file){
   ASE.busy = null;
   await aseInfo();
   paintAseHead();
+  moSync();
 }
 function renderAse(){
   if(!link()){                                      // this PC's own copy, before it is connected: the copy is in the database
@@ -6714,6 +6959,17 @@ function paintAseHead(){
   const b = ASE.busy, i = ASE.info;
   if(b){
     const part = b.step === "put" && b.total ? Math.round(100 * b.done / b.total) : 0;
+    const what = esc(b.step === "read" ? t("asReading", b.done.toLocaleString("en-US")) : t("asPutting", b.done.toLocaleString("en-US"), b.total.toLocaleString("en-US")));
+    if(moOn()){
+      if(!box.querySelector(".mo")) box.innerHTML = '<div class="mo sm on" data-mo="a:up">' + MO_DOTS + moFlow("sheet", "db") + '<div class="mo-side">' + moRing("", 0) + '<span class="mo-k"></span></div></div>';
+      const r = box.querySelector(".mo-ring"), r3 = box.querySelector(".mo-ring .r3");
+      r.classList.toggle("round", b.step !== "put");
+      r3.setAttribute("stroke-dasharray", b.step === "put" ? (MO_C * part / 100).toFixed(1) + " " + MO_C : "52 " + MO_C);
+      box.querySelector(".mo-c").textContent = b.step === "put" ? part + "%" : "";
+      box.querySelector(".mo-k").innerHTML = what;
+      moSync();
+      return;
+    }
     box.innerHTML = '<span class="ase-what">' + esc(b.step === "read" ? t("asReading", b.done.toLocaleString("en-US")) : t("asPutting", b.done.toLocaleString("en-US"), b.total.toLocaleString("en-US"))) + "</span>" +
       '<span class="ase-bar"><i style="width:' + part + '%"></i></span>';
     return;

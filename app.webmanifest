@@ -1,6 +1,6 @@
 {
-  "name": "NCM SYSTEM",
-  "short_name": "NCM SYSTEM",
+  "name": "PERMISSION SYSTEM",
+  "short_name": "PERMISSION",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

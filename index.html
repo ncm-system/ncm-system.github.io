@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-wNJ1wGzazzVY2q/eDCvHh1f+Lk9wJfgvz6RCYY8ZKGQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-Lmo8dCHc5YCYzGrCk9mAYFoiElE3fvFopdQjrAcbxTE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1293,6 +1293,12 @@ html.dark .themebtn svg .sun{display:inline;}
 @keyframes itrApp{from{opacity:0;letter-spacing:1.2em;}to{opacity:1;letter-spacing:.6em;}}
 @keyframes itrFly{0%{opacity:0;transform:translateX(-20vw) translateY(4vh);}20%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateX(115vw) translateY(-6vh);}}
 @keyframes itrOut{to{opacity:0;transform:scale(1.04);}}
+/* …and as it goes, the menu lines up one after another (22 October 2026: «عايزهم يترصو ورا بعض اول ما السيستم يحمل»):
+   the logo, then each title and page, then the bar at the foot — from the menu's own side. */
+.side.navin .brand,.side.navin .navh,.side.navin .nav button:not([hidden]),.side.navin .side-bar,.side.navin .side-foot{
+  animation:navIn .45s cubic-bezier(.2,.8,.25,1.12) calc(var(--i,0) * 55ms) both;}
+@keyframes navIn{from{opacity:0;transform:translateX(34px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion: reduce){ .side.navin *{animation:none !important;} }
 @media (prefers-reduced-motion: reduce){ #intro{display:none !important;} }
 @media print{ #intro{display:none !important;} }
 </style>
@@ -2497,7 +2503,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2f647f7d4971";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "ac01316266d2";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3580,6 +3586,16 @@ function playIntro(){
   const end = () => { if(over) return; over = true; el.classList.add("out"); setTimeout(() => { el.hidden = true; el.classList.remove("go", "out"); }, 450); };
   const timer = setTimeout(end, 4500);
   el.onclick = () => { clearTimeout(timer); end(); };
+}
+// the opening going away (its «itrOut») is what sets the menu off
+(function(){ const el = document.getElementById("intro"); if(el) el.addEventListener("animationstart", e => { if(e.animationName === "itrOut") navCascade(); }); })();
+function navCascade(){
+  const side = document.querySelector(".side");
+  if(!side) return;
+  const items = [].filter.call(side.querySelectorAll(".brand, .navh, .nav button, .side-bar, .side-foot"), x => !x.hidden && x.offsetParent !== null);
+  items.forEach((x, i) => x.style.setProperty("--i", i));
+  side.classList.remove("navin"); void side.offsetWidth; side.classList.add("navin");
+  setTimeout(() => { side.classList.remove("navin"); items.forEach(x => x.style.removeProperty("--i")); }, items.length * 55 + 600);
 }
 async function sealOver(got, name, pin){
   let said = null;

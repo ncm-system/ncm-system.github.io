@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-OjnR1Bl9iS0HdkMEUefhC0G34U47arBAkR4upHfwkME='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-wHKSKseykGoR2jqzBCKMLDEPRO4YCdgx4I13IAO9lzw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1227,6 +1227,34 @@ html.dark .themebtn svg .sun{display:inline;}
   body.print-card .grp{padding:0 10px;}
   body.print-card .rows{gap:3px;}
 }
+/* THE WELCOME (asked for, 22 October 2026: «تصميم موشن جرافيك للسيستم… في السيستم كمان»): after signing in, the logo
+   comes together in the company's colours and the page shows through. «x-intro»; nothing of it where motion is turned off. */
+#intro{position:fixed;inset:0;z-index:400;display:grid;place-items:center;cursor:pointer;
+  background:radial-gradient(700px 480px at 82% 6%, rgba(75,165,72,.30), transparent 62%),radial-gradient(820px 600px at 6% 100%, rgba(30,117,214,.45), transparent 66%),linear-gradient(170deg,#0f4887 0%,#0b3466 48%,#06203f 100%);}
+#intro[hidden]{display:none;}
+#intro.out{animation:introOut .45s ease forwards;}
+.intro-in{display:flex;flex-direction:column;align-items:center;}
+.intro-ncm{font-family:var(--sans),'Arial Black',sans-serif;font-weight:900;font-size:150px;line-height:1;direction:ltr;display:flex;gap:4px;}
+.intro-ncm span{display:inline-block;opacity:0;transform:translateY(80px);}
+.intro-ncm span:nth-child(1){color:#fff;}.intro-ncm span:nth-child(2){color:#6fd16b;}.intro-ncm span:nth-child(3){color:#c3d1e0;}
+.intro-tag{margin-top:18px;font-family:var(--cond);font-weight:600;font-size:20px;letter-spacing:.42em;text-indent:.42em;color:#cfe0f5;opacity:0;direction:ltr;}
+.intro-hr{width:0;height:3px;border-radius:3px;margin:22px 0 18px;background:linear-gradient(90deg,transparent,#6fd16b,transparent);}
+.intro-app{font-family:var(--cond);font-weight:700;font-size:44px;letter-spacing:.6em;text-indent:.6em;color:#8cc8ff;opacity:0;direction:ltr;}
+#intro.go .intro-ncm span{animation:introUp .7s cubic-bezier(.34,1.56,.64,1) forwards;}
+#intro.go .intro-ncm span:nth-child(2){animation:introUp .7s cubic-bezier(.34,1.56,.64,1) .15s forwards,introGlow 1.2s ease .6s;}
+#intro.go .intro-ncm span:nth-child(3){animation-delay:.3s;}
+#intro.go .intro-tag{animation:introFade .6s ease .7s forwards;}
+#intro.go .intro-hr{animation:introLine .7s ease .9s forwards;}
+#intro.go .intro-app{animation:introApp .8s ease 1.1s forwards;}
+@keyframes introUp{to{opacity:1;transform:none;}}
+@keyframes introGlow{50%{text-shadow:0 0 40px rgba(111,209,107,.9);}}
+@keyframes introFade{to{opacity:1;}}
+@keyframes introLine{to{width:220px;}}
+@keyframes introApp{from{opacity:0;letter-spacing:1.1em;}to{opacity:1;letter-spacing:.3em;text-indent:.3em;}}
+@keyframes introOut{to{opacity:0;transform:scale(1.04);}}
+@media (max-width:600px){ .intro-ncm{font-size:96px;} .intro-tag{font-size:13px;} .intro-app{font-size:30px;} }
+@media (prefers-reduced-motion: reduce){ #intro{display:none !important;} }
+@media print{ #intro{display:none !important;} }
 </style>
 </head>
 <body>
@@ -1370,6 +1398,8 @@ html.dark .themebtn svg .sun{display:inline;}
 <div id="dropveil" data-i18n="dropHere">افلت الشيتات هنا</div>
 <div id="busy"><div class="busy-card"><span class="spinner"></span><span id="busy-t">جارٍ القراءة</span></div></div>
 <div id="toast" role="status"></div>
+<!-- the welcome: the logo comes together over the page for two seconds after signing in (22 October 2026); a click ends it -->
+<div id="intro" hidden aria-hidden="true"><div class="intro-in"><div class="intro-ncm"><span>N</span><span>C</span><span>M</span></div><div class="intro-tag">NUCLEAR CONCRETE MIXES</div><div class="intro-hr"></div><div class="intro-app">SYSTEM</div></div></div>
 <div id="tip"></div>
 <input type="file" id="pick" accept=".xlsx" multiple hidden>
 <input type="file" id="cards-pick" accept=".docx,.docm,.pdf" hidden>
@@ -2427,7 +2457,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "996b096fa99b";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "a284e6d8d7eb";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -2664,7 +2694,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", netWait:"بيقيس…", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", netWait:"بيقيس…", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -2807,7 +2837,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", netWait:"Measuring…", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", netWait:"Measuring…", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -3492,6 +3522,7 @@ async function submitPin(){
     pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
     $("gate").hidden = true;
+    playIntro();
     if(ONLINE) startOnline(); else startLocal();
   }finally{ gateBusy = false; }
 }
@@ -3501,6 +3532,15 @@ async function submitPin(){
    page's own seal is opened first, and what it opens is then asked whether this way in has another seal now. If it
    has, that one has to open with the same PIN; if it does not, the password was changed and this is not it. A
    database out of reach leaves this PC's own seal as it was: he can still get into his own copy. */
+function playIntro(){
+  const el = $("intro");
+  if(!el || !can("x-intro") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  el.hidden = false; el.classList.remove("go", "out"); void el.offsetWidth; el.classList.add("go");
+  let over = false;
+  const end = () => { if(over) return; over = true; el.classList.add("out"); setTimeout(() => { el.hidden = true; el.classList.remove("go", "out"); }, 450); };
+  const timer = setTimeout(end, 2300);
+  el.onclick = () => { clearTimeout(timer); end(); };
+}
 async function sealOver(got, name, pin){
   let said = null;
   try{
@@ -5350,8 +5390,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "emp", "ind", "veh", "snd", "
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };

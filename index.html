@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-0yd4AlB6Ef9NN8yPqSfDyDE8Ki19E4kwq2d2Jo3LF38='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-1n9i1Cuvjlh8rlxbVc+qqSfRE2iMWBJcw5WnCOwenFk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -604,6 +604,15 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 @keyframes dashFade{from{opacity:0;}}
 @keyframes dashPop{from{opacity:0;transform:scale(.5);}}
 @media (prefers-reduced-motion: reduce){ #out.dashin *{animation:none !important;} }
+/* «سجل النشاط»: the devices and each visit, folded (see logFold) */
+.logv.fold > .panel-h{cursor:pointer;user-select:none;}
+.logv.fold > .panel-h:hover{background:var(--tint);}
+.logv.fold:not(.open) > .tblwrap{display:none;}
+.logv.fold:not(.open) > .panel-h{border-bottom-color:transparent;}
+.logv.fold.open > .tblwrap{animation:fadeUp .3s ease-out;}
+.lgfold{display:inline-block;width:9px;height:9px;margin-inline-end:10px;border-right:2.4px solid currentColor;border-bottom:2.4px solid currentColor;
+  transform:rotate(-135deg);transition:transform .2s ease;vertical-align:-1px;color:var(--blue);}
+.logv.fold:not(.open) .lgfold{transform:rotate(45deg);vertical-align:3px;}
 /* ---------- boxes arriving ----------
    When a page is OPENED its boxes come in with one small movement: the tiles
    one after another, the panels under them, the bars growing to their length.
@@ -2898,7 +2907,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1e7a59482565";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "591f7f0f4202";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -6347,6 +6356,17 @@ function renderLog(){
 }
 const VIEW_NAME = { multi: "navSearch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
 const logOpen = new Set();                          // the lines that stand open
+/* «سجل النشاط» FOLDED (asked for, 23 October 2026: «سجل النشاط والأجهزة يظهر سهم لضغط عليه يعرض القايمه مش تفضل القايمه ثابته»):
+   the devices and each visit show their heading only — who, where, when, how many lines — and an arrow; pressing the heading
+   opens its list, pressing it again closes it. What stands open stays open when the log is read again. */
+const logFold = new Set();
+document.addEventListener("click", e => {
+  const h = e.target.closest && e.target.closest(".logv.fold > .panel-h");
+  if(!h || e.target.closest("button, a, select")) return;
+  const sec = h.parentElement, key = sec.dataset.fold || "";
+  sec.classList.toggle("open");
+  if(sec.classList.contains("open")) logFold.add(key); else logFold.delete(key);
+});
 function logDetail(r){
   try{ return r.detail && r.detail[0] === "{" ? JSON.parse(r.detail) : { text: r.detail }; }catch(e){ return { text: r.detail }; }
 }
@@ -6479,7 +6499,7 @@ async function paintLog(){
   // the devices: the locked ones first — they are what is waiting for the admin
   const mine = ONLINE ? deviceId() : "";
   const devices = !DEVICES.length ? "" :
-    '<section class="panel logv"><div class="panel-h"><h3 class="panel-t">' + t("devT") + '</h3><span class="count">' + t("rows", DEVICES.length) + "</span></div>" +
+    '<section class="panel logv fold' + (logFold.has("dev") ? " open" : "") + '" data-fold="dev"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + t("devT") + '</h3><span class="count">' + t("rows", DEVICES.length) + "</span></div>" +
     '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["devName", "devLast", "devSeen", "devState"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + '<th class="nos"></th></tr></thead><tbody>' +
     DEVICES.map(d => '<tr' + (d.blocked ? ' class="banrow"' : "") + '><td class="nowrap"><span class="logdev">' + esc(d.tag || d.device.slice(-6)) + "</span>" + (d.device === mine ? " " + pill("link", t("devThis")) : "") + "</td>" +
       "<td>" + esc(dash(d.last_user)) + '</td><td class="nowrap">' + num(stamp(Date.parse(d.last_at))) + "</td>" +
@@ -6490,12 +6510,12 @@ async function paintLog(){
   // every visit on its own: the lines of one sign-in together, the newest visit first, and inside a visit the lines as they happened
   const visits = new Map();
   LOG.forEach(r => { if(logWho && r.who !== logWho) return; const k = r.session || "?" + r.who + r.device; if(!visits.has(k)) visits.set(k, []); visits.get(k).push(r); });
-  box.innerHTML = state + devices + (!visits.size ? '<div class="empty"><h3>' + t("lgNone") + "</h3></div>" : [...visits.values()].map(rows => {
+  box.innerHTML = state + devices + (!visits.size ? '<div class="empty"><h3>' + t("lgNone") + "</h3></div>" : [...visits.entries()].map(([key, rows]) => {
     const list = rows.slice().reverse(), first = list[0], last = list[list.length - 1], a = Date.parse(first.at), z = Date.parse(last.at);
     const gate = list.every(r => r.role === "gate" || r.act === "blocked" || r.act === "unblocked");         // what happened at the gate, with nobody signed in
     const role = gate ? pill("bad", t("roleGate")) : pill(first.role === "admin" ? "link" : "white", t(first.role === "admin" ? "roleAdmin" : "roleViewer"));
-    return '<section class="panel logv' + (gate ? " gate" : "") + '"><div class="panel-h"><h3 class="panel-t">' + esc(first.who || "—") + " " + role + ' <span class="logdev">' + esc(first.device) + "</span></h3>" +
-        '<span class="logwhen">' + num(stamp(a)) + (z - a > 59000 ? " <i>" + t("lgUntil") + "</i> " + num(stamp(z).slice(11)) : "") + "</span></div>" +
+    return '<section class="panel logv fold' + (gate ? " gate" : "") + (logFold.has(key) ? " open" : "") + '" data-fold="' + esc(key) + '"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + esc(first.who || "—") + " " + role + ' <span class="logdev">' + esc(first.device) + "</span></h3>" +
+        '<span class="logwhen"><span class="count">' + t("rows", list.length) + "</span> " + num(stamp(a)) + (z - a > 59000 ? " <i>" + t("lgUntil") + "</i> " + num(stamp(z).slice(11)) : "") + "</span></div>" +
       '<div class="tblwrap"><table class="tbl plain"><tbody>' + list.map(r => { const w = logLine(r), more = logMoreHTML(r), open = more && logOpen.has(String(r.id));
         // a line about a card opens the card; a line with more to say opens on it
         const card = r.act === "card" || r.act === "renew" || r.act === "unrenew" ? logCardRef(logDetail(r)) : "";

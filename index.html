@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-vjrjsgjHiJkc/88PdY5cKcnSDmvX4skmwnm4XHKJtPc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-0yd4AlB6Ef9NN8yPqSfDyDE8Ki19E4kwq2d2Jo3LF38='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1678,6 +1678,8 @@ html.dark{
 .mofull-t{position:absolute;top:30px;left:70px;right:70px;z-index:2;text-align:center;font-size:21px;font-weight:800;color:var(--mo-ink);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;}
 .mofull-x{position:absolute;top:22px;left:22px;z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid var(--mo-edge);background:var(--mo-node);color:var(--mo-ink);font-size:18px;cursor:pointer;box-shadow:0 4px 12px rgba(21,101,192,.12);}
 .mofull-x:hover{border-color:var(--mo-b);}
+.mofull-c{position:absolute;top:22px;left:76px;z-index:3;height:42px;padding:0 20px;border-radius:999px;border:1px solid rgba(214,69,69,.45);background:var(--mo-node);color:var(--bad);font:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(21,101,192,.12);}
+.mofull-c:hover{border-color:var(--bad);}
 @media (max-width:1100px){ #mofull .mo > :not(.mo-dots){zoom:1.4;} }
 @media (max-width:760px){ #mofull .mo > :not(.mo-dots){zoom:1;} #mofull .mo{gap:28px;} }
 @media (max-width:420px){ #mofull .mo > :not(.mo-dots){zoom:.82;} }
@@ -1834,7 +1836,7 @@ html.dark{
 
 <div id="zoom"><img id="zoom-img" alt=""></div>
 <div id="dropveil" data-i18n="dropHere">افلت الشيتات هنا</div>
-<div id="mofull" aria-hidden="true"><div class="mofull-t" id="mofull-t"></div><button type="button" class="mofull-x" aria-label="✕">✕</button><div id="mofull-in"></div></div>
+<div id="mofull" aria-hidden="true"><div class="mofull-t" id="mofull-t"></div><button type="button" class="mofull-x" aria-label="✕">✕</button><button type="button" class="mofull-c" data-i18n="cancel">إلغاء</button><div id="mofull-in"></div></div>
 <div id="busy"><div class="busy-card"><span class="spinner"></span><span class="busy-mo"><div class="mo-ring round" aria-hidden="true"><svg viewBox="-60 -60 120 120"><circle class="r1" r="55" fill="none" stroke="rgba(111,209,107,.45)" stroke-width="1.4" stroke-dasharray="2 7"/><circle class="r2" r="47" fill="none" stroke="#3f7fd0" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="70 225"/><circle r="38" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/><circle class="r3" r="38" fill="none" stroke="#6fd16b" stroke-width="6" stroke-linecap="round" stroke-dasharray="52 238.8"/><g class="r1"><circle r="55" fill="none"/><circle cx="55" cy="0" r="3.2" fill="#c6ffdf"/></g></svg><span class="mo-c"><svg viewBox="722 38 246 182" aria-hidden="true"><path fill="#a9a9a5" d="M792 51C752 66 729 96 729 130C729 164 752 194 792 205C766 188 745 162 745 130C745 98 766 72 792 51Z"/><path fill="#4cb35f" d="M900 53C866 40 816 44 784 72C764 90 754 110 754 130C754 162 772 190 800 202C830 216 870 215 894 207C850 206 820 190 806 166C796 150 797 110 808 92C826 62 862 52 900 53Z"/><path fill="#5b9be0" d="M824 95C850 70 895 62 925 70C950 78 963 100 961 125C940 128 920 134 900 142C880 150 860 159 835 165C852 151 864 138 864 124C857 111 845 101 824 95Z"/><path fill="#5b9be0" d="M832 173C862 165 905 160 950 164C940 179 924 190 900 193C874 196 850 189 832 173Z"/></svg></span></div></span><span id="busy-t">جارٍ القراءة</span></div></div>
 <div id="toast" role="status"></div>
 <!-- the welcome: the logo comes together over the page for two seconds after signing in (22 October 2026); a click ends it -->
@@ -2896,7 +2898,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "223be27a3a24";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "1e7a59482565";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3169,7 +3171,7 @@ const I18N = {
     dkF_ph_other:v => "ملفات مش صور اتسابت مكانها: " + v[0],
     dkF_sh_same:"مفيش جديد — الملف زي آخر رفع", dkF_sh_up:v => "اترفع: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " رقم قومي كان مكتوب نص واتحوّل رقم", dkF_vf_ok:v => "الفحص سليم — الشيت والتطبيق" + (v[0] || v[1] ? " (" + v[0] + " صف أفراد · " + v[1] + " صف مركبات)" : ""), dkF_vf_bad:v => "الفحص لقى " + v[0] + " ملاحظة", dkF_vf_none:"الفحص ما اشتغلش",
-    dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkENotHere:"الملف ما وصلش جهاز الشغل — ارفعه من جهاز الشغل نفسه", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
+    dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkECancelled:"اتلغت", cxSure:"تلغي العملية دي؟", cxSent:"اتبعت الإلغاء", asStopped:"الرفع اتلغى — النسخة اللي قبله زي ما هي", dkENotHere:"الملف ما وصلش جهاز الشغل — ارفعه من جهاز الشغل نفسه", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
     dkEEmpOpen:"شيت الموظفين مفتوح في إكسيل", dkEEmpMissing:"شيت الموظفين مش في مكانه", dkEDb:"قاعدة البيانات مش بترد", dkEEmpSync:"سكربت الموظفين وقف",
     dkEShCols:"ترتيب الأعمدة اتغيّر — ماترفعش", dkEShRows:"الملف فيه صفوف غلط — ماترفعش", dkEShAfter:"اترفع، بس الشيت بيتقري غلط", dkEShSmall:"الملف أصغر بكتير من الشيت — ماترفعش",
     dkEShTabs:"تابات ناقصة في الملف — ماترفعش", dkEShFailed:"الرفع وقف",
@@ -3312,7 +3314,7 @@ const I18N = {
     dkF_ph_other:v => "Files that are not photos were left where they are — " + v[0],
     dkF_sh_same:"Nothing new — the file is as last uploaded", dkF_sh_up:v => "Uploaded — " + v[0] + " people rows · " + v[1] + " vehicle rows" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " national ids typed as text were turned into numbers", dkF_vf_ok:v => "Check passed — the sheet and the app" + (v[0] || v[1] ? " (" + v[0] + " people rows · " + v[1] + " vehicle rows)" : ""), dkF_vf_bad:v => "The check found " + v[0] + (v[0] === 1 ? " problem" : " problems"), dkF_vf_none:"The check could not run",
-    dkEBusy:"Already running", dkECut:"Cut short before its end", dkENotHere:"The file did not reach the work PC — upload it from the work PC itself", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
+    dkEBusy:"Already running", dkECut:"Cut short before its end", dkECancelled:"Cancelled", cxSure:"Cancel this?", cxSent:"Cancelling", asStopped:"Upload cancelled — the copy before it is as it was", dkENotHere:"The file did not reach the work PC — upload it from the work PC itself", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
     dkEEmpOpen:"The employees sheet is open in Excel", dkEEmpMissing:"The employees sheet is not in its place", dkEDb:"The database is not answering", dkEEmpSync:"The employees script stopped",
     dkEShCols:"The column order has changed — not uploaded", dkEShRows:"The file has wrong rows — not uploaded", dkEShAfter:"Uploaded, but the sheet reads back wrong", dkEShSmall:"The file is far smaller than the sheet — not uploaded",
     dkEShTabs:"Tabs are missing from the file — not uploaded", dkEShFailed:"The upload stopped",
@@ -6820,6 +6822,7 @@ function moSync(){
   const full = document.getElementById("mofull");
   if(!full) return;
   const shut = () => { if(!full.classList.contains("on")) return; full.classList.remove("on"); if(moKey) moShut.add(moKey); };
+  full.querySelector(".mofull-c").addEventListener("click", e => { e.stopPropagation(); moCancel(); });
   full.addEventListener("click", shut);
   document.addEventListener("keydown", e => { if(e.key === "Escape") shut(); });
   document.addEventListener("click", e => {
@@ -6828,6 +6831,36 @@ function moSync(){
     moShut.delete(m.dataset.mo || ""); moKey = ""; moSync();
   });
 })();
+/* «إلغاء» (asked for, 23 October 2026: «زر للإلغاء لاى عملية فى السيستم قارئ تحديث شيتات كده»): whatever is on its way can
+   be stopped. The reader's files and the batches of cards — a cancel order put where the reader looks (it is carried out by
+   the wait, and by the reading session's next command, which then lets the file go); an order of «الشيتات» — the same to the
+   desk, or online through the database; the desk stops its worker and anything it started. An upload to «ASE SEARCH» is
+   stopped here, in the page, and the copy before it stays the copy. Asked first; said when it has been sent. */
+function cardsCancel(id){
+  if(ONLINE || !isAdmin() || !id || !confirm(t("cxSure"))) return;
+  cardsPut(new Blob(["cancel"], { type: "text/plain" }), CARDS_PREFIX + " [" + cardsId() + "] إلغاء [" + id + "].txt");
+  toast(t("cxSent"));
+  [2500, 6000, 12000].forEach(ms => setTimeout(() => { cardsSync(); if(st.view === "issued") issBatches(); }, ms));
+}
+function deskCancel(id){
+  if(!isAdmin() || !id || !confirm(t("cxSure"))) return;
+  const nid = cardsId();
+  if(ONLINE){
+    dbCall("system_desk_ask", { p_id: nid, p_kind: "cancel", p_file: id, p_who: session ? session.u : "" }).then(() => { toast(t("cxSent")); deskSync(); }, () => toast(t("noConn"), true));
+    return;
+  }
+  cardsPut(new Blob(["cancel"], { type: "text/plain" }), DESK_ORDER + " [" + nid + "] إلغاء [" + id + "].txt");
+  toast(t("cxSent"));
+  [2500, 6000, 12000].forEach(ms => setTimeout(deskSync, ms));
+}
+function aseCancel(){ if(ASE.busy && confirm(t("cxSure"))) ASE.stop = true; }
+// the button over the whole screen: what is being waited on there
+function moCancel(){
+  const k = moKey || "";
+  if(k.startsWith("c:")) return cardsCancel(k.slice(2));
+  if(k.startsWith("d:")) return deskCancel(k.slice(2));
+  if(k === "a:up") return aseCancel();
+}
 function cardsJobHTML(j){
   if(j.status === "lost")
     return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
@@ -6838,7 +6871,8 @@ function cardsJobHTML(j){
     i === 3 && (j.read || j.tries > 1) ? "<small>" + [j.read ? t("cdRead", j.read) : "", j.tries > 1 ? t("cdTry", j.tries) : ""].filter(Boolean).join(" · ") + "</small>" : "";
   const steps = '<ol class="steps">' + CARDS_STEPS.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + sub(i) + "</li>").join("") + "</ol>";
   return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
-      '<span class="count"><span class="num" data-since="' + (+j.received_at || 0) + '"></span></span></div>' +
+      '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+j.received_at || 0) + '"></span></span>' +
+      '<button class="btn sm danger" data-act="cards-cancel" data-id="' + esc(j.id) + '">' + t("cancel") + "</button></span></div>" +
     '<div class="panel-b">' + (moOn() ? moReader(j, at, CARDS_STEPS.map((k, i) => t(k) + sub(i))) : steps + (j.status === "reading" ? '<div class="scan"><span></span></div>' : "")) +
     "</div></section>";
 }
@@ -6967,7 +7001,7 @@ const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: 
 const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"] };
 const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
 // why an order was not done, in the desk's word for it -> ours
-const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", took_too_long: "dkELong", program_missing: "dkEProgram",
+const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", cancelled: "dkECancelled", took_too_long: "dkELong", program_missing: "dkEProgram",
   emp_sheet_open: "dkEEmpOpen", emp_sheet_missing: "dkEEmpMissing", emp_table_unreadable: "dkEDb", emp_sync_failed: "dkEEmpSync",
   sh_column_order_changed: "dkEShCols", sh_file_has_problems: "dkEShRows", sh_sheet_has_problems_after_upload: "dkEShAfter",
   sh_file_much_smaller_than_sheet: "dkEShSmall", sh_tabs_missing: "dkEShTabs", sh_failed: "dkEShFailed",
@@ -7191,7 +7225,8 @@ function deskCardHTML(kind){
     const at = deskStep(o);
     const steps = '<ol class="steps">' + DESK_STEPS[kind].map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>";
     body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
-        '<span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span></div>' +
+        '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span>' +
+        (o.id ? '<button class="btn sm danger" data-act="desk-cancel" data-id="' + esc(o.id) + '">' + t("cancel") + "</button>" : "") + "</span></div>" +
       (moOn() ? moDesk(kind, at, o.id, DESK_STEPS[kind].map(k => t(k))) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   else if(o.status === "done" && ase){
@@ -7326,15 +7361,18 @@ async function aseUpload(file){
   if(!file || !link() || ASE.busy || !can("x-aseup")) return;
   if(!/\.xlsx$/i.test(file.name)) return toast(t("needXlsx"), true);
   const who = link().u || "";
-  ASE.busy = { step: "read", done: 0, total: 0 };
+  ASE.busy = { step: "read", done: 0, total: 0 }; ASE.stop = false;
   paintAseHead();
   try{
+    const stopped = () => { if(ASE.stop) throw Object.assign(new Error("stopped"), { code: "STOPPED" }); };
     const rows = await NCM.readAse(file, n => { ASE.busy.done = n; paintAseHead(); });
+    stopped();
     if(!rows.length) throw new Error("empty");
     const put = async (fn, args) => { for(let i = 0; ; i++){ try{ return await dbCall(fn, args); }catch(e){ if(i >= 3) throw e; await new Promise(r => setTimeout(r, 1500 * (i + 1))); } } };
     const batch = await put("system_ase_begin", { p_file: file.name, p_who: who });
     ASE.busy = { step: "put", done: 0, total: rows.length };
     for(let i = 0; i < rows.length; i += 2000){
+      stopped();                                    // «إلغاء»: what was handed over is not made the copy; the copy before it stays
       await put("system_ase_put", { p_batch: batch, p_rows: rows.slice(i, i + 2000) });
       ASE.busy.done = Math.min(rows.length, i + 2000);
       paintAseHead();
@@ -7344,7 +7382,7 @@ async function aseUpload(file){
     for(let i = 0; i < 40; i++){ if(!(await put("system_ase_sweep", {}))) break; }       // the copy it replaced is cleared away
     toast(t("asLoaded", rows.length.toLocaleString("en-US")));
     logAct("ase", { n: rows.length });
-  }catch(e){ toast(t(e && e.code === "NOT_ASE" ? "asNotAse" : "asUpFail"), true); }
+  }catch(e){ toast(t(e && e.code === "NOT_ASE" ? "asNotAse" : e && e.code === "STOPPED" ? "asStopped" : "asUpFail"), true); }
   ASE.busy = null;
   await aseInfo();
   paintAseHead();
@@ -7387,7 +7425,8 @@ function paintAseHead(){
     const part = b.step === "put" && b.total ? Math.round(100 * b.done / b.total) : 0;
     const what = esc(b.step === "read" ? t("asReading", b.done.toLocaleString("en-US")) : t("asPutting", b.done.toLocaleString("en-US"), b.total.toLocaleString("en-US")));
     if(moOn()){
-      if(!box.querySelector(".mo")) box.innerHTML = '<div class="mo sm on" data-mo="a:up">' + MO_DOTS + moFlow("sheet", "db") + '<div class="mo-side">' + moRing("", 0) + '<span class="mo-k"></span></div></div>';
+      if(!box.querySelector(".mo")) box.innerHTML = '<div class="mo sm on" data-mo="a:up">' + MO_DOTS + moFlow("sheet", "db") + '<div class="mo-side">' + moRing("", 0) + '<span class="mo-k"></span></div></div>' +
+        '<button class="btn sm danger" data-act="ase-cancel">' + t("cancel") + "</button>";
       const r = box.querySelector(".mo-ring"), r3 = box.querySelector(".mo-ring .r3");
       r.classList.toggle("round", b.step !== "put");
       r3.setAttribute("stroke-dasharray", b.step === "put" ? (MO_C * part / 100).toFixed(1) + " " + MO_C : "52 " + MO_C);
@@ -7397,7 +7436,7 @@ function paintAseHead(){
       return;
     }
     box.innerHTML = '<span class="ase-what">' + esc(b.step === "read" ? t("asReading", b.done.toLocaleString("en-US")) : t("asPutting", b.done.toLocaleString("en-US"), b.total.toLocaleString("en-US"))) + "</span>" +
-      '<span class="ase-bar"><i style="width:' + part + '%"></i></span>';
+      '<span class="ase-bar"><i style="width:' + part + '%"></i></span><button class="btn sm danger" data-act="ase-cancel">' + t("cancel") + "</button>";
     return;
   }
   box.innerHTML = (i && i.rows
@@ -8460,7 +8499,8 @@ async function issBatches(){
   try{ list = (JSON.parse(text || "{}").batches || []).slice(0, 3); }catch(e){}
   if(box) box.innerHTML = list.map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +
     (b.status === "done" ? pill("ok", t("isBDone", +(b.counts || {}).cards || 0, +(b.counts || {}).given || 0, +(b.counts || {}).skipped || 0)) :
-     b.status === "failed" ? pill("bad", t("isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait"))) +
+     b.status === "failed" ? pill("bad", t(b.error === "cancelled" ? "dkECancelled" : "isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait")) +
+       '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b.id) + '">' + t("cancel") + "</button>") +
     (b.done_at ? '<span class="num">' + num(stamp(+b.done_at)) + "</span>" : "") + "</div>").join("");
   const done = list.filter(b => b.status === "done").map(b => b.id).join(",");
   if(issBatchSeen && done !== issBatchSeen) issuedSync();             // a batch has just come to its end
@@ -8988,6 +9028,9 @@ document.addEventListener("click", e => {
     if(a === "cards-pick") return $("cards-pick").click();
     if(a === "cards-fixed") return cardsFixed();
     if(a === "cards-clear") return cardsClear();
+    if(a === "cards-cancel" || a === "iss-cancel") return cardsCancel(act.dataset.id);
+    if(a === "desk-cancel") return deskCancel(act.dataset.id);
+    if(a === "ase-cancel") return aseCancel();
     if(a === "desk-run") return deskAsk(act.dataset.kind);
     if(a === "desk-ase") return $("ase-pick").click();
     if(a === "desk-idph") return $("idph-pick").click();

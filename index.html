@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-w/4RsLNAzTH8B6LERmE+kgH2tO3e15LRdSIxaI/wGus='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-JEMTulCelM8EOgLYmlsS+OkXejYJAg5QRk0FZRZ/V7U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -292,42 +292,46 @@ html.dark #gate .upick-btn:hover,html.dark #gate .pinboxes i.on{background:rgba(
 #gate .gate-card .cbrand{animation:gIn .9s cubic-bezier(.2,.8,.2,1) .15s both;}
 @media (max-width:620px){ .gmo-streams,.gmo-cards,.gmo-rings{display:none;} /* the box is the width of a phone: nothing slides behind what is typed in it */ .gr em{width:40px;height:40px;margin:-20px 0 0 -20px;transform-origin:20px calc(var(--r) + 20px);} .gr em span{border-radius:12px;} .gr em svg{width:18px;height:18px;} .gmo-cards i{transform:scale(.75);} }
 @media (prefers-reduced-motion: reduce){ .gmo *,.gmo::before,#gate .gate-card,#gate .gate-card::before,#gate .gate-card .cbrand{animation:none !important;} .gmo-word b:first-child{opacity:1;} }
-/* THE SEARCH BOX ON THE SIGN-IN SCREEN'S MOTION (asked for, 23 October 2026: «زى ما احنا عاملية فى صفحة الدخول عايز اعمله فى صفحات
-   البحث برضو» — and then «مش قصدى تحت صندوق البحث انا عايزة يبقا صندوق البحث علية وزجاجى زى بتاع الدخول كده»): «بحث», «بحث خاص»,
-   «ASE SEARCH» and «المساعد», while nothing is asked — the very motion of the sign-in screen (copied from it as the page is drawn, so
-   the two stay one) behind the whole page, its rings and lines turning round the search box (--gx/--gy: the box's middle), and the box
-   itself glass, a light running round its edge, as the sign-in box is. It takes no room of its own: the glass reaches out over the
-   box's margins, so nothing moves when it goes. Gone the moment an answer comes. «x-motion». */
-#out.gms-on{position:relative;isolation:isolate;min-height:min(560px,calc(100vh - 140px));}
-.gms{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;container-type:size;animation:gmsIn .8s ease-out both;}
-@keyframes gmsIn{from{opacity:0;}}
-.gms .gmo{z-index:0;}
-.gms .gmo-au{width:90cqmax;height:90cqmax;}
-.gms .gmo-rings,.gms .gmo-streams{left:var(--gx,50%);top:var(--gy,50%);}
-.gms .gmo-word{inset:auto 0;top:var(--gy,50%);height:0;display:block;}
-.gms .gmo-word b{position:absolute;left:50%;top:0;translate:-50% -50%;font-size:min(17cqw,230px,calc(150cqw / var(--l)));}
-.gms .gr.r1{--r:min(56cqmin,380px);width:min(112cqmin,760px);height:min(112cqmin,760px);margin:calc(min(112cqmin,760px) / -2) 0 0 calc(min(112cqmin,760px) / -2);}
-.gms .gr.r2{--r:min(74cqmin,500px);width:min(148cqmin,1000px);height:min(148cqmin,1000px);margin:calc(min(148cqmin,1000px) / -2) 0 0 calc(min(148cqmin,1000px) / -2);}
-.gms .gr.r3{--r:min(94cqmin,640px);width:min(188cqmin,1280px);height:min(188cqmin,1280px);margin:calc(min(188cqmin,1280px) / -2) 0 0 calc(min(188cqmin,1280px) / -2);}
-.gms .gmo-cards i{animation-name:gCardIn;}
+/* THE SIGN-IN SCREEN'S MOTION BEHIND EVERY PAGE (asked for, 23 October 2026: first «صفحات البحث… صندوق البحث يبقا علية وزجاجى زى بتاع
+   الدخول», then «فى اى صفحة ابحث او اعمل اى حاجه خلفية الموشن جيرافيك تفضل موجوده ورا الجدول وكل حاجه مش عايز اى خلفية فاضية»): one layer
+   behind the whole of the page (#bgmo, in .main), made once and left to run as the pages change — the very motion of the sign-in screen,
+   copied from it, measured against the page instead of the screen. Its rings and lines turn round the search box where a page has one
+   (--gx/--gy), round the middle elsewhere. The panels, the tables and the boxes stand on it as they are (their glass lets it through); the
+   search box is glass, a light running round its edge, as the sign-in box is — reaching out over its own margins, so it takes no room.
+   «x-motion». */
+body.bgmo .main{isolation:isolate;}
+#bgmo{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;container-type:size;background:var(--bg);animation:bgmoIn .9s ease-out both;}
+@keyframes bgmoIn{from{opacity:0;}}
+#bgmo .gmo{z-index:0;}
+#bgmo .gmo-au{width:90cqmax;height:90cqmax;}
+#bgmo .gmo-rings,#bgmo .gmo-streams{left:var(--gx,50%);top:var(--gy,50%);transition:left .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1);}
+#bgmo .gmo-word{inset:auto 0;top:var(--gy,50%);height:0;display:block;transition:top .7s cubic-bezier(.2,.8,.2,1);}
+#bgmo .gmo-word b{position:absolute;left:50%;top:0;translate:-50% -50%;font-size:min(17cqw,230px,calc(150cqw / var(--l)));}
+#bgmo .gr.r1{--r:min(56cqmin,380px);width:min(112cqmin,760px);height:min(112cqmin,760px);margin:calc(min(112cqmin,760px) / -2) 0 0 calc(min(112cqmin,760px) / -2);}
+#bgmo .gr.r2{--r:min(74cqmin,500px);width:min(148cqmin,1000px);height:min(148cqmin,1000px);margin:calc(min(148cqmin,1000px) / -2) 0 0 calc(min(148cqmin,1000px) / -2);}
+#bgmo .gr.r3{--r:min(94cqmin,640px);width:min(188cqmin,1280px);height:min(188cqmin,1280px);margin:calc(min(188cqmin,1280px) / -2) 0 0 calc(min(188cqmin,1280px) / -2);}
+#bgmo .gmo-cards i{animation-name:gCardIn;}
 @keyframes gCardIn{0%{opacity:0;transform:translateY(0) rotate(-8deg);}8%{opacity:.95;}50%{transform:translateY(-62cqh) rotate(5deg);}92%{opacity:.9;}100%{opacity:0;transform:translateY(-118cqh) rotate(-4deg);}}
-.gms .gmo-streams i{width:75cqmax;}
-/* the box: glass reaching out over its own margins, and the light round its edge */
-#out.gms-on .multi-box{width:calc(100% + 42px);max-width:682px;margin:-11px -21px -17px;padding:10px 20px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.75);
+#bgmo .gmo-streams i{width:75cqmax;}
+/* the panels a shade more solid, so a table reads as clearly over it as on the plain page */
+body.bgmo .panel{background:rgba(255,255,255,.9);}
+html.dark body.bgmo .panel{background:rgba(21,32,44,.92);}
+/* the search box: glass reaching out over its own margins, and the light round its edge */
+body.bgmo .multi-box{width:calc(100% + 42px);max-width:682px;margin:-11px -21px -17px;padding:10px 20px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.75);
   background:linear-gradient(155deg,rgba(255,255,255,.46),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(1.5px) saturate(1.15);backdrop-filter:blur(1.5px) saturate(1.15);
   box-shadow:0 24px 60px rgba(21,101,192,.16),0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(21,101,192,.08);}
-#out.gms-on .multi-box::before{content:"";position:absolute;inset:-2px;border-radius:28px;padding:2px;pointer-events:none;
+body.bgmo .multi-box::before{content:"";position:absolute;inset:-2px;border-radius:28px;padding:2px;pointer-events:none;
   background:conic-gradient(from var(--gate-a),transparent 0 62%,rgba(21,101,192,.95) 76%,rgba(75,165,72,.95) 86%,transparent 96%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
   animation:gEdge 5s linear infinite;}
-#out.gms-on .multi-box .multi-ta,#out.gms-on .multi-box .field,#out.gms-on .multi-box .seg,#out.gms-on .multi-box .btn:not(.primary){background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
-#out.gms-on .multi-box .multi-ta:focus,#out.gms-on .multi-box .field:focus{background:rgba(255,255,255,.72);}
-html.dark #out.gms-on .multi-box{background:linear-gradient(155deg,rgba(26,39,53,.5),rgba(21,32,44,.22));border-color:rgba(120,170,240,.22);}
-html.dark #out.gms-on .multi-box .multi-ta,html.dark #out.gms-on .multi-box .field,html.dark #out.gms-on .multi-box .seg,html.dark #out.gms-on .multi-box .btn:not(.primary){background:rgba(26,39,53,.55);}
-html.dark #out.gms-on .multi-box .multi-ta:focus,html.dark #out.gms-on .multi-box .field:focus{background:rgba(26,39,53,.78);}
-@media (max-width:620px){ #out.gms-on .multi-box{width:calc(100% + 22px);margin:-9px -11px -13px;padding:8px 10px 12px;} }
-@media (prefers-reduced-motion: reduce){ #out.gms-on .multi-box::before{animation:none !important;} }
-@media print{ .gms{display:none !important;} }
+body.bgmo .multi-box .multi-ta,body.bgmo .multi-box .field,body.bgmo .multi-box .seg,body.bgmo .multi-box .btn:not(.primary){background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+body.bgmo .multi-box .multi-ta:focus,body.bgmo .multi-box .field:focus{background:rgba(255,255,255,.72);}
+html.dark body.bgmo .multi-box{background:linear-gradient(155deg,rgba(26,39,53,.5),rgba(21,32,44,.22));border-color:rgba(120,170,240,.22);}
+html.dark body.bgmo .multi-box .multi-ta,html.dark body.bgmo .multi-box .field,html.dark body.bgmo .multi-box .seg,html.dark body.bgmo .multi-box .btn:not(.primary){background:rgba(26,39,53,.55);}
+html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .field:focus{background:rgba(26,39,53,.78);}
+@media (max-width:620px){ body.bgmo .multi-box{width:calc(100% + 22px);margin:-9px -11px -13px;padding:8px 10px 12px;} }
+@media (prefers-reduced-motion: reduce){ body.bgmo .multi-box::before{animation:none !important;} }
+@media print{ #bgmo{display:none !important;} }
 /* REVIEW BEFORE THE SHEET (asked for, 23 October 2026: «البطاقات الى يقراها تظهرلى فى السيستم… قبل تصدير ملف الاكسيل بحيث اقدر
    اراجعهم… وسهم يغير كل بطاقة… البطاقة تظهرلى وش وضهر» — and «بلاش تمام الى بعده خليها سهم وصممه بموشن جيرافيك»; no words of guidance).
    The pair of photographs is the stage: going on, the pair leaves to one side turning away and the next comes in from the other, the back
@@ -3039,7 +3043,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a69c6bd65fa2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "358429d76a25";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4049,6 +4053,7 @@ function showGate(message){
   $("gate-err").className = "gate-err"; $("gate-err").textContent = message || "";
   $("pin").value = ""; paintBoxes();
   $("gate").hidden = false;
+  bgmoSync();
   setTimeout(() => $("gate-user").focus(), 80);
 }
 async function submitPin(){
@@ -4105,6 +4110,7 @@ async function submitPin(){
     pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
     $("gate").hidden = true;
+    setTimeout(bgmoSync, 0);
     playIntro();
     if(ONLINE) startOnline(); else startLocal();
   }finally{ gateBusy = false; }
@@ -5771,43 +5777,42 @@ function multiOpen(r){
   if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
   return r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
 }
-/* A search page that has nothing asked yet: the sign-in screen's motion behind the whole page and the search box glass on it (see
-   «.gms» in the styles). The one already there is left to run on; its rings follow the box when the window or the box changes size.
-   «x-motion». */
+/* THE MOTION BEHIND EVERY PAGE (see «#bgmo» in the styles): made once when the pages are open to someone who has «x-motion», and
+   left to run — a page drawn, a search answered, nothing starts it over. Its rings follow the search box of a page that has one. */
 let gmsRO = null;
-function gmsAim(){
-  const g = out.querySelector(":scope > .gms"), mb = out.querySelector(".multi-box");
-  if(!g || !mb) return;
-  let x = mb.offsetWidth / 2, y = mb.offsetHeight / 2;      // the box's middle, in the page's own measure (a page coming in moves nothing here)
-  for(let el = mb; el && el !== out; el = el.offsetParent){ x += el.offsetLeft; y += el.offsetTop; }
-  g.style.setProperty("--gx", Math.round(x) + "px");
-  g.style.setProperty("--gy", Math.round(y) + "px");
-}
-function gmsOff(){
-  out.classList.remove("gms-on");
-  const g = out.querySelector(":scope > .gms");
-  if(g) g.remove();
-  if(gmsRO){ gmsRO.disconnect(); gmsRO = null; }
-}
-function gmsPut(box){
-  box.innerHTML = "";
-  const gmo = document.querySelector("#gate .gmo");
-  if(!gmo || !can("x-motion") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){ gmsOff(); return; }
-  out.classList.add("gms-on");
-  if(!out.querySelector(":scope > .gms")) out.insertAdjacentHTML("afterbegin", '<div class="gms" aria-hidden="true">' + gmo.outerHTML + "</div>");
-  gmsAim();
-  if(window.ResizeObserver){
-    if(gmsRO) gmsRO.disconnect();
-    gmsRO = new ResizeObserver(gmsAim);
-    gmsRO.observe(out);
-    const mb = out.querySelector(".multi-box");
-    if(mb) gmsRO.observe(mb);
+const bgmoWant = () => !!session && $("gate").hidden && can("x-motion") && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+function bgmoSync(){
+  const main = out.parentElement, have = $("bgmo"), want = bgmoWant(), gmo = document.querySelector("#gate .gmo");
+  document.body.classList.toggle("bgmo", want && !!gmo);
+  if(!want || !gmo){
+    if(have) have.remove();
+    if(gmsRO){ gmsRO.disconnect(); gmsRO = null; }
+    return;
   }
+  if(!have){
+    main.insertAdjacentHTML("afterbegin", '<div id="bgmo" aria-hidden="true">' + gmo.outerHTML + "</div>");
+    if(window.ResizeObserver){ gmsRO = new ResizeObserver(gmsAim); gmsRO.observe(main); }
+  }
+  const mb = out.querySelector(".multi-box");
+  if(gmsRO && mb) gmsRO.observe(mb);
+  gmsAim();
 }
+function gmsAim(){
+  const g = $("bgmo");
+  if(!g) return;
+  const mb = out.querySelector(".multi-box");
+  if(!mb){ g.style.removeProperty("--gx"); g.style.removeProperty("--gy"); return; }
+  const a = mb.getBoundingClientRect(), b = out.parentElement.getBoundingClientRect();
+  g.style.setProperty("--gx", Math.round(a.left - b.left + a.width / 2) + "px");
+  g.style.setProperty("--gy", Math.round(a.top - b.top + a.height / 2) + "px");
+}
+// a page drawn, or answered: the motion stays as it is, turned to the page's box once it is laid out (and again once it has come in)
+function gmsOff(){ setTimeout(bgmoSync, 0); setTimeout(gmsAim, 1300); }
+function gmsPut(box){ box.innerHTML = ""; bgmoSync(); }
 function paintMulti(keep){
   const res = st.multi.res, box = $("mres");
   if(!box) return;
-  if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: the box on the sign-in screen's motion (x-motion), or nothing
+  if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: nothing under the box
   gmsOff();
   const at = keep ? rowsAt(box) : 0;
   const found = res.rows.filter(r => !r.miss && !r.more), cols = found.length ? written(MULTI_COLS[res.mode], found) : MULTI_COLS[res.mode];

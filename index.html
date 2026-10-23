@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-MeODxzikqIn+PsapYCa33SqAApBhc0AbAja04obOo68='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-uRi41dM5ioiaLAbhLkZ9PLIOm7AZmgPt4xIExammyzs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -228,11 +228,10 @@ html.dark .side-bar{background:rgba(21,32,44,.94);}.side{overflow-x:hidden;}
 .gmo-word{position:absolute;inset:0;display:grid;place-items:center;}
 .gmo-word b{grid-area:1/1;font-family:var(--cond);font-weight:800;font-size:min(19vw,300px,calc(176vw / var(--l)));letter-spacing:.04em;line-height:1;direction:ltr;white-space:nowrap;
   color:rgba(21,101,192,.05);-webkit-text-stroke:2px rgba(21,101,192,.34);opacity:0;animation:gWord 15s cubic-bezier(.2,.7,.2,1) infinite;}
-.gmo-word b:nth-child(2){animation-delay:3s;-webkit-text-stroke-color:rgba(75,165,72,.42);color:rgba(75,165,72,.05);}
-.gmo-word b:nth-child(3){animation-delay:6s;}
-.gmo-word b:nth-child(4){animation-delay:9s;-webkit-text-stroke-color:rgba(75,165,72,.42);color:rgba(75,165,72,.05);}
-.gmo-word b:nth-child(5){animation-delay:12s;}
-@keyframes gWord{0%{opacity:0;transform:translateY(60px) scale(.94);filter:blur(8px);}4%{opacity:1;transform:none;filter:none;}16%{opacity:1;transform:translateY(-6px);filter:none;}20%{opacity:0;transform:translateY(-60px) scale(1.04);filter:blur(8px);}100%{opacity:0;}}
+.gmo-word b:nth-child(2){animation-delay:3.75s;-webkit-text-stroke-color:rgba(75,165,72,.42);color:rgba(75,165,72,.05);}
+.gmo-word b:nth-child(3){animation-delay:7.5s;}
+.gmo-word b:nth-child(4){animation-delay:11.25s;-webkit-text-stroke-color:rgba(75,165,72,.42);color:rgba(75,165,72,.05);}
+@keyframes gWord{0%{opacity:0;transform:translateY(60px) scale(.94);filter:blur(8px);}4%{opacity:1;transform:none;filter:none;}21%{opacity:1;transform:translateY(-6px);filter:none;}25%{opacity:0;transform:translateY(-60px) scale(1.04);filter:blur(8px);}100%{opacity:0;}}
 /* the cards */
 .gmo-cards i{position:absolute;bottom:-90px;width:118px;height:74px;border-radius:10px;background:var(--mo-node);border:1px solid var(--mo-card-br);
   box-shadow:0 10px 26px rgba(21,101,192,.12);overflow:hidden;opacity:0;animation:gCard 15s linear infinite;}
@@ -293,6 +292,32 @@ html.dark #gate .upick-btn:hover,html.dark #gate .pinboxes i.on{background:rgba(
 #gate .gate-card .cbrand{animation:gIn .9s cubic-bezier(.2,.8,.2,1) .15s both;}
 @media (max-width:620px){ .gmo-streams,.gmo-cards,.gmo-rings{display:none;} /* the box is the width of a phone: nothing slides behind what is typed in it */ .gr em{width:40px;height:40px;margin:-20px 0 0 -20px;transform-origin:20px calc(var(--r) + 20px);} .gr em span{border-radius:12px;} .gr em svg{width:18px;height:18px;} .gmo-cards i{transform:scale(.75);} }
 @media (prefers-reduced-motion: reduce){ .gmo *,.gmo::before,#gate .gate-card,#gate .gate-card::before,#gate .gate-card .cbrand{animation:none !important;} .gmo-word b:first-child{opacity:1;} }
+/* THE SIGN-IN SCREEN'S MOTION UNDER THE SEARCH BOX (asked for, 23 October 2026: «زى ما احنا عاملية فى صفحة الدخول عايز اعمله فى
+   صفحات البحث برضو… صندوق البحث يبقا تحته الموشن جيرافك»): «بحث», «بحث خاص», «ASE SEARCH» and «المساعد», while nothing is asked —
+   the very motion of the sign-in screen (copied from it as the page is drawn, so the two stay one), measured against the room under
+   the box instead of the whole screen, and in its middle, where the sign-in box stands there, a glass ring with the search's glass.
+   Gone the moment an answer comes. «x-reel». */
+.gms{position:relative;height:max(380px,calc(100vh - 340px));margin-top:14px;border-radius:22px;overflow:hidden;isolation:isolate;container-type:size;
+  background:radial-gradient(70% 60% at 50% 40%,rgba(21,101,192,.07),transparent 70%),var(--bg);box-shadow:inset 0 0 0 1px var(--mo-edge);}
+.gms .gmo{z-index:-1;}
+.gms .gmo-au{width:90cqmax;height:90cqmax;}
+.gms .gmo-word b{font-size:min(17cqw,230px,calc(150cqw / var(--l)));}
+.gms .gr.r1{--r:34cqmin;width:68cqmin;height:68cqmin;margin:-34cqmin 0 0 -34cqmin;}
+.gms .gr.r2{--r:50cqmin;width:100cqmin;height:100cqmin;margin:-50cqmin 0 0 -50cqmin;}
+.gms .gr.r3{--r:68cqmin;width:136cqmin;height:136cqmin;margin:-68cqmin 0 0 -68cqmin;}
+.gms .gmo-cards i{animation-name:gCardIn;}
+@keyframes gCardIn{0%{opacity:0;transform:translateY(0) rotate(-8deg);}8%{opacity:.95;}50%{transform:translateY(-62cqh) rotate(5deg);}92%{opacity:.9;}100%{opacity:0;transform:translateY(-118cqh) rotate(-4deg);}}
+.gms .gmo-streams i{width:75cqmax;}
+.gms-orb{position:absolute;left:50%;top:50%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:50%;display:grid;place-items:center;color:var(--mo-b);
+  background:linear-gradient(155deg,rgba(255,255,255,.62),rgba(255,255,255,.2));border:1px solid rgba(255,255,255,.8);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:0 18px 44px rgba(21,101,192,.18),0 0 0 10px rgba(21,101,192,.05);animation:gmsBreathe 3.2s ease-in-out infinite;}
+.gms-orb::before{content:"";position:absolute;inset:-3px;border-radius:50%;padding:3px;background:conic-gradient(from var(--gate-a),transparent 0 60%,rgba(21,101,192,.95) 76%,rgba(75,165,72,.95) 88%,transparent 98%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:gEdge 4s linear infinite;}
+html.dark .gms-orb{background:linear-gradient(155deg,rgba(26,39,53,.6),rgba(21,32,44,.25));border-color:rgba(120,170,240,.25);}
+@keyframes gmsBreathe{50%{transform:scale(1.05);box-shadow:0 22px 52px rgba(21,101,192,.22),0 0 0 18px rgba(21,101,192,.04);}}
+@media (max-width:620px){ .gms{height:300px;} .gms-orb{width:96px;height:96px;margin:-48px 0 0 -48px;} .gms-orb svg{width:38px;height:38px;} }
+@media (prefers-reduced-motion: reduce){ .gms-orb,.gms-orb::before{animation:none !important;} }
+@media print{ .gms{display:none !important;} }
 /* ---------- gate: sign-in for the online edition ---------- */
 #gate{
   position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:24px;
@@ -1802,7 +1827,7 @@ html.dark{
      Covers the whole page until someone signs in. Behind it there is nothing
      to see: no data is fetched before the key is unsealed. -->
 <div id="gate" hidden>
-  <div class="gmo" aria-hidden="true"><i class="gmo-au a1"></i><i class="gmo-au a2"></i><i class="gmo-au a3"></i><div class="gmo-word"><b style="--l:3">NCM</b><b style="--l:10">NCM SYSTEM</b><b style="--l:12">KHALED SABRY</b><b style="--l:17">PERMISSION SYSTEM</b><b style="--l:22">NUCLEAR CONCRETE MIXES</b></div><div class="gmo-streams"><i style="--a:8deg;--w:0.0s"></i><i style="--a:52deg;--w:1.1s"></i><i style="--a:97deg;--w:2.2s"></i><i style="--a:141deg;--w:0.5s"></i><i style="--a:188deg;--w:1.6s"></i><i style="--a:232deg;--w:2.6s"></i><i style="--a:277deg;--w:0.9s"></i><i style="--a:322deg;--w:2.0s"></i></div><div class="gmo-rings"><span class="gr r1"><em style="--a:20deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.200-4.200"/></svg></span></em><em style="--a:140deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.400"/><circle cx="9" cy="11" r="2"/><path d="M5.800 16c.6-1.500 1.800-2.200 3.200-2.200s2.600.7 3.200 2.200M15 10h3.500M15 13.500h3.500"/></svg></span></em><em style="--a:260deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg></span></em></span><span class="gr r2"><em style="--a:70deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.500-5A2 2 0 0 1 6.400 6.500h11.200a2 2 0 0 1 1.900 1.500L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.500" r="1.400"/><circle cx="17" cy="18.500" r="1.400"/></svg></span></em><em style="--a:190deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span></em><em style="--a:310deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M8.500 12h7M8.500 15.500h7M12 12v7"/></svg></span></em></span><span class="gr r3"><em style="--a:0deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg></span></em><em style="--a:120deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.500h10a4 4 0 0 0 .600-7.950A5.500 5.500 0 0 0 7.100 9.200 4.700 4.700 0 0 0 7 18.500z"/></svg></span></em><em style="--a:240deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span></em></span></div><div class="gmo-cards"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="gmo-beam"></div></div>
+  <div class="gmo" aria-hidden="true"><i class="gmo-au a1"></i><i class="gmo-au a2"></i><i class="gmo-au a3"></i><div class="gmo-word"><b style="--l:3">NCM</b><b style="--l:22">NUCLEAR CONCRETE MIXES</b><b style="--l:21">NCM PERMISSION SYSTEM</b><b style="--l:12">KHALED SABRY</b></div><div class="gmo-streams"><i style="--a:8deg;--w:0.0s"></i><i style="--a:52deg;--w:1.1s"></i><i style="--a:97deg;--w:2.2s"></i><i style="--a:141deg;--w:0.5s"></i><i style="--a:188deg;--w:1.6s"></i><i style="--a:232deg;--w:2.6s"></i><i style="--a:277deg;--w:0.9s"></i><i style="--a:322deg;--w:2.0s"></i></div><div class="gmo-rings"><span class="gr r1"><em style="--a:20deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.200-4.200"/></svg></span></em><em style="--a:140deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.400"/><circle cx="9" cy="11" r="2"/><path d="M5.800 16c.6-1.500 1.800-2.200 3.200-2.200s2.600.7 3.200 2.200M15 10h3.500M15 13.500h3.500"/></svg></span></em><em style="--a:260deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M8.800 12.200l2.300 2.300 4.200-4.400"/></svg></span></em></span><span class="gr r2"><em style="--a:70deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.500-5A2 2 0 0 1 6.400 6.500h11.200a2 2 0 0 1 1.900 1.500L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.500" r="1.400"/><circle cx="17" cy="18.500" r="1.400"/></svg></span></em><em style="--a:190deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span></em><em style="--a:310deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M8.500 12h7M8.500 15.500h7M12 12v7"/></svg></span></em></span><span class="gr r3"><em style="--a:0deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/></svg></span></em><em style="--a:120deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.500h10a4 4 0 0 0 .600-7.950A5.500 5.500 0 0 0 7.100 9.200 4.700 4.700 0 0 0 7 18.500z"/></svg></span></em><em style="--a:240deg"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span></em></span></div><div class="gmo-cards"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="gmo-beam"></div></div>
   <!-- Not a <form>: there is nothing to submit anywhere. The PIN never leaves
        this page — it is only ever used here, to unseal the user's key. -->
   <div class="gate-card" id="gate-form">
@@ -2916,7 +2941,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "f5c1953519d1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "09c96a67e037";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3153,7 +3178,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", canDash:"حركة لوحة المتابعة", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", canDash:"حركة لوحة المتابعة", canReel:"موشن البحث", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3296,7 +3321,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", canDash:"Dashboard motion", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", canDash:"Dashboard motion", canReel:"Search motion", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -5647,10 +5672,18 @@ function multiOpen(r){
   if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
   return r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
 }
+/* Under the search box of a page that has nothing asked yet: the sign-in screen's motion (see «.gms» in the styles). The one
+   already there is left to run on. «x-reel». */
+function gmsPut(box){
+  const gmo = document.querySelector("#gate .gmo");
+  if(!gmo || !can("x-reel") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){ box.innerHTML = ""; return; }
+  if(box.querySelector(".gms")) return;
+  box.innerHTML = '<div class="gms" aria-hidden="true">' + gmo.outerHTML + '<div class="gms-orb"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div></div>';
+}
 function paintMulti(keep){
   const res = st.multi.res, box = $("mres");
   if(!box) return;
-  if(!res || !res.terms){ box.innerHTML = ""; return; }      // nothing asked, nothing shown
+  if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: the sign-in screen's motion (x-reel), or nothing
   const at = keep ? rowsAt(box) : 0;
   const found = res.rows.filter(r => !r.miss && !r.more), cols = found.length ? written(MULTI_COLS[res.mode], found) : MULTI_COLS[res.mode];
   const cats = {};
@@ -6009,8 +6042,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", 
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait", "x-dash"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait", "x-dash": "canDash" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait", "x-dash", "x-reel"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait", "x-dash": "canDash", "x-reel": "canReel" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
@@ -7491,7 +7524,7 @@ function aseItems(lines){
 function paintAse(){
   const box = $("ares"), res = st.ase.res;
   if(!box) return;
-  if(!res){ box.innerHTML = ""; return; }
+  if(!res){ gmsPut(box); return; }
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + t("reading") + "</h3></div>"; return; }
   const found = res.rows.filter(r => r.hits.length), all = [];
   found.forEach(r => r.hits.forEach(hit => all.push(hit)));
@@ -7639,7 +7672,7 @@ const SPC_COLS = MULTI_COLS.ind.map(c =>
 function paintSpc(){
   const res = st.spc.res, box = $("sres");
   if(!box) return;
-  if(!res){ box.innerHTML = ""; return; }
+  if(!res){ gmsPut(box); return; }
   const lacking = [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
   const note = lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "";
   if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
@@ -8088,7 +8121,7 @@ const askRows = () => !st.ask.res || !st.ask.res.rows ? [] : st.ask.cat ? st.ask
 function paintAsk(){
   const res = st.ask.res, box = $("askv"), said = $("ask-said");
   if(!box) return;
-  if(!res){ box.innerHTML = ""; said.innerHTML = ""; return; }
+  if(!res){ gmsPut(box); said.innerHTML = ""; return; }
   said.innerHTML = res.a.said.map(x => '<span class="pill blue">' + x + "</span>").join("") + res.a.unknown.map(w => '<span class="pill mute ask-x">' + esc(w) + "</span>").join("");
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + esc(t("cmBusy", CMP.done.toLocaleString("en-US"), CMP.total.toLocaleString("en-US"))) + "</h3></div>"; return; }
   if(res.needs){ box.innerHTML = '<div class="empty"><h3>' + t("askNeedsAse") + "</h3>" + (link() ? "" : '<p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p>") + "</div>"; return; }

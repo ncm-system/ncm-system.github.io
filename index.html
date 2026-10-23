@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-V2eI6G7QOX2FMwVEuB5fM2fRJhavYoa84u8s4KcszYw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-is7+y8PAp3Zu9DyvVm8om0NZn8UKo5lkx/Os5IVZaOU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1063,6 +1063,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 /* a run of Latin letters and digits inside a file's name: one piece, read left to right (see fileName) */
 .ltr{direction:ltr;unicode-bidi:isolate;}
 /* once there is a file to show, the drop box is one line: the mark, its title and the button side by side */
+.cards-drop[hidden]{display:none !important;}
 .cards-drop.small{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:13px 20px;}
 .cards-drop.small svg{width:30px;height:30px;}
 .cards-drop.small h2{margin:0;font-size:17px;}
@@ -3056,7 +3057,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "c365d04d5634";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "92badbf0ca52";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3278,7 +3279,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"الوظيفة / المؤهل", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3421,7 +3422,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Job / qualification", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -7080,7 +7081,8 @@ function moCancel(){
    PC until then. */
 const RV_KEY = "ncm_system_cards_review";
 // the face's id only — the back's is read for the check, and the face's turns dark red when the two differ
-const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", ""], ["qualification", "rvQual", ""]];
+const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", ""], ["qualification", "rvQual", ""],
+  ["job", "rvJob", ""], ["follower", "rvFollow", ""]];      // not on the card: written here, so the sheet comes out whole («عشان اكتبهم فى وقتها والشيت يتصدر كامل»)
 const RV_NEED = { name: 1, nid: 1, address: 1 };          // empty, these are missing; the rest may be empty on a card with no back
 let RV = { at: {}, ed: {}, sent: {} };
 try{ const k = JSON.parse(localStorage.getItem(RV_KEY) || "{}"); if(k && typeof k === "object") ["at", "ed", "sent"].forEach(x => { if(k[x] && typeof k[x] === "object") RV[x] = k[x]; }); }catch(e){}
@@ -7334,6 +7336,7 @@ function paintCards(){
   const at = box.querySelector(".cards-res .tblwrap"), y = at ? at.scrollTop : 0, x = at ? at.scrollLeft : 0;
   const drop = document.querySelector(".cards-drop");
   if(drop) drop.classList.toggle("small", list.length > 0);          // with something to show, the drop box makes room for it
+  if(drop) drop.hidden = reviews.length > 0;                         // while cards are reviewed, their photographs have its room (a file dropped on the page is still taken)
   const history = ended.slice(1);
   setTimeout(moSync, 0);
   const typing = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.rvf : "";

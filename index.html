@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-1n9i1Cuvjlh8rlxbVc+qqSfRE2iMWBJcw5WnCOwenFk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-MeODxzikqIn+PsapYCa33SqAApBhc0AbAja04obOo68='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -116,6 +116,15 @@ html,body{height:100%;overflow:hidden;}
   margin:10px -13px 0;padding:10px 13px 12px;border-top:1px solid var(--line);background:rgba(244,248,253,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 html.dark .side-bar{background:rgba(21,32,44,.94);}.side{overflow-x:hidden;}
 .side-bar .netbox,.side-bar .side-lang{margin-top:0;gap:4px;flex-wrap:nowrap;}
+/* the logo and the system's name stay at the top of the menu; the pages under them are what scrolls (asked for, 23 October
+   2026: «خلى اللوجو واسم السيستم فى الشريط الجانبى ثابت والصفحات الى تحت الى بتتحرك») — where the menu is a column at the side */
+@media (min-width:921px){ .side > .brand{position:sticky;top:-24px;z-index:3;flex:none;margin:-24px -13px 0;padding:24px 13px 14px;
+  background:rgba(250,252,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 14px -14px rgba(21,101,192,.55);} 
+  html.dark .side > .brand{background:rgba(21,32,44,.94);} }
+@media (min-width:721px) and (max-width:920px){ body:not(.madm) .side > .brand{position:sticky;top:-24px;z-index:3;flex:none;margin:-24px -13px 0;padding:24px 13px 14px;
+  background:rgba(250,252,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 14px -14px rgba(21,101,192,.55);}
+  html.dark body:not(.madm) .side > .brand{background:rgba(21,32,44,.94);} }
+
 .side-bar{flex-wrap:nowrap;gap:4px;}
 .side-bar .netdot,.side-bar .net-v,.side-bar .langbtn{height:32px;}
 .side-bar .netdot{width:32px;}.side-bar .net-v{padding:0 8px;font-size:13px;letter-spacing:.02em;}.side-bar .langbtn{padding:0 9px;gap:5px;}.side-bar .langbtn span{font-size:13.5px;}
@@ -2907,7 +2916,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "591f7f0f4202";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "f5c1953519d1";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

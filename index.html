@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-JEMTulCelM8EOgLYmlsS+OkXejYJAg5QRk0FZRZ/V7U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-yhJuYmHvROl1x4MC+WJjLbVBjKWsN5UM9BWL2o04ddQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -336,15 +336,18 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
    اراجعهم… وسهم يغير كل بطاقة… البطاقة تظهرلى وش وضهر» — and «بلاش تمام الى بعده خليها سهم وصممه بموشن جيرافيك»; no words of guidance).
    The pair of photographs is the stage: going on, the pair leaves to one side turning away and the next comes in from the other, the back
    a beat before the face, and a light passes over it the way the reader reads; the arrows carry the light that runs round the sign-in box. */
-.cards-rv{max-width:1060px;margin:0 auto 14px;overflow:hidden;}
+/* the whole review on one screen (asked for: «خليها تاخد الصفحة كلها مش عايز انزل واطلع»): the panel reaches the bottom of the page
+   (rvFit), the photographs take what is left above the fields */
+.cards-rv{max-width:1180px;margin:0 auto 14px;overflow:hidden;display:flex;flex-direction:column;}
+.cards-rv > .panel-b{flex:1;min-height:0;display:flex;flex-direction:column;padding-top:12px;padding-bottom:14px;}
 .rv-n{display:inline-flex;align-items:baseline;gap:4px;font-family:var(--cond);font-size:17px;font-weight:600;color:var(--muted);direction:ltr;}
 .rv-n b{display:inline-block;font-size:26px;font-weight:700;color:var(--blue);min-width:1ch;text-align:center;}
 .rv-n b.flip{animation:rvFlip .45s cubic-bezier(.2,.8,.2,1);}
 @keyframes rvFlip{from{transform:translateY(70%);opacity:0;}}
-.rv-deck{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;padding:6px 2px 0;}
-.rv-stage{position:relative;perspective:1600px;}
-.rv-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.rv-card{position:relative;margin:0;aspect-ratio:1.58;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line-2);
+.rv-deck{flex:1;min-height:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;}
+.rv-stage{position:relative;perspective:1600px;height:100%;min-height:0;container-type:size;}
+.rv-pair{height:100%;display:flex;align-items:center;justify-content:center;gap:16px;}
+.rv-card{position:relative;margin:0;flex:none;width:min(calc(50cqw - 8px),calc(100cqh * 1.58));aspect-ratio:1.58;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line-2);
   box-shadow:0 16px 36px rgba(21,101,192,.15),0 2px 6px rgba(21,101,192,.08);cursor:zoom-in;transition:transform .25s,box-shadow .25s;}
 .rv-card:hover{transform:translateY(-3px);box-shadow:0 22px 44px rgba(21,101,192,.2),0 2px 6px rgba(21,101,192,.08);}
 .rv-card img{width:100%;height:100%;object-fit:contain;display:block;}
@@ -384,31 +387,35 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 .rv-arrow::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--blue);opacity:0;pointer-events:none;}
 .rv-arrow.hit::after{animation:rvPing .55s ease-out;}
 @keyframes rvPing{from{opacity:.7;transform:scale(1);}to{opacity:0;transform:scale(1.7);}}
-.rv-dots{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:16px 0 2px;}
+.rv-mid{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin:14px 0 2px;min-height:30px;}
+.rv-dots{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;}
 .rv-dot{width:20px;height:7px;border:0;padding:0;border-radius:4px;background:var(--ok);opacity:.5;cursor:pointer;
   transition:width .38s cubic-bezier(.2,.8,.2,1),opacity .2s,background .25s;}
 .rv-dot.need{background:var(--warn);opacity:.75;}
 .rv-dot.on{width:46px;opacity:1;background:var(--blue);}
 .rv-dot:hover{opacity:1;}
-.rv-checks{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 4px;min-height:30px;}
+.rv-checks{display:flex;gap:8px;flex-wrap:wrap;}
 .rv-chk{display:inline-flex;gap:6px;align-items:center;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;
   background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-br);}
 .rv-chk.no{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-br);}
 .rv-chk.sys{background:var(--tint);color:var(--blue-deep);border-color:var(--line-2);}
-.rv-form{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 14px;margin-top:12px;}
-.rv-f{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.rv-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px;margin-top:10px;}
+.rv-f{display:flex;align-items:center;gap:12px;min-width:0;}
 .rv-f.wide{grid-column:span 2;}
 .rv-f.full{grid-column:1/-1;}
-.rv-f > span{font-size:12.5px;font-weight:800;color:var(--muted);padding-inline-start:4px;}
+.rv-f > span{flex:none;width:122px;font-size:13px;font-weight:800;color:var(--muted);}
+.rv-f.wide > .rv-in{flex:1;}
 .rv-in{width:100%;text-align:center;font-weight:700;transition:border-color .2s,background .2s,box-shadow .2s;}
 .rv-in.num{direction:ltr;font-family:var(--mono);letter-spacing:.04em;}
 .rv-in.need{border-color:var(--warn-br);background:var(--warn-bg);box-shadow:0 0 0 3px rgba(185,110,8,.12);}
+/* the id on the face is not the id on the back (asked for: «لو الاتنين مش متطبقين يظهر بالاحمر الغامق») */
+.rv-in.bad,html.dark .rv-in.bad{background:#8e1b1b;border-color:#8e1b1b;color:#fff;box-shadow:0 0 0 3px rgba(142,27,27,.2);}
 .rv-body.in > *{animation:rvUp .5s cubic-bezier(.2,.8,.2,1) both;}
 .rv-body.in .rv-f{animation:rvUp .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k) * 35ms + .12s);}
 @keyframes rvUp{from{opacity:0;transform:translateY(10px);}}
 .rv-foot{display:flex;justify-content:center;margin-top:20px;}
-.rv-go{min-width:250px;height:50px;font-size:16px;gap:12px;border-radius:999px;}
-.rv-go .rv-c{font-family:var(--cond);font-size:18px;font-weight:700;padding:1px 10px;border-radius:999px;background:rgba(255,255,255,.2);direction:ltr;}
+.rv-go{height:38px;font-size:14px;gap:10px;border-radius:999px;padding:0 16px;}
+.rv-go .rv-c{font-family:var(--cond);font-size:16px;font-weight:700;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.2);direction:ltr;}
 .rv-go.busy{pointer-events:none;}
 .rv-go.busy svg{animation:spin 1s linear infinite;}
 #rvzoom{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:4vmin;background:rgba(8,18,30,.74);cursor:zoom-out;animation:rvFade .25s ease-out;}
@@ -416,8 +423,8 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 @keyframes rvFade{from{opacity:0;}}
 @keyframes rvZoom{from{opacity:0;transform:scale(.86);}}
 html.dark .rv-card figcaption{background:rgba(21,32,44,.88);color:var(--blue-deep);}
-@media (max-width:760px){ .rv-form{grid-template-columns:repeat(2,minmax(0,1fr));} .rv-f.wide{grid-column:1/-1;} }
-@media (max-width:620px){ .rv-pair{grid-template-columns:1fr;gap:10px;} .rv-deck{gap:8px;} .rv-arrow{width:42px;height:42px;} .rv-go{min-width:0;width:100%;} }
+@media (max-width:760px){ .rv-stage{container-type:normal;height:auto;} .rv-pair{height:auto;} .rv-card{width:calc(50% - 8px);} .rv-form{grid-template-columns:minmax(0,1fr);} .rv-f > span{width:104px;} }
+@media (max-width:620px){ .rv-pair{flex-direction:column;gap:10px;} .rv-card{width:100%;} .rv-deck{gap:8px;} .rv-arrow{width:42px;height:42px;} .rv-f{flex-direction:column;align-items:stretch;gap:4px;} .rv-f > span{width:auto;} }
 @media (prefers-reduced-motion: reduce){ .cards-rv *,.cards-rv *::before,#rvzoom,#rvzoom img{animation:none !important;} }
 @media print{ .cards-rv{display:none !important;} }
 /* ---------- gate: sign-in for the online edition ---------- */
@@ -3043,7 +3050,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "358429d76a25";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "fffdda8273ba";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3265,7 +3272,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي · الوش", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"الوظيفة / المؤهل", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"الوظيفة / المؤهل", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3408,7 +3415,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID · front", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Job / qualification", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Job / qualification", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -7066,8 +7073,8 @@ function moCancel(){
    puts the rows as they now stand where the reader looks, and its wait writes the sheet into «النتيجة». What is typed is kept on this
    PC until then. */
 const RV_KEY = "ncm_system_cards_review";
-const RV_F = [["name", "rvName", "wide"], ["nid", "rvNid", "num"], ["nid_back", "rvNidB", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"],
-  ["address", "rvAddr", "wide"], ["qualification", "rvQual", "full"]];
+// the face's id only — the back's is read for the check, and the face's turns dark red when the two differ
+const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", "wide"], ["qualification", "rvQual", "wide"]];
 const RV_NEED = { name: 1, nid: 1, address: 1 };          // empty, these are missing; the rest may be empty on a card with no back
 let RV = { at: {}, ed: {}, sent: {} };
 try{ const k = JSON.parse(localStorage.getItem(RV_KEY) || "{}"); if(k && typeof k === "object") ["at", "ed", "sent"].forEach(x => { if(k[x] && typeof k[x] === "object") RV[x] = k[x]; }); }catch(e){}
@@ -7080,7 +7087,11 @@ function rvNeed(j, i, k){
   const v = rvVal(j, i, k), o = String(j.draft[i][k] || "");
   return /[؟?]/.test(v) || (!v.trim() && (/[؟?]/.test(o) || !!RV_NEED[k]));
 }
-const rvOpen = (j, i) => RV_F.some(f => rvNeed(j, i, f[0]));
+const rvOpen = (j, i) => RV_F.some(f => rvNeed(j, i, f[0])) || rvOdd(j, i);
+function rvOdd(j, i){
+  const a = rvLat(rvVal(j, i, "nid")).replace(/\s/g, ""), b = rvLat(rvVal(j, i, "nid_back")).replace(/\s/g, "");
+  return /^\d{14}$/.test(a) && /^\d{14}$/.test(b) && a !== b;
+}
 const rvMk = (y, m, d) => { const dt = new Date(y, m - 1, d); return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d ? dt : null; };
 // a date as it is printed on a card (1979/12/01 or 01/12/1979) -> dd/mm/yyyy, or ""
 function rvDate(v){
@@ -7096,7 +7107,6 @@ function rvChecks(j, i){
   const chk = (ok, k) => '<span class="rv-chk' + (ok ? "" : " no") + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
     (ok ? '<path d="M5 12.5l4.500 4.500L19 7.500"/>' : '<path d="M6 6l12 12M18 6L6 18"/>') + "</svg>" + t(k) + "</span>";
   if(/^\d{14}$/.test(a) || /^\d+$/.test(a)) out.push(chk(!!d, "rvNidOk"));
-  if(a && b && !/[؟?]/.test(a + b)) out.push(chk(a === b, "rvSame"));
   const bp = rvDate(rvVal(j, i, "birth"));
   if(d && bp) out.push(chk(bp === d.birth, "rvBirthOk"));
   const ex = rvDate(rvVal(j, i, "expiry"));
@@ -7115,11 +7125,11 @@ function rvPair(j, i, cls){
   return '<div class="rv-pair' + (cls ? " " + cls : "") + '" data-i="' + i + '">' + side("f", "rvFront") + side("b", "rvBack") + "</div>";
 }
 function rvBody(j, i, cls){
-  return '<div class="rv-body' + (cls ? " " + cls : "") + '"><div class="rv-checks">' + rvChecks(j, i) + '</div><div class="rv-form">' +
+  return '<div class="rv-body' + (cls ? " " + cls : "") + '"><div class="rv-mid"><div class="rv-checks">' + rvChecks(j, i) + '</div><div class="rv-dots">' + rvDotsHTML(j, i) + '</div></div><div class="rv-form">' +
     RV_F.map((f, k) => {
       const v = rvVal(j, i, f[0]);
       return '<label class="rv-f' + (f[2] === "wide" || f[2] === "full" ? " " + f[2] : "") + '" style="--k:' + k + '"><span>' + t(f[1]) + "</span>" +
-        '<input class="field rv-in' + (f[2] === "num" ? " num" : "") + (rvNeed(j, i, f[0]) ? " need" : "") + '" data-rvf="' + f[0] + '" id="rv-' + f[0] + '" type="text" spellcheck="false" autocomplete="off" value="' + esc(v) + '"></label>';
+        '<input class="field rv-in' + (f[2] === "num" ? " num" : "") + (f[0] === "nid" && rvOdd(j, i) ? " bad" : rvNeed(j, i, f[0]) ? " need" : "") + '" data-rvf="' + f[0] + '" id="rv-' + f[0] + '" type="text" spellcheck="false" autocomplete="off" value="' + esc(v) + '"></label>';
     }).join("") + "</div></div>";
 }
 const rvDone = j => j.draft.filter((r, i) => !rvOpen(j, i)).length;
@@ -7134,15 +7144,14 @@ function rvGoBtn(j){
 function rvHTML(j){
   const n = j.draft.length, i = Math.max(0, Math.min(+RV.at[j.id] || 0, n - 1));
   return '<section class="panel cards-rv" data-rv="' + esc(j.id) + '"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
-      '<span class="desk-two"><span class="rv-n"><b>' + (i + 1) + "</b>/ " + n + "</span>" +
+      '<span class="desk-two"><span class="rv-n"><b>' + (i + 1) + "</b>/ " + n + "</span>" + rvGoBtn(j) +
       '<button class="btn sm danger" data-act="cards-cancel" data-id="' + esc(j.id) + '">' + t("cancel") + "</button></span></div>" +
     '<div class="panel-b"><div class="rv-deck">' +
       '<button type="button" class="rv-arrow' + (i === 0 ? " end" : "") + '" data-rv-go="-1" aria-label="' + t("rvPrev") + '">' + RV_ARROW(-1) + "</button>" +
       '<div class="rv-stage">' + rvPair(j, i, "") + "</div>" +
       '<button type="button" class="rv-arrow' + (i === n - 1 ? " end" : "") + '" data-rv-go="1" aria-label="' + t("rvNext") + '">' + RV_ARROW(1) + "</button></div>" +
-      '<div class="rv-dots">' + rvDotsHTML(j, i) + "</div>" + rvBody(j, i, "") +
-      (j.export_error && !rvBusy(j) ? '<p class="note warn" style="margin:14px 0 0">' + esc(j.export_error) + "</p>" : "") +
-      '<div class="rv-foot">' + rvGoBtn(j) + "</div></div></section>";
+      rvBody(j, i, "") +
+      (j.export_error && !rvBusy(j) ? '<p class="note warn" style="margin:12px 0 0">' + esc(j.export_error) + "</p>" : "") + "</div></section>";
 }
 const rvMotion = () => moOn() && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 function rvGo(id, to, from){
@@ -7162,7 +7171,6 @@ function rvGo(id, to, from){
   const b = sec.querySelector(".rv-n b");
   if(b){ b.textContent = to + 1; b.classList.remove("flip"); if(anim){ void b.offsetWidth; b.classList.add("flip"); } }
   sec.querySelectorAll(".rv-arrow").forEach(a => a.classList.toggle("end", a.dataset.rvGo === "1" ? to === n - 1 : to === 0));
-  sec.querySelector(".rv-dots").innerHTML = rvDotsHTML(j, to);
 }
 // typing: kept at once, and only what it touches is drawn again — the field being typed in is left alone
 function rvType(el){
@@ -7171,12 +7179,22 @@ function rvType(el){
   const i = Math.max(0, Math.min(+RV.at[j.id] || 0, j.draft.length - 1)), k = el.dataset.rvf;
   ((RV.ed[j.id] = RV.ed[j.id] || {})[i] = RV.ed[j.id][i] || {})[k] = el.value;
   rvKeep();
-  el.classList.toggle("need", rvNeed(j, i, k));
+  el.classList.toggle("need", rvNeed(j, i, k) && !(k === "nid" && rvOdd(j, i)));
+  const nid = sec.querySelector('[data-rvf="nid"]');
+  if(nid) nid.classList.toggle("bad", rvOdd(j, i));
   sec.querySelector(".rv-checks").innerHTML = rvChecks(j, i);
   sec.querySelector(".rv-dots").innerHTML = rvDotsHTML(j, i);
   const c = sec.querySelector(".rv-c");
   if(c) c.textContent = rvDone(j) + "/" + j.draft.length;
 }
+function rvFit(){
+  const sec = document.querySelector("#cards .cards-rv"), sc = sec && sec.closest(".pg-scroll");
+  if(!sec || !sc) return;
+  if(innerWidth <= 760){ sec.style.height = ""; return; }
+  const top = sec.getBoundingClientRect().top + sc.scrollTop - sc.getBoundingClientRect().top;
+  sec.style.height = Math.max(460, Math.floor(sc.clientHeight - top - 30)) + "px";      // its own margin under it and the scroll part's padding
+}
+window.addEventListener("resize", () => { if(st.view === "cards") rvFit(); });
 function rvExport(id){
   const j = rvJob(id);
   if(!j || rvBusy(j) || ONLINE || !isAdmin()) return;
@@ -7331,6 +7349,7 @@ function paintCards(){
   if(now && !arrived){ now.scrollTop = y; now.scrollLeft = x; }
   if(arrived) countUp();
   if(typing){ const el = box.querySelector('[data-rvf="' + typing + '"]'); if(el){ el.focus(); try{ el.setSelectionRange(caret[0], caret[1]); }catch(e){} } }
+  rvFit();
   cardsTick();
 }
 // how long each file on its way has been on its way

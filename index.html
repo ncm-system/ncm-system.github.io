@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-MeODxzikqIn+PsapYCa33SqAApBhc0AbAja04obOo68='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-C/PI6X2pEda82VLdmYdIiWlx+5kUboyQuYhXfIoVsO4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -622,6 +622,88 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 .lgfold{display:inline-block;width:9px;height:9px;margin-inline-end:10px;border-right:2.4px solid currentColor;border-bottom:2.4px solid currentColor;
   transform:rotate(-135deg);transition:transform .2s ease;vertical-align:-1px;color:var(--blue);}
 .logv.fold:not(.open) .lgfold{transform:rotate(45deg);vertical-align:3px;}
+/* THE SEARCH SHOWREEL (asked for, 23 October 2026: a «30-second motion graphics… showreel — go all out… cool as f*ck», «تحت
+   صندوق البحث فى جميع صفحات البحث بس برضو بالوان فاتحة»). Under the box of «بحث», «بحث خاص», «ASE SEARCH» and «المساعد», while
+   nothing has been asked: five scenes of six seconds, round and round — a number typed · a card scanned · a radar finding one ·
+   the answers sliding in · the logo (a sixth, the page's words in three colours, was taken out: «بلاش الجزء الى فى الوان الطيف»). Made-up names and numbers only; the app's light colours (dark in dark
+   mode). Each thing in a scene comes in at its own second (--t) of its scene (--s), all on one thirty-second clock. «x-reel». */
+.sr{position:relative;height:310px;margin-top:14px;border-radius:20px;overflow:hidden;isolation:isolate;background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge),0 10px 30px rgba(21,101,192,.08);}
+.sr::before{content:"";position:absolute;inset:-26px;z-index:-1;background-image:radial-gradient(var(--mo-dot) 1.2px,transparent 1.6px);background-size:26px 26px;animation:lvDrift 20s linear infinite;}
+.sr::after{content:"";position:absolute;width:60%;height:120%;left:-20%;top:-40%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(75,165,72,.16),transparent);filter:blur(24px);animation:srAu 30s ease-in-out infinite;}
+@keyframes srAu{33%{transform:translate(120%,30%);}66%{transform:translate(60%,-10%) scale(1.3);}}
+.sr-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--mo-track);}
+.sr-bar i{position:absolute;inset:0;transform-origin:right;background:linear-gradient(90deg,var(--mo-g),var(--mo-b));animation:srRun 30s linear infinite;}
+@keyframes srRun{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+.sr-sc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:40px;padding:20px 34px;opacity:0;
+  animation:srWin 30s infinite both;animation-delay:calc(var(--s) * 6s);}
+@keyframes srWin{0%{opacity:0;transform:scale(1.04);filter:blur(6px);}1.6%{opacity:1;transform:none;filter:none;}18.4%{opacity:1;transform:none;filter:none;}20%{opacity:0;transform:scale(.97);filter:blur(6px);}100%{opacity:0;}}
+.sr-a{animation-duration:30s;animation-iteration-count:infinite;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-delay:calc(var(--s) * 6s + var(--t, 0s));}
+.sr-in{animation-name:srIn;}.sr-pop{animation-name:srPop;animation-timing-function:cubic-bezier(.34,1.56,.64,1);}.sr-l{animation-name:srL;}.sr-r{animation-name:srR;}.sr-grow{animation-name:srGrow;}
+@keyframes srIn{0%{opacity:0;transform:translateY(22px);filter:blur(6px);}1.4%{opacity:1;transform:none;filter:none;}100%{opacity:1;transform:none;}}
+@keyframes srPop{0%{opacity:0;transform:scale(.3);}1.4%{opacity:1;transform:none;}100%{opacity:1;transform:none;}}
+@keyframes srL{0%{opacity:0;transform:translateX(-60px);}1.4%{opacity:1;transform:none;}100%{opacity:1;transform:none;}}
+@keyframes srR{0%{opacity:0;transform:translateX(60px);}1.4%{opacity:1;transform:none;}100%{opacity:1;transform:none;}}
+@keyframes srGrow{0%{transform:scaleX(0);}2.6%{transform:none;}100%{transform:none;}}
+/* 1 · a number typed */
+.sr-ghost{position:absolute;left:0;right:0;top:50%;margin-top:-90px;text-align:center;font-family:var(--cond);font-weight:800;font-size:180px;line-height:1;letter-spacing:.06em;direction:ltr;
+  color:rgba(21,101,192,.05);-webkit-text-stroke:2px rgba(21,101,192,.2);white-space:nowrap;animation-name:srGhost;animation-timing-function:linear;}
+@keyframes srGhost{0%{opacity:0;transform:translateX(18%);}2%{opacity:1;}18%{opacity:1;transform:translateX(-8%);}100%{opacity:1;transform:translateX(-8%);}}
+.sr-col{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.sr-box{display:flex;align-items:center;gap:12px;height:66px;padding:0 22px;border-radius:18px;background:var(--mo-node);border:2px solid var(--mo-b);box-shadow:0 0 0 6px rgba(21,101,192,.08),0 14px 30px rgba(21,101,192,.14);}
+.sr-box svg{color:var(--mo-b);flex:none;}
+.sr-type{display:inline-block;font-size:30px;font-weight:800;color:var(--mo-ink);white-space:nowrap;animation-name:srTypeR;animation-timing-function:steps(14,end);}
+.sr-type.ltr{font-family:var(--mono);font-size:28px;letter-spacing:.06em;direction:ltr;animation-name:srTypeL;}
+@keyframes srTypeL{0%{clip-path:inset(0 100% 0 0);}6.6%{clip-path:inset(0 0 0 0);}100%{clip-path:inset(0 0 0 0);}}
+@keyframes srTypeR{0%{clip-path:inset(0 0 0 100%);}6.6%{clip-path:inset(0 0 0 0);}100%{clip-path:inset(0 0 0 0);}}
+.sr-caret{width:3px;height:32px;border-radius:2px;background:var(--mo-b);animation:srBlink .9s steps(2,start) infinite;}
+@keyframes srBlink{to{visibility:hidden;}}
+.sr-k{font-size:30px;font-weight:900;color:var(--mo-ink);}
+.sr-k2{font-size:22px;font-weight:800;color:var(--mo-g);}
+/* 2 · a card scanned */
+.sr-card{position:relative;width:300px;height:186px;border-radius:18px;overflow:hidden;background:var(--mo-node);border:1.5px solid var(--mo-card-br);box-shadow:0 22px 44px rgba(21,101,192,.16);
+  transform:perspective(900px) rotateY(16deg) rotateX(8deg);}
+.sr-card::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:linear-gradient(90deg,var(--mo-g),#5fd396);}
+.sr-ph{position:absolute;left:20px;top:38px;width:70px;height:92px;border-radius:12px;background:linear-gradient(160deg,rgba(21,101,192,.12),rgba(75,165,72,.18));}
+.sr-ph::before{content:"";position:absolute;left:50%;top:16px;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:rgba(21,101,192,.3);}
+.sr-ph::after{content:"";position:absolute;left:50%;bottom:-20px;width:56px;height:46px;margin-left:-28px;border-radius:50%;background:rgba(21,101,192,.3);}
+.sr-fl{position:absolute;right:20px;height:11px;border-radius:6px;background:var(--mo-line);overflow:hidden;}
+.sr-fl i{position:absolute;inset:0;transform-origin:right;background:linear-gradient(90deg,#5fd396,var(--mo-g));animation-name:srGrow;}
+.sr-beam{position:absolute;left:0;right:0;height:40px;top:-40px;background:linear-gradient(180deg,transparent,rgba(21,101,192,.28),transparent);animation-name:srBeam;animation-timing-function:ease-in-out;}
+@keyframes srBeam{0%{transform:translateY(0);}8%{transform:translateY(240px);}100%{transform:translateY(240px);}}
+.sr-ok{position:absolute;left:22px;bottom:16px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--mo-g);color:#fff;font-size:24px;font-weight:900;box-shadow:0 0 0 8px rgba(75,165,72,.18);}
+.sr-words{display:flex;flex-direction:column;gap:10px;}
+.sr-words b{font-size:40px;font-weight:900;line-height:1.1;color:var(--mo-ink);}
+.sr-words b:nth-child(2){color:var(--mo-b);}.sr-words b:nth-child(3){color:var(--mo-g);}
+/* 3 · the radar */
+.sr-radar{position:relative;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,transparent 0 30%,rgba(21,101,192,.06) 30.5% 31%,transparent 31.5% 62%,rgba(21,101,192,.08) 62.5% 63%,transparent 63.5%),var(--mo-node);
+  box-shadow:inset 0 0 0 2px rgba(21,101,192,.2),0 18px 40px rgba(21,101,192,.14);overflow:hidden;}
+.sr-radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(75,165,72,.42),transparent 26%);animation:spin 2.4s linear infinite;}
+.sr-radar::after{content:"";position:absolute;left:50%;top:0;bottom:50%;width:2px;margin-left:-1px;background:var(--mo-g);transform-origin:bottom;animation:spin 2.4s linear infinite;}
+.sr-blip{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--mo-b);box-shadow:0 0 0 5px rgba(21,101,192,.14);}
+.sr-blip.hit{width:22px;height:22px;margin:-11px 0 0 -11px;background:var(--mo-amber);box-shadow:0 0 0 0 rgba(232,144,15,.5);}
+.sr-blip.hit::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:3px solid var(--mo-amber);animation:srRing 1.2s ease-out infinite;}
+@keyframes srRing{from{transform:scale(.4);opacity:1;}to{transform:scale(1.6);opacity:0;}}
+.sr-found{display:flex;flex-direction:column;gap:6px;}
+.sr-found b{font-size:46px;font-weight:900;color:var(--mo-ink);}
+.sr-found span{font-family:var(--cond);font-size:22px;font-weight:700;letter-spacing:.2em;color:var(--mo-g);direction:ltr;text-align:right;}
+/* 4 · the answers */
+.sr-rows{display:flex;flex-direction:column;gap:10px;width:min(620px,100%);}
+.sr-row{display:flex;align-items:center;gap:16px;height:60px;padding:0 20px;border-radius:16px;background:var(--mo-node);border:1px solid var(--mo-edge);box-shadow:0 8px 20px rgba(21,101,192,.1);}
+.sr-row b{flex:1;font-size:21px;font-weight:800;color:var(--text);}
+.sr-row .mono{font-family:var(--mono);font-size:16px;color:var(--mo-sub);direction:ltr;}
+.sr-row .pill{font-size:15px;}
+/* 5 · the logo */
+.sr-logo{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.sr-logo .ncm{font-size:96px;}
+.sr-logo .appname{font-size:30px;letter-spacing:.24em;text-indent:.24em;}
+.sr-burst{position:absolute;left:50%;top:50%;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;border:3px solid var(--mo-g);animation-name:srBurst;}
+@keyframes srBurst{0%{transform:scale(.2);opacity:0;}.6%{opacity:1;}4%{transform:scale(1.5);opacity:0;}100%{opacity:0;}}
+.sr-sweep{position:absolute;top:0;bottom:0;width:220px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-18deg);animation-name:srSweep;animation-timing-function:ease-in-out;}
+@keyframes srSweep{0%{left:-260px;}6%{left:110%;}100%{left:110%;}}
+html.dark .sr-sweep{background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);}
+@media (max-width:760px){ .sr{height:250px;} .sr-sc{zoom:.62;gap:24px;} .sr-ghost{font-size:120px;} }
+@media (prefers-reduced-motion: reduce){ .sr{display:none;} }
+@media print{ .sr{display:none !important;} }
 /* ---------- boxes arriving ----------
    When a page is OPENED its boxes come in with one small movement: the tiles
    one after another, the panels under them, the bars growing to their length.
@@ -2916,7 +2998,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "f5c1953519d1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "69945e4d6141";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3153,7 +3235,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", canDash:"حركة لوحة المتابعة", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", canDash:"حركة لوحة المتابعة", canReel:"موشن البحث", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3296,7 +3378,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", canDash:"Dashboard motion", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", canDash:"Dashboard motion", canReel:"Search showreel", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -5647,10 +5729,43 @@ function multiOpen(r){
   if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
   return r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
 }
+/* The search showreel (see «.sr» in the styles): five scenes, the words of the page they are on. Nothing of anyone's. */
+const SR_WORDS = {
+  multi: { ghost: "SEARCH", typed: "29001011•••567", ltr: true, l1: "رقم قومي واحد", l2: "وكل الحكاية قدامك.", scan: ["بطاقة", "تصريح", "كارت"] },
+  spc: { ghost: "FILTER", typed: "البحيرة", ltr: false, l1: "محافظة · خطاب · شركة", l2: "وكل اللي اتعملهم تصاريح.", scan: ["المكان", "الخطاب", "الشركة"] },
+  ase: { ghost: "ASE", typed: "29001011•••567", ltr: true, l1: "رقم واحد", l2: "وكل اللي ASE يعرفه.", scan: ["الحالة", "الشركة", "الخطاب"] },
+  ask: { ghost: "ASK", typed: "منتهي في البحيرة", ltr: false, l1: "بكلامك", l2: "والسيستم يفهم.", scan: ["مين", "فين", "إمتى"] }
+};
+const srA = (cls, t, inner, extra) => '<' + (extra && extra.tag || "div") + ' class="sr-a ' + cls + '" style="--t:' + t + 's' + (extra && extra.style ? ";" + extra.style : "") + '">' + inner + "</" + (extra && extra.tag || "div") + ">";
+function srHTML(kind){
+  const w = SR_WORDS[kind] || SR_WORDS.multi;
+  const sc = (n, body) => '<div class="sr-sc" style="--s:' + n + '">' + body + "</div>";
+  const glass = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>';
+  const fields = [[46, 150, .9], [70, 120, 1.15], [94, 160, 1.4], [118, 100, 1.65], [150, 130, 1.9]].map(f => '<span class="sr-fl" style="top:' + f[0] + "px;width:" + f[1] + 'px"><i class="sr-a" style="--t:' + f[2] + 's"></i></span>').join("");
+  const blips = [[30, 34, .6], [68, 28, 1], [24, 66, 1.4], [74, 70, 1.8], [52, 18, 2.1], [40, 80, 2.4]].map(b => srA("sr-pop sr-blip", b[2], "", { tag: "i", style: "left:" + b[0] + "%;top:" + b[1] + "%" })).join("");
+  const rows = [["محمود سامي عبد الحميد", "SXA-1024", "ok", "ساري"], ["ن ق م 2026", "VXB-0711", "warn", "قرب الانتهاء"], ["هشام فتحي إبراهيم", "SXA-1031", "bad", "منتهي"]]
+    .map((r, i) => srA("sr-l sr-row", .4 + i * .35, "<b>" + r[0] + '</b><span class="mono">' + r[1] + '</span><span class="pill ' + r[2] + '">' + r[3] + "</span>")).join("");
+  return '<div class="sr" data-k="' + kind + '" aria-hidden="true">' +
+    sc(0, srA("sr-ghost", 0, w.ghost, { tag: "b" }) + '<div class="sr-col">' + srA("sr-pop sr-box", .3, glass + '<span class="sr-a sr-type' + (w.ltr ? " ltr" : "") + '" style="--t:.7s">' + w.typed + '</span><i class="sr-caret"></i>') +
+      srA("sr-in sr-k", 2.7, w.l1) + srA("sr-in sr-k2", 3.3, w.l2) + "</div>") +
+    sc(1, srA("sr-r", .1, '<div class="sr-card"><span class="sr-ph"></span>' + fields + '<i class="sr-a sr-beam" style="--t:.5s"></i>' + srA("sr-pop sr-ok", 2.8, "✓", { tag: "span" }) + "</div>") +
+      '<div class="sr-words">' + w.scan.map((x, i) => srA("sr-in", 1 + i * .5, x, { tag: "b" })).join("") + "</div>") +
+    sc(2, srA("sr-pop", .1, '<div class="sr-radar">' + blips + srA("sr-pop sr-blip hit", 2.8, "", { tag: "i", style: "left:62%;top:40%" }) + "</div>") +
+      '<div class="sr-found">' + srA("sr-in", 3, "اتلاقى ✓", { tag: "b" }) + srA("sr-in", 3.4, "FOUND", { tag: "span" }) + "</div>") +
+    sc(3, '<div class="sr-rows">' + rows + "</div>") +
+    sc(4, srA("sr-burst", .1, "", { tag: "i" }) + '<div class="sr-logo">' + srA("sr-pop", .3, '<span class="ncm">N<i>C</i><b>M</b></span>') + srA("sr-in appname", .9, "PERMISSION SYSTEM", { tag: "span" }) + "</div>" + srA("sr-sweep", 1.4, "", { tag: "i" })) +
+    '<div class="sr-bar"><i></i></div></div>';
+}
+// under the box of a search page that has nothing asked yet — the reel there already is left to run on
+function srPut(box, kind){
+  if(!can("x-reel") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){ box.innerHTML = ""; return; }
+  if(box.querySelector('.sr[data-k="' + kind + '"]')) return;
+  box.innerHTML = srHTML(kind);
+}
 function paintMulti(keep){
   const res = st.multi.res, box = $("mres");
   if(!box) return;
-  if(!res || !res.terms){ box.innerHTML = ""; return; }      // nothing asked, nothing shown
+  if(!res || !res.terms){ srPut(box, "multi"); return; }      // nothing asked: the showreel (x-reel), or nothing
   const at = keep ? rowsAt(box) : 0;
   const found = res.rows.filter(r => !r.miss && !r.more), cols = found.length ? written(MULTI_COLS[res.mode], found) : MULTI_COLS[res.mode];
   const cats = {};
@@ -6009,8 +6124,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", 
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait", "x-dash"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait", "x-dash": "canDash" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait", "x-dash", "x-reel"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait", "x-dash": "canDash", "x-reel": "canReel" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
@@ -7491,7 +7606,7 @@ function aseItems(lines){
 function paintAse(){
   const box = $("ares"), res = st.ase.res;
   if(!box) return;
-  if(!res){ box.innerHTML = ""; return; }
+  if(!res){ srPut(box, "ase"); return; }
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + t("reading") + "</h3></div>"; return; }
   const found = res.rows.filter(r => r.hits.length), all = [];
   found.forEach(r => r.hits.forEach(hit => all.push(hit)));
@@ -7639,7 +7754,7 @@ const SPC_COLS = MULTI_COLS.ind.map(c =>
 function paintSpc(){
   const res = st.spc.res, box = $("sres");
   if(!box) return;
-  if(!res){ box.innerHTML = ""; return; }
+  if(!res){ srPut(box, "spc"); return; }
   const lacking = [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
   const note = lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "";
   if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
@@ -8088,7 +8203,7 @@ const askRows = () => !st.ask.res || !st.ask.res.rows ? [] : st.ask.cat ? st.ask
 function paintAsk(){
   const res = st.ask.res, box = $("askv"), said = $("ask-said");
   if(!box) return;
-  if(!res){ box.innerHTML = ""; said.innerHTML = ""; return; }
+  if(!res){ srPut(box, "ask"); said.innerHTML = ""; return; }
   said.innerHTML = res.a.said.map(x => '<span class="pill blue">' + x + "</span>").join("") + res.a.unknown.map(w => '<span class="pill mute ask-x">' + esc(w) + "</span>").join("");
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + esc(t("cmBusy", CMP.done.toLocaleString("en-US"), CMP.total.toLocaleString("en-US"))) + "</h3></div>"; return; }
   if(res.needs){ box.innerHTML = '<div class="empty"><h3>' + t("askNeedsAse") + "</h3>" + (link() ? "" : '<p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p>") + "</div>"; return; }

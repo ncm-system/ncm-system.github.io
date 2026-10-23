@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-oAPXrcO5X1BX4tuDCwn55qHR6sxYaCnve3vZnNAor/U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-vjrjsgjHiJkc/88PdY5cKcnSDmvX4skmwnm4XHKJtPc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -582,6 +582,28 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
   55%    {box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 6px 16px rgba(31,78,121,.07), 0 0 0 6px var(--pulse);}
 }
 
+/* «لوحة المتابعة» ASSEMBLING ITSELF (asked for, 23 October 2026: «الصناديق الى فيها تترص بشكل احترافى — اعملها موشن جيرافيك من
+   تصميمك انت»). Opened — not redrawn — the page builds in one run, each thing at its own moment (--dd, set as the page is drawn):
+   a section's title is uncovered from its own side; its boxes swing down into place one after another, like cards laid on a board,
+   each giving off a ring of light as it lands and its figure running up from then; the charts rise out of a blur; their bars grow
+   one by one, the twelve months' columns in a wave, the rows of the list slide in. «x-dash»; none of it where motion is turned off. */
+#out.dashin .sect-h{animation:dashHead .75s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
+#out.dashin .tile{transform-origin:50% 0;animation:dashTile .85s cubic-bezier(.3,1.32,.5,1) var(--dd,0ms) backwards,dashGlow 1.1s ease-out calc(var(--dd,0ms) + 480ms) backwards;}
+#out.dashin .tile.pulse{animation:dashTile .85s cubic-bezier(.3,1.32,.5,1) var(--dd,0ms) backwards,dashGlow 1.1s ease-out calc(var(--dd,0ms) + 480ms) backwards,tilePulse 1.9s ease-in-out calc(var(--dd,0ms) + 1400ms) infinite;}
+#out.dashin .panel{animation:dashPanel .95s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
+#out.dashin .bar-row{animation:dashFade .5s ease var(--dd,0ms) backwards;}
+#out.dashin .bar-fill{transform-origin:right center;animation:barGrow 1s cubic-bezier(.2,.8,.2,1) calc(var(--dd,0ms) + 80ms) backwards;}
+#out.dashin .bar-v{animation:dashPop .45s cubic-bezier(.34,1.56,.64,1) calc(var(--dd,0ms) + 600ms) backwards;}
+#out.dashin .col-bar{transform-origin:center bottom;animation:colGrow .9s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
+#out.dashin tbody tr{animation:dashRow .55s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
+@keyframes dashHead{from{opacity:0;clip-path:inset(0 0 0 100%);transform:translateX(28px);}to{clip-path:inset(0 0 0 0);}}
+@keyframes dashTile{from{opacity:0;transform:perspective(900px) rotateX(-82deg) translateY(-16px) scale(.92);}}
+@keyframes dashGlow{0%{box-shadow:0 0 0 0 rgba(21,101,192,.38);}100%{box-shadow:0 0 0 16px rgba(21,101,192,0);}}
+@keyframes dashPanel{from{opacity:0;transform:translateY(46px) scale(.97);filter:blur(10px);}}
+@keyframes dashRow{from{opacity:0;transform:translateX(-36px);}}
+@keyframes dashFade{from{opacity:0;}}
+@keyframes dashPop{from{opacity:0;transform:scale(.5);}}
+@media (prefers-reduced-motion: reduce){ #out.dashin *{animation:none !important;} }
 /* ---------- boxes arriving ----------
    When a page is OPENED its boxes come in with one small movement: the tiles
    one after another, the panels under them, the bars growing to their length.
@@ -2874,7 +2896,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cc8103166c74";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "223be27a3a24";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3111,7 +3133,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canIntro:"أنيميشن الدخول", canWait:"موشن الانتظار", canDash:"حركة لوحة المتابعة", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3254,7 +3276,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canIntro:"Welcome animation", canWait:"Waiting animation", canDash:"Dashboard motion", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -4193,6 +4215,7 @@ function page(head, body){
    true figure the moment it is, and a box that has left the page is let be. */
 function countUp(){
   if(document.hidden || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  if(st.view === "home" && dashOn()) return;                 // «لوحة المتابعة» runs its own, box by box (dashIn)
   const els = [].filter.call(out.querySelectorAll(".tile-v"), el => /^\d+$/.test(el.textContent) && +el.textContent > 0);
   if(!els.length) return;
   const ends = els.map(el => +el.textContent), t0 = performance.now(), RUN = 700;
@@ -4360,6 +4383,37 @@ function permitTiles(view, totalLabel, total, c, show){
     cats.map(k => tile(t(CAT_TILE[k][0]), c[k] || 0, CAT_TILE[k][1], view + ":" + k, k === "soon" && c[k] > 0)).join("") + "</div>";
 }
 const sectH = (title, goTo) => '<div class="sect-h">' + title + '<button class="lnk" data-go="' + goTo + '">' + t("openList") + "</button></div>";
+/* «لوحة المتابعة» assembling itself (see «dashin» in the styles): each title, box and chart is given its moment in the order it is
+   read, the bars, columns and rows of a chart theirs after it; the boxes' figures run up as each box lands. */
+let dashTimer = null;
+const dashOn = () => can("x-dash") && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+function dashIn(){
+  if(!out.classList.contains("enter") || !dashOn()) return;
+  let t = 80;
+  const at = (el, ms) => el.style.setProperty("--dd", Math.round(ms) + "ms");
+  [].forEach.call(out.querySelectorAll(".sect-h, .tile, .panel"), el => {
+    if(el.classList.contains("sect-h")){ at(el, t); t += 110; return; }
+    if(el.classList.contains("tile")){ at(el, t); t += 55; return; }
+    at(el, t); const p = t; t += 150;
+    [].forEach.call(el.querySelectorAll(".bar-row"), (r, k) => at(r, p + 330 + k * 60));
+    [].forEach.call(el.querySelectorAll(".col"), (c, k) => at(c, p + 300 + k * 45));
+    [].forEach.call(el.querySelectorAll("tbody tr"), (r, k) => at(r, p + 260 + Math.min(k, 14) * 40));
+  });
+  out.classList.add("dashin");
+  clearTimeout(dashTimer); dashTimer = setTimeout(() => out.classList.remove("dashin"), t + 2200);
+  // the figures: each from the moment its box lands
+  const els = [].filter.call(out.querySelectorAll(".tile .tile-v"), el => /^\d+$/.test(el.textContent));
+  const ends = els.map(el => +el.textContent), from = els.map(el => (parseFloat(el.closest(".tile").style.getPropertyValue("--dd")) || 0) + 420);
+  const t0 = performance.now(), RUN = 900;
+  const step = now => {
+    let more = false;
+    els.forEach((el, i) => { const x = Math.min(1, Math.max(0, (now - t0 - from[i]) / RUN)); if(x < 1) more = true; if(el.isConnected) el.textContent = Math.round(ends[i] * (1 - Math.pow(1 - x, 3))); });
+    if(more) requestAnimationFrame(step);
+  };
+  els.forEach(el => { el.textContent = "0"; });
+  requestAnimationFrame(step);
+  setTimeout(() => els.forEach((el, i) => { if(el.isConnected) el.textContent = ends[i]; }), Math.max(0, ...from) + RUN + 500);
+}
 function renderHome(){
   let h = "";
 
@@ -4418,6 +4472,7 @@ function renderHome(){
     h += "</section>";
   }
   page(pgHead(t("navHome"), can("x-report") ? '<div class="pg-acts noprint"><button class="btn sm" data-act="report">' + t("repOpen") + "</button></div>" : ""), scrollPart(h));
+  dashIn();
 }
 
 /* «المتابعة» — see «.lv» in the styles. Drawn again only when its figures have changed (the sheets are read again every
@@ -5934,8 +5989,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", 
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-intro", "x-wait", "x-dash"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-intro": "canIntro", "x-wait": "canWait", "x-dash": "canDash" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? session.pages : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };

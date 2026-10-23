@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-is7+y8PAp3Zu9DyvVm8om0NZn8UKo5lkx/Os5IVZaOU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-uZFC7HhEw6JInBXZwEA8UBTyGLFXPyFw/sffenyWWYQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -332,6 +332,9 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 @media (max-width:620px){ body.bgmo .multi-box{width:calc(100% + 22px);margin:-9px -11px -13px;padding:8px 10px 12px;} }
 @media (prefers-reduced-motion: reduce){ body.bgmo .multi-box::before{animation:none !important;} }
 @media print{ #bgmo{display:none !important;} }
+.cards-open{gap:7px;}
+.cards-open.busy{pointer-events:none;opacity:.6;}
+.cards-hist .cards-open{margin:0 6px;}
 /* REVIEW BEFORE THE SHEET (asked for, 23 October 2026: «البطاقات الى يقراها تظهرلى فى السيستم… قبل تصدير ملف الاكسيل بحيث اقدر
    اراجعهم… وسهم يغير كل بطاقة… البطاقة تظهرلى وش وضهر» — and «بلاش تمام الى بعده خليها سهم وصممه بموشن جيرافيك»; no words of guidance).
    The pair of photographs is the stage: going on, the pair leaves to one side turning away and the next comes in from the other, the back
@@ -3057,7 +3060,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "92badbf0ca52";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "131cf0bed172";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3279,7 +3282,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3422,7 +3425,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", cdOpen:"Open in Excel", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -6815,6 +6818,7 @@ async function cardsSync(){
       toast(j.status === "done" ? t("cdDoneToast", j.file, j.people || 0) : t("cdFailToast", j.file), j.status !== "done");
     });
     rvForget();
+    CARD.jobs.forEach(j => { if(cardsOpenAsked[j.id] && (+j.open_missing || 0) > cardsOpenAsked[j.id]){ delete cardsOpenAsked[j.id]; toast(t("cdOpenGone"), true); } });
   }finally{ cardsBusy = false; }
   cardsNav();
   if(st.view === "cards" && $("cards")) paintCards();
@@ -7255,6 +7259,22 @@ function rvZoom(src){
     rvGo(sec.dataset.rv, (+RV.at[sec.dataset.rv] || 0) + (e.key === "ArrowLeft" ? 1 : -1));          // the page reads right to left: «next» is to the left
   });
 })();
+/* «فتح الإكسيل» (asked for, 23 October 2026: «زر فتح الاكسيل من غير ما ادخل للفولدر»): a page cannot start a program, so the order
+   is put where the reader looks, and its wait opens the sheet that file made — in «النتيجة», or in «الأرشيف» if «مسح» moved it there.
+   It opens only a sheet of its own making (the name is the reader's, from its list). */
+const cardsOpenAsked = {};
+const cardsOpenBtn = (id, size) => '<button type="button" class="btn ' + (size ? size + " " : "") + 'primary cards-open" data-cards-open="' + esc(id) + '"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M21 3l-9 9"/><path d="M19 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"/></svg>' + t("cdOpen") + "</button>";
+function cardsOpen(id, btn){
+  if(ONLINE || !isAdmin() || !id) return;
+  cardsPut(new Blob(["open"], { type: "text/plain" }), CARDS_PREFIX + " [" + cardsId() + "] فتح [" + id + "].txt");
+  cardsOpenAsked[id] = Date.now();
+  if(btn){ btn.classList.add("busy"); setTimeout(() => btn.classList.remove("busy"), 4000); }
+  [2500, 6000].forEach(ms => setTimeout(cardsSync, ms));
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-cards-open]");
+  if(b){ e.preventDefault(); e.stopPropagation(); cardsOpen(b.dataset.cardsOpen, b); }
+}, true);
 function cardsJobHTML(j){
   if(j.status === "lost")
     return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
@@ -7286,7 +7306,7 @@ function cardsResultHTML(j){
     (banned ? box("banned", t("cdBanned"), banned, "ban", true) : "") + "</div>";
   const inBox = (r, n) => !ccat || (ccat === "clean" ? !(r.flags && r.flags.length) : ccat === "flagged" ? !!(r.flags && r.flags.length) : ccat === "expired" ? !!r.expired : ccat === "banned" ? !!known[n].ban : true);
   const file = '<div class="cards-out"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#12874f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9.500 12.500l5 5M14.500 12.500l-5 5"/></svg>' +
-    "<b>" + fileName(j.output) + "</b><span>" + t("cdInExport") + "</span></div>";
+    "<b>" + fileName(j.output) + "</b><span>" + t("cdInExport") + "</span>" + cardsOpenBtn(j.id, "") + "</div>";
   const notes = (j.notes || []).map(n => '<p class="note warn">' + esc(n) + "</p>").join("");
   if(!rows.length) return '<section class="panel cards-res arrive">' + head + '<div class="panel-b">' + tiles + file + notes + "</div></section>";
   // `e`: what the column holds for a row — a column that holds nothing for anyone is not shown, as on every page
@@ -7350,7 +7370,7 @@ function paintCards(){
       '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["cdColWhen", "cdColFile", "cdPeople", "cdColState", "cdOut"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
       history.map(j => '<tr><td class="nowrap">' + cardsWhen(j.finished_at || j.received_at) + '</td><td>' + fileName(j.file) + "</td><td>" + (j.people ? num(j.people) : dimDash) + "</td>" +
         "<td>" + (j.status === "done" ? pill(j.flagged ? "warn" : "ok", j.flagged ? t("cdFlagged") + " " + j.flagged : t("cdDone")) : pill("bad", t("cdFailed"))) + "</td>" +
-        "<td>" + (j.status === "done" ? fileName(dash(j.output)) : esc(dash(j.error))) + "</td></tr>").join("") +
+        "<td>" + (j.status === "done" ? fileName(dash(j.output)) + (j.output ? " " + cardsOpenBtn(j.id, "sm") : "") : esc(dash(j.error))) + "</td></tr>").join("") +
       "</tbody></table></div></section>" : "");
   if(!arrived) [].forEach.call(box.querySelectorAll(".arrive"), el => el.classList.remove("arrive"));
   freeze();

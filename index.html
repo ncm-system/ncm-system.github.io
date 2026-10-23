@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-yhJuYmHvROl1x4MC+WJjLbVBjKWsN5UM9BWL2o04ddQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-V2eI6G7QOX2FMwVEuB5fM2fRJhavYoa84u8s4KcszYw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -403,9 +403,14 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 .rv-f{display:flex;align-items:center;gap:12px;min-width:0;}
 .rv-f.wide{grid-column:span 2;}
 .rv-f.full{grid-column:1/-1;}
-.rv-f > span{flex:none;width:122px;font-size:13px;font-weight:800;color:var(--muted);}
+/* larger, black and bold, to be read at a glance (asked for: «كبر الخط عشان يبقا واضح وكله اسود وبولد») */
+.rv-f > span{flex:none;width:158px;white-space:nowrap;font-size:16px;font-weight:900;color:#000;}
+html.dark .rv-f > span{color:var(--text);}
 .rv-f.wide > .rv-in{flex:1;}
-.rv-in{width:100%;text-align:center;font-weight:700;transition:border-color .2s,background .2s,box-shadow .2s;}
+.rv-in{width:100%;min-width:0;text-align:center;transition:border-color .2s,background .2s,box-shadow .2s;}
+.rv-f .rv-in.field{font-size:18px;font-weight:900;color:#000;padding:10px 13px;}
+html.dark .rv-f .rv-in.field{color:var(--text);}
+.rv-f .rv-in.field.bad,html.dark .rv-f .rv-in.field.bad{color:#fff;}
 .rv-in.num{direction:ltr;font-family:var(--mono);letter-spacing:.04em;}
 .rv-in.need{border-color:var(--warn-br);background:var(--warn-bg);box-shadow:0 0 0 3px rgba(185,110,8,.12);}
 /* the id on the face is not the id on the back (asked for: «لو الاتنين مش متطبقين يظهر بالاحمر الغامق») */
@@ -413,8 +418,9 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 .rv-body.in > *{animation:rvUp .5s cubic-bezier(.2,.8,.2,1) both;}
 .rv-body.in .rv-f{animation:rvUp .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k) * 35ms + .12s);}
 @keyframes rvUp{from{opacity:0;transform:translateY(10px);}}
-.rv-foot{display:flex;justify-content:center;margin-top:20px;}
-.rv-go{height:38px;font-size:14px;gap:10px;border-radius:999px;padding:0 16px;}
+.rv-foot{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;}
+.rv-foot .btn{height:46px;font-size:16px;font-weight:900;padding:0 24px;border-radius:999px;}
+.rv-go{gap:10px;}
 .rv-go .rv-c{font-family:var(--cond);font-size:16px;font-weight:700;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.2);direction:ltr;}
 .rv-go.busy{pointer-events:none;}
 .rv-go.busy svg{animation:spin 1s linear infinite;}
@@ -3050,7 +3056,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "fffdda8273ba";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "c365d04d5634";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7074,7 +7080,7 @@ function moCancel(){
    PC until then. */
 const RV_KEY = "ncm_system_cards_review";
 // the face's id only — the back's is read for the check, and the face's turns dark red when the two differ
-const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", "wide"], ["qualification", "rvQual", "wide"]];
+const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", ""], ["qualification", "rvQual", ""]];
 const RV_NEED = { name: 1, nid: 1, address: 1 };          // empty, these are missing; the rest may be empty on a card with no back
 let RV = { at: {}, ed: {}, sent: {} };
 try{ const k = JSON.parse(localStorage.getItem(RV_KEY) || "{}"); if(k && typeof k === "object") ["at", "ed", "sent"].forEach(x => { if(k[x] && typeof k[x] === "object") RV[x] = k[x]; }); }catch(e){}
@@ -7144,14 +7150,14 @@ function rvGoBtn(j){
 function rvHTML(j){
   const n = j.draft.length, i = Math.max(0, Math.min(+RV.at[j.id] || 0, n - 1));
   return '<section class="panel cards-rv" data-rv="' + esc(j.id) + '"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
-      '<span class="desk-two"><span class="rv-n"><b>' + (i + 1) + "</b>/ " + n + "</span>" + rvGoBtn(j) +
-      '<button class="btn sm danger" data-act="cards-cancel" data-id="' + esc(j.id) + '">' + t("cancel") + "</button></span></div>" +
+      '<span class="rv-n"><b>' + (i + 1) + "</b>/ " + n + "</span></div>" +
     '<div class="panel-b"><div class="rv-deck">' +
       '<button type="button" class="rv-arrow' + (i === 0 ? " end" : "") + '" data-rv-go="-1" aria-label="' + t("rvPrev") + '">' + RV_ARROW(-1) + "</button>" +
       '<div class="rv-stage">' + rvPair(j, i, "") + "</div>" +
       '<button type="button" class="rv-arrow' + (i === n - 1 ? " end" : "") + '" data-rv-go="1" aria-label="' + t("rvNext") + '">' + RV_ARROW(1) + "</button></div>" +
       rvBody(j, i, "") +
-      (j.export_error && !rvBusy(j) ? '<p class="note warn" style="margin:12px 0 0">' + esc(j.export_error) + "</p>" : "") + "</div></section>";
+      (j.export_error && !rvBusy(j) ? '<p class="note warn" style="margin:12px 0 0">' + esc(j.export_error) + "</p>" : "") +
+      '<div class="rv-foot">' + rvGoBtn(j) + '<button class="btn danger" data-act="cards-cancel" data-id="' + esc(j.id) + '">' + t("cancel") + "</button></div></div></section>";
 }
 const rvMotion = () => moOn() && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 function rvGo(id, to, from){

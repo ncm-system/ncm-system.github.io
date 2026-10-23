@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-uRi41dM5ioiaLAbhLkZ9PLIOm7AZmgPt4xIExammyzs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-4VlXry2mU+dX0y8bQYbiPELs9GoiE6WAdemdLdUJQ1A='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -292,31 +292,41 @@ html.dark #gate .upick-btn:hover,html.dark #gate .pinboxes i.on{background:rgba(
 #gate .gate-card .cbrand{animation:gIn .9s cubic-bezier(.2,.8,.2,1) .15s both;}
 @media (max-width:620px){ .gmo-streams,.gmo-cards,.gmo-rings{display:none;} /* the box is the width of a phone: nothing slides behind what is typed in it */ .gr em{width:40px;height:40px;margin:-20px 0 0 -20px;transform-origin:20px calc(var(--r) + 20px);} .gr em span{border-radius:12px;} .gr em svg{width:18px;height:18px;} .gmo-cards i{transform:scale(.75);} }
 @media (prefers-reduced-motion: reduce){ .gmo *,.gmo::before,#gate .gate-card,#gate .gate-card::before,#gate .gate-card .cbrand{animation:none !important;} .gmo-word b:first-child{opacity:1;} }
-/* THE SIGN-IN SCREEN'S MOTION UNDER THE SEARCH BOX (asked for, 23 October 2026: «زى ما احنا عاملية فى صفحة الدخول عايز اعمله فى
-   صفحات البحث برضو… صندوق البحث يبقا تحته الموشن جيرافك»): «بحث», «بحث خاص», «ASE SEARCH» and «المساعد», while nothing is asked —
-   the very motion of the sign-in screen (copied from it as the page is drawn, so the two stay one), measured against the room under
-   the box instead of the whole screen, and in its middle, where the sign-in box stands there, a glass ring with the search's glass.
-   Gone the moment an answer comes. «x-reel». */
-.gms{position:relative;height:max(380px,calc(100vh - 340px));margin-top:14px;border-radius:22px;overflow:hidden;isolation:isolate;container-type:size;
-  background:radial-gradient(70% 60% at 50% 40%,rgba(21,101,192,.07),transparent 70%),var(--bg);box-shadow:inset 0 0 0 1px var(--mo-edge);}
-.gms .gmo{z-index:-1;}
+/* THE SEARCH BOX ON THE SIGN-IN SCREEN'S MOTION (asked for, 23 October 2026: «زى ما احنا عاملية فى صفحة الدخول عايز اعمله فى صفحات
+   البحث برضو» — and then «مش قصدى تحت صندوق البحث انا عايزة يبقا صندوق البحث علية وزجاجى زى بتاع الدخول كده»): «بحث», «بحث خاص»,
+   «ASE SEARCH» and «المساعد», while nothing is asked — the very motion of the sign-in screen (copied from it as the page is drawn, so
+   the two stay one) behind the whole page, its rings and lines turning round the search box (--gx/--gy: the box's middle), and the box
+   itself glass, a light running round its edge, as the sign-in box is. It takes no room of its own: the glass reaches out over the
+   box's margins, so nothing moves when it goes. Gone the moment an answer comes. «x-reel». */
+#out.gms-on{position:relative;isolation:isolate;min-height:min(560px,calc(100vh - 140px));}
+.gms{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;container-type:size;animation:gmsIn .8s ease-out both;}
+@keyframes gmsIn{from{opacity:0;}}
+.gms .gmo{z-index:0;}
 .gms .gmo-au{width:90cqmax;height:90cqmax;}
-.gms .gmo-word b{font-size:min(17cqw,230px,calc(150cqw / var(--l)));}
-.gms .gr.r1{--r:34cqmin;width:68cqmin;height:68cqmin;margin:-34cqmin 0 0 -34cqmin;}
-.gms .gr.r2{--r:50cqmin;width:100cqmin;height:100cqmin;margin:-50cqmin 0 0 -50cqmin;}
-.gms .gr.r3{--r:68cqmin;width:136cqmin;height:136cqmin;margin:-68cqmin 0 0 -68cqmin;}
+.gms .gmo-rings,.gms .gmo-streams{left:var(--gx,50%);top:var(--gy,50%);}
+.gms .gmo-word{inset:auto 0;top:var(--gy,50%);height:0;display:block;}
+.gms .gmo-word b{position:absolute;left:50%;top:0;translate:-50% -50%;font-size:min(17cqw,230px,calc(150cqw / var(--l)));}
+.gms .gr.r1{--r:min(56cqmin,380px);width:min(112cqmin,760px);height:min(112cqmin,760px);margin:calc(min(112cqmin,760px) / -2) 0 0 calc(min(112cqmin,760px) / -2);}
+.gms .gr.r2{--r:min(74cqmin,500px);width:min(148cqmin,1000px);height:min(148cqmin,1000px);margin:calc(min(148cqmin,1000px) / -2) 0 0 calc(min(148cqmin,1000px) / -2);}
+.gms .gr.r3{--r:min(94cqmin,640px);width:min(188cqmin,1280px);height:min(188cqmin,1280px);margin:calc(min(188cqmin,1280px) / -2) 0 0 calc(min(188cqmin,1280px) / -2);}
 .gms .gmo-cards i{animation-name:gCardIn;}
 @keyframes gCardIn{0%{opacity:0;transform:translateY(0) rotate(-8deg);}8%{opacity:.95;}50%{transform:translateY(-62cqh) rotate(5deg);}92%{opacity:.9;}100%{opacity:0;transform:translateY(-118cqh) rotate(-4deg);}}
 .gms .gmo-streams i{width:75cqmax;}
-.gms-orb{position:absolute;left:50%;top:50%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:50%;display:grid;place-items:center;color:var(--mo-b);
-  background:linear-gradient(155deg,rgba(255,255,255,.62),rgba(255,255,255,.2));border:1px solid rgba(255,255,255,.8);
-  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:0 18px 44px rgba(21,101,192,.18),0 0 0 10px rgba(21,101,192,.05);animation:gmsBreathe 3.2s ease-in-out infinite;}
-.gms-orb::before{content:"";position:absolute;inset:-3px;border-radius:50%;padding:3px;background:conic-gradient(from var(--gate-a),transparent 0 60%,rgba(21,101,192,.95) 76%,rgba(75,165,72,.95) 88%,transparent 98%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:gEdge 4s linear infinite;}
-html.dark .gms-orb{background:linear-gradient(155deg,rgba(26,39,53,.6),rgba(21,32,44,.25));border-color:rgba(120,170,240,.25);}
-@keyframes gmsBreathe{50%{transform:scale(1.05);box-shadow:0 22px 52px rgba(21,101,192,.22),0 0 0 18px rgba(21,101,192,.04);}}
-@media (max-width:620px){ .gms{height:300px;} .gms-orb{width:96px;height:96px;margin:-48px 0 0 -48px;} .gms-orb svg{width:38px;height:38px;} }
-@media (prefers-reduced-motion: reduce){ .gms-orb,.gms-orb::before{animation:none !important;} }
+/* the box: glass reaching out over its own margins, and the light round its edge */
+#out.gms-on .multi-box{width:calc(100% + 42px);max-width:682px;margin:-11px -21px -17px;padding:10px 20px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.75);
+  background:linear-gradient(155deg,rgba(255,255,255,.46),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(1.5px) saturate(1.15);backdrop-filter:blur(1.5px) saturate(1.15);
+  box-shadow:0 24px 60px rgba(21,101,192,.16),0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(21,101,192,.08);}
+#out.gms-on .multi-box::before{content:"";position:absolute;inset:-2px;border-radius:28px;padding:2px;pointer-events:none;
+  background:conic-gradient(from var(--gate-a),transparent 0 62%,rgba(21,101,192,.95) 76%,rgba(75,165,72,.95) 86%,transparent 96%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:gEdge 5s linear infinite;}
+#out.gms-on .multi-box .multi-ta,#out.gms-on .multi-box .field,#out.gms-on .multi-box .seg,#out.gms-on .multi-box .btn:not(.primary){background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
+#out.gms-on .multi-box .multi-ta:focus,#out.gms-on .multi-box .field:focus{background:rgba(255,255,255,.72);}
+html.dark #out.gms-on .multi-box{background:linear-gradient(155deg,rgba(26,39,53,.5),rgba(21,32,44,.22));border-color:rgba(120,170,240,.22);}
+html.dark #out.gms-on .multi-box .multi-ta,html.dark #out.gms-on .multi-box .field,html.dark #out.gms-on .multi-box .seg,html.dark #out.gms-on .multi-box .btn:not(.primary){background:rgba(26,39,53,.55);}
+html.dark #out.gms-on .multi-box .multi-ta:focus,html.dark #out.gms-on .multi-box .field:focus{background:rgba(26,39,53,.78);}
+@media (max-width:620px){ #out.gms-on .multi-box{width:calc(100% + 22px);margin:-9px -11px -13px;padding:8px 10px 12px;} }
+@media (prefers-reduced-motion: reduce){ #out.gms-on .multi-box::before{animation:none !important;} }
 @media print{ .gms{display:none !important;} }
 /* ---------- gate: sign-in for the online edition ---------- */
 #gate{
@@ -2941,7 +2951,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "09c96a67e037";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5f815b2f720a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4237,6 +4247,7 @@ const BRAND =
   "</div>";
 let shownPage = "", enterTimer = null;
 function page(head, body){
+  gmsOff();
   out.innerHTML = '<div class="pg-fixed">' + BRAND + head + "</div>" + body;
   setTimeout(moSync, 0);                           // the waiting over the whole screen is this page's or nobody's
   /* Opened, or only redrawn? The page is the same page while it is the same
@@ -5672,18 +5683,44 @@ function multiOpen(r){
   if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
   return r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
 }
-/* Under the search box of a page that has nothing asked yet: the sign-in screen's motion (see «.gms» in the styles). The one
-   already there is left to run on. «x-reel». */
+/* A search page that has nothing asked yet: the sign-in screen's motion behind the whole page and the search box glass on it (see
+   «.gms» in the styles). The one already there is left to run on; its rings follow the box when the window or the box changes size.
+   «x-reel». */
+let gmsRO = null;
+function gmsAim(){
+  const g = out.querySelector(":scope > .gms"), mb = out.querySelector(".multi-box");
+  if(!g || !mb) return;
+  let x = mb.offsetWidth / 2, y = mb.offsetHeight / 2;      // the box's middle, in the page's own measure (a page coming in moves nothing here)
+  for(let el = mb; el && el !== out; el = el.offsetParent){ x += el.offsetLeft; y += el.offsetTop; }
+  g.style.setProperty("--gx", Math.round(x) + "px");
+  g.style.setProperty("--gy", Math.round(y) + "px");
+}
+function gmsOff(){
+  out.classList.remove("gms-on");
+  const g = out.querySelector(":scope > .gms");
+  if(g) g.remove();
+  if(gmsRO){ gmsRO.disconnect(); gmsRO = null; }
+}
 function gmsPut(box){
+  box.innerHTML = "";
   const gmo = document.querySelector("#gate .gmo");
-  if(!gmo || !can("x-reel") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){ box.innerHTML = ""; return; }
-  if(box.querySelector(".gms")) return;
-  box.innerHTML = '<div class="gms" aria-hidden="true">' + gmo.outerHTML + '<div class="gms-orb"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div></div>';
+  if(!gmo || !can("x-reel") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){ gmsOff(); return; }
+  out.classList.add("gms-on");
+  if(!out.querySelector(":scope > .gms")) out.insertAdjacentHTML("afterbegin", '<div class="gms" aria-hidden="true">' + gmo.outerHTML + "</div>");
+  gmsAim();
+  if(window.ResizeObserver){
+    if(gmsRO) gmsRO.disconnect();
+    gmsRO = new ResizeObserver(gmsAim);
+    gmsRO.observe(out);
+    const mb = out.querySelector(".multi-box");
+    if(mb) gmsRO.observe(mb);
+  }
 }
 function paintMulti(keep){
   const res = st.multi.res, box = $("mres");
   if(!box) return;
-  if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: the sign-in screen's motion (x-reel), or nothing
+  if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: the box on the sign-in screen's motion (x-reel), or nothing
+  gmsOff();
   const at = keep ? rowsAt(box) : 0;
   const found = res.rows.filter(r => !r.miss && !r.more), cols = found.length ? written(MULTI_COLS[res.mode], found) : MULTI_COLS[res.mode];
   const cats = {};
@@ -7525,6 +7562,7 @@ function paintAse(){
   const box = $("ares"), res = st.ase.res;
   if(!box) return;
   if(!res){ gmsPut(box); return; }
+  gmsOff();
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + t("reading") + "</h3></div>"; return; }
   const found = res.rows.filter(r => r.hits.length), all = [];
   found.forEach(r => r.hits.forEach(hit => all.push(hit)));
@@ -7673,6 +7711,7 @@ function paintSpc(){
   const res = st.spc.res, box = $("sres");
   if(!box) return;
   if(!res){ gmsPut(box); return; }
+  gmsOff();
   const lacking = [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
   const note = lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "";
   if(!res.rows.length){ box.innerHTML = note + '<div class="empty"><h3>' + t("spNone") + "</h3></div>"; return; }
@@ -8122,6 +8161,7 @@ function paintAsk(){
   const res = st.ask.res, box = $("askv"), said = $("ask-said");
   if(!box) return;
   if(!res){ gmsPut(box); said.innerHTML = ""; return; }
+  gmsOff();
   said.innerHTML = res.a.said.map(x => '<span class="pill blue">' + x + "</span>").join("") + res.a.unknown.map(w => '<span class="pill mute ask-x">' + esc(w) + "</span>").join("");
   if(!res.rows){ box.innerHTML = '<div class="empty"><h3>' + esc(t("cmBusy", CMP.done.toLocaleString("en-US"), CMP.total.toLocaleString("en-US"))) + "</h3></div>"; return; }
   if(res.needs){ box.innerHTML = '<div class="empty"><h3>' + t("askNeedsAse") + "</h3>" + (link() ? "" : '<p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p>") + "</div>"; return; }

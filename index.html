@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-lJmX6MI2DDAipQzA8304Sjwmh1I1Btv9N02Hi3aX4dY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-DeSpLGIuJ4tcwXgflqCPBH/iaX/M94bhVasbFAXiKFA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3064,7 +3064,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e7cc9db81cbc";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "ba80cb3e6fa4";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7100,7 +7100,10 @@ const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirt
   ["job", "rvJob", ""], ["follower", "rvFollow", ""]];      // not on the card: written here, so the sheet comes out whole («عشان اكتبهم فى وقتها والشيت يتصدر كامل»)
 const RV_NEED = { name: 1, nid: 1, address: 1 };
 // a vehicle licence: the plate read off it (as the sheets write it, «س ص س 1234»), the rest typed — the CARS sheet's columns
-const RV_F_VEH = [["plate", "rvPlate", ""], ["vtype", "rvVtype", ""], ["follower", "rvFollow", ""], ["vtype_en", "rvVtypeEn", ""]];
+const RV_F_VEH = [["plate", "rvPlate", ""], ["vtype", "rvVtype", ""], ["vtype_en", "rvVtypeEn", ""], ["follower", "rvFollow", ""]];
+// a plate is 2 or 3 letters and 2 to 4 digits («م م 123» · «م م ر 123» · «م ر ق 1234» — 24 October 2026); any other shape stands out
+const RV_PLATE = /^[\u0621-\u064a]( [\u0621-\u064a]){1,2} [0-9]{2,4}$/;
+const rvPlateOk = v => RV_PLATE.test(rvLat(v).replace(/\s+/g, " ").trim());
 const RV_NEED_VEH = { plate: 1 };
 const rvF = j => j.kind === "veh" ? RV_F_VEH : RV_F;
 // a plate the system has, among the vehicle permits
@@ -7123,6 +7126,7 @@ function rvBirth(j, i){
 }
 function rvNeed(j, i, k){
   if(k === "birth") return false;
+  if(j.kind === "veh" && k === "plate"){ const p = rvVal(j, i, k); if(p.trim() && !/[؟?]/.test(p) && !rvPlateOk(p)) return true; }
   const v = rvVal(j, i, k), o = String(j.draft[i][k] || "");
   return /[؟?]/.test(v) || (!v.trim() && (/[؟?]/.test(o) || !!(j.kind === "veh" ? RV_NEED_VEH : RV_NEED)[k]));
 }
@@ -7374,9 +7378,9 @@ function cardsVehResultHTML(j, head){
   const file = '<div class="cards-out"><b>' + fileName(j.output) + "</b><span>" + t("cdInExport") + "</span>" + cardsOpenBtn(j.id, "") + "</div>";
   const known = rows.map(r => rvVehKnown(r.plate));
   return '<section class="panel cards-res arrive">' + head.replace("</h3>", cardsKindPill(j) + "</h3>") + '<div class="panel-b">' + tiles + file + "</div>" +
-    '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["colSerial", "rvPlate", "rvVtype", "rvFollow", "rvVtypeEn", "cdColSys", "cdColNotes"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
+    '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["colSerial", "rvPlate", "rvVtype", "rvVtypeEn", "rvFollow", "cdColSys", "cdColNotes"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
     rows.map((r, i) => '<tr' + (known[i] ? ' data-open="veh:' + esc(known[i].key) + '"' : "") + (r.flags && r.flags.length ? ' class="flag"' : "") + '><td class="ix">' + (r.n || i + 1) + "</td>" +
-      '<td class="nowrap"><b>' + unclear(dash(r.plate)) + "</b></td><td>" + esc(dash(r.vtype)) + "</td><td>" + esc(dash(r.follower)) + '</td><td class="ltr">' + esc(dash(r.vtype_en)) + "</td>" +
+      '<td class="nowrap"><b>' + unclear(dash(r.plate)) + "</b></td><td>" + esc(dash(r.vtype)) + '</td><td class="ltr">' + esc(dash(r.vtype_en)) + "</td><td>" + esc(dash(r.follower)) + "</td>" +
       "<td>" + (known[i] ? permitPill(known[i].p) : '<span class="dim">' + t("cdNotIn") + "</span>") + "</td>" +
       "<td>" + (r.flags && r.flags.length ? '<div class="cards-flags">' + r.flags.map(f => pill("warn", f)).join("") + "</div>" : pill("ok", t("cdClean"))) + "</td></tr>").join("") +
     "</tbody></table></div></section>";

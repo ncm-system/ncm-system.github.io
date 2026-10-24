@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-OtzJHqmNyQx7rXp38LAs/BQBiVBnX1rqWcRx1yXQzX0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-okjiZGHum89tcGZPqNyEnMbJQldYmarkGYfhNeNvTqk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -415,6 +415,7 @@ html.dark .rv-f > span{color:var(--text);}
 html.dark .rv-f .rv-in.field{color:var(--text);}
 .rv-f .rv-in.field.bad,html.dark .rv-f .rv-in.field.bad{color:#fff;}
 .rv-in.num{direction:ltr;font-family:var(--mono);letter-spacing:.04em;}
+.rv-f .rv-in.field.rv-calc{background:var(--tint);border-style:dashed;cursor:default;}
 .rv-in.need{border-color:var(--warn-br);background:var(--warn-bg);box-shadow:0 0 0 3px rgba(185,110,8,.12);}
 /* the id on the face is not the id on the back (asked for: «لو الاتنين مش متطبقين يظهر بالاحمر الغامق») */
 .rv-in.bad,html.dark .rv-in.bad{background:#8e1b1b;border-color:#8e1b1b;color:#fff;box-shadow:0 0 0 3px rgba(142,27,27,.2);}
@@ -3060,7 +3061,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "d4bd3f3b8cd9";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "7245744a8602";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3282,7 +3283,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvBirthOk:"الميلاد = الرقم", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3425,7 +3426,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", cdOpen:"Open in Excel", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvBirthOk:"Birth date = ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", cdOpen:"Open in Excel", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -7095,7 +7096,14 @@ const rvJob = id => CARD.jobs.find(j => j.id === id && j.status === "review" && 
 const rvLat = v => String(v || "").replace(/[٠-٩]/g, c => c.charCodeAt(0) - 1632).replace(/[۰-۹]/g, c => c.charCodeAt(0) - 1776);
 const rvShow = v => /^[\s؟?]*$/.test(String(v || "")) ? "" : String(v || "");     // nothing made out: an empty field
 function rvVal(j, i, k){ const e = RV.ed[j.id] && RV.ed[j.id][i]; return e && Object.prototype.hasOwnProperty.call(e, k) ? e[k] : rvShow(j.draft[i][k]); }
+/* the date of birth is the national id's (asked for, 24 October 2026: «تاريخ الميلاد… عايزة يتحسب من الرقم القومى الى بنكتبة زى ما فى
+   شيت الاكسيل لانه فى اغلب صور البطايق بيبقا مش واضح»): worked out from the id in its box as it is typed, never read off the photo */
+function rvBirth(j, i){
+  const a = rvLat(rvVal(j, i, "nid")).replace(/\s/g, ""), d = /^\d{14}$/.test(a) ? NCM.nidInfo(a) : null;
+  return d ? d.birth : "";
+}
 function rvNeed(j, i, k){
+  if(k === "birth") return false;
   const v = rvVal(j, i, k), o = String(j.draft[i][k] || "");
   return /[؟?]/.test(v) || (!v.trim() && (/[؟?]/.test(o) || !!RV_NEED[k]));
 }
@@ -7119,8 +7127,6 @@ function rvChecks(j, i){
   const chk = (ok, k) => '<span class="rv-chk' + (ok ? "" : " no") + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
     (ok ? '<path d="M5 12.5l4.500 4.500L19 7.500"/>' : '<path d="M6 6l12 12M18 6L6 18"/>') + "</svg>" + t(k) + "</span>";
   if(/^\d{14}$/.test(a) || /^\d+$/.test(a)) out.push(chk(!!d, "rvNidOk"));
-  const bp = rvDate(rvVal(j, i, "birth"));
-  if(d && bp) out.push(chk(bp === d.birth, "rvBirthOk"));
   const ex = rvDate(rvVal(j, i, "expiry"));
   if(ex){ const p = ex.split("/"), dt = rvMk(+p[2], +p[1], +p[0]); out.push(chk(dt >= NCM.today0(), dt >= NCM.today0() ? "rvValid" : "rvExpired")); }
   const k = d ? cardsKnown(a) : null;
@@ -7139,6 +7145,8 @@ function rvPair(j, i, cls){
 function rvBody(j, i, cls){
   return '<div class="rv-body' + (cls ? " " + cls : "") + '"><div class="rv-mid"><div class="rv-checks">' + rvChecks(j, i) + '</div><div class="rv-dots">' + rvDotsHTML(j, i) + '</div></div><div class="rv-form">' +
     RV_F.map((f, k) => {
+      if(f[0] === "birth")
+        return '<label class="rv-f" style="--k:' + k + '"><span>' + t(f[1]) + '</span><input class="field rv-in num rv-calc" data-rvf="birth" id="rv-birth" type="text" readonly tabindex="-1" value="' + esc(rvBirth(j, i)) + '"></label>';
       const v = rvVal(j, i, f[0]);
       return '<label class="rv-f' + (f[2] === "wide" || f[2] === "full" ? " " + f[2] : "") + '" style="--k:' + k + '"><span>' + t(f[1]) + "</span>" +
         '<input class="field rv-in' + (f[2] === "num" ? " num" : "") + (f[0] === "nid" && rvOdd(j, i) ? " bad" : rvNeed(j, i, f[0]) ? " need" : "") + '" data-rvf="' + f[0] + '" id="rv-' + f[0] + '" type="text" spellcheck="false" autocomplete="off" value="' + esc(v) + '"></label>';
@@ -7194,6 +7202,8 @@ function rvType(el){
   el.classList.toggle("need", rvNeed(j, i, k) && !(k === "nid" && rvOdd(j, i)));
   const nid = sec.querySelector('[data-rvf="nid"]');
   if(nid) nid.classList.toggle("bad", rvOdd(j, i));
+  const birth = sec.querySelector('[data-rvf="birth"]');
+  if(birth && k === "nid") birth.value = rvBirth(j, i);
   sec.querySelector(".rv-checks").innerHTML = rvChecks(j, i);
   sec.querySelector(".rv-dots").innerHTML = rvDotsHTML(j, i);
   const c = sec.querySelector(".rv-c");
@@ -7210,7 +7220,7 @@ window.addEventListener("resize", () => { if(st.view === "cards") rvFit(); });
 function rvExport(id){
   const j = rvJob(id);
   if(!j || rvBusy(j) || ONLINE || !isAdmin()) return;
-  const rows = j.draft.map((r, i) => { const o = {}; RV_F.forEach(f => { o[f[0]] = rvVal(j, i, f[0]); }); return o; });
+  const rows = j.draft.map((r, i) => { const o = {}; RV_F.forEach(f => { o[f[0]] = f[0] === "birth" ? rvBirth(j, i) : rvVal(j, i, f[0]); }); return o; });
   cardsPut(new Blob([JSON.stringify({ v: 1, rows })], { type: "application/json" }), CARDS_PREFIX + " [" + cardsId() + "] تصدير [" + id + "].json");
   RV.sent[id] = Date.now(); rvKeep();
   const sec = document.querySelector('[data-rv="' + CSS.escape(id) + '"]'), btn = sec && sec.querySelector(".rv-go");
@@ -7271,6 +7281,8 @@ function rvZoom(src){
       if(first) first.focus();
       return;
     }
+    const step = to - i;
+    while(to >= 0 && to < all.length && all[to].readOnly) to += step;           // the date of birth is worked out: nothing to type there
     if(to < 0 || to >= all.length) return;
     const next = all[to], len = next.value.length;
     next.focus();

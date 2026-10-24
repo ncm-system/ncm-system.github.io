@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-uZFC7HhEw6JInBXZwEA8UBTyGLFXPyFw/sffenyWWYQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-OtzJHqmNyQx7rXp38LAs/BQBiVBnX1rqWcRx1yXQzX0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3060,7 +3060,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "131cf0bed172";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "d4bd3f3b8cd9";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7246,6 +7246,36 @@ function rvZoom(src){
     if(ex) return rvExport(ex.dataset.rvExport);
   });
   document.addEventListener("input", e => { if(e.target && e.target.dataset && e.target.dataset.rvf) rvType(e.target); });
+  /* the keys between the boxes (asked for, 24 October 2026: «ازرار الكيبورد تتحرك… بين الصناديق الى فيها العنوان والرقم القومى»):
+     ↑ ↓ the box above or under · ← → the box beside, once the cursor is at that end of what is written (so they still move in the
+     text) · Enter the next box, and from the last one the next card. The boxes are two to a row, right to left. */
+  document.addEventListener("keydown", e => {
+    const el = e.target;
+    if(!el || !el.dataset || !el.dataset.rvf || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const sec = el.closest("[data-rv]");
+    if(!sec) return;
+    const all = [...sec.querySelectorAll("[data-rvf]")], i = all.indexOf(el), n = el.value.length;
+    const a = el.selectionStart, b = el.selectionEnd, rtl = getComputedStyle(el).direction === "rtl";
+    const free = !n || (a === 0 && b === n), atStart = a === 0 && b === 0, atEnd = a === n && b === n;
+    let to;
+    if(e.key === "ArrowDown") to = i + 2;
+    else if(e.key === "ArrowUp") to = i - 2;
+    else if(e.key === "Enter") to = i + 1;
+    else if(e.key === "ArrowLeft"){ if(!(free || (rtl ? atEnd : atStart))) return; to = i + 1; }
+    else if(e.key === "ArrowRight"){ if(!(free || (rtl ? atStart : atEnd))) return; to = i - 1; }
+    else return;
+    e.preventDefault(); e.stopPropagation();
+    if(e.key === "Enter" && to >= all.length){
+      rvGo(sec.dataset.rv, (+RV.at[sec.dataset.rv] || 0) + 1);
+      const first = sec.querySelector('[data-rvf="name"]');
+      if(first) first.focus();
+      return;
+    }
+    if(to < 0 || to >= all.length) return;
+    const next = all[to], len = next.value.length;
+    next.focus();
+    try{ next.setSelectionRange(len, len); }catch(x){}
+  }, true);
   document.addEventListener("keydown", e => {
     const z = document.getElementById("rvzoom");
     if(z && (e.key === "Escape" || e.key === "Enter")){ z.remove(); return; }

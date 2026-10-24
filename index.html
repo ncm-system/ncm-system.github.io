@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-NtXbhQ4jsl0CQ69OoKmK4zYBfU7/bIa1+dcXoJ1JPdU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1rfscOLgSq1sMtvbwOBN2jhVmsXRl856wdlTXQ3F+UE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2572,9 +2572,14 @@ function runChecks(M){
 
   if(ind){
     const G = ind.list;
-    const bad = [], sendBad = [], yearBad = [];
+    const bad = [], sendBad = [], yearBad = [], noDay = [], aheadDay = [];
+    /* A SEND DAY MISSING OR AHEAD (24 October 2026 — the photos of a man's card are found by the day his batch was sent: a row with
+       no «Mail Day», or one after today, never gets them) */
+    const now = today0();
     G.forEach(g => g.records.forEach(r => {
       const open = "ind:" + g.key;
+      if(!r.day) noDay.push({ open, cells: [r.row, r.name, g.nationalId || "—"] });
+      if(r.dayDate && r.dayDate > now) aheadDay.push({ open, cells: [r.row, r.name, r.day] });
       if(r.day && !r.dayDate) sendBad.push({ open, cells: [r.row, r.name, r.day] });
       if(r.p.date && (r.p.year < 2020 || r.p.year > 2035)) yearBad.push({ open, cells: [r.row, r.name, r.permit] });
     }));
@@ -2605,12 +2610,18 @@ function runChecks(M){
       ["صف الإكسيل", "الاسم", "المكتوب"], sendBad);
     add("p-year", "تصاريح الأفراد", "warn", "سنة تصريح غريبة", "تاريخ تصريح بره 2020 – 2035",
       ["صف الإكسيل", "الاسم", "المكتوب"], yearBad);
+    add("p-noday", "تصاريح الأفراد", "warn", "تاريخ إرسال فاضي", "خانة Mail Day فاضية — صور بطاقته مش هتتلاقى لأنها بتتدوّر بيوم الإرسال",
+      ["صف الإكسيل", "الاسم", "الرقم القومي"], noDay);
+    add("p-dayahead", "تصاريح الأفراد", "warn", "تاريخ إرسال بعد النهارده", "Mail Day في المستقبل — غالباً السنة أو الشهر اتكتبوا غلط",
+      ["صف الإكسيل", "الاسم", "المكتوب"], aheadDay);
   }
 
   if(veh){
-    const G = veh.list, sendBad = [], yearBad = [];
+    const G = veh.list, sendBad = [], yearBad = [], noDay = [], aheadDay = [], now = today0();
     G.forEach(g => g.records.forEach(r => {
       const open = "veh:" + g.key;
+      if(!r.day) noDay.push({ open, cells: [r.row, r.plate] });
+      if(r.dayDate && r.dayDate > now) aheadDay.push({ open, cells: [r.row, r.plate, r.day] });
       if(r.day && !r.dayDate) sendBad.push({ open, cells: [r.row, r.plate, r.day] });
       if(r.p.date && (r.p.year < 2020 || r.p.year > 2035)) yearBad.push({ open, cells: [r.row, r.plate, r.permit] });
     }));
@@ -2620,6 +2631,10 @@ function runChecks(M){
       ["صف الإكسيل", "رقم السيارة", "المكتوب"], sendBad);
     add("v-year", "تصاريح المركبات", "warn", "سنة تصريح غريبة", "تاريخ تصريح بره 2020 – 2035",
       ["صف الإكسيل", "رقم السيارة", "المكتوب"], yearBad);
+    add("v-noday", "تصاريح المركبات", "warn", "تاريخ إرسال فاضي", "خانة Mail Day فاضية — صور رخصتها مش هتتلاقى لأنها بتتدوّر بيوم الإرسال",
+      ["صف الإكسيل", "رقم السيارة"], noDay);
+    add("v-dayahead", "تصاريح المركبات", "warn", "تاريخ إرسال بعد النهارده", "Mail Day في المستقبل — غالباً السنة أو الشهر اتكتبوا غلط",
+      ["صف الإكسيل", "رقم السيارة", "المكتوب"], aheadDay);
   }
   return out;
 }
@@ -3071,7 +3086,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "4c24e054467c";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "a343b514866a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-okjiZGHum89tcGZPqNyEnMbJQldYmarkGYfhNeNvTqk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nn26MBDLWMr1BZt6yJIktl5b+iCKfnHiuSIzzXk3WPg=' 'sha256-lJmX6MI2DDAipQzA8304Sjwmh1I1Btv9N02Hi3aX4dY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -333,6 +333,9 @@ html.dark body.bgmo .multi-box .multi-ta:focus,html.dark body.bgmo .multi-box .f
 @media (prefers-reduced-motion: reduce){ body.bgmo .multi-box::before{animation:none !important;} }
 @media print{ #bgmo{display:none !important;} }
 .cards-open{gap:7px;}
+.cards-kind{margin:2px 0 10px;}
+.cards-kind button{padding:7px 22px;font-size:14.5px;}
+.cards-drop.small .cards-kind{margin:0;}
 .cards-open.busy{pointer-events:none;opacity:.6;}
 .cards-hist .cards-open{margin:0 6px;}
 /* REVIEW BEFORE THE SHEET (asked for, 23 October 2026: «البطاقات الى يقراها تظهرلى فى السيستم… قبل تصدير ملف الاكسيل بحيث اقدر
@@ -3061,7 +3064,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "7245744a8602";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e7cc9db81cbc";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3283,7 +3286,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdKindInd:"أفراد", cdKindVeh:"مركبات", cdDropVeh:"اسحب ملف الرخص هنا", cdCars:"العربيات", rvPlate:"رقم السيارة", rvVtype:"النوع", rvVtypeEn:"النوع بالانجليزى", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3426,7 +3429,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", cdOpen:"Open in Excel", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", cdOpen:"Open in Excel", cdKindInd:"People", cdKindVeh:"Vehicles", cdDropVeh:"Drop the licences file here", cdCars:"Vehicles", rvPlate:"Plate", rvVtype:"Type", rvVtypeEn:"Type in English", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -6747,7 +6750,13 @@ async function paintLog(){
    ============================================================ */
 const CARDS_KEY = "ncm_system_cards", CARDS_SEEN_KEY = "ncm_system_cards_seen", CARDS_CLEARED_KEY = "ncm_system_cards_cleared";
 const CARDS_CLEAR = "مسح السجل";
-const CARDS_FIXED = "id person .docx";              // the fixed Word file in «FOR WORK» the reader takes when «اقرا الورد الثابت» is pressed                     // the reader knows an order to clear its record by this name
+const CARDS_FIXED = "id person .docx", CARDS_FIXED_VEH = "id cars .docx";
+/* PEOPLE OR VEHICLES (asked for, 24 October 2026: «افتح القارئ اختار يا اما افراد يا اما مركبات… الورد بتاعها يبقا id cars»): the page
+   says which reader a file is for («kind.txt» in its box), and «اقرا الورد الثابت» takes that kind's fixed Word file. A vehicle licence
+   gives the plate only; the rest is typed in the review, and the sheet is the CARS sheet of the same form. Remembered on this PC. */
+const CARDS_KIND_KEY = "ncm_system_cards_kind";
+let cardsKind = "ind";
+try{ if(localStorage.getItem(CARDS_KIND_KEY) === "veh") cardsKind = "veh"; }catch(e){}              // the fixed Word file in «FOR WORK» the reader takes when «اقرا الورد الثابت» is pressed                     // the reader knows an order to clear its record by this name
 const CARDS_PREFIX = "وارد قارئ البطاقات";              // the reader knows a file of ours by this name
 const CARDS_DIR = "cards/", CARDS_EXPORT = "التصدير/";
 const CARDS_ALIVE = 20000;                           // a reader not heard from for this long is not waiting any more
@@ -6889,7 +6898,7 @@ async function cardsSend(file){
   const clean = file.name.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").replace(/\s+/g, " ").trim();
   const name = CARDS_PREFIX + " [" + id + "] " + clean + ".zip";
   let box;
-  try{ box = await NCM.zip([["file.bin", new Uint8Array(await file.arrayBuffer()), true], ["known.json", JSON.stringify(await cardsKnownList())]]); }
+  try{ box = await NCM.zip([["file.bin", new Uint8Array(await file.arrayBuffer()), true], ["known.json", JSON.stringify(await cardsKnownList())], ["kind.txt", cardsKind]]); }
   catch(e){ return toast(t("cdUnread", file.name), true); }
   cardsPut(new Blob([box], { type: "application/zip" }), name);
   CARD.sent.unshift({ id, file: clean, name, size: file.size, at: Date.now() });
@@ -6903,9 +6912,9 @@ async function cardsSend(file){
    as a file handed over, with no file in it — «fixed.txt» says the reader is to take «FOR WORK\id person .docx» itself. */
 async function cardsFixed(){
   if(ONLINE || !isAdmin()) return;
-  const id = cardsId(), file = CARDS_FIXED;
+  const id = cardsId(), file = cardsKind === "veh" ? CARDS_FIXED_VEH : CARDS_FIXED;
   let box;
-  try{ box = await NCM.zip([["fixed.txt", file], ["known.json", JSON.stringify(await cardsKnownList())]]); }
+  try{ box = await NCM.zip([["fixed.txt", file], ["known.json", JSON.stringify(await cardsKnownList())], ["kind.txt", cardsKind]]); }
   catch(e){ return toast(t("cdUnread", file), true); }
   cardsPut(new Blob([box], { type: "application/zip" }), CARDS_PREFIX + " [" + id + "] " + file + ".zip");
   CARD.sent.unshift({ id, file, name: CARDS_PREFIX + " [" + id + "] " + file + ".zip", size: 0, at: Date.now() });
@@ -6922,7 +6931,8 @@ function renderCards(){
     '<div class="cards">' +
       '<div class="dropcard cards-drop">' +
         '<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><rect x="7" y="8.500" width="10" height="7" rx="1.300"/><path d="M9.500 11h2.500M9.500 13.200h4"/></svg>' +
-        "<h2>" + t("cdDrop") + "</h2>" +
+        "<h2>" + t(cardsKind === "veh" ? "cdDropVeh" : "cdDrop") + "</h2>" +
+        '<span class="seg cards-kind">' + [["ind", "cdKindInd"], ["veh", "cdKindVeh"]].map(k => '<button type="button" data-ck="' + k[0] + '" class="' + (cardsKind === k[0] ? "on" : "") + '">' + t(k[1]) + "</button>").join("") + "</span>" +
         '<span class="desk-two"><button class="btn primary" data-act="cards-fixed">' + t("cdFixed") + "</button>" +
         '<button class="btn" data-act="cards-pick">' + t("cdPick") + "</button></span>" +
       "</div>" +
@@ -7088,7 +7098,16 @@ const RV_KEY = "ncm_system_cards_review";
 // the face's id only — the back's is read for the check, and the face's turns dark red when the two differ
 const RV_F = [["name", "rvName", ""], ["nid", "rvNid", "num"], ["birth", "rvBirth", "num"], ["expiry", "rvExp", "num"], ["address", "rvAddr", ""], ["qualification", "rvQual", ""],
   ["job", "rvJob", ""], ["follower", "rvFollow", ""]];      // not on the card: written here, so the sheet comes out whole («عشان اكتبهم فى وقتها والشيت يتصدر كامل»)
-const RV_NEED = { name: 1, nid: 1, address: 1 };          // empty, these are missing; the rest may be empty on a card with no back
+const RV_NEED = { name: 1, nid: 1, address: 1 };
+// a vehicle licence: the plate read off it (as the sheets write it, «س ص س 1234»), the rest typed — the CARS sheet's columns
+const RV_F_VEH = [["plate", "rvPlate", ""], ["vtype", "rvVtype", ""], ["follower", "rvFollow", ""], ["vtype_en", "rvVtypeEn", ""]];
+const RV_NEED_VEH = { plate: 1 };
+const rvF = j => j.kind === "veh" ? RV_F_VEH : RV_F;
+// a plate the system has, among the vehicle permits
+function rvVehKnown(plate){
+  const k = foldArabic(String(plate || "").replace(/\s+/g, " ").trim());
+  return k && M.veh ? M.veh.list.find(g => g.key === k) || null : null;
+}          // empty, these are missing; the rest may be empty on a card with no back
 let RV = { at: {}, ed: {}, sent: {} };
 try{ const k = JSON.parse(localStorage.getItem(RV_KEY) || "{}"); if(k && typeof k === "object") ["at", "ed", "sent"].forEach(x => { if(k[x] && typeof k[x] === "object") RV[x] = k[x]; }); }catch(e){}
 const rvKeep = () => { try{ localStorage.setItem(RV_KEY, JSON.stringify(RV)); }catch(e){} };
@@ -7105,10 +7124,11 @@ function rvBirth(j, i){
 function rvNeed(j, i, k){
   if(k === "birth") return false;
   const v = rvVal(j, i, k), o = String(j.draft[i][k] || "");
-  return /[؟?]/.test(v) || (!v.trim() && (/[؟?]/.test(o) || !!RV_NEED[k]));
+  return /[؟?]/.test(v) || (!v.trim() && (/[؟?]/.test(o) || !!(j.kind === "veh" ? RV_NEED_VEH : RV_NEED)[k]));
 }
-const rvOpen = (j, i) => RV_F.some(f => rvNeed(j, i, f[0])) || rvOdd(j, i);
+const rvOpen = (j, i) => rvF(j).some(f => rvNeed(j, i, f[0])) || rvOdd(j, i);
 function rvOdd(j, i){
+  if(j.kind === "veh") return false;
   const a = rvLat(rvVal(j, i, "nid")).replace(/\s/g, ""), b = rvLat(rvVal(j, i, "nid_back")).replace(/\s/g, "");
   return /^\d{14}$/.test(a) && /^\d{14}$/.test(b) && a !== b;
 }
@@ -7122,6 +7142,10 @@ function rvDate(v){
   return dt ? fmt(dt) : "";
 }
 function rvChecks(j, i){
+  if(j.kind === "veh"){
+    const g = rvVehKnown(rvVal(j, i, "plate"));
+    return g ? '<span class="rv-chk sys">' + t("rvInSys") + (g.cur.type ? " · " + esc(g.cur.type) : "") + "</span>" : "";
+  }
   const a = rvLat(rvVal(j, i, "nid")).replace(/\s/g, ""), b = rvLat(rvVal(j, i, "nid_back")).replace(/\s/g, "");
   const d = /^\d{14}$/.test(a) ? NCM.nidInfo(a) : null, out = [];
   const chk = (ok, k) => '<span class="rv-chk' + (ok ? "" : " no") + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
@@ -7142,9 +7166,10 @@ function rvPair(j, i, cls){
     : '<figure class="rv-card none"><figcaption>' + t(lab) + '</figcaption><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.400"/><circle cx="9" cy="11" r="2"/><path d="M5.800 16c.6-1.500 1.800-2.200 3.200-2.200s2.600.7 3.200 2.200M15 10h3.500M15 13.500h3.500"/></svg></figure>';
   return '<div class="rv-pair' + (cls ? " " + cls : "") + '" data-i="' + i + '">' + side("f", "rvFront") + side("b", "rvBack") + "</div>";
 }
+const cardsKindPill = j => j.kind === "veh" ? " " + pill("blue", t("cdKindVeh")) : "";
 function rvBody(j, i, cls){
   return '<div class="rv-body' + (cls ? " " + cls : "") + '"><div class="rv-mid"><div class="rv-checks">' + rvChecks(j, i) + '</div><div class="rv-dots">' + rvDotsHTML(j, i) + '</div></div><div class="rv-form">' +
-    RV_F.map((f, k) => {
+    rvF(j).map((f, k) => {
       if(f[0] === "birth")
         return '<label class="rv-f" style="--k:' + k + '"><span>' + t(f[1]) + '</span><input class="field rv-in num rv-calc" data-rvf="birth" id="rv-birth" type="text" readonly tabindex="-1" value="' + esc(rvBirth(j, i)) + '"></label>';
       const v = rvVal(j, i, f[0]);
@@ -7163,7 +7188,7 @@ function rvGoBtn(j){
 }
 function rvHTML(j){
   const n = j.draft.length, i = Math.max(0, Math.min(+RV.at[j.id] || 0, n - 1));
-  return '<section class="panel cards-rv" data-rv="' + esc(j.id) + '"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
+  return '<section class="panel cards-rv" data-rv="' + esc(j.id) + '"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + cardsKindPill(j) + "</h3>" +
       '<span class="rv-n"><b>' + (i + 1) + "</b>/ " + n + "</span></div>" +
     '<div class="panel-b"><div class="rv-deck">' +
       '<button type="button" class="rv-arrow' + (i === 0 ? " end" : "") + '" data-rv-go="-1" aria-label="' + t("rvPrev") + '">' + RV_ARROW(-1) + "</button>" +
@@ -7220,7 +7245,7 @@ window.addEventListener("resize", () => { if(st.view === "cards") rvFit(); });
 function rvExport(id){
   const j = rvJob(id);
   if(!j || rvBusy(j) || ONLINE || !isAdmin()) return;
-  const rows = j.draft.map((r, i) => { const o = {}; RV_F.forEach(f => { o[f[0]] = f[0] === "birth" ? rvBirth(j, i) : rvVal(j, i, f[0]); }); return o; });
+  const rows = j.draft.map((r, i) => { const o = {}; rvF(j).forEach(f => { o[f[0]] = f[0] === "birth" ? rvBirth(j, i) : rvVal(j, i, f[0]); }); return o; });
   cardsPut(new Blob([JSON.stringify({ v: 1, rows })], { type: "application/json" }), CARDS_PREFIX + " [" + cardsId() + "] تصدير [" + id + "].json");
   RV.sent[id] = Date.now(); rvKeep();
   const sec = document.querySelector('[data-rv="' + CSS.escape(id) + '"]'), btn = sec && sec.querySelector(".rv-go");
@@ -7314,6 +7339,13 @@ function cardsOpen(id, btn){
   [2500, 6000].forEach(ms => setTimeout(cardsSync, ms));
 }
 document.addEventListener("click", e => {
+  const k = e.target.closest && e.target.closest("[data-ck]");
+  if(k && st.view === "cards"){
+    cardsKind = k.dataset.ck === "veh" ? "veh" : "ind";
+    try{ localStorage.setItem(CARDS_KIND_KEY, cardsKind); }catch(x){}
+    renderCards();
+    return;
+  }
   const b = e.target.closest && e.target.closest("[data-cards-open]");
   if(b){ e.preventDefault(); e.stopPropagation(); cardsOpen(b.dataset.cardsOpen, b); }
 }, true);
@@ -7332,11 +7364,29 @@ function cardsJobHTML(j){
     '<div class="panel-b">' + (moOn() ? moReader(j, at, CARDS_STEPS.map((k, i) => t(k) + sub(i))) : steps + (j.status === "reading" ? '<div class="scan"><span></span></div>' : "")) +
     "</div></section>";
 }
+// a vehicle file read: its cars, as they went into the CARS sheet
+function cardsVehResultHTML(j, head){
+  const rows = j.rows || [], n = j.people || rows.length;
+  const tiles = '<div class="tiles" style="--n:3">' +
+    '<div class="tile job"><span class="tile-k">' + t("cdCars") + '</span><span class="tile-v num">' + n + "</span></div>" +
+    '<div class="tile ok"><span class="tile-k">' + t("cdClean") + '</span><span class="tile-v num">' + (n - (j.flagged || 0)) + "</span></div>" +
+    '<div class="tile ' + (j.flagged ? "warn" : "mute") + '"><span class="tile-k">' + t("cdFlagged") + '</span><span class="tile-v num">' + (j.flagged || 0) + "</span></div></div>";
+  const file = '<div class="cards-out"><b>' + fileName(j.output) + "</b><span>" + t("cdInExport") + "</span>" + cardsOpenBtn(j.id, "") + "</div>";
+  const known = rows.map(r => rvVehKnown(r.plate));
+  return '<section class="panel cards-res arrive">' + head.replace("</h3>", cardsKindPill(j) + "</h3>") + '<div class="panel-b">' + tiles + file + "</div>" +
+    '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["colSerial", "rvPlate", "rvVtype", "rvFollow", "rvVtypeEn", "cdColSys", "cdColNotes"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + "</tr></thead><tbody>" +
+    rows.map((r, i) => '<tr' + (known[i] ? ' data-open="veh:' + esc(known[i].key) + '"' : "") + (r.flags && r.flags.length ? ' class="flag"' : "") + '><td class="ix">' + (r.n || i + 1) + "</td>" +
+      '<td class="nowrap"><b>' + unclear(dash(r.plate)) + "</b></td><td>" + esc(dash(r.vtype)) + "</td><td>" + esc(dash(r.follower)) + '</td><td class="ltr">' + esc(dash(r.vtype_en)) + "</td>" +
+      "<td>" + (known[i] ? permitPill(known[i].p) : '<span class="dim">' + t("cdNotIn") + "</span>") + "</td>" +
+      "<td>" + (r.flags && r.flags.length ? '<div class="cards-flags">' + r.flags.map(f => pill("warn", f)).join("") + "</div>" : pill("ok", t("cdClean"))) + "</td></tr>").join("") +
+    "</tbody></table></div></section>";
+}
 const cardsCat = {};                                // file by file: which of its boxes was pressed
 function cardsResultHTML(j){
   const head = '<div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + '</h3><span class="logwhen">' + cardsWhen(j.finished_at || j.received_at) + "</span></div>";
   if(j.status === "failed")
     return '<section class="panel cards-res arrive">' + head + '<div class="panel-b"><p class="note warn" style="margin:0">' + pill("bad", t("cdFailed")) + " " + esc(j.error || "") + "</p></div></section>";
+  if(j.kind === "veh") return cardsVehResultHTML(j, head);
   const rows = j.rows || [], known = rows.map(r => cardsKnown(r.nid)), anySheet = !!(M.ind || M.emp);
   const banned = known.filter(k => k.ban).length;
   // each box shows its own people in the list under it; pressed again — or «الأشخاص» — everyone

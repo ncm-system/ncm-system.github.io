@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-udl39mRtzpbtbroW8urU4zbal49EeBg6RGEYDVnyORA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-4PB+ZvTFth/eRXaoe1y7KTj9JHOiNNWE2H+DbILziIk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -539,6 +539,32 @@ html.dark .rv-card figcaption{background:rgba(21,32,44,.88);color:var(--blue-dee
   .pinboxes.many{gap:6px;}
   .pinboxes.many i{height:54px;border-radius:12px;font-size:21px;}
 }
+/* THE LAST DIGIT (asked for, 2 November 2026 — a video of four boxes that curl onto a ring, spin a turn and a quarter and screw
+   down into one: «عايز باسورد الدخول برضو يعمل كده… وان الباسورد يبقا نجوم مش باين»): each digit is a star; the row curls onto
+   a ring and keeps turning while the PIN is checked; right, the ring goes green and screws down into one box with a tick; wrong,
+   it goes red and unwinds back into the row. Moved by pinOrbit(); the boxes are laid where they stand, then carried. */
+.pinboxes{position:relative;transition:height .45s cubic-bezier(.2,.8,.2,1);}
+.pinboxes i{will-change:transform;}
+.pinboxes.orbit{cursor:default;}
+.pinboxes.orbit i{position:absolute;margin:0;transition:border-color .25s,background .25s,color .25s,box-shadow .25s,opacity .3s;}
+.pinboxes.orbit::before{content:"";position:absolute;left:50%;top:50%;width:var(--ring,0px);height:var(--ring,0px);margin:calc(var(--ring,0px) / -2) 0 0 calc(var(--ring,0px) / -2);
+  border-radius:50%;border:1.5px dashed var(--line-2);opacity:var(--ro,0);pointer-events:none;}
+.pinboxes.orbit::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--blue);opacity:var(--ro,0);}
+.pinboxes.ok i{border-color:var(--ok)!important;background:var(--ok-bg)!important;color:var(--ok)!important;box-shadow:0 0 0 3px rgba(18,135,79,.14),0 8px 18px rgba(18,135,79,.18);}
+.pinboxes.ok::before{border-color:var(--ok-br);}
+.pinboxes.ok::after{background:var(--ok);}
+.pinboxes.bad i{border-color:var(--bad)!important;background:var(--bad-bg)!important;color:var(--bad)!important;}
+.pinboxes.bad::before{border-color:var(--bad-br);}
+.pinboxes.bad::after{background:var(--bad);}
+.pinboxes .pin-tick{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--ok);background:var(--ok-bg);color:var(--ok);box-shadow:0 0 0 6px rgba(18,135,79,.10),0 14px 30px rgba(18,135,79,.25);
+  animation:pinTick .5s cubic-bezier(.2,1.4,.4,1) both;}
+.pinboxes .pin-tick svg{width:36px;height:36px;stroke-dasharray:30;stroke-dashoffset:30;animation:pinDraw .4s .15s ease-out forwards;}
+.pinboxes .pin-spark{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:var(--green);
+  animation:pinSpark .7s ease-out both;}
+@keyframes pinTick{from{transform:scale(.4) rotate(-90deg);opacity:0;}to{transform:none;opacity:1;}}
+@keyframes pinDraw{to{stroke-dashoffset:0;}}
+@keyframes pinSpark{from{transform:translate(0,0) scale(1);opacity:1;}to{transform:translate(var(--sx),var(--sy)) scale(.3);opacity:0;}}
 .gate-err{color:var(--bad);font-size:14.5px;min-height:22px;margin:8px 0 0;font-weight:800;}
 .gate-err.busy{color:var(--muted);}
 /* opened from a bare link: no box of users, no PIN boxes — one line saying where it opens from */
@@ -1866,12 +1892,163 @@ html.dark{
 @media (prefers-reduced-motion: reduce){ .mo *,.mo::before,.mo::after,#busy .busy-mo *{animation:none !important;} }
 @media (prefers-reduced-motion: reduce){ #intro{display:none !important;} }
 @media print{ #intro{display:none !important;} }
+/* ============================================================
+   THE CALM LOOK AND THE GLASS MENU (asked for, 2 November 2026, on two videos: «عايز شكل السيستم يبقا هادى كده مع الحفاظ على
+   الالوان بتاعتنا» — white boards with a hairline, quiet headings, the colour kept for what it says — and «الشريط الجانبى يبقا زى
+   كده… مع الحفاظ على التفاصيل والالوان» — a menu of glass standing off the edge of the window, a lens of glass that follows the
+   hand from line to line, and a button that folds it into a rail of icons whose names come up beside them). «x-look» — on
+   «body.calm». The motion behind the pages and its words stay exactly as they are («الكلام الى بيتحرك فى خلفية السيستم عايزها
+   يفضل زى ما هو»): nothing here touches #bgmo.
+   ============================================================ */
+body.calm{--c-line:#e4e9f0;--c-line-2:#d3dce7;--c-ink:#55657a;--c-soft:#f6f8fb;}
+html.dark body.calm{--c-line:#243345;--c-line-2:#30425a;--c-ink:#9fb2c8;--c-soft:#18242f;}
+html:has(body.calm){background-color:#f1f4f8;background-image:radial-gradient(900px 460px at 50% -10%, rgba(21,101,192,.05) 0%, transparent 62%),radial-gradient(760px 520px at 92% 88%, rgba(75,165,72,.035) 0%, transparent 66%);}
+html.dark:has(body.calm){background-color:#0f1821;background-image:none;}
+/* boards: white, a hairline, the lightest of shadows */
+:where(body.calm) .panel{background:#fff;border:1px solid var(--c-line);border-radius:16px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);}
+body.calm.bgmo .panel{background:rgba(255,255,255,.97);}
+html.dark body.calm .panel,html.dark body.calm.bgmo .panel{background:#141f2a;}
+:where(body.calm) .panel-h{border-bottom-color:var(--c-line);}
+:where(body.calm) .panel-t{font-size:14.5px;color:var(--text);}
+html.dark :where(body.calm) .panel-t{color:var(--text);}
+:where(body.calm) .pg-t{font-size:23px;font-weight:800;letter-spacing:-.005em;}
+:where(body.calm) .sect-h{font-size:12.5px;color:var(--c-ink);letter-spacing:.04em;margin:22px 0 10px;}
+:where(body.calm) .sect-h::before,:where(body.calm) .sect-h::after{background:var(--c-line);opacity:1;}
+/* the figures: a white box each, the colour on the dot and on the figure — never the whole box */
+:where(body.calm) .tile{background:#fff;border:1px solid var(--c-line);box-shadow:0 1px 2px rgba(16,24,40,.04);-webkit-backdrop-filter:none;backdrop-filter:none;}
+:where(body.calm) .tile:hover{transform:translateY(-1px);border-color:var(--c-line-2);box-shadow:0 6px 16px rgba(16,24,40,.07);}
+:where(body.calm) .tile-k{display:inline-flex;align-items:center;gap:7px;font-weight:800;color:var(--c-ink);}
+:where(body.calm) .tile-k::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:#c2ccd8;}
+/* small boxes (the cards page's, and any on a phone) keep their size: no dot there, the figure keeps its colour */
+.iss-top :where(body.calm) .tile-k::before,:where(body.calm) .iss-top .tile-k::before{display:none;}
+@media (max-width:520px){ :where(body.calm) .tile-k::before{display:none;} }
+:where(body.calm) .tile-v{color:var(--text);}
+:where(body.calm) .tile.job,:where(body.calm) .tile.ok,:where(body.calm) .tile.warn,:where(body.calm) .tile.bad,:where(body.calm) .tile.ban{background:#fff;border-color:var(--c-line);box-shadow:0 1px 2px rgba(16,24,40,.04);}
+:where(body.calm) .tile.job .tile-k,:where(body.calm) .tile.ok .tile-k,:where(body.calm) .tile.warn .tile-k,:where(body.calm) .tile.bad .tile-k,:where(body.calm) .tile.ban .tile-k{color:var(--c-ink);}
+:where(body.calm) .tile.job .tile-k::before{background:var(--blue);}   :where(body.calm) .tile.job .tile-v{color:var(--blue);}
+:where(body.calm) .tile.ok .tile-k::before{background:var(--ok);}      :where(body.calm) .tile.ok .tile-v{color:var(--ok);}
+:where(body.calm) .tile.warn .tile-k::before{background:#e0a21a;}      :where(body.calm) .tile.warn .tile-v{color:#a8650a;}
+:where(body.calm) .tile.bad .tile-k::before{background:var(--bad);}    :where(body.calm) .tile.bad .tile-v{color:var(--bad);}
+:where(body.calm) .tile.ban .tile-k::before{background:var(--ban);}    :where(body.calm) .tile.ban .tile-v{color:var(--ban);}
+:where(body.calm) .tile.warn{border-color:#f0dcb0;background:#fffcf5;}
+:where(body.calm) .tile.ban{border-color:#ebc5c5;}
+html.dark :where(body.calm) .tile,html.dark :where(body.calm) .tile.job,html.dark :where(body.calm) .tile.ok,html.dark :where(body.calm) .tile.bad,html.dark :where(body.calm) .tile.ban{background:#141f2a;border-color:var(--c-line);box-shadow:none;}
+html.dark :where(body.calm) .tile.warn{background:#1d1a12;border-color:#4a3b1c;}
+html.dark :where(body.calm) .tile.ok .tile-v{color:#7fd8a8;} html.dark :where(body.calm) .tile.warn .tile-v{color:#f0c674;}
+html.dark :where(body.calm) .tile.bad .tile-v,html.dark :where(body.calm) .tile.ban .tile-v{color:#f19b9b;} html.dark :where(body.calm) .tile.job .tile-v{color:#7fb6f0;}
+:where(body.calm) .tile.picked{box-shadow:0 0 0 2px var(--blue);}
+/* buttons, fields, chips: white with a hairline; the page's own button its blue, flat */
+:where(body.calm) .btn{background:#fff;border-color:var(--c-line);color:var(--text-2);box-shadow:0 1px 2px rgba(16,24,40,.05);}
+:where(body.calm) .btn:hover{background:var(--c-soft);border-color:var(--c-line-2);}
+:where(body.calm) .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(16,24,40,.08);}
+:where(body.calm) .btn.primary:hover{background:var(--blue-deep);}
+:where(body.calm) .btn.danger{background:#fff;border-color:var(--bad-br);color:var(--bad);}
+:where(body.calm) .btn:disabled,:where(body.calm) .btn[disabled]{opacity:.55;}
+html.dark :where(body.calm) .btn{background:#18242f;color:var(--text);}
+html.dark :where(body.calm) .btn.primary{background:var(--blue);color:#fff;}
+html.dark :where(body.calm) .btn.danger{background:#18242f;color:#f19b9b;}
+:where(body.calm) .field{background:#fff;border-color:var(--c-line);}
+html.dark :where(body.calm) .field{background:#18242f;}
+:where(body.calm) .chip{background:#fff;border-color:var(--c-line);}
+:where(body.calm) .chip:hover{background:var(--c-soft);}
+:where(body.calm) .chip.on{background:#ffd24d;border-color:#e0a800;}
+html.dark :where(body.calm) .chip{background:#18242f;}
+html.dark :where(body.calm) .chip.on{background:#ffd24d;color:#0b1114;}
+/* tables: quiet heads, hairlines between rows */
+:where(body.calm) .tbl th{background:#f7f9fb;color:var(--c-ink);border-bottom-color:var(--c-line);font-size:12px;letter-spacing:.02em;}
+html.dark :where(body.calm) .tbl th{background:#18242f;}
+:where(body.calm) .tbl td{border-bottom-color:#eef2f6;}
+html.dark :where(body.calm) .tbl td{border-bottom-color:#1e2a37;}
+/* the bars thinner and rounder */
+:where(body.calm) .bar-track{height:8px;border-radius:99px;background:#edf1f6;}
+:where(body.calm) .bar-fill{border-radius:99px;}
+html.dark :where(body.calm) .bar-track{background:#1e2a37;}
+
+/* THE GLASS MENU — where the menu is a column beside the page */
+.side-fold{display:none;}
+.nav-lens{display:none;}
+.side-tip{position:fixed;z-index:60;padding:6px 11px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap;pointer-events:none;
+  color:var(--blue-deep);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.7));border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 8px 20px rgba(21,58,99,.16),inset 0 0 0 1px rgba(21,101,192,.10);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transform:translateY(-50%);}
+.side-tip[hidden]{display:none;}
+html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba(120,170,240,.22);}
+@media (min-width:921px){
+  body.calm{--side:278px;}
+  body.calm.rail{--side:92px;}
+  body.calm #app{transition:grid-template-columns .35s cubic-bezier(.3,.9,.3,1);}
+  body.calm .side{top:12px;height:calc(100vh - 24px);margin:12px;margin-inline-end:4px;padding:18px 12px 12px;border-radius:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(244,248,253,.42));border:1px solid rgba(255,255,255,.85);border-inline-end:1px solid rgba(255,255,255,.85);
+    box-shadow:0 22px 48px rgba(21,58,99,.14),0 2px 6px rgba(21,58,99,.06),inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(21,101,192,.05);
+    -webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);scrollbar-width:none;}
+  body.calm .side::-webkit-scrollbar{display:none;}
+  html.dark body.calm .side{background:linear-gradient(180deg,rgba(30,44,60,.74),rgba(16,25,36,.62));border-color:rgba(120,170,240,.16);
+    box-shadow:0 22px 48px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);}
+  body.calm .side > .brand{top:-18px;margin:-18px -12px 0;padding:18px 12px 12px;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55));
+    box-shadow:none;border-bottom:1px solid rgba(21,101,192,.08);border-radius:26px 26px 0 0;}
+  html.dark body.calm .side > .brand{background:linear-gradient(180deg,rgba(30,44,60,.96),rgba(30,44,60,.7));border-bottom-color:rgba(120,170,240,.12);}
+  body.calm .side-bar{margin:10px -12px -12px;padding:10px 10px 12px;bottom:-12px;border-top:1px solid rgba(21,101,192,.08);border-radius:0 0 26px 26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.88));}
+  html.dark body.calm .side-bar{background:linear-gradient(180deg,rgba(30,44,60,.7),rgba(30,44,60,.96));}
+  /* the lines: an icon and a name, no tile behind the icon; the open one a pill of glass with the mark's green at its edge */
+  body.calm .nav{position:relative;}
+  body.calm .navh{padding:12px 12px 5px;font-size:11px;letter-spacing:.07em;color:#7a8898;}
+  html.dark body.calm .navh{color:#8195ab;}
+  body.calm .nav button{z-index:1;gap:11px;padding-block:8px;padding-inline:12px 12px;border-radius:999px;font-weight:700;color:var(--text-2);background:none;}
+  body.calm .nav button svg{width:18px;height:18px;padding:0;border-radius:0;background:none;color:#5b6b7e;box-shadow:none;}
+  body.calm .nav button:hover{background:none;}
+  body.calm .nav button:hover svg{background:none;box-shadow:none;color:var(--blue);}
+  body.calm .nav button.on{color:var(--blue-deep);background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.66));
+    box-shadow:0 6px 16px rgba(21,58,99,.12),inset 0 1px 0 #fff,inset 0 0 0 1px rgba(21,101,192,.14);}
+  body.calm .nav button.on svg{color:var(--blue);background:none;}
+  body.calm .nav button.on::after{top:11px;bottom:11px;inset-inline-start:5px;}
+  body.calm .nav button.on .nb{background:var(--tint);color:var(--blue);}
+  html.dark body.calm .nav button{color:var(--text);}
+  html.dark body.calm .nav button svg{color:#9fb2c8;}
+  html.dark body.calm .nav button.on{color:#e3efff;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(120,170,240,.22),0 6px 16px rgba(0,0,0,.25);}
+  html.dark body.calm .nav button.on svg{color:#8cc2ff;}
+  /* the lens: glass that follows the hand from line to line */
+  body.calm .nav-lens{display:block;position:absolute;left:0;right:0;top:0;height:40px;border-radius:999px;pointer-events:none;z-index:0;opacity:0;
+    background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.34));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(21,101,192,.06),inset 0 0 0 1px rgba(21,101,192,.12),0 10px 22px rgba(21,58,99,.12);
+    -webkit-backdrop-filter:blur(6px) saturate(1.7);backdrop-filter:blur(6px) saturate(1.7);
+    transition:transform .42s cubic-bezier(.3,1.35,.45,1),height .3s,opacity .22s;}
+  body.calm .nav-lens.on{opacity:1;}
+  html.dark body.calm .nav-lens{background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(120,170,240,.2);}
+  /* the fold: a round glass button at the top corner */
+  body.calm .side-fold{display:flex;position:absolute;z-index:5;top:12px;inset-inline-end:10px;width:28px;height:28px;padding:0;border-radius:50%;align-items:center;justify-content:center;
+    border:1px solid rgba(21,101,192,.14);background:rgba(255,255,255,.85);color:var(--blue-deep);box-shadow:0 4px 12px rgba(21,58,99,.14);cursor:pointer;transition:transform .3s;}
+  body.calm .side-fold svg{width:14px;height:14px;transition:transform .3s;}
+  html[dir=rtl] body.calm .side-fold svg{transform:scaleX(-1);}
+  body.calm.rail .side-fold svg{transform:rotate(180deg);}
+  html[dir=rtl] body.calm.rail .side-fold svg{transform:scaleX(-1) rotate(180deg);}
+  html.dark body.calm .side-fold{background:rgba(26,39,53,.9);color:#cfe3ff;border-color:rgba(120,170,240,.22);}
+  /* folded: a rail of icons, a hairline for each group, the name beside the icon under the hand */
+  body.calm.rail .side{padding:14px 10px 10px;}
+  body.calm.rail .side > .brand{margin:-14px -10px 0;padding:44px 6px 10px;top:-14px;}
+  body.calm.rail .side .brand .tagline,body.calm.rail .side .brand .hr,body.calm.rail .side .brand .appname{display:none;}
+  body.calm.rail .side .brand .ncm{font-size:21px;}
+  body.calm.rail .side-fold{inset-inline-end:auto;inset-inline-start:50%;margin-inline-start:-14px;top:10px;}
+  body.calm.rail .navh{height:1px;padding:0;margin:9px 16px;font-size:0;background:rgba(21,101,192,.12);}
+  body.calm.rail .navg:first-child .navh{display:none;}
+  body.calm.rail .nav button{justify-content:center;padding:11px 0;}
+  body.calm.rail .nav button > span{display:none;}
+  body.calm.rail .nav .nb{position:absolute;top:6px;inset-inline-end:14px;margin:0;padding:0;width:8px;height:8px;font-size:0;background:var(--blue);}
+  body.calm.rail .nav .nb.alert{background:var(--bad);}
+  body.calm.rail .nav button.on::after{display:none;}
+  body.calm.rail .rlamp{width:12px;height:12px;margin:4px auto 8px;padding:0;border-radius:50%;font-size:0;gap:0;justify-content:center;}
+  body.calm.rail .rlamp > *{display:none;}
+  body.calm.rail .side-bar{flex-direction:column;gap:6px;margin-inline:-10px;}
+  body.calm.rail .side-bar .netbox,body.calm.rail .side-bar .side-lang{flex-direction:column;}
+  body.calm.rail .side-bar .net-v{display:none;}
+  body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
+}
 </style>
 </head>
 <body>
 
 <div id="app">
   <aside class="side">
+    <button type="button" class="side-fold" id="side-fold" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="brand">
       <span class="ncm">N<i>C</i><b>M</b></span>
       <span class="tagline">NUCLEAR CONCRETE MIXES</span>
@@ -3086,7 +3263,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "61e3ba794a22";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2c93aeb12d46";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3323,7 +3500,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", canLook:"الشكل الهادي", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3466,7 +3643,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", canLook:"Calm look", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -4077,7 +4254,7 @@ function paintBoxes(){
   [].forEach.call($("pinboxes").children, (b, i) => {
     b.classList.toggle("on", i < n);
     b.classList.toggle("next", i === n);
-    b.textContent = i < n ? "•" : "";
+    b.textContent = i < n ? "✱" : "";
   });
 }
 const paintNames = () => { $("gate-list").innerHTML = gateNames().map((name, i) => '<button type="button" class="uopt" role="option" data-user="' + i + '"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(name)) +
@@ -4099,11 +4276,71 @@ function showGate(message){
   bgmoSync();
   setTimeout(() => $("gate-user").focus(), 80);
 }
+// the row of boxes onto a ring that turns until the PIN is checked: .win() green and down into one box with a tick, .fail()
+// red and back into the row, .stop() back as it was at once. None at all when motion is turned down.
+function pinOrbit(){
+  const box = $("pinboxes"), cells = [].slice.call(box.children);
+  if(!cells.length || box.classList.contains("orbit") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return null;
+  const W = box.clientWidth, H0 = box.clientHeight, cw = cells[0].offsetWidth, ch = cells[0].offsetHeight, n = cells.length;
+  const R = Math.max(70, Math.min(122, W / 2 - cw / 2 - 6)), H = Math.round(2 * R + ch + 18);
+  const base = cells.map(c => ({ x: c.offsetLeft, y: c.offsetTop }));
+  cells.forEach((c, i) => { c.style.left = base[i].x + "px"; c.style.top = base[i].y + "px"; c.style.width = cw + "px"; c.style.height = ch + "px"; });
+  box.style.height = H0 + "px"; box.classList.add("orbit"); void box.offsetWidth; box.style.height = H + "px";
+  box.style.setProperty("--ring", (2 * R) + "px");
+  const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const SPEED = 2 * Math.PI * 1.25 / 1.1;        // a turn and a quarter in 1.1 s
+  let mode = "spin", t0 = performance.now(), last = t0, theta = 0, curl = 0, rad = R, turn = 0, size = 1, raf = 0, endAt = 0, done = null, over = false;
+  const draw = () => {
+    const cx = W / 2, cy = H / 2;
+    cells.forEach((c, i) => {
+      const a = -Math.PI / 2 + 2 * Math.PI * i / n + theta;
+      const tx = cx + rad * Math.cos(a) - cw / 2 - base[i].x, ty = cy + rad * Math.sin(a) - ch / 2 - base[i].y;
+      const rot = (a + Math.PI / 2) * 180 / Math.PI + turn;
+      c.style.transform = "translate(" + (tx * curl).toFixed(1) + "px," + (ty * curl).toFixed(1) + "px) rotate(" + (rot * curl).toFixed(1) + "deg) scale(" + size.toFixed(3) + ")";
+    });
+    box.style.setProperty("--ro", (curl * (rad / R) * .9).toFixed(2));
+  };
+  const frame = now => {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const t = (now - t0) / 1000;
+    if(mode === "spin"){ curl = ease(Math.min(1, t / .55)); theta += SPEED * dt * Math.min(1, t / .3); }
+    else if(mode === "win"){
+      const p = Math.min(1, (now - endAt) / 700), e = ease(p);
+      theta += SPEED * 1.6 * dt; rad = R * (1 - e); turn = 360 * e; size = 1 - .25 * e;
+      if(p >= 1){ cells.forEach(c => { c.style.opacity = "0"; });
+        box.insertAdjacentHTML("beforeend", '<span class="pin-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' +
+          new Array(10).join(".").split("").map((x, k) => { const a = 2 * Math.PI * k / 9; return '<i class="pin-spark" style="--sx:' + (Math.cos(a) * 70).toFixed(0) + "px;--sy:" + (Math.sin(a) * 70).toFixed(0) + 'px"></i>'; }).join(""));
+        over = true; setTimeout(done, 650); return; }
+    }
+    else if(mode === "fail"){
+      const p = Math.min(1, (now - endAt) / 480);
+      curl = 1 - ease(p); theta -= SPEED * .6 * dt;
+      if(p >= 1){ over = true; reset(); done(); return; }
+    }
+    draw();
+    raf = requestAnimationFrame(frame);
+  };
+  const reset = () => {
+    cancelAnimationFrame(raf);
+    box.classList.remove("orbit", "ok", "bad"); box.style.height = ""; box.style.removeProperty("--ring"); box.style.removeProperty("--ro");
+    [].slice.call(box.querySelectorAll(".pin-tick, .pin-spark")).forEach(x => x.remove());
+    cells.forEach(c => { c.style.cssText = ""; });
+  };
+  // the ring has to have turned its turn and a quarter before it says how it ended
+  const end = (how, cls) => new Promise(res => {
+    if(over) return res();
+    const wait = Math.max(0, 1100 - (performance.now() - t0));
+    setTimeout(() => { if(over) return res(); box.classList.add(cls); endAt = performance.now(); mode = how; done = res; }, wait);
+  });
+  raf = requestAnimationFrame(frame);
+  return { win: () => end("win", "ok"), fail: () => end("fail", "bad"), stop: () => { if(!box.isConnected) return; over = true; reset(); } };
+}
 async function submitPin(){
   const pin = $("pin"), err = $("gate-err"), user = gateUser();
   if(gateBusy || !user || pin.value.length !== PIN_LEN) return;
   gateBusy = true;
   err.className = "gate-err busy"; err.textContent = t("checking");     // the key-stretching takes a moment; the line says so
+  const orb = pinOrbit();
   try{
     // what the PIN opens: the key, and with it where the data is kept. A PIN that opens nothing is a wrong try — that, and nothing else, is counted
     let got = null;
@@ -4120,6 +4357,7 @@ async function submitPin(){
     if(!got){
       // on this PC's own copy nothing is locked and nothing is counted: a wrong PIN is simply a wrong PIN
       if(!ONLINE){
+        if(orb) await orb.fail();
         err.className = "gate-err"; err.textContent = t("connectBad");
         const own = $("gate-form");
         own.classList.add("shake"); setTimeout(() => own.classList.remove("shake"), 400);
@@ -4127,6 +4365,7 @@ async function submitPin(){
         return;
       }
       const left = await noteFail(user.name);
+      if(orb) await orb.fail();
       if(!left){ pin.value = ""; return showGate(); }      // the third wrong PIN: the device is locked, and the gate says so
       err.className = "gate-err"; err.textContent = t("wrongLeft", left);
       const card = $("gate-form");
@@ -4150,13 +4389,16 @@ async function submitPin(){
     await permsSync();                              // what is in his menu — before the first page is drawn
     if(session !== mine) return;                    // switched off: he is back at the gate
     logAct("in");
-    pin.value = ""; paintBoxes(); pin.blur();
     err.className = "gate-err"; err.textContent = "";
+    if(orb) await orb.win();
+    if(session !== mine) return;
+    if(orb) orb.stop();
+    pin.value = ""; paintBoxes(); pin.blur();
     $("gate").hidden = true;
     setTimeout(bgmoSync, 0);
     playIntro();
     if(ONLINE) startOnline(); else startLocal();
-  }finally{ gateBusy = false; }
+  }finally{ gateBusy = false; if(orb) orb.stop(); }
 }
 /* A PASSWORD CHANGED FROM THE ADMIN PAGE, as this PC's own copy sees it. The page carries its own seals (the ones it
    was built with); a password given later from ADMIN is sealed in the database instead. Online the gate is told of
@@ -5824,7 +6066,17 @@ function multiOpen(r){
    left to run — a page drawn, a search answered, nothing starts it over. Its rings follow the search box of a page that has one. */
 let gmsRO = null;
 const bgmoWant = () => !!session && $("gate").hidden && can("x-motion") && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+// «x-look»: the calm look and the glass menu; folded into a rail if he folded it (remembered on the device)
+const RAIL_KEY = "ncm_side_rail";
+function lookSync(){
+  const on = !!session && can("x-look");
+  let rail = false;
+  try{ rail = localStorage.getItem(RAIL_KEY) === "1"; }catch(e){}
+  document.body.classList.toggle("calm", on);
+  document.body.classList.toggle("rail", on && rail);
+}
 function bgmoSync(){
+  lookSync();
   const main = out.parentElement, have = $("bgmo"), want = bgmoWant(), gmo = document.querySelector("#gate .gmo");
   document.body.classList.toggle("bgmo", want && !!gmo);
   if(!want || !gmo){
@@ -6215,8 +6467,8 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", 
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion" };
+const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion", "x-look"];
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion", "x-look": "canLook" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 /* ALL THE MOTION, ONE CHIP (asked for, 23 October 2026: «خلى الموشن جيرافك كله فى زر واحد اضغط عليه يظهر لمديرى»): the welcome, the
    waiting, «لوحة المتابعة» assembling and the search box on the sign-in screen's motion are «x-motion». A list saved while they were four
@@ -9808,6 +10060,35 @@ document.addEventListener("error", e => {
   if(img && img.matches && img.matches("img[data-shot]")) img.parentNode.innerHTML = '<div class="noshot">' + t("noPhoto") + "</div>";
 }, true);
 
+/* THE GLASS MENU's lens and the names of a folded menu (see «THE CALM LOOK» in the styles) */
+(function(){
+  const nav = document.getElementById("nav"), fold = document.getElementById("side-fold");
+  if(!nav) return;
+  const lens = document.createElement("span"); lens.className = "nav-lens"; lens.setAttribute("aria-hidden", "true"); nav.appendChild(lens);
+  const tip = document.createElement("div"); tip.className = "side-tip"; tip.hidden = true; document.body.appendChild(tip);
+  const calm = () => document.body.classList.contains("calm") && window.innerWidth > 920;
+  nav.addEventListener("mouseover", e => {
+    if(!calm()) return;
+    const b = e.target.closest && e.target.closest("button[data-view]");
+    if(!b || b.hidden) return;
+    const a = b.getBoundingClientRect(), n = nav.getBoundingClientRect();
+    lens.style.height = a.height + "px"; lens.style.transform = "translateY(" + (a.top - n.top).toFixed(1) + "px)"; lens.classList.add("on");
+    if(document.body.classList.contains("rail")){
+      const s = b.querySelector("span[data-i18n]"), rtl = getComputedStyle(nav).direction === "rtl", side = nav.closest(".side").getBoundingClientRect();
+      tip.textContent = s ? s.textContent : "";
+      tip.style.top = (a.top + a.height / 2) + "px";
+      tip.style.left = rtl ? "" : (side.right + 10) + "px"; tip.style.right = rtl ? (window.innerWidth - side.left + 10) + "px" : "";
+      tip.hidden = false;
+    }
+  });
+  nav.addEventListener("mouseleave", () => { lens.classList.remove("on"); tip.hidden = true; });
+  if(fold) fold.addEventListener("click", () => {
+    const rail = !document.body.classList.contains("rail");
+    try{ localStorage.setItem(RAIL_KEY, rail ? "1" : "0"); }catch(e){}
+    tip.hidden = true; lookSync();
+    setTimeout(() => { try{ gmsAim(); }catch(e){} }, 400);
+  });
+})();
 /* drop anywhere */
 let dragDepth = 0;
 const hasFiles = e => !ONLINE && e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], "Files") !== -1;

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-KG1vb4rkRf5SQl5YelcdE6KZgLp28t+wwntsZeRSVP8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-bPw1D48Q4l0AbnE4+4Z0t7fQwn/gNuE3JmDoDyL/p1g='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -438,6 +438,12 @@ html.dark .rv-f .rv-in.field{color:var(--text);}
 .rv-go .rv-c{font-family:var(--cond);font-size:16px;font-weight:700;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.2);direction:ltr;}
 .rv-go.busy{pointer-events:none;}
 .rv-go.busy svg{animation:spin 1s linear infinite;}
+/* asked before the export (2 November 2026): people with vehicles, or alone */
+.rv-ask{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;animation:rvAskIn .25s ease-out both;}
+.rv-ask > b{font-size:17px;font-weight:900;color:var(--text);margin-inline-end:4px;}
+.rv-ask .rv-x{width:46px;padding:0;font-size:18px;}
+@keyframes rvAskIn{from{opacity:0;transform:translateY(6px) scale(.97);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion: reduce){.rv-ask{animation:none;}}
 #rvzoom{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:4vmin;background:rgba(8,18,30,.74);cursor:zoom-out;animation:rvFade .25s ease-out;}
 #rvzoom img{max-width:94vw;max-height:90vh;border-radius:14px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:rvZoom .38s cubic-bezier(.2,.8,.2,1);}
 @keyframes rvFade{from{opacity:0;}}
@@ -3497,7 +3503,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "077bc0272a04";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "71e0917e1ecb";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3730,7 +3736,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdKindInd:"أفراد", cdKindVeh:"مركبات", cdDropVeh:"اسحب ملف الرخص هنا", cdCars:"العربيات", rvPlate:"رقم السيارة", rvVtype:"النوع", rvVtypeEn:"النوع بالانجليزى", rvLicEnd:"نهاية الرخصة", rvLicOk:"الرخصة سارية", rvLicSoon:"الرخصة قربت تنتهي", rvLicExp:"الرخصة منتهية", rvLicExpN:"رخص منتهية", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdKindInd:"أفراد", cdKindVeh:"مركبات", cdDropVeh:"اسحب ملف الرخص هنا", cdCars:"العربيات", rvPlate:"رقم السيارة", rvVtype:"النوع", rvVtypeEn:"النوع بالانجليزى", rvLicEnd:"نهاية الرخصة", rvLicOk:"الرخصة سارية", rvLicSoon:"الرخصة قربت تنتهي", rvLicExp:"الرخصة منتهية", rvLicExpN:"رخص منتهية", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPairInd:"فيه مركبات معاهم؟", rvPairVeh:"فيه أفراد معاهم؟", rvPairYes:"أيوه — في نفس الإكسيل", rvPairNoInd:"لأ — أفراد بس", rvPairNoVeh:"لأ — مركبات بس", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3873,7 +3879,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", cdOpen:"Open in Excel", cdKindInd:"People", cdKindVeh:"Vehicles", cdDropVeh:"Drop the licences file here", cdCars:"Vehicles", rvPlate:"Plate", rvVtype:"Type", rvVtypeEn:"Type in English", rvLicEnd:"Licence ends", rvLicOk:"Licence valid", rvLicSoon:"Licence ends soon", rvLicExp:"Licence expired", rvLicExpN:"Expired licences", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", cdOpen:"Open in Excel", cdKindInd:"People", cdKindVeh:"Vehicles", cdDropVeh:"Drop the licences file here", cdCars:"Vehicles", rvPlate:"Plate", rvVtype:"Type", rvVtypeEn:"Type in English", rvLicEnd:"Licence ends", rvLicOk:"Licence valid", rvLicSoon:"Licence ends soon", rvLicExp:"Licence expired", rvLicExpN:"Expired licences", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPairInd:"Vehicles as well?", rvPairVeh:"People as well?", rvPairYes:"Yes — in the same workbook", rvPairNoInd:"No — people only", rvPairNoVeh:"No — vehicles only", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -7860,7 +7866,17 @@ function rvBody(j, i, cls){
 const rvDone = j => j.draft.filter((r, i) => !rvOpen(j, i)).length;
 const rvDotsHTML = (j, at) => j.draft.map((r, i) => '<button type="button" class="rv-dot' + (i === at ? " on" : "") + (rvOpen(j, i) ? " need" : "") + '" data-rv-dot="' + i + '" aria-label="' + (i + 1) + '"></button>').join("");
 const rvBusy = j => (+RV.sent[j.id] || 0) > (+j.export_at || 0);
+/* before the export, the other kind (asked for, 2 November 2026: «قبل التصدير… لو بقرا افراد يقولى فى مركبات او لا ولو بقا مركبات يقولى فى
+   افراد ولا لا»): yes — in the workbook of the other kind, as the reader does it; no — a workbook of its own that the other kind keeps out of */
+let RV_ASK = "";
 function rvGoBtn(j){
+  if(RV_ASK === j.id && !rvBusy(j)){
+    const veh = j.kind === "veh";
+    return '<div class="rv-ask" data-rv-ask="' + esc(j.id) + '"><b>' + t(veh ? "rvPairVeh" : "rvPairInd") + "</b>" +
+      '<button type="button" class="btn primary" data-rv-pair="1">' + t("rvPairYes") + "</button>" +
+      '<button type="button" class="btn" data-rv-pair="0">' + t(veh ? "rvPairNoVeh" : "rvPairNoInd") + "</button>" +
+      '<button type="button" class="btn rv-x" data-rv-ask-x aria-label="' + t("cancel") + '">✕</button></div>';
+  }
   return '<button type="button" class="btn primary rv-go' + (rvBusy(j) ? " busy" : "") + '" data-rv-export="' + esc(j.id) + '">' +
     (rvBusy(j) ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.200-8.560"/></svg>' + t("rvExporting")
       : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5M9.500 12.500l5 5M14.500 12.500l-5 5"/></svg>' + t("rvExport")) +
@@ -7923,13 +7939,23 @@ function rvFit(){
   sec.style.height = Math.max(460, Math.floor(sc.clientHeight - top - 30)) + "px";      // its own margin under it and the scroll part's padding
 }
 window.addEventListener("resize", () => { if(st.view === "cards") rvFit(); });
-function rvExport(id){
+function rvAsk(id, on){
   const j = rvJob(id);
   if(!j || rvBusy(j) || ONLINE || !isAdmin()) return;
+  RV_ASK = on ? id : "";
+  const sec = document.querySelector('[data-rv="' + CSS.escape(id) + '"]'), btn = sec && sec.querySelector(".rv-go, .rv-ask");
+  if(btn) btn.outerHTML = rvGoBtn(j);
+  const yes = on && sec && sec.querySelector("[data-rv-pair='1']");
+  if(yes) yes.focus();
+}
+function rvExport(id, pair){
+  const j = rvJob(id);
+  if(!j || rvBusy(j) || ONLINE || !isAdmin()) return;
+  RV_ASK = "";
   const rows = j.draft.map((r, i) => { const o = {}; rvF(j).forEach(f => { o[f[0]] = f[0] === "birth" ? rvBirth(j, i) : rvVal(j, i, f[0]); }); return o; });
-  cardsPut(new Blob([JSON.stringify({ v: 1, rows })], { type: "application/json" }), CARDS_PREFIX + " [" + cardsId() + "] تصدير [" + id + "].json");
+  cardsPut(new Blob([JSON.stringify({ v: 1, rows, pair: !!pair })], { type: "application/json" }), CARDS_PREFIX + " [" + cardsId() + "] تصدير [" + id + "].json");
   RV.sent[id] = Date.now(); rvKeep();
-  const sec = document.querySelector('[data-rv="' + CSS.escape(id) + '"]'), btn = sec && sec.querySelector(".rv-go");
+  const sec = document.querySelector('[data-rv="' + CSS.escape(id) + '"]'), btn = sec && sec.querySelector(".rv-go, .rv-ask");
   if(btn) btn.outerHTML = rvGoBtn(j);
   [3000, 7000, 12000, 20000].forEach(ms => setTimeout(cardsSync, ms));
 }
@@ -7959,7 +7985,10 @@ function rvZoom(src){
     }
     if(dot && sec) return rvGo(sec.dataset.rv, +dot.dataset.rvDot);
     if(zoom) return rvZoom(zoom.dataset.rvZoom);
-    if(ex) return rvExport(ex.dataset.rvExport);
+    if(ex) return rvAsk(ex.dataset.rvExport, true);
+    const pr = t0.closest("[data-rv-pair]"), px = t0.closest("[data-rv-ask-x]");
+    if(pr && sec) return rvExport(sec.dataset.rv, pr.dataset.rvPair === "1");
+    if(px && sec) return rvAsk(sec.dataset.rv, false);
   });
   document.addEventListener("input", e => { if(e.target && e.target.dataset && e.target.dataset.rvf) rvType(e.target); });
   /* the keys between the boxes (asked for, 24 October 2026: «ازرار الكيبورد تتحرك… بين الصناديق الى فيها العنوان والرقم القومى»):

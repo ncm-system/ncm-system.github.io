@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-ELLtdl72Hv+M5n/yVKsHkdC5te6XWWszMMsGkqG4qyc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-Iw5rPwEX75viPc8juEEQJil5wBfz0vZjjp7OLEtZxOI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3378,7 +3378,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "fd990f4d08c1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "dd8e2977a90e";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5349,6 +5349,31 @@ const hasCell = v => !(v === "" || v === null || v === undefined);
    عندهم منع بس», 4 October 2026). The banned are still told by their red
    pill, and their reason is in their card and in the list of the banned. */
 const written = (cols, rows) => cols.filter(c => (!c.only || rows.every(c.only)) && (!(c.e || c.x) || rows.some(r => hasCell((c.e || c.x)(r)))));
+/* A LONG LIST COMES IN TWO GOES (asked for, 2 November 2026: «خلى كل حاجه فى السيستم اسرع ما يمكن… اعمله قبل ما اعرض»).
+   Measured: drawing the two thousand rows of «تصاريح الأفراد» was almost all of it the browser working out the columns'
+   widths over every cell — a second or more. So the first rows are drawn at once and the page is there; the rest are put
+   in one go the moment the browser is idle (a second at most), or as soon as the list is scrolled down towards them, or
+   before anything that needs every row: printing, coming back to a place down the list. What is picked, exported or
+   printed was never read off the screen — it is the list itself — so it is all of it from the start. */
+const TBL_FIRST = 200;
+let tblRest = null, tblToken = 0, tblPrinting = false;
+function tblFlush(){
+  const r = tblRest;
+  if(!r) return;
+  tblRest = null;
+  const body = document.querySelector('#out tbody[data-rest="' + r.token + '"]');
+  if(!body) return;
+  body.insertAdjacentHTML("beforeend", r.html);
+  body.removeAttribute("data-rest");
+  paintPicks();
+  freeze();
+}
+window.addEventListener("beforeprint", () => { tblPrinting = true; tblFlush(); });
+window.addEventListener("afterprint", () => { tblPrinting = false; });
+document.addEventListener("scroll", e => {
+  const w = e.target;
+  if(tblRest && w && w.scrollHeight && w.scrollTop + w.clientHeight > w.scrollHeight - 1600) tblFlush();
+}, true);
 function tableHTML(cols, rows, state, open, view){
   if(!rows.length) return '<div class="empty"><h3>' + t("none") + "</h3></div>";
   const sorted = sortRows(rows, cols, state.sort), shown = written(cols, rows), fz = frozen(shown.map(c => !!c.fz));
@@ -5359,10 +5384,10 @@ function tableHTML(cols, rows, state, open, view){
     shown.map((c, i) => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + fz[i] + out(c) + '">' +
       t(c.tk) + "<i>" + (state.sort.k === c.k && state.sort.d < 0 ? "▼" : "▲") + "</i></th>").join("") +
     paper.map(c => '<th class="nos paperonly">' + t(c.tk) + "</th>").join("") +
-    "</tr></thead><tbody>" +
-    sorted.map(r => '<tr data-open="' + esc(open(r)) + '">' +
+    "</tr></thead><tbody" + tblBodyAttr(sorted.length) + ">" +
+    tblRows(sorted, r => '<tr data-open="' + esc(open(r)) + '">' +
       shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + out(c) + '">' + (i ? "" : pickBox(view, open(r))) + c.h(r) + "</td>").join("") +
-      paper.map(c => '<td class="paperonly ' + (c.cls || "") + '">' + c.h(r) + "</td>").join("") + "</tr>").join("") +
+      paper.map(c => '<td class="paperonly ' + (c.cls || "") + '">' + c.h(r) + "</td>").join("") + "</tr>") +
     "</tbody></table></div>";
 }
 /* THE SHORT EXPORT (asked for, 6 October 2026). Beside the full export — every column the sheet has, as before — a
@@ -5375,6 +5400,17 @@ function tableHTML(cols, rows, state, open, view){
    individual it is his permit cell as the sheet has it, which is that already.
    WHAT IS PRINTED IS THE SHORT ONE: on paper the other columns are left out, so the page and the short file say the
    same thing; a column the short one has and the page has not (PAPER) is drawn for the paper alone. */
+// the rows of a list: the first ones now, the rest kept for tblFlush (a new list drawn meanwhile takes the place of the old one)
+let tblNext = 0;
+const tblBodyAttr = n => { tblNext = n > TBL_FIRST * 1.5 && !tblPrinting ? ++tblToken : 0; return tblNext ? ' data-rest="' + tblNext + '"' : ""; };
+function tblRows(rows, one){
+  if(!tblNext){ return rows.map(one).join(""); }
+  const token = tblNext;
+  tblRest = { token, html: rows.slice(TBL_FIRST).map(one).join("") };
+  const go = () => { if(tblRest && tblRest.token === token) tblFlush(); };
+  if(window.requestIdleCallback) requestIdleCallback(go, { timeout: 1000 }); else setTimeout(go, 400);
+  return rows.slice(0, TBL_FIRST).map(one).join("");
+}
 const BRIEF = { ind: ["name", "job", "nid", "addr", "permit"], veh: ["plate", "permit"], emp: ["code", "name", "job", "dept", "nid", "addr", "pb"] };
 const empBrief = e => empBan(e) ? stLabel(e) : e.resigned ? t("resigned") : e.pdate ? fmt(e.pdate) : (e.permit_date || stLabel(e));
 const PAPER = { emp: [{ k: "pb", tk: "colPermit", cls: "nowrap", h: r => r.pdate && !empBan(r) && !r.resigned ? num(fmt(r.pdate)) : esc(empBrief(r)), x: empBrief, tone: r => r.resigned ? "bad" : r.st.k }] };
@@ -5510,6 +5546,7 @@ function paintTable(view, keep){
   const rows = paperRows(view, base.filter(r => L.pick(r, f.status)));
   $("count").innerHTML = t("rows", rows.length);
   $("tbl").innerHTML = tableHTML(L.cols, rows, f, L.open, view);
+  if(at) tblFlush();                                   // coming back to a place down the list: every row first
   paintPicks();
   freeze();
   rowsTo($("tbl"), at);
@@ -9899,7 +9936,10 @@ window.addEventListener("appinstalled", () => { appAsk = null; if(st.view === "a
    logo (38 KB, three at once, never from the cache) timed from the published site; on this PC, the same file over the
    internet. Nothing is sent anywhere. A new thing: «x-net», off for a user whose pages were chosen until it is given. */
 const NET = { ok: navigator.onLine, mbps: 0, at: 0, busy: false };
-const NET_FILE = ONLINE ? "icon-512.png" : "https://ncm-system.github.io/icon-512.png";
+// …measured since 2 November 2026 on a file of its own, a megabyte and a half that does not compress (net.bin, made by the
+// build), and timed from its first bytes to its last: three small icons were mostly the time it takes to reach the server,
+// and said 0.6 Mbps on a line many times faster («قياس سرعه النت مش دقيق نهائى»). Every two minutes, not every one.
+const NET_FILE = ONLINE ? "net.bin" : "https://ncm-system.github.io/net.bin";
 function netPaint(){
   const box = $("netbox");
   if(!box) return;
@@ -9917,10 +9957,21 @@ async function netMeasure(){
   NET.busy = true;
   try{
     const t0 = performance.now();
-    const got = await Promise.all([0, 1, 2].map(i => fetch(NET_FILE + "?n=" + Date.now() + i, { cache: "no-store", signal: AbortSignal.timeout(15000) })
-      .then(r => r.ok ? r.arrayBuffer() : Promise.reject(new Error("bad")))));
-    const secs = Math.max((performance.now() - t0) / 1000, 0.05), bytes = got.reduce((n, b) => n + b.byteLength, 0);
-    NET.ok = true; NET.mbps = bytes * 8 / secs / 1e6; NET.at = Date.now();
+    const r = await fetch(NET_FILE + "?n=" + Date.now(), { cache: "no-store", signal: AbortSignal.timeout(20000) });
+    if(!r.ok || !r.body) throw new Error("bad");
+    const rd = r.body.getReader();
+    let first = 0, last = 0, after = 0, all = 0;           // after: what came once the first bytes were in — the line's own speed
+    for(;;){
+      const { done, value } = await rd.read();
+      if(done) break;
+      const now = performance.now();
+      all += value.byteLength;
+      if(!first) first = now; else { after += value.byteLength; last = now; }
+      if(now - first > 3000){ try{ rd.cancel(); }catch(x){} break; }      // a slow line is not kept at it for long
+    }
+    const mbps = after > 64 * 1024 && last - first > 30 ? after * 8 / ((last - first) / 1000) / 1e6
+                                                     : all * 8 / Math.max((performance.now() - t0) / 1000, 0.05) / 1e6;
+    NET.ok = true; NET.mbps = mbps; NET.at = Date.now();
   }catch(e){
     NET.ok = false;                 // nothing came back: as good as no network
   }
@@ -9929,8 +9980,8 @@ async function netMeasure(){
 }
 window.addEventListener("online", () => { NET.ok = true; netPaint(); netMeasure(); });
 window.addEventListener("offline", () => { NET.ok = false; netPaint(); });
-document.addEventListener("visibilitychange", () => { if(!document.hidden && Date.now() - NET.at > 60000) netMeasure(); });
-setInterval(netMeasure, 60000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden && Date.now() - NET.at > 120000) netMeasure(); });
+setInterval(netMeasure, 120000);
 setTimeout(netMeasure, 2500);
 setInterval(netPaint, 5000);
 setInterval(readerLamp, 5000);

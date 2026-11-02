@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1rfscOLgSq1sMtvbwOBN2jhVmsXRl856wdlTXQ3F+UE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-8z/ExNfU9vtRl1ai8xgWbGtqQvFI84Vy4Xu9C0+cqxg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3086,7 +3086,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a343b514866a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "dde30a355397";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3323,7 +3323,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3466,7 +3466,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -7090,7 +7090,7 @@ function cardsCancel(id){
   if(ONLINE || !isAdmin() || !id || !confirm(t("cxSure"))) return;
   cardsPut(new Blob(["cancel"], { type: "text/plain" }), CARDS_PREFIX + " [" + cardsId() + "] إلغاء [" + id + "].txt");
   toast(t("cxSent"));
-  [2500, 6000, 12000].forEach(ms => setTimeout(() => { cardsSync(); if(st.view === "issued") issBatches(); }, ms));
+  [2500, 6000, 12000].forEach(ms => setTimeout(() => { cardsSync(); if(st.view === "src") issBatches(); }, ms));
 }
 function deskCancel(id){
   if(!isAdmin() || !id || !confirm(t("cxSure"))) return;
@@ -7820,9 +7820,10 @@ function paintDesk(){
   if(sig === deskSig && box.firstChild){ deskTick(); return deskShow(); }
   deskSig = sig;
   box.innerHTML = '<button type="button" class="btn sm desk-back" data-desk-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>' + t("navSrc") + "</button>" +
-    DESK_KINDS.map(deskCardHTML).join("");
+    DESK_KINDS.map(deskCardHTML).join("") + (ONLINE ? "" : (issCardDrawn = permitCardHTML()));
   deskTick();
   deskShow();
+  if(!ONLINE && !issBatchTimer) issBatches();
 }
 /* «الشيتات» A PAGE EACH (asked for, 22 October 2026: «نخلى الشيتات كل شيت فى صفحة جوة الصفحة الرئيسية للشيتات عشان الموشن جيرافك
    ياخد اكبر حجم ممكن»): on the page of all of them each box is its title, its button and where it stands; pressed, it is the
@@ -7830,7 +7831,7 @@ function paintDesk(){
 function deskShow(){
   const box = $("desk");
   if(!box) return;
-  if(st.desk && DESK_KINDS.indexOf(st.desk) < 0) st.desk = "";
+  if(st.desk && DESK_KINDS.indexOf(st.desk) < 0 && (ONLINE || st.desk !== "permits")) st.desk = "";
   box.classList.toggle("one", !!st.desk);
   [].forEach.call(box.querySelectorAll(".desk-card"), c => c.classList.toggle("open", c.dataset.desk === st.desk));
   moSync();
@@ -7842,7 +7843,7 @@ document.addEventListener("click", e => {
   const c = el.closest(".desk-card");
   if(!c) return;
   const act = el.closest("button, input, a, label");
-  if(act && !act.matches("[data-act=desk-run], [data-act=desk-ase], [data-act=desk-idph]")) return;
+  if(act && !act.matches("[data-act=desk-run], [data-act=desk-ase], [data-act=desk-idph], [data-act=iss-up]")) return;
   if(!act && box.classList.contains("one")) return;
   if(st.desk !== c.dataset.desk){ st.desk = c.dataset.desk; deskShow(); }
 });
@@ -9015,9 +9016,9 @@ const issCols = veh => veh
   : issPick(MULTI_COLS.ind, ["colName", "colJob", "colNid", "address", "sender", "colPermit"]).concat(ISS_COLS, issPick(MULTI_COLS.ind, ["colSent", "colMail"]));
 function renderIssued(){
   const many = st.issued.mode === "many";
-  page(pgHead(t("navIssued"), '<div class="pg-acts noprint">' + (isAdmin() && !ONLINE ? '<button class="btn sm primary" data-act="iss-up">' + t("isUp") + "</button>" : "") +
+  page(pgHead(t("navIssued"), '<div class="pg-acts noprint">' +
       '<button class="btn sm" data-act="iss-refresh">' + t("lgRefresh") + "</button></div>"),
-    '<div class="iss-top"><div id="iss-tiles" style="width:100%;display:flex;justify-content:center"></div><div class="iss-batch" id="iss-batch"></div>' +
+    '<div class="iss-top"><div id="iss-tiles" style="width:100%;display:flex;justify-content:center"></div>' +
       '<div class="iss-search">' +
         '<div class="seg">' + ["one", "many"].map(k => '<button data-ismode="' + k + '" class="' + (st.issued.mode === k || (k === "one" && !many) ? "on" : "") + '">' + t(k === "many" ? "isMany" : "isOne") + "</button>").join("") + "</div>" +
         (many ? '<textarea class="multi-ta" id="iss-q" spellcheck="false" autocomplete="off" aria-label="' + t("search") + '"></textarea>'
@@ -9028,32 +9029,49 @@ function renderIssued(){
   $("iss-q").value = st.issued.q;
   paintIssued();
   issuedSync();
-  issBatches();
 }
-/* «رفع كروت» (asked for, 18 October 2026): the PDF of newly printed cards — a PDF only since 19 October 2026, the
+/* «رفع كروت» — in «الشيتات» since 2 November 2026, a box of its own («خلى رفع الكروت فى صفحة الشيتات»): a PDF dropped on
+   the cards page was taken for a sheet and never went. Before that, on «الكروت» (asked for, 18 October 2026): the PDF of newly printed cards — a PDF only since 19 October 2026, the
    cards are handed over by hand here («تم تسليم التصريح»), no WhatsApp chat any more («مفيش شات تاني»). The file goes where the card reader looks — «التصدير», as
    «وارد الكروت [id] name» — and the reader's session reads it (tools/permit_batch.py). How each batch stands is
    read back from cards/permits.json beside the page, every few seconds while the page is open; when one is over,
    the list is asked for again. */
-let issBatchTimer = null, issBatchSeen = "";
+let issBatchTimer = null, issBatchSeen = "", ISS_BATCHES = [], issCardDrawn = "";
 function issUpload(files){
   files = files.filter(f => /\.pdf$/i.test(f.name));
   if(!isAdmin() || ONLINE || !files.length) return;
   files.forEach((f, i) => setTimeout(() => cardsPut(f, "وارد الكروت [" + cardsId() + "] " + f.name.replace(/[\[\]\\\/:*?"<>|]/g, " ").trim()), i * 1200));
   toast(t("isUpSent"));
+  if(st.view === "src"){ st.desk = "permits"; deskShow(); }
   setTimeout(issBatches, 2500);
 }
-async function issBatches(){
-  clearTimeout(issBatchTimer);
-  if(st.view !== "issued" || ONLINE || !isAdmin()) return;
-  const text = await beside(CARDS_DIR + "permits.json"), box = $("iss-batch");
-  let list = [];
-  try{ list = (JSON.parse(text || "{}").batches || []).slice(0, 3); }catch(e){}
-  if(box) box.innerHTML = list.map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +
+// the box of «الشيتات»: the button, how the last three batches stand, and that one in a word on the page of all the boxes
+function permitCardHTML(){
+  const list = ISS_BATCHES, b0 = list[0], live = b => b.status === "waiting" || b.status === "reading";
+  const tone = !b0 ? "" : b0.status === "done" ? "ok" : b0.status === "failed" ? "bad" : b0.status === "reading" ? "blue" : "warn";
+  const mini = !b0 ? "" : '<span class="desk-mini ' + tone + '">' + esc(t(b0.status === "done" ? "dkDone" : b0.status === "failed" ? "dkFailed" : b0.status === "reading" ? "isBRead" : "isBWait")) + "</span>";
+  const rows = list.map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +
     (b.status === "done" ? pill("ok", t("isBDone", +(b.counts || {}).cards || 0, +(b.counts || {}).given || 0, +(b.counts || {}).skipped || 0)) :
      b.status === "failed" ? pill("bad", t(b.error === "cancelled" ? "dkECancelled" : "isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait")) +
        '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b.id) + '">' + t("cancel") + "</button>") +
     (b.done_at ? '<span class="num">' + num(stamp(+b.done_at)) + "</span>" : "") + "</div>").join("");
+  return '<section class="panel desk-card" data-desk="permits" id="permit-drop"><div class="panel-h"><h3 class="panel-t">' + t("dkPermits") + "</h3>" + mini +
+    '<button class="btn primary sm" data-act="iss-up"' + (list.some(live) ? " disabled" : "") + ">" + t("isUp") + "</button></div>" +
+    '<div class="panel-b">' + (rows ? '<div class="iss-batch">' + rows + "</div>" : '<div class="desk-none">' + dimDash + "</div>") + "</div></section>";
+}
+async function issBatches(){
+  clearTimeout(issBatchTimer); issBatchTimer = null;
+  if(st.view !== "src" || ONLINE || !isAdmin()) return;
+  const text = await beside(CARDS_DIR + "permits.json");
+  let list = [];
+  try{ list = (JSON.parse(text || "{}").batches || []).slice(0, 3); }catch(e){}
+  ISS_BATCHES = list;
+  const card = $("permit-drop"), html = permitCardHTML();
+  if(card && html !== issCardDrawn){                                 // drawn again only when something on it has changed
+    const open = card.classList.contains("open");
+    card.outerHTML = html; issCardDrawn = html;
+    if(open) $("permit-drop").classList.add("open");
+  }
   const done = list.filter(b => b.status === "done").map(b => b.id).join(",");
   if(issBatchSeen && done !== issBatchSeen) issuedSync();             // a batch has just come to its end
   issBatchSeen = done || issBatchSeen;
@@ -9783,15 +9801,18 @@ document.addEventListener("error", e => {
 let dragDepth = 0;
 const hasFiles = e => !ONLINE && e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], "Files") !== -1;
 // over the ASE box of «الشيتات», what is dropped is an export for the desk; anywhere else on that page, the sheets themselves
+const overPermits = e => { if(st.view !== "src" || !$("permit-drop")) return false; const r = $("permit-drop").getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
 const overAse = e => { if(st.view !== "src" || !$("ase-drop")) return false; const r = $("ase-drop").getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
 window.addEventListener("dragenter", e => { if(!hasFiles(e)) return; e.preventDefault(); dragDepth++; $("dropveil").textContent = t(st.view === "cards" ? "cdDropHere" : overAse(e) ? "dkDropHere" : "dropHere"); $("dropveil").classList.add("on"); });
-window.addEventListener("dragover", e => { if(!hasFiles(e)) return; e.preventDefault(); if(st.view === "src") $("dropveil").textContent = t(overAse(e) ? "dkDropHere" : "dropHere"); });
+window.addEventListener("dragover", e => { if(!hasFiles(e)) return; e.preventDefault(); if(st.view === "src") $("dropveil").textContent = t(overAse(e) ? "dkDropHere" : overPermits(e) ? "isDropHere" : "dropHere"); });
 window.addEventListener("dragleave", e => { if(!hasFiles(e)) return; if(--dragDepth <= 0){ dragDepth = 0; $("dropveil").classList.remove("on"); } });
 window.addEventListener("drop", async e => {
   if(!hasFiles(e)) return;
   e.preventDefault(); dragDepth = 0; $("dropveil").classList.remove("on");
   // on the card reader's page what is dropped is a file of card photos, for the reader
   if(st.view === "cards") return cardsSend(e.dataTransfer.files && e.dataTransfer.files[0]);
+  const pdfs = [].filter.call(e.dataTransfer.files || [], f => /\.pdf$/i.test(f.name));
+  if(st.view === "src" && pdfs.length) return issUpload(pdfs);
   if(overAse(e)) return deskAse(e.dataTransfer.files && e.dataTransfer.files[0]);
   // the handles have to be asked for before the first await, while the drop is still live
   const pending = !DISK ? [] : [].map.call(e.dataTransfer.items || [], it => {

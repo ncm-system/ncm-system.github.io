@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-AjvT9vep0o+95iiq5CaIyB6nY6aAS/fwUyxMlSbBFXM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-ic1Vv6rai2Tm3+es1PkOVxKCQynnGI86bQOWMe73tw4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1816,6 +1816,12 @@ html.dark .ase-alert{color:#ffd28a;}
 .desk:not(.one) .desk-card{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;}
 .desk:not(.one) .desk-card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(21,101,192,.14);}
 .desk:not(.one) .desk-card .panel-h{border-bottom:0;}
+/* when each box's thing was last brought up to date, in the white of its head (3 November 2026: «فى الحته البيضا الفاضية يتكتبلى اخر
+   تحديث كان يوم كام والساعه كام فى صندوق صغير كده لونه اصفر متوسط») */
+.desk-last{display:inline-flex;align-items:center;gap:6px;margin-inline:auto;padding:3px 9px;border-radius:10px;background:#ffd166;border:1px solid #f2b632;color:#5a3c00;font-size:12px;font-weight:800;white-space:nowrap;}
+.desk-last b{font-weight:900;font-size:12.5px;direction:ltr;}
+.desk-last + .desk-mini{margin-inline-start:0;}
+@media (max-width:520px){ .desk-last > span{display:none;} }
 .desk-mini{margin-inline-start:auto;margin-inline-end:10px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;background:var(--tint);color:var(--muted);white-space:nowrap;}
 .desk-mini.blue{background:rgba(21,101,192,.12);color:var(--blue);}
 .desk-mini.ok{background:var(--ok-bg);color:var(--ok);}
@@ -3515,7 +3521,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "7151f1a915cb";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "87a95415269e";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3781,7 +3787,7 @@ const I18N = {
     asId:"الرقم القومي", asName:"الاسم", asStatus:"الحالة", asOrg:"الشركة", asPos:"الوظيفة", asArea:"منطقة الدخول", asCit:"الجنسية",
     asLDate:"تاريخ الخطاب", asLNo:"رقم الخطاب", asConfirm:"التأكيد", asOwner:"رقم خطاب المالك", asNote:"ملاحظة",
     dkTitle:"التحديث", dkSources:"مصادر البيانات", dkEmp:"قاعدة بيانات الموظفين والصور", dkSheet:"work sheet على الدرايف", dkAse:"ASE Data", dkLetters:"خطابات الموظفين من ASE", dkDrive:"نسخة من شيت الدرايف", dkDriveRun:"تنزيل", dkD3:"التنزيل", dkF_dr_done:v => "اتنزلت: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات", dkF_dr_file:v => "FOR WORK\\نسخ من الدرايف — " + v[0], dkEDrive:"الشيت ما اتنزلش من الدرايف", dkEDriveBad:"اللي نزل من الدرايف مش الشيت (التابين مش فيه)", dkL3:"ASE ← شيت الموظفين", dkL4:"قاعدة البيانات", dkF_lt_done:v => "اتحدّث خطاب " + v[0] + " موظف (" + v[1] + " خانة)", dkF_lt_same:"خطابات الموظفين مطابقة لـ ASE", dkF_lt_missing:v => v[0] + " موظف مش موجود في ASE", dkEEmpChanged:"شيت الموظفين اتحفظ أثناء التحديث — ماتغيّرش", dkEAseCols:"أعمدة ASE Data اتغيّرت", dkEEmpCols:"أعمدة شيت الموظفين اتغيّرت",
-    dkRun:"تحديث", dkAsePick:"رفع ملف ASE", aaNew:"اترفع ملف ASE جديد على السيستم", aaRows:n => n + " صف", aaGet:"تنزيل الملف الأصلي", aaNoFile:"الملف الأصلي مش محفوظ — اترفع قبل ما حفظه يبدأ", aaGetFail:"الملف ماتنزلش", dkIdph:"صور البطايق والرخص", dkIdphPick:"رفع ورد الصور", dkP3:"الصور بتتقري وبتتربط بالناس", dkIdphBusy:"فيه ورد صور بيتضاف دلوقتي", needDocx:"اختار ملف ورد (.docx)", dkENotWord:"الملف مش ورد صور (مفيش فيه جدول صور)", dkF_ip_tied:v => "اتربط " + v[0] + " من " + v[1] + " صف بأصحابهم", dkF_ip_left:v => v[0] + " صف ماتربطش بحد في الشيت", dkF_ip_up:v => "اترفع " + v[0] + " صورة أونلاين", dkF_ip_known:"الملف ده كان متضاف قبل كده", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
+    dkRun:"تحديث", dkAsePick:"رفع ملف ASE", dkLast:"آخر تحديث", aaNew:"اترفع ملف ASE جديد على السيستم", aaRows:n => n + " صف", aaGet:"تنزيل الملف الأصلي", aaNoFile:"الملف الأصلي مش محفوظ — اترفع قبل ما حفظه يبدأ", aaGetFail:"الملف ماتنزلش", dkIdph:"صور البطايق والرخص", dkIdphPick:"رفع ورد الصور", dkP3:"الصور بتتقري وبتتربط بالناس", dkIdphBusy:"فيه ورد صور بيتضاف دلوقتي", needDocx:"اختار ملف ورد (.docx)", dkENotWord:"الملف مش ورد صور (مفيش فيه جدول صور)", dkF_ip_tied:v => "اتربط " + v[0] + " من " + v[1] + " صف بأصحابهم", dkF_ip_left:v => v[0] + " صف ماتربطش بحد في الشيت", dkF_ip_up:v => "اترفع " + v[0] + " صورة أونلاين", dkF_ip_known:"الملف ده كان متضاف قبل كده", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
     dkQueued:"مستني القارئ", dkRunning:"شغّال", dkDone:"تم", dkDoneWarn:"تم — فيه ملاحظات", dkDoneBad:"تم — فيه مشكلة", dkFailed:"ماتمّش", dkBusy:"القارئ مشغول", dkLost:"الطلب ما وصلش فولدر التصدير",
     dkA1:"اتبعت", dkA2:"استلام", dkA3:"إكسيل", dkA4:"فحص", dkA5:"تبديل", dkA6:"نسخة البحث", dkAseSys:"ASE من السيستم", dkFromSys:"نسخة ASE SEARCH",
     dkESame:"work sheet فيه نفس نسخة ASE SEARCH بالفعل", dkENoCopy:"مفيش شيت ASE مرفوع على ASE SEARCH", dkECopyBusy:"فيه ملف بيترفع على ASE SEARCH دلوقتي", dkECopyFail:"نسخة ASE SEARCH ما اتقرتش", dkCopyOk:"نسخة ASE SEARCH اتحدّثت بنفس الملف", dkCopyNo:"نسخة ASE SEARCH ما اتحدّثتش — ارفع الملف من صفحة ASE SEARCH", dkE3:"الداتا", dkE4:"مراجعة الصور", dkE5:"رفع الصور", dkS3:"الرفع", dkS4:"الفحص",
@@ -3924,7 +3930,7 @@ const I18N = {
     asId:"National ID", asName:"Name", asStatus:"Status", asOrg:"Organization", asPos:"Position", asArea:"Access area", asCit:"Citizenship",
     asLDate:"Letter date", asLNo:"Letter number", asConfirm:"Confirm", asOwner:"Owner letter number", asNote:"Note",
     dkTitle:"Updates", dkSources:"Data sources", dkEmp:"Employees database and photos", dkSheet:"Work sheet on the Drive", dkAse:"ASE Data", dkLetters:"Employees' letters from ASE", dkDrive:"A copy of the Drive sheet", dkDriveRun:"Download", dkD3:"Download", dkF_dr_done:v => "Downloaded: " + v[0] + " individuals · " + v[1] + " vehicles", dkF_dr_file:v => "FOR WORK\\نسخ من الدرايف — " + v[0], dkEDrive:"The sheet could not be downloaded from Drive", dkEDriveBad:"What came from Drive is not the sheet (its two tabs are not in it)", dkL3:"ASE → employees sheet", dkL4:"Database", dkF_lt_done:v => v[0] + " employees' letters updated (" + v[1] + " cells)", dkF_lt_same:"The employees' letters match ASE", dkF_lt_missing:v => v[0] + " employees not in ASE", dkEEmpChanged:"The employees sheet was saved meanwhile — left as it was", dkEAseCols:"The ASE Data columns changed", dkEEmpCols:"The employees sheet columns changed",
-    dkRun:"Update", dkAsePick:"Upload ASE file", aaNew:"A new ASE export was uploaded on the system", aaRows:n => n + " rows", aaGet:"Download the original file", aaNoFile:"The original file was not kept — it was uploaded before keeping began", aaGetFail:"The file did not come down", dkIdph:"ID card and licence photos", dkIdphPick:"Upload a Word file of photos", dkP3:"Reading the photos and tying them to people", dkIdphBusy:"A Word file of photos is being added right now", needDocx:"Pick a Word file (.docx)", dkENotWord:"Not a Word file of photos (no table of photos in it)", dkF_ip_tied:v => v[0] + " of " + v[1] + " rows tied to their owners", dkF_ip_left:v => v[0] + " rows tied to nobody in the sheet", dkF_ip_up:v => v[0] + " photos put online", dkF_ip_known:"This file had been added before", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
+    dkRun:"Update", dkAsePick:"Upload ASE file", dkLast:"Last update", aaNew:"A new ASE export was uploaded on the system", aaRows:n => n + " rows", aaGet:"Download the original file", aaNoFile:"The original file was not kept — it was uploaded before keeping began", aaGetFail:"The file did not come down", dkIdph:"ID card and licence photos", dkIdphPick:"Upload a Word file of photos", dkP3:"Reading the photos and tying them to people", dkIdphBusy:"A Word file of photos is being added right now", needDocx:"Pick a Word file (.docx)", dkENotWord:"Not a Word file of photos (no table of photos in it)", dkF_ip_tied:v => v[0] + " of " + v[1] + " rows tied to their owners", dkF_ip_left:v => v[0] + " rows tied to nobody in the sheet", dkF_ip_up:v => v[0] + " photos put online", dkF_ip_known:"This file had been added before", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
     dkQueued:"Waiting for the reader", dkRunning:"Running", dkDone:"Done", dkDoneWarn:"Done — with notes", dkDoneBad:"Done — with a problem", dkFailed:"Not done", dkBusy:"Reader busy", dkLost:"The request did not reach the export folder",
     dkA1:"Sent", dkA2:"Received", dkA3:"Excel", dkA4:"Checking", dkA5:"Replacing", dkA6:"Search copy", dkAseSys:"ASE from the system", dkFromSys:"The ASE SEARCH copy",
     dkESame:"The work sheet already holds the ASE SEARCH copy", dkENoCopy:"No ASE sheet has been uploaded on ASE SEARCH", dkECopyBusy:"A file is being uploaded on ASE SEARCH right now", dkECopyFail:"The ASE SEARCH copy could not be read", dkCopyOk:"The ASE SEARCH copy was updated with the same file", dkCopyNo:"The ASE SEARCH copy was not updated — upload the file on the ASE SEARCH page", dkE3:"Data", dkE4:"Checking photos", dkE5:"Uploading photos", dkS3:"Upload", dkS4:"Check",
@@ -8454,6 +8460,10 @@ function deskStep(o){
   if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
   return o.step === "verify" ? 3 : o.step === "swap" ? 4 : o.step === "copy" ? 5 : 2;
 }
+// the last time a box's thing was brought up to date: the newest of its orders that ran to its end
+function deskLast(kind){ let at = 0; DESK.orders.forEach(o => { if(o.kind === kind && o.status === "done" && +o.finished_at > at) at = +o.finished_at; }); return at; }
+const deskLastHTML = at => { if(!at) return ""; const d = new Date(at), p = n => String(n).padStart(2, "0");      // the day and the hour: the year goes without saying
+  return '<span class="desk-last" title="' + esc(stamp(at)) + '"><span>' + t("dkLast") + '</span><b class="num">' + p(d.getDate()) + "/" + p(d.getMonth() + 1) + " · " + p(d.getHours()) + ":" + p(d.getMinutes()) + "</b></span>"; };
 function deskCardHTML(kind){
   const o = deskNow(kind), live = deskLive(o), ase = kind === "ase", idph = kind === "idph";
   // ASE has two ways in: a file from this PC, or the copy that is on ASE SEARCH (what the manager loaded there)
@@ -8504,7 +8514,7 @@ function deskCardHTML(kind){
   // on the page of all of them, where each one stands, in a word (each opens on its own page: 22 October 2026)
   const mtone = !o ? "" : live ? "blue" : o.status === "done" ? deskTone(o) : "bad";
   const mini = !o ? "" : '<span class="desk-mini ' + mtone + '">' + esc(t(live ? (o.status === "queued" ? "dkQueued" : "dkRunning") : o.status === "done" ? (mtone === "ok" ? "dkDone" : mtone === "warn" ? "dkDoneWarn" : "dkDoneBad") : "dkFailed")) + "</span>";
-  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '" data-desk="' + kind + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + mini + btn + "</div>" +
+  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '" data-desk="' + kind + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + deskLastHTML(deskLast(kind)) + mini + btn + "</div>" +
     '<div class="panel-b">' + body + "</div></section>";
 }
 function paintDesk(){
@@ -9827,7 +9837,8 @@ function permitCardHTML(){
      b.status === "failed" ? pill("bad", t(b.error === "cancelled" ? "dkECancelled" : "isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait")) +
        '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b.id) + '">' + t("cancel") + "</button>") +
     (b.done_at ? '<span class="num">' + num(stamp(+b.done_at)) + "</span>" : "") + "</div>").join("");
-  return '<section class="panel desk-card" data-desk="permits" id="permit-drop"><div class="panel-h"><h3 class="panel-t">' + t("dkPermits") + "</h3>" + mini +
+  return '<section class="panel desk-card" data-desk="permits" id="permit-drop"><div class="panel-h"><h3 class="panel-t">' + t("dkPermits") + "</h3>" +
+    deskLastHTML(list.reduce((m, b) => b.status === "done" && +b.done_at > m ? +b.done_at : m, 0)) + mini +
     '<button class="btn primary sm" data-act="iss-up"' + (list.some(live) ? " disabled" : "") + ">" + t("isUp") + "</button></div>" +
     '<div class="panel-b">' + going + (rows ? '<div class="iss-batch">' + rows + "</div>" : going ? "" : '<div class="desk-none">' + dimDash + "</div>") + "</div></section>";
 }

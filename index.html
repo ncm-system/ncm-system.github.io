@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-pqTvmvxDj8M8yJqpa8YlAxNk+fMkzWNG8vtwPEk4YOk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-A+HizxLwq6TpFPxf3oGMBD9tVz+rsVpiIK01uXfi/eE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3378,7 +3378,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "246231cff9fe";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "48e7adb4863b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4398,6 +4398,10 @@ function showGate(message){
   $("pinboxes").classList.toggle("many", PIN_LEN > 6); $("gate-form").classList.toggle("long", PIN_LEN > 6);
   $("gate-err").className = "gate-err"; $("gate-err").textContent = message || "";
   $("pin").value = ""; paintBoxes();
+  // the page behind the gate takes no keys and no presses while it is up (2 November 2026: a PIN typed after the gate came back
+  // over an open page went into the search box behind it — the boxes stayed empty, it seemed to hang, and the search had the digits)
+  $("app").inert = true;
+  if(document.activeElement && document.activeElement !== document.body && !$("gate").contains(document.activeElement)) document.activeElement.blur();
   $("gate").hidden = false;
   bgmoSync();
   setTimeout(() => $("gate-user").focus(), 80);
@@ -4521,6 +4525,8 @@ async function submitPin(){
     if(orb) orb.stop();
     pin.value = ""; paintBoxes(); pin.blur();
     $("gate").hidden = true;
+    $("app").inert = false;
+    gateLeft = Date.now();
     setTimeout(bgmoSync, 0);
     playIntro();
     if(ONLINE) startOnline(); else startLocal();
@@ -9984,6 +9990,20 @@ $("pin").addEventListener("input", () => {
 $("pin").addEventListener("focus", () => $("pinboxes").classList.add("focus"));
 $("pin").addEventListener("blur", () => $("pinboxes").classList.remove("focus"));
 $("pin").addEventListener("keydown", e => { if(e.key === "Enter") submitPin(); });
+// …and a digit typed anywhere while the gate is up goes into the PIN, wherever the focus happens to be; none while it is being
+// checked — nor in the moment after it opens: the PIN typed again because the check seemed to hang ended up in the search box
+let gateLeft = 0;
+document.addEventListener("keydown", e => {
+  if(e.ctrlKey || e.altKey || e.metaKey || !/^[0-9٠-٩۰-۹]$/.test(e.key)) return;
+  if($("gate").hidden){ if(Date.now() - gateLeft < 1500) e.preventDefault(); return; }
+  const pin = $("pin");
+  if(gateBusy){ e.preventDefault(); return; }
+  if(e.target === pin || !gateUser()) return;
+  e.preventDefault();
+  pin.focus();
+  pin.value = (pin.value + NCM.toLatinDigits(e.key)).slice(0, PIN_LEN);
+  pin.dispatchEvent(new Event("input"));
+}, true);
 $("logout").addEventListener("click", () => { logAct("out"); signOut(); });
 $("dr-renew").addEventListener("click", renewPress);
 $("dr-edit").addEventListener("click", editOpen);

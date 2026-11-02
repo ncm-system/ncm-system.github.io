@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1295YBmX/8JG2DMcpzgq1RHT5r4Hqt6mRGN82481WhU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-pqTvmvxDj8M8yJqpa8YlAxNk+fMkzWNG8vtwPEk4YOk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1839,8 +1839,8 @@ html.dark{
    THE CALM LOOK AND THE GLASS MENU (asked for, 2 November 2026, on two videos: «عايز شكل السيستم يبقا هادى كده مع الحفاظ على
    الالوان بتاعتنا» — white boards with a hairline, quiet headings, the colour kept for what it says — and «الشريط الجانبى يبقا زى
    كده… مع الحفاظ على التفاصيل والالوان» — a menu of glass standing off the edge of the window, a lens of glass that follows the
-   hand from line to line, and a button that folds it into a rail of icons whose names come up beside them). «x-look» — on
-   «body.calm». The motion behind the pages and its words stay exactly as they are («الكلام الى بيتحرك فى خلفية السيستم عايزها
+   hand from line to line, and a button that folds it into a rail of icons whose names come up beside them). «x-motion» — the
+   same button as the motion (it was «x-look» of its own for a few hours: «لية مش كله واحد») — on «body.calm». The motion behind the pages and its words stay exactly as they are («الكلام الى بيتحرك فى خلفية السيستم عايزها
    يفضل زى ما هو»): nothing here touches #bgmo.
    ============================================================ */
 body.calm{--c-line:#e4e9f0;--c-line-2:#d3dce7;--c-ink:#55657a;--c-soft:#f6f8fb;}
@@ -3378,7 +3378,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "de92c0b33d5b";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "246231cff9fe";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3470,7 +3470,18 @@ async function gateState(){
   }catch(e){}
 }
 async function unboxUsers(){
-  if(!USERS_BOX) return;                            // this PC's own copy: the list is written out above
+  if(!USERS_BOX){                                   // this PC's own copy: the list is written out above…
+    // …and the users added from ADMIN are asked for at the gate as online — with the gate's box opened by the key kept on this PC
+    if(!ONLINE && GATE_BOX && !GATE){
+      const k = String((await beside("tools/icon-key.txt")) || "").trim();
+      if(ICON_RE.test(k)) try{
+        const raw = Uint8Array.from(atob(k.replace(/-/g, "+").replace(/_/g, "/") + "="), c => c.charCodeAt(0));
+        const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+        GATE = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(GATE_BOX.iv) }, key, b64(GATE_BOX.data))));
+      }catch(e){ GATE = null; }
+    }
+    return;
+  }
   let k = "";
   if(ICON_RE.test(ARGS.i || "")){ k = ARGS.i; try{ localStorage.setItem(ICON_KEY, k); }catch(e){} }
   else try{ k = localStorage.getItem(ICON_KEY) || ""; }catch(e){}
@@ -3499,7 +3510,7 @@ const usersIn = () => USERS_IN || USERS;
    gate that cannot reach the database still knows whose password was changed. */
 const GATE_USERS_KEY = "ncm_system_gate_users";
 async function gateUsers(){
-  if(!ONLINE || !GATE || blocked()) return;
+  if(!GATE || blocked()) return;
   if(!USERS_IN){ if(!USERS.length) return; USERS_IN = USERS.slice(); }
   let got = null;
   try{ got = await gateCall("users", {}); try{ localStorage.setItem(GATE_USERS_KEY, JSON.stringify(got)); }catch(x){} }
@@ -3612,10 +3623,10 @@ const I18N = {
     cmMissing:"مش موجود في ASE", cmViolation:"مخالفة في ASE", cmDeleted:"محذوف في ASE", cmLeft:"استقالة في ASE",
     cmOther:"على شركة تانية في ASE", cmMoved:"خطاب تحويل", cmBanOurs:"ممنوع عندنا بس", cmLetter:"رقم الخطاب مختلف",
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
-    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
+    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", canLook:"الشكل الهادي", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3755,10 +3766,10 @@ const I18N = {
     cmMissing:"Not in ASE", cmViolation:"Violation in ASE", cmDeleted:"Deleted in ASE", cmLeft:"Resigned in ASE",
     cmOther:"Under another company in ASE", cmMoved:"Transfer letter", cmBanOurs:"Banned here only", cmLetter:"Letter number differs",
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
-    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
+    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", canLook:"Calm look", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -6184,7 +6195,7 @@ const bgmoWant = () => !!session && $("gate").hidden && can("x-motion") && !(win
 // «x-look»: the calm look and the glass menu; folded into a rail if he folded it (remembered on the device)
 const RAIL_KEY = "ncm_side_rail";
 function lookSync(){
-  const on = !!session && can("x-look");
+  const on = !!session && can("x-motion");          // one button with the motion (2 November 2026: «لية مش كله واحد»)
   let rail = false;
   try{ rail = localStorage.getItem(RAIL_KEY) === "1"; }catch(e){}
   document.body.classList.toggle("calm", on);
@@ -6582,15 +6593,24 @@ const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", 
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
-const PERM_CAN = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion", "x-look"];
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion", "x-look": "canLook" };
+// what a user may do, as it is kept (the database checks some of these by name — x-edit, x-give, x-photo — so they stay as they are)
+const PERM_KEYS = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion"];
+// …and as ADMIN shows it: five buttons, each turning a group of them on or off together (asked for, 2 November 2026: «راجع كل
+// الازرار الجديدة… لو متشابهه اجمعها مع بعض»). A list with any one of a group reads as having the whole group.
+const PERM_GROUP = { "x-export": ["x-export", "x-report", "x-card"], "x-permit": ["x-renew", "x-edit", "x-give"], "x-aseup": ["x-aseup"], "x-photo": ["x-photo"], "x-motion": ["x-motion", "x-net"] };
+const PERM_CAN = Object.keys(PERM_GROUP);
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion", "x-permit": "canPermit" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, ask: 1, edits: 1 };
 /* ALL THE MOTION, ONE CHIP (asked for, 23 October 2026: «خلى الموشن جيرافك كله فى زر واحد اضغط عليه يظهر لمديرى»): the welcome, the
    waiting, «لوحة المتابعة» assembling and the search box on the sign-in screen's motion are «x-motion». A list saved while they were four
    keys of their own reads as having it, and the next press of any chip saves it so. («المتابعة» is a page, and keeps its own chip.) */
-const MOTION_OLD = ["x-intro", "x-wait", "x-dash", "x-reel"];
-const permsNorm = p => Array.isArray(p) && p.some(k => MOTION_OLD.indexOf(k) >= 0) ?
-  p.filter(k => MOTION_OLD.indexOf(k) < 0).concat(p.indexOf("x-motion") >= 0 ? [] : ["x-motion"]) : p;
+const MOTION_OLD = ["x-intro", "x-wait", "x-dash", "x-reel", "x-look"];
+const permsNorm = p => {
+  if(!Array.isArray(p)) return p;
+  let q = p.some(k => MOTION_OLD.indexOf(k) >= 0) ? p.filter(k => MOTION_OLD.indexOf(k) < 0).concat(p.indexOf("x-motion") >= 0 ? [] : ["x-motion"]) : p;
+  Object.keys(PERM_GROUP).forEach(g => { const m = PERM_GROUP[g]; if(m.some(k => q.indexOf(k) >= 0)) q = q.concat(m.filter(k => q.indexOf(k) < 0)); });
+  return q;
+};
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? permsNorm(session.pages) : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
 const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v));      // the report is the dashboard's, on paper
@@ -6879,6 +6899,9 @@ function logCtx(){
 let exportRows = 0;                                 // how many rows the file being saved holds
 function logAct(act, detail){
   if(!session || !session.rt || !session.sid) return;
+  // what the admin does is not written down (asked for, 2 November 2026: «مش عايز فى سجل النشاط الى انا بعمله كأدمن يظهر…
+  // عايز المستخدمين التانين بس»); his ordinary way in is a user like the others
+  if(session.role === "admin") return;
   const l = link();
   if(!l) return;
   if(detail && typeof detail === "object") detail = logFit(detail);
@@ -6911,14 +6934,16 @@ async function logSync(older){
   if(!link() || logBusy) return;
   logBusy = true;
   try{
-    const rows = await dbCall("system_log_list", older && LOG.length ? { p_limit: 400, p_before: LOG[LOG.length - 1].id } : { p_limit: 400 });
+    const got = await dbCall("system_log_list", older && LOG.length ? { p_limit: 400, p_before: LOG[LOG.length - 1].id } : { p_limit: 400 });
+    // the admin's own lines (written before 2 November 2026) are not shown; the others' and the gate's are
+    const rows = Array.isArray(got) ? got.filter(r => r.role !== "admin") : got;
     if(Array.isArray(rows)){
       // newer lines go in front of what is already here; older ones (asked for with «الأقدم») behind it
-      if(older){ LOG = LOG.concat(rows); logMore = rows.length === 400; }
+      if(older){ LOG = LOG.concat(rows); logMore = got.length === 400; }
       else{
         const had = LOG.length, cut = rows.length ? rows[rows.length - 1].id : Infinity;
         LOG = rows.concat(LOG.filter(r => r.id < cut));
-        if(!had) logMore = rows.length === 400;
+        if(!had) logMore = got.length === 400;
       }
     }
     logAt = Date.now(); logErr = false;
@@ -9694,7 +9719,7 @@ async function idPhotos(ref){
    password (see gateUsers: the new seal takes the place of the page's own). The admin's own name is never switched
    off, and has two passwords to change: his ordinary way in, and the admin's. */
 const ADM = { rows: [], at: 0, err: false, busy: "", pin: "", pinAdmin: false };
-const admAll = () => PERM_PAGES.concat(PERM_CAN);
+const admAll = () => PERM_PAGES.concat(PERM_KEYS);
 const admMe = () => (link() || {}).u || "";
 async function admSync(){
   if(!isAdmin() || !link()) return;
@@ -9705,7 +9730,10 @@ async function admSync(){
 function admUsers(){
   const by = new Map(ADM.rows.map(r => [r.name, r])), names = usersIn().map(u => u.name).filter((n, i, all) => all.indexOf(n) === i);
   const row = (name, added) => { const r = by.get(name) || {}; return { name, added, off: !!r.off, pages: Array.isArray(r.pages) ? permsNorm(r.pages) : null }; };
-  return names.map(n => row(n, false)).concat(ADM.rows.filter(r => r.added && names.indexOf(r.name) < 0).map(r => row(r.name, true)));
+  // «حذف نهائي» (2 November 2026: «عايز ازود فى كل مستخدم انى اقدر احذفه نهائى»): a removed name stays in the database, marked
+  // gone, so that one the page was built with does not come back — and is listed nowhere
+  const gone = n => !!(by.get(n) || {}).gone;
+  return names.filter(n => !gone(n)).map(n => row(n, false)).concat(ADM.rows.filter(r => r.added && !r.gone && names.indexOf(r.name) < 0).map(r => row(r.name, true)));
 }
 function renderAdm(){
   page(pgHead(t("navAdm")), scrollPart('<div id="admv"></div>'));
@@ -9718,7 +9746,7 @@ function paintAdm(){
   if(!link()){ box.innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"; return; }
   const typing = document.activeElement && document.activeElement.id, name = $("adm-name") ? $("adm-name").value : "", pin = $("adm-pin") ? $("adm-pin").value : "", again = $("adm-again") ? $("adm-again").value : "";
   const me = admMe();
-  const chip = (u, k, label) => { const on = !u.pages || u.pages.indexOf(k) >= 0; return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
+  const chip = (u, k, label) => { const on = !u.pages || (PERM_GROUP[k] || [k]).every(x => u.pages.indexOf(x) >= 0); return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
   box.innerHTML =
     (ADM.err ? '<div class="today-state">' + pill("bad", t("todayOffline")) + "</div>" : "") +
     (appAsk && !appInside() ? '<p class="adm-app"><button class="btn primary" data-act="app-install">' + t("appInstall") + "</button></p>" : "") +
@@ -9733,7 +9761,7 @@ function paintAdm(){
           (u.name === me ? "" : '<button class="btn sm' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + t(u.off ? "adStart" : "adStop") + "</button>") +
           '<button class="btn sm" data-adm-pin="' + esc(u.name) + '">' + t("adNewPin") + "</button>" +
           (u.name === me ? '<button class="btn sm" data-adm-pin="' + esc(u.name) + '" data-adm-a="1">' + t("adAdmPin") + "</button>" : "") +
-          (u.added ? '<button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
+          (u.name !== me ? '<button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
         "</div></div>" +
         (ADM.pin === u.name ? '<div class="panel-b adm-form"><input class="field" id="adm-again" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
           '<button class="btn primary" data-act="adm-repin"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === u.name ? "adSealing" : ADM.pinAdmin ? "adAdmPin" : "adNewPin") + '</button><button class="btn" data-adm-pin="">' + t("cancel") + "</button></div>" : "") +
@@ -9757,8 +9785,8 @@ async function admSet(name, pages, off){
 function admToggle(name, key){
   const u = admUsers().find(x => x.name === name);
   if(!u) return;
-  const all = admAll(), now = new Set(u.pages || all);
-  if(now.has(key)) now.delete(key); else now.add(key);
+  const all = admAll(), now = new Set(u.pages || all), keys = PERM_GROUP[key] || [key];
+  if(keys.every(k => now.has(k))) keys.forEach(k => now.delete(k)); else keys.forEach(k => now.add(k));
   const pages = all.filter(k => now.has(k));
   admSet(name, pages.length === all.length ? null : pages, u.off);      // everything on is no list at all
 }
@@ -10389,6 +10417,8 @@ if(ONLINE){
   }catch(e){}
   takePlace(!!session);          // a window that reloaded itself to take a newer copy of the system comes back where it was
   if(session) startLocal(); else showGate();
+  // the users added from ADMIN, at this gate too: the gate's box opened, then asked for (the gate is shown at once, and fills in)
+  unboxUsers().then(() => { if(!$("gate").hidden) gateUsers(); });
 }
 async function startLocal(){
   useSources();

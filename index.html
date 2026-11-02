@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-4PB+ZvTFth/eRXaoe1y7KTj9JHOiNNWE2H+DbILziIk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-6l8d96ZyITJRUvM8vqbLCzdogUKW4FQvgYbmCSGdIIA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2042,6 +2042,179 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
   body.calm.rail .side-bar .net-v{display:none;}
   body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
 }
+/* ============================================================
+   THE SHOWREEL OF «الشيتات» (asked for, 2 November 2026: «make a dynamic 15-second motion graphics video… like it's your
+   showreel… go all out» — «عايز البروميت ده يظهر فى اى رفع شيت او تحديث الشيت فى الصندوق بتاعه فقط فى صفحة الشيتات، مش
+   يفتحلى صفحة للموشن جيرافك، والغى القديم وحافظ على تناسق الالوان»). An order of «الشيتات» on its way plays fifteen seconds
+   in its own box, over and over — and nothing opens over the whole screen any more. Six shots, each cut to the next by a
+   sweep of light: the box's name slammed in by three bars and filled letter by letter · a sheet building itself cell by cell
+   with a scan going down it · the file along a wire to where it goes, the figure running to 100% · rings, rays and pulses
+   round the mark · bars rising and folding into a tick · the logo dropped in, its line and the system's name, a light across
+   it and a green stamp. A HUD over it all — the reel's name, a timecode, the bar of the fifteen seconds — and the order's own
+   steps along the foot. The app's colours (the «--mo-*» of the motion, light, dark in dark mode). Every movement runs on the
+   same clock, set back by how long the order has been going («--t0»), so a box drawn again goes on where it was.
+   «x-motion»; whoever does not have it keeps the plain steps.
+   ============================================================ */
+@property --rp{syntax:"<integer>";inherits:true;initial-value:0;}
+@property --rs{syntax:"<integer>";inherits:false;initial-value:0;}
+.reel{position:relative;overflow:hidden;direction:ltr;border-radius:16px;margin:14px 0 2px;height:clamp(250px,46vh,520px);container-type:size;
+  color:var(--mo-ink);background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge),0 10px 28px rgba(21,101,192,.08);isolation:isolate;}
+.desk.one .desk-card.open .reel{height:clamp(300px,58vh,600px);}
+.reel *{box-sizing:border-box;}
+.rl-a{animation-duration:15s;animation-iteration-count:infinite;animation-timing-function:linear;animation-delay:var(--t0,0s);}
+/* the stage: points drifting, two lights going slowly round */
+.rl-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;}
+.rl-bg::before{content:"";position:absolute;inset:0;opacity:.75;background-image:radial-gradient(var(--mo-dot) 1px,transparent 1.3px);background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(closest-side,#000,transparent);mask-image:radial-gradient(closest-side,#000,transparent);animation:moDrift 16s linear infinite;}
+.rl-bg i{position:absolute;width:62cqh;height:62cqh;border-radius:50%;filter:blur(7cqh);opacity:.55;}
+.rl-bg i:nth-child(1){left:-12cqh;top:-20cqh;background:var(--mo-bl);animation:rlBlobA 15s ease-in-out infinite alternate;}
+.rl-bg i:nth-child(2){right:-14cqh;bottom:-24cqh;background:var(--mo-gl);animation:rlBlobB 13s ease-in-out infinite alternate;}
+@keyframes rlBlobA{to{transform:translate(38cqw,22cqh) scale(1.15);}}
+@keyframes rlBlobB{to{transform:translate(-34cqw,-16cqh) scale(.9);}}
+/* the HUD: four corners of a viewfinder, the reel's name, a timecode with a dot that blinks, the bar of the fifteen seconds */
+.rl-hud{position:absolute;inset:3.2cqh 3.4cqh auto;z-index:5;display:flex;justify-content:space-between;align-items:center;
+  font:700 clamp(9px,2.3cqh,13px)/1 var(--mono);letter-spacing:.18em;color:var(--mo-sub);pointer-events:none;}
+.rl-hud b{color:var(--mo-b);font-weight:800;}
+.rl-tc{display:inline-flex;align-items:center;gap:.7em;}
+.rl-tc i{width:.75em;height:.75em;border-radius:50%;background:#e5484d;box-shadow:0 0 0 .3em rgba(229,72,77,.18);animation:rlRec 1s steps(2,jump-none) infinite;}
+.rl-tc::after{counter-reset:rs var(--rs);content:"00:" counter(rs,decimal-leading-zero) " / 00:15";animation:rlTc 15s linear var(--t0,0s) infinite;}
+@keyframes rlRec{50%{opacity:.15;}}
+@keyframes rlTc{from{--rs:0;}to{--rs:15;}}
+.rl-cr{position:absolute;inset:1.6cqh;z-index:5;pointer-events:none;
+  background:linear-gradient(var(--mo-line),var(--mo-line)) left top/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) left top/1.5px 2.6cqh,
+    linear-gradient(var(--mo-line),var(--mo-line)) right top/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) right top/1.5px 2.6cqh,
+    linear-gradient(var(--mo-line),var(--mo-line)) left bottom/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) left bottom/1.5px 2.6cqh,
+    linear-gradient(var(--mo-line),var(--mo-line)) right bottom/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) right bottom/1.5px 2.6cqh;background-repeat:no-repeat;}
+.rl-prog{position:absolute;left:3.4cqh;right:3.4cqh;bottom:2.4cqh;height:3px;border-radius:3px;background:var(--mo-track);overflow:hidden;z-index:5;}
+.rl-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--mo-b),var(--mo-g));transform-origin:left;animation:rlProg 15s linear var(--t0,0s) infinite;}
+@keyframes rlProg{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+/* the order's steps along the foot */
+.reel .rl-steps{position:absolute;left:10%;right:10%;bottom:4.6cqh;z-index:5;margin:0;direction:rtl;}
+html[dir=ltr] .reel .rl-steps{direction:ltr;}
+.reel .rl-steps li{padding-top:30px;font-size:12px;color:var(--mo-sub);}
+.reel .rl-steps li.done{color:var(--mo-g);}
+.reel .rl-steps li.on{color:var(--mo-b);}
+/* a shot: the whole stage, in and out in its own part of the fifteen seconds */
+.rl-s{position:absolute;inset:0 0 14cqh;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;}
+.rl-s1{animation-name:rlS1;} .rl-s2{animation-name:rlS2;} .rl-s3{animation-name:rlS3;} .rl-s4{animation-name:rlS4;} .rl-s5{animation-name:rlS5;} .rl-s6{animation-name:rlS6;}
+@keyframes rlS1{0%{opacity:0;transform:scale(1.06);}2.67%{opacity:1;transform:none;}16%{opacity:1;transform:none;filter:blur(0);}18.67%,100%{opacity:0;transform:scale(.92);filter:blur(8px);}}
+@keyframes rlS2{0%,16.67%{opacity:0;transform:translateY(4cqh);}19.33%{opacity:1;transform:none;}33.33%{opacity:1;transform:none;filter:blur(0);}36%,100%{opacity:0;transform:translateY(-4cqh);filter:blur(6px);}}
+@keyframes rlS3{0%,34%{opacity:0;transform:scale(.94);}36.67%{opacity:1;transform:none;}50.67%{opacity:1;transform:none;filter:blur(0);}53.33%,100%{opacity:0;transform:scale(1.08);filter:blur(6px);}}
+@keyframes rlS4{0%,51.33%{opacity:0;transform:rotate(-8deg) scale(.8);}54%{opacity:1;transform:none;}67.33%{opacity:1;transform:none;filter:blur(0);}70%,100%{opacity:0;transform:scale(1.25);filter:blur(8px);}}
+@keyframes rlS5{0%,68%{opacity:0;transform:translateX(6cqw);}70.67%{opacity:1;transform:none;}84%{opacity:1;transform:none;filter:blur(0);}86.67%,100%{opacity:0;transform:translateX(-6cqw);filter:blur(6px);}}
+@keyframes rlS6{0%,84.67%{opacity:0;transform:scale(.9);}87.33%{opacity:1;transform:none;}97.33%{opacity:1;transform:none;filter:blur(0);}100%{opacity:0;transform:scale(1.04);filter:blur(4px);}}
+/* the cut: a sweep of light across the stage at each change of shot */
+.rl-wipe{position:absolute;inset:-20% -40%;z-index:4;pointer-events:none;opacity:.8;transform:translateX(-100%);
+  background:linear-gradient(100deg,transparent 40%,var(--mo-bl) 47%,var(--mo-gl) 53%,transparent 60%);animation-name:rlWipe;}
+@keyframes rlWipe{0%,16%{transform:translateX(-100%);}19.33%{transform:translateX(100%);}19.34%,33.33%{transform:translateX(-100%);}36.67%{transform:translateX(100%);}
+  36.68%,50.67%{transform:translateX(-100%);}54%{transform:translateX(100%);}54.01%,68%{transform:translateX(-100%);}70.67%{transform:translateX(100%);}
+  70.68%,84.67%{transform:translateX(-100%);}87.33%{transform:translateX(100%);}87.34%,100%{transform:translateX(-100%);}}
+
+/* 1 · the name, slammed in by three bars and filled letter by letter */
+.rl-bars{position:absolute;inset:0;overflow:hidden;}
+.rl-bars b{position:absolute;left:0;right:0;height:5cqh;transform:translateX(-101%);animation-name:rlBar;animation-delay:calc(var(--t0,0s) + var(--i) * .08s);}
+.rl-bars b:nth-child(1){top:28%;background:var(--mo-b);} .rl-bars b:nth-child(2){top:45%;background:var(--mo-g);} .rl-bars b:nth-child(3){top:62%;background:var(--mo-ink);}
+@keyframes rlBar{0%{transform:translateX(-101%);animation-timing-function:cubic-bezier(.7,0,.3,1);}3.33%{transform:translateX(0);animation-timing-function:cubic-bezier(.7,0,.3,1);}6.33%,100%{transform:translateX(101%);}}
+.rl-wm{overflow:hidden;padding:.06em .1em;font:900 clamp(30px,17cqh,120px)/1 var(--cond);letter-spacing:.02em;white-space:nowrap;}
+.rl-wm span{display:inline-block;color:transparent;-webkit-text-stroke:.022em var(--mo-b);
+  background:linear-gradient(90deg,var(--mo-b) 50%,transparent 50%) 100% 0/200% 100% no-repeat;-webkit-background-clip:text;background-clip:text;
+  transform:translateY(110%);animation-name:rlLet;animation-delay:calc(var(--t0,0s) + var(--i) * .045s);}
+@keyframes rlLet{0%,3.33%{transform:translateY(110%);background-position:100% 0;animation-timing-function:cubic-bezier(.2,.9,.2,1.15);}6.33%{transform:none;background-position:100% 0;}
+  10.67%{background-position:0 0;}14.67%{transform:none;background-position:0 0;animation-timing-function:cubic-bezier(.7,0,.8,.4);}17.33%,100%{transform:translateY(-115%);background-position:0 0;}}
+.rl-ul{height:.7cqh;width:34cqw;margin-top:1.6cqh;border-radius:9px;background:linear-gradient(90deg,var(--mo-g),var(--mo-b));transform:scaleX(0);animation-name:rlUl;}
+@keyframes rlUl{0%,6%{transform:scaleX(0);}9.33%{transform:scaleX(1);}15.33%{transform:scaleX(1);}17.33%,100%{transform:scaleX(0);transform-origin:right;}}
+.rl-sub{margin-top:2.2cqh;font:700 clamp(9px,2.6cqh,15px)/1 var(--mono);color:var(--mo-sub);letter-spacing:.42em;opacity:0;animation-name:rlSub;}
+@keyframes rlSub{0%,6%{opacity:0;letter-spacing:1.2em;}10.67%{opacity:1;letter-spacing:.42em;}15.33%{opacity:1;}17.33%,100%{opacity:0;letter-spacing:.42em;}}
+
+/* 2 · a sheet building itself, a scan down it, cells filled green */
+.rl-sheet{position:relative;}
+.rl-grid{display:grid;grid-template-columns:repeat(7,min(10.5cqw,13cqh));grid-auto-rows:6.6cqh;gap:1.1cqh;}
+.rl-grid i{position:relative;overflow:hidden;border-radius:.9cqh;background:var(--mo-card);border:1px solid var(--mo-card-br);font:700 2.4cqh/6.6cqh var(--mono);font-style:normal;text-align:center;color:#fff;
+  opacity:0;animation-name:rlCell;animation-delay:calc(var(--t0,0s) + var(--d));}
+.rl-grid i.h{background:var(--mo-b);border-color:var(--mo-b);}
+.rl-grid i.g::after{content:"";position:absolute;inset:0;background:var(--mo-g);opacity:.85;transform:scaleX(0);transform-origin:left;animation:rlFill 15s linear calc(var(--t0,0s) + var(--d)) infinite;}
+@keyframes rlCell{0%,17.33%{opacity:0;transform:scale(0) rotate(-20deg);animation-timing-function:cubic-bezier(.2,1.5,.4,1);}19.67%{opacity:1;transform:none;}33.33%{opacity:1;transform:none;}35.33%,100%{opacity:0;transform:scale(.4);}}
+@keyframes rlFill{0%,26%{transform:scaleX(0);animation-timing-function:cubic-bezier(.2,.8,.2,1);}28.67%,34%{transform:scaleX(1);}36%,100%{transform:scaleX(0);}}
+.rl-scan{position:absolute;left:-4%;right:-4%;top:0;height:1.1cqh;border-radius:9px;background:linear-gradient(90deg,transparent,var(--mo-b),var(--mo-g),transparent);
+  box-shadow:0 0 2.4cqh var(--mo-bl);opacity:0;animation-name:rlScan;}
+@keyframes rlScan{0%,20%{top:0;opacity:0;}21%{opacity:1;}28%{top:100%;opacity:1;}29.33%,100%{top:100%;opacity:0;}}
+
+/* 3 · the file along a wire, the figure running to 100% */
+.rl-pipe{position:relative;width:min(80cqw,150cqh);aspect-ratio:600/240;}
+.rl-pipe svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.rl-pipe .w0{fill:none;stroke:var(--mo-line);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round;}
+.rl-pipe .w1{fill:none;stroke:url(#rlGrad);stroke-width:4;stroke-linecap:round;stroke-dasharray:700;stroke-dashoffset:700;animation-name:rlDraw;}
+@keyframes rlDraw{0%,35.33%{stroke-dashoffset:700;animation-timing-function:cubic-bezier(.6,0,.2,1);}40.67%,100%{stroke-dashoffset:0;}}
+.rl-pipe .pk{fill:var(--mo-node);stroke:var(--mo-b);stroke-width:2.5;}
+.rl-pipe .pk:nth-of-type(2n){stroke:var(--mo-g);}
+.rl-node{position:absolute;width:13cqh;height:13cqh;margin:-6.5cqh 0 0 -6.5cqh;border-radius:3.4cqh;display:flex;align-items:center;justify-content:center;
+  background:var(--mo-card);border:1.5px solid var(--mo-card-br);color:var(--mo-b);box-shadow:0 1.6cqh 3.6cqh var(--mo-bl);transform:scale(0);animation-name:rlNode;}
+.rl-node svg{position:static;width:52%;height:52%;}
+.rl-node.to{color:var(--mo-g);box-shadow:0 1.6cqh 3.6cqh var(--mo-gl);animation-delay:calc(var(--t0,0s) + .25s);}
+@keyframes rlNode{0%,35.33%{transform:scale(0) rotate(-30deg);animation-timing-function:cubic-bezier(.2,1.6,.4,1);}38%,50%{transform:none;}52.67%,100%{transform:scale(.6);}}
+.rl-pct{position:absolute;left:50%;bottom:-3cqh;transform:translateX(-50%);font:900 clamp(22px,12cqh,80px)/1 var(--cond);color:var(--mo-ink);letter-spacing:.02em;}
+.rl-pct::before{counter-reset:rp var(--rp);content:counter(rp) "%";}
+.rl-pct{animation-name:rlPct;}
+@keyframes rlPct{0%,36%{--rp:0;animation-timing-function:cubic-bezier(.3,0,.2,1);}49.33%,100%{--rp:100;}}
+.rl-pct small{display:block;margin-top:.8cqh;font:700 clamp(8px,2.2cqh,13px)/1 var(--mono);letter-spacing:.38em;color:var(--mo-sub);text-align:center;}
+
+/* 4 · rings, rays and pulses round the mark */
+.rl-orb{position:relative;width:min(60cqh,60cqw);aspect-ratio:1;}
+.rl-ring{position:absolute;border-radius:50%;}
+.rl-ring.a{inset:0;border:1.5px dashed var(--mo-line);animation:rlSpin 16s linear infinite;}
+.rl-ring.b{inset:12%;border:2px solid transparent;border-top-color:var(--mo-b);border-left-color:var(--mo-b);animation:rlSpin 3.2s linear infinite;}
+.rl-ring.c{inset:24%;border:2px solid transparent;border-bottom-color:var(--mo-g);border-right-color:var(--mo-g);animation:rlSpin 2.4s linear infinite reverse;}
+.rl-ring.a::before,.rl-ring.b::before,.rl-ring.c::before{content:"";position:absolute;top:-1.1cqh;left:50%;width:2.2cqh;height:2.2cqh;margin-left:-1.1cqh;border-radius:50%;background:var(--mo-g);box-shadow:0 0 2cqh var(--mo-gl);}
+.rl-ring.b::before{background:var(--mo-b);box-shadow:0 0 2cqh var(--mo-bl);}
+.rl-ring.c::before{top:auto;bottom:-1.1cqh;background:var(--mo-amber);box-shadow:0 0 2cqh var(--mo-al);}
+@keyframes rlSpin{to{transform:rotate(360deg);}}
+.rl-rays{position:absolute;inset:0;}
+.rl-rays i{position:absolute;left:50%;top:50%;width:.55cqh;height:13cqh;margin-left:-.27cqh;border-radius:9px;background:linear-gradient(var(--mo-g),transparent);transform-origin:50% 0;opacity:0;animation-name:rlRay;}
+.rl-rays i:nth-child(2n){background:linear-gradient(var(--mo-b),transparent);}
+@keyframes rlRay{0%,54.67%{transform:rotate(var(--r)) translateY(5cqh) scaleY(0);opacity:0;animation-timing-function:cubic-bezier(.2,.8,.2,1);}55.33%{opacity:1;}57.33%{transform:rotate(var(--r)) translateY(10cqh) scaleY(1);opacity:1;}
+  60.67%,100%{transform:rotate(var(--r)) translateY(28cqh) scaleY(0);opacity:0;}}
+.rl-pulse{position:absolute;inset:30%;border-radius:50%;border:2px solid var(--mo-b);opacity:0;animation-name:rlPulse;}
+.rl-pulse + .rl-pulse{border-color:var(--mo-g);animation-delay:calc(var(--t0,0s) + .8s);}
+@keyframes rlPulse{0%,57.33%{transform:scale(.6);opacity:0;}58%{opacity:.9;}64%,100%{transform:scale(2.3);opacity:0;}}
+.rl-core{position:absolute;inset:33%;border-radius:24%;display:flex;align-items:center;justify-content:center;background:var(--mo-card);border:1.5px solid var(--mo-card-br);
+  box-shadow:0 2cqh 5cqh var(--mo-bl);font:900 clamp(14px,7cqh,46px)/1 var(--sans);direction:ltr;transform:scale(0);animation-name:rlCore;}
+.rl-core b{color:var(--mo-b);} .rl-core i{font-style:normal;color:var(--mo-g);} .rl-core u{text-decoration:none;color:var(--mo-sub);}
+@keyframes rlCore{0%,52%{transform:scale(0) rotate(-120deg);opacity:1;animation-timing-function:cubic-bezier(.2,1.5,.4,1);}56%{transform:none;opacity:1;}66.67%{transform:none;opacity:1;}69.33%,100%{transform:scale(1.4);opacity:0;}}
+
+/* 5 · bars rising, folding into a tick */
+.rl-chart{position:relative;display:flex;align-items:flex-end;gap:1.8cqh;height:40cqh;}
+.rl-chart b{width:4.6cqh;height:var(--h);border-radius:1.2cqh 1.2cqh .5cqh .5cqh;background:linear-gradient(var(--mo-b),rgba(21,101,192,.55));transform-origin:bottom;transform:scaleY(0);
+  animation-name:rlUp;animation-delay:calc(var(--t0,0s) + var(--i) * .06s);}
+.rl-chart b:nth-child(2n){background:linear-gradient(var(--mo-g),rgba(47,154,71,.5));}
+@keyframes rlUp{0%,69.33%{transform:scaleY(0);opacity:1;animation-timing-function:cubic-bezier(.2,1.4,.4,1);}72.67%{transform:scaleY(1);}78%{transform:scaleY(1);opacity:1;animation-timing-function:cubic-bezier(.7,0,.8,.4);}
+  80%,100%{transform:scaleY(.04) translateY(0);opacity:0;}}
+.rl-tick{position:absolute;left:50%;top:50%;width:34cqh;height:34cqh;margin:-17cqh 0 0 -17cqh;opacity:0;animation-name:rlTickIn;}
+@keyframes rlTickIn{0%,79%{opacity:0;transform:scale(.7);animation-timing-function:cubic-bezier(.2,1.5,.4,1);}80.67%,100%{opacity:1;transform:none;}}
+.rl-tick circle{fill:none;stroke:var(--mo-g);stroke-width:5;stroke-linecap:round;stroke-dasharray:252;stroke-dashoffset:252;transform:rotate(-90deg);transform-origin:50% 50%;animation-name:rlCirc;}
+.rl-tick path{fill:none;stroke:var(--mo-g);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:70;stroke-dashoffset:70;animation-name:rlChk;}
+@keyframes rlCirc{0%,79.33%{stroke-dashoffset:252;}82.67%,100%{stroke-dashoffset:0;}}
+@keyframes rlChk{0%,81.33%{stroke-dashoffset:70;}83.33%,100%{stroke-dashoffset:0;}}
+.rl-done{position:absolute;left:50%;bottom:-5cqh;transform:translateX(-50%);font:900 clamp(11px,4.4cqh,28px)/1 var(--cond);letter-spacing:.5em;color:var(--mo-g);opacity:0;animation-name:rlDone;white-space:nowrap;}
+@keyframes rlDone{0%,81.33%{opacity:0;letter-spacing:1em;}83.33%,100%{opacity:1;letter-spacing:.5em;}}
+
+/* 6 · the logo dropped in, its line, the name, a light across and a green stamp */
+.rl-logo{position:relative;font:900 clamp(40px,24cqh,170px)/1 var(--sans);direction:ltr;letter-spacing:-.01em;}
+.rl-logo span{display:inline-block;opacity:0;animation-name:rlDrop;animation-delay:calc(var(--t0,0s) + var(--i) * .09s);}
+.rl-logo span:nth-child(1){color:var(--mo-b);} .rl-logo span:nth-child(2){color:var(--mo-g);} .rl-logo span:nth-child(3){color:var(--mo-sub);}
+@keyframes rlDrop{0%,85.33%{transform:translateY(-70cqh) rotate(-14deg);opacity:0;animation-timing-function:cubic-bezier(.5,0,.75,0);}88%{transform:translateY(2.4cqh) scaleY(.9);opacity:1;animation-timing-function:cubic-bezier(.2,.8,.2,1);}
+  89.33%{transform:translateY(-1.4cqh);}90.33%,100%{transform:none;opacity:1;}}
+.rl-tg{margin-top:1.4cqh;font:700 clamp(8px,2.5cqh,15px)/1 var(--sans);letter-spacing:.32em;color:var(--mo-ink);clip-path:inset(0 100% 0 0);animation-name:rlTg;white-space:nowrap;}
+@keyframes rlTg{0%,89.33%{clip-path:inset(0 100% 0 0);}92.67%,100%{clip-path:inset(0 0 0 0);}}
+.rl-ps{margin-top:1.6cqh;font:700 clamp(12px,5cqh,32px)/1 var(--cond);letter-spacing:.18em;color:var(--mo-b);opacity:0;animation-name:rlPs;white-space:nowrap;}
+@keyframes rlPs{0%,90.67%{opacity:0;letter-spacing:.9em;}94%,100%{opacity:1;letter-spacing:.18em;}}
+.rl-shine{position:absolute;inset:-10% -30%;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.75) 50%,transparent 58%);mix-blend-mode:soft-light;transform:translateX(-100%);animation-name:rlShine;pointer-events:none;}
+@keyframes rlShine{0%,92%{transform:translateX(-100%);}95.33%,100%{transform:translateX(100%);}}
+.rl-logo .rl-stamp{position:absolute;opacity:1;right:-9cqh;top:-3cqh;width:9cqh;height:9cqh;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--mo-g);color:#fff;box-shadow:0 0 0 1.2cqh var(--mo-gl);transform:scale(0) rotate(-40deg);animation-name:rlStamp;}
+.rl-logo .rl-stamp svg{width:55%;height:55%;}
+@keyframes rlStamp{0%,93.33%{transform:scale(0) rotate(-40deg);animation-timing-function:cubic-bezier(.2,1.8,.4,1);}95.33%,100%{transform:none;}}
+/* asked for less motion: the last shot, still */
+@media (prefers-reduced-motion:reduce){ .reel .rl-s6,.reel .rl-s6 *{opacity:1!important;transform:none!important;clip-path:none!important;} }
 </style>
 </head>
 <body>
@@ -3263,7 +3436,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2c93aeb12d46";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "85b8c8d18d38";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7285,10 +7458,47 @@ function moReader(j, at, items){
 }
 // an order of «الشيتات» on its way: from where to where, and which of its steps it is at
 const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"] };
-function moDesk(kind, at, id, items){
-  const way = MO_WAY[kind] || ["sheet", "db"];
-  return '<div class="mo sm' + (at > 1 ? " on" : "") + '" data-mo="d:' + esc(id || kind) + '">' + MO_DOTS + moFlow(way[0], way[1]) +
-    moOrbit(items, at, "<b>" + (at + 1) + "/" + items.length + "</b><i></i><span>" + esc(t(at > 1 ? "dkRunning" : "dkQueued")) + "</span>", at > 1) + "</div>";
+// «الشيتات» on its way: the showreel, in its own box (see «THE SHOWREEL» in the styles). «since» is when the order started:
+// the reel is set back by that, so a box drawn again goes on where it was.
+const REEL_WORD = { employees: "EMPLOYEES", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS" };
+function moReel(kind, at, since, items){
+  const word = REEL_WORD[kind] || "NCM", way = MO_WAY[kind] || ["sheet", "db"];
+  const t0 = -((Math.max(0, Date.now() - (+since || Date.now())) / 1000) % 15);
+  const A = (cls, more) => ' class="' + cls + ' rl-a"' + (more || "");
+  const letters = word.split("").map((ch, i) => '<span class="rl-a" style="--i:' + i + '">' + (ch === " " ? "&nbsp;" : esc(ch)) + "</span>").join("");
+  let cells = "";
+  for(let i = 0; i < 35; i++){
+    const c = i % 7, r = Math.floor(i / 7);
+    cells += '<i class="rl-a' + (r === 0 ? " h" : (c * 3 + r * 5) % 4 === 0 ? " g" : "") + '" style="--d:' + ((c + r) * .055).toFixed(3) + 's">' + (r === 0 ? "ABCDEFG"[c] : "") + "</i>";
+  }
+  const P = "M60 170 C 200 20, 400 220, 540 70";
+  const packets = [0, .28, .56, .84, 1.12].map(b => '<rect class="pk" x="-8" y="-8" width="16" height="16" rx="5" opacity="0"><set attributeName="opacity" to="1" begin="' + b + 's"/>' +
+    '<animateMotion dur="1.4s" begin="' + b + 's" repeatCount="indefinite" path="' + P + '" rotate="auto"/></rect>').join("");
+  const icon = k => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + MO_ICON[k] + "</svg>";
+  const rays = Array.from({ length: 12 }, (x, i) => '<i class="rl-a" style="--r:' + (i * 30) + 'deg"></i>').join("");
+  const bars = [62, 38, 80, 54, 92, 46, 70, 100].map((h, i) => '<b class="rl-a" style="--h:' + h + "%;--i:" + i + '"></b>').join("");
+  const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  return '<div class="reel' + (at > 1 ? " on" : "") + '" data-reel="' + esc(kind) + '" style="--t0:' + t0.toFixed(2) + 's">' +
+    '<div class="rl-bg"><i></i><i></i></div>' +
+    '<div' + A("rl-s rl-s1") + '><div class="rl-bars"><b class="rl-a" style="--i:0"></b><b class="rl-a" style="--i:1"></b><b class="rl-a" style="--i:2"></b></div>' +
+      '<div class="rl-wm">' + letters + '</div><div' + A("rl-ul") + '></div><div' + A("rl-sub") + '>NCM · PERMISSION SYSTEM</div></div>' +
+    '<div' + A("rl-s rl-s2") + '><div class="rl-sheet"><div class="rl-grid">' + cells + '</div><div' + A("rl-scan") + "></div></div></div>" +
+    '<div' + A("rl-s rl-s3") + '><div class="rl-pipe"><svg viewBox="0 0 600 240" aria-hidden="true"><defs><linearGradient id="rlGrad" x1="0" x2="1"><stop offset="0" stop-color="var(--mo-b)"/><stop offset="1" stop-color="var(--mo-g)"/></linearGradient></defs>' +
+      '<path class="w0" d="' + P + '"/><path' + A("w1") + ' d="' + P + '"/>' + packets + "</svg>" +
+      '<span' + A("rl-node") + ' style="left:10%;top:70.83%">' + icon(way[0]) + '</span><span' + A("rl-node to") + ' style="left:90%;top:29.17%">' + icon(way[1]) + "</span>" +
+      '<div' + A("rl-pct") + "><small>" + esc(word) + "</small></div></div></div>" +
+    '<div' + A("rl-s rl-s4") + '><div class="rl-orb"><span class="rl-ring a"></span><span class="rl-ring b"></span><span class="rl-ring c"></span>' +
+      '<div class="rl-rays">' + rays + '</div><span' + A("rl-pulse") + '></span><span' + A("rl-pulse") + '></span>' +
+      '<span' + A("rl-core") + "><b>N</b><i>C</i><u>M</u></span></div></div>" +
+    '<div' + A("rl-s rl-s5") + '><div class="rl-chart">' + bars +
+      '<svg' + A("rl-tick") + ' viewBox="0 0 100 100" aria-hidden="true"><circle' + A("") + ' cx="50" cy="50" r="40"/><path' + A("") + ' d="M31 51l13 13 26-28"/></svg>' +
+      '<div' + A("rl-done") + ">DONE</div></div></div>" +
+    '<div' + A("rl-s rl-s6") + '><div class="rl-logo"><span class="rl-a" style="--i:0">N</span><span class="rl-a" style="--i:1">C</span><span class="rl-a" style="--i:2">M</span>' +
+      '<span' + A("rl-stamp") + ">" + tick + '</span><div' + A("rl-shine") + '></div></div><div' + A("rl-tg") + '>NUCLEAR CONCRETE MIXES</div><div' + A("rl-ps") + ">PERMISSION SYSTEM</div></div>" +
+    '<div' + A("rl-wipe") + "></div>" +
+    '<div class="rl-cr"></div><div class="rl-hud"><span><b>NCM</b> REEL · ' + esc(word) + '</span><span class="rl-tc"><i></i></span></div>' +
+    '<ol class="steps rl-steps">' + items.map((h, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + esc(h) + "</li>").join("") + "</ol>" +
+    '<div class="rl-prog"><i></i></div></div>';
 }
 // over the whole screen: the stage of the page that is open, kept up as it changes; one that has been put back stays back
 let moKey = "";
@@ -8028,7 +8238,7 @@ function deskCardHTML(kind){
     body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
         '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span>' +
         (o.id ? '<button class="btn sm danger" data-act="desk-cancel" data-id="' + esc(o.id) + '">' + t("cancel") + "</button>" : "") + "</span></div>" +
-      (moOn() ? moDesk(kind, at, o.id, DESK_STEPS[kind].map(k => t(k))) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
+      (moOn() ? moReel(kind, at, +o.started_at || +o.at, DESK_STEPS[kind].map(k => t(k))) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   else if(o.status === "done" && ase){
     const r = o.result || {}, left = (+r.room || 0) - (+r.rows_after || 0);
@@ -9309,7 +9519,7 @@ function permitCardHTML(){
     const at = b0.status === "reading" ? 2 : 1, steps = ["dkA1", "dkA2", "isS3"];
     going = '<div class="desk-line"><b class="desk-file">' + fileName(b0.file || "") + '</b><span class="desk-two"><span class="count"><span class="num" data-since="' + (+b0.at || 0) + '"></span></span>' +
         '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b0.id) + '">' + t("cancel") + "</button></span></div>" +
-      (moOn() ? moDesk("permits", at, b0.id, steps.map(k => t(k))).replace('data-mo="d:', 'data-mo="c:')
+      (moOn() ? moReel("permits", at, +b0.at, steps.map(k => t(k)))
               : '<ol class="steps">' + steps.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>" + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   const rows = list.slice(going ? 1 : 0).map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +

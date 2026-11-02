@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-6l8d96ZyITJRUvM8vqbLCzdogUKW4FQvgYbmCSGdIIA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1XwpgAayG4KSnOD2hiCLnoM2hkTdofOFK0Ngq5O6KQQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2050,13 +2050,12 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
    sweep of light: the box's name slammed in by three bars and filled letter by letter · a sheet building itself cell by cell
    with a scan going down it · the file along a wire to where it goes, the figure running to 100% · rings, rays and pulses
    round the mark · bars rising and folding into a tick · the logo dropped in, its line and the system's name, a light across
-   it and a green stamp. A HUD over it all — the reel's name, a timecode, the bar of the fifteen seconds — and the order's own
+   it and a green stamp. A HUD over it all — the reel's name and how far the order has got (no clock: «شلى العداد بتاع ال 15 ثانية ده خالص») — and the order's own
    steps along the foot. The app's colours (the «--mo-*» of the motion, light, dark in dark mode). Every movement runs on the
    same clock, set back by how long the order has been going («--t0»), so a box drawn again goes on where it was.
    «x-motion»; whoever does not have it keeps the plain steps.
    ============================================================ */
 @property --rp{syntax:"<integer>";inherits:true;initial-value:0;}
-@property --rs{syntax:"<integer>";inherits:false;initial-value:0;}
 .reel{position:relative;overflow:hidden;direction:ltr;border-radius:16px;margin:14px 0 2px;height:clamp(250px,46vh,520px);container-type:size;
   color:var(--mo-ink);background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge),0 10px 28px rgba(21,101,192,.08);isolation:isolate;}
 .desk.one .desk-card.open .reel{height:clamp(300px,58vh,600px);}
@@ -2075,19 +2074,22 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
 .rl-hud{position:absolute;inset:3.2cqh 3.4cqh auto;z-index:5;display:flex;justify-content:space-between;align-items:center;
   font:700 clamp(9px,2.3cqh,13px)/1 var(--mono);letter-spacing:.18em;color:var(--mo-sub);pointer-events:none;}
 .rl-hud b{color:var(--mo-b);font-weight:800;}
-.rl-tc{display:inline-flex;align-items:center;gap:.7em;}
-.rl-tc i{width:.75em;height:.75em;border-radius:50%;background:#e5484d;box-shadow:0 0 0 .3em rgba(229,72,77,.18);animation:rlRec 1s steps(2,jump-none) infinite;}
-.rl-tc::after{counter-reset:rs var(--rs);content:"00:" counter(rs,decimal-leading-zero) " / 00:15";animation:rlTc 15s linear var(--t0,0s) infinite;}
-@keyframes rlRec{50%{opacity:.15;}}
-@keyframes rlTc{from{--rs:0;}to{--rs:15;}}
 .rl-cr{position:absolute;inset:1.6cqh;z-index:5;pointer-events:none;
   background:linear-gradient(var(--mo-line),var(--mo-line)) left top/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) left top/1.5px 2.6cqh,
     linear-gradient(var(--mo-line),var(--mo-line)) right top/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) right top/1.5px 2.6cqh,
     linear-gradient(var(--mo-line),var(--mo-line)) left bottom/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) left bottom/1.5px 2.6cqh,
     linear-gradient(var(--mo-line),var(--mo-line)) right bottom/2.6cqh 1.5px,linear-gradient(var(--mo-line),var(--mo-line)) right bottom/1.5px 2.6cqh;background-repeat:no-repeat;}
 .rl-prog{position:absolute;left:3.4cqh;right:3.4cqh;bottom:2.4cqh;height:3px;border-radius:3px;background:var(--mo-track);overflow:hidden;z-index:5;}
-.rl-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--mo-b),var(--mo-g));transform-origin:left;animation:rlProg 15s linear var(--t0,0s) infinite;}
-@keyframes rlProg{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+/* HOW FAR IT HAS GOT (asked for, 2 November 2026: «عداد من 0% ل 100% لما يخلص وكذالك القارئ»): the bar at the foot and the
+   figure at the top are the order's own — by the step it is at and the time it has been at it, and for the card reader the
+   cards read out of the photos; 100% only when it is over, and then beside «تم» */
+.rl-prog{height:5px;bottom:2.2cqh;}
+.rl-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--mo-b),var(--mo-g));transform-origin:left;transform:scaleX(var(--pv,0));transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 1.4cqh var(--mo-gl);}
+.rl-meter{position:absolute;left:50%;top:2.2cqh;z-index:6;transform:translateX(-50%);display:flex;align-items:baseline;gap:.5em;padding:.5cqh 1.8cqh .7cqh;border-radius:999px;
+  background:var(--mo-card);border:1px solid var(--mo-card-br);box-shadow:0 1cqh 2.6cqh var(--mo-bl);pointer-events:none;}
+.rl-meter .rl-pv{font:900 clamp(16px,6.4cqh,40px)/1 var(--cond);color:var(--mo-b);letter-spacing:.02em;font-variant-numeric:tabular-nums;}
+.pct-done{font:800 13px var(--mono);color:var(--ok);margin-inline-end:8px;}
 /* the order's steps along the foot */
 .reel .rl-steps{position:absolute;left:10%;right:10%;bottom:4.6cqh;z-index:5;margin:0;direction:rtl;}
 html[dir=ltr] .reel .rl-steps{direction:ltr;}
@@ -2153,9 +2155,7 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 .rl-node.to{color:var(--mo-g);box-shadow:0 1.6cqh 3.6cqh var(--mo-gl);animation-delay:calc(var(--t0,0s) + .25s);}
 @keyframes rlNode{0%,35.33%{transform:scale(0) rotate(-30deg);animation-timing-function:cubic-bezier(.2,1.6,.4,1);}38%,50%{transform:none;}52.67%,100%{transform:scale(.6);}}
 .rl-pct{position:absolute;left:50%;bottom:-3cqh;transform:translateX(-50%);font:900 clamp(22px,12cqh,80px)/1 var(--cond);color:var(--mo-ink);letter-spacing:.02em;}
-.rl-pct::before{counter-reset:rp var(--rp);content:counter(rp) "%";}
-.rl-pct{animation-name:rlPct;}
-@keyframes rlPct{0%,36%{--rp:0;animation-timing-function:cubic-bezier(.3,0,.2,1);}49.33%,100%{--rp:100;}}
+.rl-pct b{font:inherit;}
 .rl-pct small{display:block;margin-top:.8cqh;font:700 clamp(8px,2.2cqh,13px)/1 var(--mono);letter-spacing:.38em;color:var(--mo-sub);text-align:center;}
 
 /* 4 · rings, rays and pulses round the mark */
@@ -3436,7 +3436,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "85b8c8d18d38";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "a54ebc356e6b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7448,21 +7448,31 @@ function moOrbit(items, at, mid, going){
     (going ? '<g class="ocomet"><circle r="' + MO_R + '" fill="none"/><circle class="odot" cx="' + MO_R + '" cy="0" r="5.5"/></g>' : "") +
     '</svg><ol class="steps">' + lis + '</ol><div class="mo-mid">' + mid + "</div></div>";
 }
-// a file the card reader has: the grid lights up while it reads; in the circle, the figure it has got so far
-function moReader(j, at, items){
-  const n = at >= 3 ? +j.read || 0 : at === 2 ? +j.images || 0 : 0, going = j.status === "reading";
-  let grid = "";
-  for(let k = 0; k < 12; k++) grid += '<b style="--k:' + ((k * 5) % 12) + '"></b>';
-  return '<div class="mo' + (going ? " on" : "") + '" data-mo="c:' + esc(j.id) + '">' + MO_DOTS + '<div class="mo-grid" aria-hidden="true">' + grid + "</div>" +
-    moOrbit(items, at, "<b>" + esc(String(n)) + "</b><i></i><span>" + esc(t(at >= 3 ? "moRead" : at === 2 ? "moPhotos" : "dkQueued")) + "</span>", going) + "</div>";
-}
 // an order of «الشيتات» on its way: from where to where, and which of its steps it is at
-const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"] };
+const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
 // «الشيتات» on its way: the showreel, in its own box (see «THE SHOWREEL» in the styles). «since» is when the order started:
 // the reel is set back by that, so a box drawn again goes on where it was.
-const REEL_WORD = { employees: "EMPLOYEES", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS" };
-function moReel(kind, at, since, items){
+const REEL_WORD = { employees: "EMPLOYEES", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS", reader: "ID CARDS", readerVeh: "LICENCES" };
+// how far it has got: [lowest, highest, since, how long it usually takes] -> a figure that creeps up within its step and never
+// reaches the next step's (nor 100%) before the order does
+const REEL_TAU = { employees: 40, sheet: 120, ase: 90, idph: 240, letters: 40, drive: 40, permits: 120, reader: 150, readerVeh: 150 };
+function reelPct(p){
+  const [lo, hi, since, tau] = p;
+  if(lo >= 100) return 100;
+  const est = 100 * (1 - Math.exp(-Math.max(0, (Date.now() - since) / 1000) / (tau || 90)));
+  return Math.round(Math.max(lo, Math.min(hi - 1, est)));
+}
+function pctTick(){
+  [].forEach.call(document.querySelectorAll(".reel[data-p]"), r => {
+    const v = reelPct(r.dataset.p.split(",").map(Number));
+    r.style.setProperty("--pv", (v / 100).toFixed(3));
+    [].forEach.call(r.querySelectorAll(".rl-pv"), x => { if(x.textContent !== v + "%") x.textContent = v + "%"; });
+  });
+}
+setInterval(pctTick, 500);
+function moReel(kind, at, since, items, prog){
   const word = REEL_WORD[kind] || "NCM", way = MO_WAY[kind] || ["sheet", "db"];
+  const p = [prog ? prog[0] : 0, prog ? prog[1] : 100, +since || Date.now(), REEL_TAU[kind] || 90], pv = reelPct(p);
   const t0 = -((Math.max(0, Date.now() - (+since || Date.now())) / 1000) % 15);
   const A = (cls, more) => ' class="' + cls + ' rl-a"' + (more || "");
   const letters = word.split("").map((ch, i) => '<span class="rl-a" style="--i:' + i + '">' + (ch === " " ? "&nbsp;" : esc(ch)) + "</span>").join("");
@@ -7478,7 +7488,7 @@ function moReel(kind, at, since, items){
   const rays = Array.from({ length: 12 }, (x, i) => '<i class="rl-a" style="--r:' + (i * 30) + 'deg"></i>').join("");
   const bars = [62, 38, 80, 54, 92, 46, 70, 100].map((h, i) => '<b class="rl-a" style="--h:' + h + "%;--i:" + i + '"></b>').join("");
   const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-  return '<div class="reel' + (at > 1 ? " on" : "") + '" data-reel="' + esc(kind) + '" style="--t0:' + t0.toFixed(2) + 's">' +
+  return '<div class="reel' + (at > 1 ? " on" : "") + '" data-reel="' + esc(kind) + '" data-p="' + p.join(",") + '" style="--t0:' + t0.toFixed(2) + "s;--pv:" + (pv / 100).toFixed(3) + '">' +
     '<div class="rl-bg"><i></i><i></i></div>' +
     '<div' + A("rl-s rl-s1") + '><div class="rl-bars"><b class="rl-a" style="--i:0"></b><b class="rl-a" style="--i:1"></b><b class="rl-a" style="--i:2"></b></div>' +
       '<div class="rl-wm">' + letters + '</div><div' + A("rl-ul") + '></div><div' + A("rl-sub") + '>NCM · PERMISSION SYSTEM</div></div>' +
@@ -7486,7 +7496,7 @@ function moReel(kind, at, since, items){
     '<div' + A("rl-s rl-s3") + '><div class="rl-pipe"><svg viewBox="0 0 600 240" aria-hidden="true"><defs><linearGradient id="rlGrad" x1="0" x2="1"><stop offset="0" stop-color="var(--mo-b)"/><stop offset="1" stop-color="var(--mo-g)"/></linearGradient></defs>' +
       '<path class="w0" d="' + P + '"/><path' + A("w1") + ' d="' + P + '"/>' + packets + "</svg>" +
       '<span' + A("rl-node") + ' style="left:10%;top:70.83%">' + icon(way[0]) + '</span><span' + A("rl-node to") + ' style="left:90%;top:29.17%">' + icon(way[1]) + "</span>" +
-      '<div' + A("rl-pct") + "><small>" + esc(word) + "</small></div></div></div>" +
+      '<div class="rl-pct"><b class="rl-pv">' + pv + "%</b><small>" + esc(word) + "</small></div></div></div>" +
     '<div' + A("rl-s rl-s4") + '><div class="rl-orb"><span class="rl-ring a"></span><span class="rl-ring b"></span><span class="rl-ring c"></span>' +
       '<div class="rl-rays">' + rays + '</div><span' + A("rl-pulse") + '></span><span' + A("rl-pulse") + '></span>' +
       '<span' + A("rl-core") + "><b>N</b><i>C</i><u>M</u></span></div></div>" +
@@ -7496,7 +7506,7 @@ function moReel(kind, at, since, items){
     '<div' + A("rl-s rl-s6") + '><div class="rl-logo"><span class="rl-a" style="--i:0">N</span><span class="rl-a" style="--i:1">C</span><span class="rl-a" style="--i:2">M</span>' +
       '<span' + A("rl-stamp") + ">" + tick + '</span><div' + A("rl-shine") + '></div></div><div' + A("rl-tg") + '>NUCLEAR CONCRETE MIXES</div><div' + A("rl-ps") + ">PERMISSION SYSTEM</div></div>" +
     '<div' + A("rl-wipe") + "></div>" +
-    '<div class="rl-cr"></div><div class="rl-hud"><span><b>NCM</b> REEL · ' + esc(word) + '</span><span class="rl-tc"><i></i></span></div>' +
+    '<div class="rl-meter"><b class="rl-pv">' + pv + '%</b></div><div class="rl-cr"></div><div class="rl-hud"><span><b>NCM</b> REEL · ' + esc(word) + "</span></div>" +
     '<ol class="steps rl-steps">' + items.map((h, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + esc(h) + "</li>").join("") + "</ol>" +
     '<div class="rl-prog"><i></i></div></div>';
 }
@@ -7859,8 +7869,18 @@ function cardsJobHTML(j){
   return '<section class="panel cards-job"><div class="panel-h"><h3 class="panel-t">' + fileName(j.file) + "</h3>" +
       '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+j.received_at || 0) + '"></span></span>' +
       '<button class="btn sm danger" data-act="cards-cancel" data-id="' + esc(j.id) + '">' + t("cancel") + "</button></span></div>" +
-    '<div class="panel-b">' + (moOn() ? moReader(j, at, CARDS_STEPS.map((k, i) => t(k) + sub(i))) : steps + (j.status === "reading" ? '<div class="scan"><span></span></div>' : "")) +
+    '<div class="panel-b">' + (moOn() ? cardsReel(j, at) : steps + (j.status === "reading" ? '<div class="scan"><span></span></div>' : "")) +
     "</div></section>";
+}
+// the card reader on its way: the reel of «الشيتات» (asked for, 2 November 2026: «نفذ نفس المشن جيرافيك الى عاملينه فى القارء»),
+// how far it has got by the cards read out of the photos
+function cardsReel(j, at){
+  const half = Math.max(1, Math.round((+j.images || 0) / 2)), read = +j.read || 0;
+  const reading = [20 + 70 * Math.min(1, read / half), Math.min(90, 20 + 70 * Math.min(1, (read + 1) / half))];
+  const prog = [[0, 6], [6, 12], [12, 20], reading, [92, 100]][Math.min(4, at)];
+  const sub = i => i === 2 && j.images ? " · " + t("cdImages", j.images) :
+    i === 3 && (j.read || j.tries > 1) ? " · " + [j.read ? t("cdRead", j.read) : "", j.tries > 1 ? t("cdTry", j.tries) : ""].filter(Boolean).join(" · ") : "";
+  return moReel(j.kind === "veh" ? "readerVeh" : "reader", at, +j.received_at || +j.at, CARDS_STEPS.map((k, i) => t(k) + sub(i)), prog);
 }
 // a vehicle file read: its cars, as they went into the CARS sheet
 function cardsVehResultHTML(j, head){
@@ -8227,7 +8247,7 @@ function deskCardHTML(kind){
     : idph ? '<button class="btn primary sm" data-act="desk-idph"' + (live ? " disabled" : "") + ">" + t("dkIdphPick") + "</button>"
     : '<button class="btn primary sm" data-act="desk-run" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t(kind === "drive" ? "dkDriveRun" : "dkRun") + "</button>";
   const name = o && (ase || idph) ? '<b class="desk-file">' + (o.file === DESK_FROM_SYSTEM ? esc(t("dkFromSys")) : fileName(o.file)) + "</b>" : "";
-  const end = (tone, word) => '<span class="desk-end">' + pill(tone, t(word)) + '<span class="logwhen">' + deskWhen(o.finished_at) + "</span></span>";
+  const end = (tone, word) => '<span class="desk-end">' + (o.status === "done" ? '<span class="pct-done num">100%</span>' : "") + pill(tone, t(word)) + '<span class="logwhen">' + deskWhen(o.finished_at) + "</span></span>";
   let body;
   if(!o) body = '<div class="desk-none">' + dimDash + "</div>";
   else if(o.status === "lost")
@@ -8238,7 +8258,7 @@ function deskCardHTML(kind){
     body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
         '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span>' +
         (o.id ? '<button class="btn sm danger" data-act="desk-cancel" data-id="' + esc(o.id) + '">' + t("cancel") + "</button>" : "") + "</span></div>" +
-      (moOn() ? moReel(kind, at, +o.started_at || +o.at, DESK_STEPS[kind].map(k => t(k))) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
+      (moOn() ? moReel(kind, at, +o.started_at || +o.at, DESK_STEPS[kind].map(k => t(k)), [at / DESK_STEPS[kind].length * 100, (at + 1) / DESK_STEPS[kind].length * 100]) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   else if(o.status === "done" && ase){
     const r = o.result || {}, left = (+r.room || 0) - (+r.rows_after || 0);
@@ -9519,11 +9539,11 @@ function permitCardHTML(){
     const at = b0.status === "reading" ? 2 : 1, steps = ["dkA1", "dkA2", "isS3"];
     going = '<div class="desk-line"><b class="desk-file">' + fileName(b0.file || "") + '</b><span class="desk-two"><span class="count"><span class="num" data-since="' + (+b0.at || 0) + '"></span></span>' +
         '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b0.id) + '">' + t("cancel") + "</button></span></div>" +
-      (moOn() ? moReel("permits", at, +b0.at, steps.map(k => t(k)))
+      (moOn() ? moReel("permits", at, +b0.at, steps.map(k => t(k)), [at / steps.length * 100, (at + 1) / steps.length * 100])
               : '<ol class="steps">' + steps.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>" + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   const rows = list.slice(going ? 1 : 0).map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +
-    (b.status === "done" ? pill("ok", t("isBDone", +(b.counts || {}).cards || 0, +(b.counts || {}).given || 0, +(b.counts || {}).skipped || 0)) :
+    (b.status === "done" ? '<span class="pct-done num">100%</span>' + pill("ok", t("isBDone", +(b.counts || {}).cards || 0, +(b.counts || {}).given || 0, +(b.counts || {}).skipped || 0)) :
      b.status === "failed" ? pill("bad", t(b.error === "cancelled" ? "dkECancelled" : "isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait")) +
        '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b.id) + '">' + t("cancel") + "</button>") +
     (b.done_at ? '<span class="num">' + num(stamp(+b.done_at)) + "</span>" : "") + "</div>").join("");

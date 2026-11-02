@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1XwpgAayG4KSnOD2hiCLnoM2hkTdofOFK0Ngq5O6KQQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-1295YBmX/8JG2DMcpzgq1RHT5r4Hqt6mRGN82481WhU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -582,7 +582,6 @@ html.dark .rv-card figcaption{background:rgba(21,32,44,.88);color:var(--blue-dee
 #dr-give{flex:none;}
 #dr-give[hidden]{display:none;}
 #dr-give.on{background:var(--ok-bg);border-color:var(--ok-br);color:var(--ok);}
-.iss-seg{margin-bottom:12px;}
 /* «الكروت»: the three parts as tiles, the search under them, then the list */
 .iss-top{display:flex;flex-direction:column;align-items:center;gap:12px;margin:2px 0 14px;}
 .iss-top .tiles{width:100%;max-width:1100px;}
@@ -1269,12 +1268,6 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .shots{padding:0 14px 16px;margin-top:14px;display:flex;flex-direction:column;gap:9px;}
 .shot{margin:0;overflow:hidden;border-radius:var(--r);background:#f7fafd;border:1px solid #cdd7e2;}
 .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
-/* «صور البطاقة» / «صور الرخصة»: the two faces side by side, the day they went with them, earlier days a press away */
-.idph{margin:12px 14px 4px;padding:12px;border:1px solid var(--line-2);border-radius:var(--r-lg);background:var(--panel-2);display:flex;flex-direction:column;gap:10px;}
-.idph-h{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:800;color:var(--navy);}
-.idph-two{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.idph-two .shot{margin:0;}
-.idph .chips{justify-content:center;}
 /* the box that picks a row for the file and the paper (the employees' list) */
 label.pick{display:inline-flex;align-items:center;vertical-align:middle;margin-inline-end:8px;cursor:pointer;}
 label.pick input{position:absolute;opacity:0;width:0;height:0;}
@@ -1304,9 +1297,6 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
 .occ-shots:empty{display:none;}
 .occ-shots .shots-h{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:800;color:var(--navy);padding:0 2px;}
 @media print{ body.print-card .occ-item.off{display:block!important;} body.print-card .occ-bar{display:none!important;} }
-.dr-sec{display:flex;align-items:center;gap:10px;margin:20px 2px 10px;font-size:13.5px;font-weight:800;color:var(--navy);}
-.dr-sec::after{content:'';flex:1;height:1px;background:var(--line-2);}
-.dr-sec b{font-family:var(--mono);color:var(--blue);}
 
 #zoom{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.94);}
 #zoom.on{display:flex;}
@@ -1645,17 +1635,6 @@ html.dark{
 .mo-dots i:nth-child(4){left:44%;animation-delay:.5s;}.mo-dots i:nth-child(5){left:57%;animation-delay:3s;background:var(--mo-b);}.mo-dots i:nth-child(6){left:68%;animation-delay:1.7s;}
 .mo-dots i:nth-child(7){left:79%;animation-delay:.2s;background:var(--mo-b);}.mo-dots i:nth-child(8){left:90%;animation-delay:2.7s;}.mo-dots i:nth-child(9){left:50%;animation-delay:3.6s;background:var(--mo-b);}
 @keyframes moDot{0%{opacity:0;transform:translateY(12px);}20%{opacity:.75;}100%{opacity:0;transform:translateY(-70px);}}
-/* the reader */
-.mo-grid{display:grid;grid-template-columns:repeat(4,48px);gap:8px;transform:perspective(620px) rotateY(16deg) rotateX(14deg);}
-.mo-grid b{position:relative;height:31px;border-radius:5px;overflow:hidden;background:var(--mo-card);border:1px solid var(--mo-card-br);box-shadow:0 2px 6px rgba(21,101,192,.06);}
-.mo-grid b::before{content:"";position:absolute;right:5px;left:17px;top:7px;height:3px;border-radius:2px;background:var(--mo-line);box-shadow:0 7px 0 var(--mo-line),0 14px 0 var(--mo-line);}
-.mo-grid b::after{content:"";position:absolute;left:5px;top:7px;width:8px;height:12px;border-radius:2px;background:var(--mo-gl);}
-.mo-grid::after{content:"";position:absolute;top:-12px;bottom:-12px;width:34px;opacity:0;background:linear-gradient(90deg,transparent,var(--mo-bl),transparent);filter:blur(2px);}
-.mo.on .mo-grid b{animation:moLit 3.6s ease-in-out infinite;animation-delay:calc(var(--k) * .3s);}
-.mo.on .mo-grid::after{animation:moBeam 2.4s ease-in-out infinite;}
-.mo:not(.on) .mo-grid{animation:moBreath 3s ease-in-out infinite;}
-@keyframes moLit{0%,100%{border-color:var(--mo-card-br);box-shadow:0 2px 6px rgba(21,101,192,.06);}7%{border-color:var(--mo-amber);box-shadow:0 0 12px var(--mo-al);}22%{border-color:var(--mo-g);box-shadow:0 0 12px var(--mo-gl);}42%{border-color:var(--mo-card-br);box-shadow:0 2px 6px rgba(21,101,192,.06);}}
-@keyframes moBeam{0%{right:-40px;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{right:calc(100% + 6px);opacity:0;}}
 @keyframes moBreath{50%{opacity:.55;}}
 /* the ring (an upload, the sheets being read) */
 .mo-ring{position:relative;width:120px;height:120px;flex:none;}
@@ -1683,36 +1662,6 @@ html.dark{
 @keyframes moPacket{0%{right:0;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{right:calc(100% - 16px);opacity:0;}}
 .mo-side{display:flex;flex-direction:column;align-items:center;gap:6px;}
 .mo-k{font-size:13px;font-weight:800;letter-spacing:.03em;color:var(--mo-sub);text-align:center;}
-/* the circle of steps */
-.mo-orbit{position:relative;width:250px;height:250px;flex:none;margin:40px 130px;}
-.mo-orbit > svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-.mo-orbit .o1,.mo-orbit .o3,.mo-orbit .ocomet{transform-box:fill-box;transform-origin:center;}
-.mo-orbit .o1{stroke:var(--mo-b);opacity:.35;animation:spin 14s linear infinite;}
-.mo-orbit .o0{stroke:var(--mo-track);}
-.mo-orbit .o3{stroke:var(--mo-g);transform:rotate(-90deg);transition:stroke-dasharray .8s ease;filter:drop-shadow(0 0 5px var(--mo-gl));}
-.mo-orbit .ocomet{animation:spin 2.8s linear infinite;}
-.mo-orbit .odot{fill:var(--mo-amber);filter:drop-shadow(0 0 6px var(--mo-al));}
-.mo-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
-.mo-mid b{font-family:var(--cond);font-weight:700;font-size:58px;line-height:1;color:var(--mo-ink);direction:ltr;}
-.mo-mid i{width:96px;height:2px;margin:9px 0 7px;background:linear-gradient(90deg,transparent,var(--mo-g),transparent);}
-.mo-mid span{font-size:13px;font-weight:800;color:var(--mo-sub);}
-.mo-orbit .steps{position:absolute;inset:0;display:block;margin:0;padding:0;}
-.mo-orbit .steps li{position:absolute;left:calc(50% + var(--x));top:calc(50% + var(--y));width:124px;margin-left:-62px;padding:24px 0 0;flex:none;
-  font-size:13px;line-height:1.35;color:var(--mo-sub);}
-.mo-orbit .steps li[data-up]{padding:0 0 24px;transform:translateY(-100%);}
-.mo-orbit .steps li::before{top:-16px;left:50%;margin-left:-16px;width:32px;height:32px;background:var(--mo-node);border:2px solid var(--mo-card-br);color:var(--mo-sub);}
-.mo-orbit .steps li[data-up]::before{top:auto;bottom:-16px;}
-.mo-orbit .steps li[data-side]{width:130px;padding:0 0 0 28px;transform:translateY(-50%);text-align:left;margin-left:0;}
-.mo-orbit .steps li[data-side=l]{margin-left:-130px;padding:0 28px 0 0;text-align:right;}
-.mo-orbit .steps li[data-side]::before{top:50%;margin-top:-16px;left:-16px;margin-left:0;}
-.mo-orbit .steps li[data-side=l]::before{left:auto;right:-16px;}
-.mo-orbit .steps li::after{display:none;}
-.mo-orbit .steps li.done{color:var(--mo-g);}
-.mo-orbit .steps li.done::before{background:var(--mo-g);border-color:var(--mo-g);color:#fff;box-shadow:0 0 10px var(--mo-gl);}
-.mo-orbit .steps li.on{color:var(--mo-ink);}
-.mo-orbit .steps li.on::before{background:var(--mo-amber);border-color:var(--mo-amber);color:#fff;animation:moStep 1.5s ease-in-out infinite;}
-.mo-orbit .steps small{color:var(--mo-sub);}
-@keyframes moStep{0%,100%{box-shadow:0 0 10px var(--mo-al);}50%{box-shadow:0 0 0 9px var(--mo-al),0 0 18px var(--mo-al);}}
 /* small: in a box of «الشيتات», over «ASE SEARCH» */
 .mo.sm{min-height:0;margin:2px 0;padding:14px 16px;gap:14px 20px;}
 .mo.sm .mo-ring{width:76px;height:76px;}
@@ -1856,12 +1805,6 @@ html.dark{
 .desk-mini.bad{background:rgba(220,60,60,.12);color:var(--bad);}
 .desk.one .desk-mini{display:none;}
 .desk.one .desk-card.open .panel-b{min-height:min(64vh,620px);}
-.desk.one .mo{flex:1;min-height:min(56vh,560px);gap:30px 70px;}
-.desk.one .mo > :not(.mo-dots){zoom:1.3;}
-.desk.one .mo.sm .mo-ring{width:120px;height:120px;}
-.desk.one .mo.sm .mo-c{font-size:30px;}
-.desk.one .mo.sm .mo-end{width:50px;height:50px;border-radius:14px;}
-@media (max-width:760px){ .desk.one .mo > :not(.mo-dots){zoom:.9;} }
 /* …over the whole screen (22 October 2026: «عايزه يبقا باكبر حجم للشاشه»): a wait that begins opens there by itself; a click
    or Esc puts it back in its box, and a click on the box opens it again. What it shows is the box's, kept up as it changes. */
 .mo{cursor:zoom-in;}
@@ -2055,7 +1998,6 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
    same clock, set back by how long the order has been going («--t0»), so a box drawn again goes on where it was.
    «x-motion»; whoever does not have it keeps the plain steps.
    ============================================================ */
-@property --rp{syntax:"<integer>";inherits:true;initial-value:0;}
 .reel{position:relative;overflow:hidden;direction:ltr;border-radius:16px;margin:14px 0 2px;height:clamp(250px,46vh,520px);container-type:size;
   color:var(--mo-ink);background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge),0 10px 28px rgba(21,101,192,.08);isolation:isolate;}
 .desk.one .desk-card.open .reel{height:clamp(300px,58vh,600px);}
@@ -3436,7 +3378,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a54ebc356e6b";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "de92c0b33d5b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3658,7 +3600,7 @@ const I18N = {
     cdOn:"القارئ صاحي ومستني", cdBusy:"القارئ بيقرا", cdOff:"القارئ واقف",
     cdS1:"اتبعت", cdS2:"القارئ استلم", cdS3:"تطليع الصور", cdS4:"قراية البطايق", cdS5:"كتابة الإكسيل", cdImages:n => n + " صورة", cdRead:n => "اتقرا " + n, cdTry:n => "محاولة " + n,
     cdLost:"الملف ما وصلش فولدر التصدير", cdDismiss:"شيل", cdUnread:n => "«" + n + "» مش بيتقري",
-    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdKindInd:"أفراد", cdKindVeh:"مركبات", cdDropVeh:"اسحب ملف الرخص هنا", cdCars:"العربيات", rvPlate:"رقم السيارة", rvVtype:"النوع", rvVtypeEn:"النوع بالانجليزى", rvLicEnd:"نهاية الرخصة", rvLicOk:"الرخصة سارية", rvLicSoon:"الرخصة قربت تنتهي", rvLicExp:"الرخصة منتهية", rvLicExpN:"رخص منتهية", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvNidB:"الرقم القومي · الضهر", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvSame:"رقم الوش = الضهر", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
+    cdColSt:"الحالة", cdOpen:"فتح الإكسيل", cdKindInd:"أفراد", cdKindVeh:"مركبات", cdDropVeh:"اسحب ملف الرخص هنا", cdCars:"العربيات", rvPlate:"رقم السيارة", rvVtype:"النوع", rvVtypeEn:"النوع بالانجليزى", rvLicEnd:"نهاية الرخصة", rvLicOk:"الرخصة سارية", rvLicSoon:"الرخصة قربت تنتهي", rvLicExp:"الرخصة منتهية", rvLicExpN:"رخص منتهية", cdOpenGone:"الإكسيل مش موجود في النتيجة ولا الأرشيف", rvFront:"الوش", rvBack:"الضهر", rvName:"الاسم", rvNid:"الرقم القومي", rvBirth:"تاريخ الميلاد", rvExp:"البطاقة سارية حتى", rvAddr:"العنوان", rvQual:"المؤهل", rvJob:"الوظيفة", rvFollow:"تابع", rvNidOk:"رقم قومي سليم", rvValid:"البطاقة سارية", rvExpired:"البطاقة منتهية", rvInSys:"في السيستم", rvExport:"تصدير الإكسيل", rvExporting:"بيتصدّر", rvPrev:"السابق", rvNext:"اللي بعده", cdClear:"مسح", cdClearSure:"تنقل النتيجة والورد الثابت للأرشيف وتمسح السجل؟", cdCleared:"اتنقلوا للأرشيف ✓",
     cdPeople:"الأشخاص", cdClean:"سليم", cdFlagged:"محتاج مراجعة", cdExpired:"بطاقات منتهية", cdBanned:"ممنوع في السيستم", cdOut:"الإكسيل", cdInExport:"في فولدر النتيجة",
     cdFailed:"ماتقراش", cdDone:"خلص", cdColQual:"المؤهل", cdColExpiry:"البطاقة سارية حتى", cdColSys:"في السيستم", cdColNotes:"ملاحظات", cdExpiredPill:"منتهية", cdNotIn:"مش مسجل", cdEmp:c => "موظف " + c,
     cdHistory:"الملفات اللي قبل كده", cdColFile:"الملف", cdColWhen:"الوقت", cdColState:"الحالة", cdNone:"لسه مفيش ملف اتقرا",
@@ -3673,7 +3615,7 @@ const I18N = {
     adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف", adDelSure:n => "تحذف «" + n + "»؟", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم لنفس الاسم", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", isModel:"موديل المركبة", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", canLook:"الشكل الهادي", moRead:"اتقرا", moPhotos:"صورة", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الموشن جيرافك", canLook:"الشكل الهادي", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -3801,7 +3743,7 @@ const I18N = {
     cdOn:"Reader awake and waiting", cdBusy:"Reader is reading", cdOff:"Reader is not running",
     cdS1:"Sent", cdS2:"Taken by the reader", cdS3:"Extracting photos", cdS4:"Reading the cards", cdS5:"Writing the sheet", cdImages:n => "\u200E" + n + (n === 1 ? " photo" : " photos"), cdRead:n => "\u200E" + n + " read", cdTry:n => "attempt " + n,
     cdLost:"The file did not reach the export folder", cdDismiss:"Dismiss", cdUnread:n => "«" + n + "» could not be read",
-    cdColSt:"Status", cdOpen:"Open in Excel", cdKindInd:"People", cdKindVeh:"Vehicles", cdDropVeh:"Drop the licences file here", cdCars:"Vehicles", rvPlate:"Plate", rvVtype:"Type", rvVtypeEn:"Type in English", rvLicEnd:"Licence ends", rvLicOk:"Licence valid", rvLicSoon:"Licence ends soon", rvLicExp:"Licence expired", rvLicExpN:"Expired licences", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvNidB:"National ID · back", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvSame:"Front ID = back ID", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
+    cdColSt:"Status", cdOpen:"Open in Excel", cdKindInd:"People", cdKindVeh:"Vehicles", cdDropVeh:"Drop the licences file here", cdCars:"Vehicles", rvPlate:"Plate", rvVtype:"Type", rvVtypeEn:"Type in English", rvLicEnd:"Licence ends", rvLicOk:"Licence valid", rvLicSoon:"Licence ends soon", rvLicExp:"Licence expired", rvLicExpN:"Expired licences", cdOpenGone:"The sheet is in neither the results nor the archive", rvFront:"Front", rvBack:"Back", rvName:"Name", rvNid:"National ID", rvBirth:"Date of birth", rvExp:"Card valid until", rvAddr:"Address", rvQual:"Qualification", rvJob:"Job", rvFollow:"Follows", rvNidOk:"Valid national ID", rvValid:"Card valid", rvExpired:"Card expired", rvInSys:"In the system", rvExport:"Export to Excel", rvExporting:"Exporting", rvPrev:"Previous", rvNext:"Next", cdClear:"Clear", cdClearSure:"Move the results and the fixed Word file to the archive and clear the record?", cdCleared:"Moved to the archive ✓",
     cdPeople:"People", cdClean:"Clean", cdFlagged:"Needs review", cdExpired:"Expired cards", cdBanned:"Banned in the system", cdOut:"Excel sheet", cdInExport:"in the results folder",
     cdFailed:"Not read", cdDone:"Done", cdColQual:"Qualification", cdColExpiry:"Card valid until", cdColSys:"In the system", cdColNotes:"Notes", cdExpiredPill:"expired", cdNotIn:"Not registered", cdEmp:c => "Employee " + c,
     cdHistory:"Earlier files", cdColFile:"File", cdColWhen:"Time", cdColState:"Status", cdNone:"No file has been read yet",
@@ -3816,7 +3758,7 @@ const I18N = {
     adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete", adDelSure:n => "Delete “" + n + "”?", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already this name's", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", isModel:"Vehicle model", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", canLook:"Calm look", moRead:"read", moPhotos:"photos", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Motion graphics", canLook:"Calm look", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -7431,23 +7373,6 @@ const MO_ICON = {
 };
 const moIcon = k => '<span class="mo-end"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + MO_ICON[k] + "</svg></span>";
 const moFlow = (from, to) => '<div class="mo-flow" aria-hidden="true">' + moIcon(from) + '<span class="mo-wire"><i></i><i></i><i></i></span>' + moIcon(to) + "</div>";
-// the steps round a circle: a point each, the ring filled up to the one it is at (a comet going round while it works), the figure in the middle
-const MO_R = 100, MO_RC = 2 * Math.PI * MO_R;
-function moOrbit(items, at, mid, going){
-  const n = Math.max(1, items.length);
-  const lis = items.map((h, i) => {
-    const a = 2 * Math.PI * i / n - Math.PI / 2, x = MO_R * Math.cos(a), y = MO_R * Math.sin(a);
-    // a point on a side has its word beside it, outward; one at the top above it, one at the bottom under it
-    const side = x > 40 ? ' data-side="r"' : x < -40 ? ' data-side="l"' : y < 0 ? " data-up" : "";
-    return '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '"' + side + ' style="--x:' + x.toFixed(1) + "px;--y:" + y.toFixed(1) + 'px">' + h + "</li>";
-  }).join("");
-  return '<div class="mo-orbit"><svg viewBox="-125 -125 250 250" aria-hidden="true">' +
-    '<circle class="o1" r="118" fill="none" stroke-width="1.5" stroke-dasharray="2 8"/>' +
-    '<circle class="o0" r="' + MO_R + '" fill="none" stroke-width="6"/>' +
-    '<circle class="o3" r="' + MO_R + '" fill="none" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + (MO_RC * Math.max(0, Math.min(n, at)) / n).toFixed(1) + " " + MO_RC.toFixed(1) + '"/>' +
-    (going ? '<g class="ocomet"><circle r="' + MO_R + '" fill="none"/><circle class="odot" cx="' + MO_R + '" cy="0" r="5.5"/></g>' : "") +
-    '</svg><ol class="steps">' + lis + '</ol><div class="mo-mid">' + mid + "</div></div>";
-}
 // an order of «الشيتات» on its way: from where to where, and which of its steps it is at
 const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
 // «الشيتات» on its way: the showreel, in its own box (see «THE SHOWREEL» in the styles). «since» is when the order started:
@@ -7530,11 +7455,11 @@ function moSync(){
   $("mofull-t").textContent = head ? head.textContent : "";
   const now = $("mofull-in").querySelector(".mo");
   // the same stage: its figures and its ring move on in place, so nothing on it starts over
-  if(now && now.dataset.mo === key && now.className === src.className && !!now.querySelector(".mo-grid") === !!src.querySelector(".mo-grid") && !!now.querySelector(".ocomet") === !!src.querySelector(".ocomet")){
-    [".mo-c", ".mo-k", ".steps", ".mo-mid"].forEach(q => { const a = src.querySelector(q), b = now.querySelector(q); if(a && b && b.innerHTML !== a.innerHTML) b.innerHTML = a.innerHTML; });
+  if(now && now.dataset.mo === key && now.className === src.className){
+    [".mo-c", ".mo-k", ".steps"].forEach(q => { const a = src.querySelector(q), b = now.querySelector(q); if(a && b && b.innerHTML !== a.innerHTML) b.innerHTML = a.innerHTML; });
     const a = src.querySelector(".mo-ring"), b = now.querySelector(".mo-ring");
     if(a && b) b.className = a.className;
-    const arcs = src.querySelectorAll(".r3, .o3"), mine = now.querySelectorAll(".r3, .o3");
+    const arcs = src.querySelectorAll(".r3"), mine = now.querySelectorAll(".r3");
     arcs.forEach((x, i) => { if(mine[i]) mine[i].setAttribute("stroke-dasharray", x.getAttribute("stroke-dasharray")); });
     return;
   }
@@ -9420,7 +9345,6 @@ function issKeys(open){
 }
 const issCards = open => issKeys(open).map(k => ISS.byRef.get(k[0] + ":" + k[1])).filter(Boolean);
 const issOpen = r => r.out ? "" : r.veh ? "veh:" + r.g.key : personKey(r);
-const issDay = c => { const m = /^(\d\d)\/(\d\d)\/(\d{4})$/.exec(c.until || ""); return m ? m[3] + m[2] + m[1] : ""; };
 // every carded row of the sheet on screen (people or vehicles), with its cards; and the cards nobody of ours has
 /* The three parts (asked for the same day): «موظفين» — a man who is one of ours on duty, whether or not the permits
    sheet has him too · «أفراد» — everyone else · «مركبات». */
@@ -9519,9 +9443,14 @@ function renderIssued(){
    read back from cards/permits.json beside the page, every few seconds while the page is open; when one is over,
    the list is asked for again. */
 let issBatchTimer = null, issBatchSeen = "", ISS_BATCHES = [], issCardDrawn = "";
+let issSent = { key: "", at: 0 };
 function issUpload(files){
   files = files.filter(f => /\.pdf$/i.test(f.name));
   if(!isAdmin() || ONLINE || !files.length) return;
+  // the same file handed over twice in a moment (pressed again, dropped on top of a pick) goes once — the reader would read it twice
+  const key = files.map(f => f.name + "|" + f.size + "|" + f.lastModified).join(";");
+  if(key === issSent.key && Date.now() - issSent.at < 8000) return;
+  issSent = { key, at: Date.now() };
   files.forEach((f, i) => setTimeout(() => cardsPut(f, "وارد الكروت [" + cardsId() + "] " + f.name.replace(/[\[\]\\\/:*?"<>|]/g, " ").trim()), i * 1200));
   toast(t("isUpSent"));
   if(st.view === "src"){ st.desk = "permits"; deskShow(); }

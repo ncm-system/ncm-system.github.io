@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-Iw5rPwEX75viPc8juEEQJil5wBfz0vZjjp7OLEtZxOI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-KG1vb4rkRf5SQl5YelcdE6KZgLp28t+wwntsZeRSVP8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1986,6 +1986,125 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
   body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
 }
 /* ============================================================
+   THE WORKFLOW OF «الشيتات» (asked for, 2 November 2026, on two pictures of a workflow of nodes: «عايز شكل الشيتات وهى بتعمل
+   تحديث يبقا زى الصور دى كده بالايقونات وعداد من 0ل 100% شغال برضو وعايز الشكل كان كهربا بتمر مبينهم»). An order of
+   «الشيتات» on its way is drawn as its steps, one node each with its icon and its name under it, wired one to the next on a
+   board of points; current runs along every wire it has come by — a crackling light, jagged by a noise that changes many times
+   a second — hardest on the wire into the step it is at, which glows and has a light going round its edge, sparks where the
+   current lands; a step done has its tick; one still to come is pale, its wire dashed and dead. The figure 0→100% at the top
+   and the bar at the foot are the order's own (as the reel's were). The first node is the trigger, its bolt beside it. The
+   app's colours («--mo-*»: light, dark in dark mode). In its own box only. «x-motion»; whoever does not have it keeps the
+   plain steps.
+   ============================================================ */
+@property --wf-a{syntax:"<angle>";inherits:false;initial-value:0deg;}
+.wf{position:relative;overflow:hidden;direction:ltr;border-radius:16px;margin:14px 0 2px;height:clamp(250px,46vh,520px);container-type:size;
+  color:var(--mo-ink);background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge),0 10px 28px rgba(21,101,192,.08);isolation:isolate;}
+.desk.one .desk-card.open .wf{height:clamp(300px,58vh,600px);}
+.wf *{box-sizing:border-box;}
+/* the board: points, and the light of the step it is at under it */
+.wf::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.9;background-image:radial-gradient(var(--mo-dot) 1.1px,transparent 1.4px);background-size:20px 20px;}
+.wf-glow{position:absolute;z-index:-1;width:46cqh;height:46cqh;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(closest-side,var(--mo-bl),transparent);
+  animation:wfBreathe 2.4s ease-in-out infinite;pointer-events:none;}
+@keyframes wfBreathe{50%{opacity:.45;transform:translate(-50%,-50%) scale(1.15);}}
+/* the wires */
+.wf-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+.wf-wires path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;}
+.wf-wires .wb{stroke:var(--mo-line);stroke-width:2.4;}
+.wf-wires .wb.idle{stroke-dasharray:3 6;}
+.wf-wires .wl{stroke:url(#wfGrad);stroke-width:3;filter:drop-shadow(0 0 3px var(--mo-gl));}
+/* the current: a coloured arc round a white core, the two cut the same, made jagged by the noise */
+.wf-wires .wz,.wf-wires .wc{stroke-dasharray:16 84;animation:wfRun 1.6s linear infinite;}
+.wf-wires .wz{stroke:var(--wf-arc);stroke-width:8;opacity:.8;filter:url(#wfZap) blur(1.4px);}
+.wf-wires .wc{stroke:#fff;stroke-width:2.4;filter:url(#wfZap) drop-shadow(0 0 2px var(--wf-arc)) drop-shadow(0 0 6px var(--wf-arc));}
+.wf-wires .b{animation-delay:-.8s;}
+.wf-wires g{--wf-arc:#2fc45c;}
+html.dark .wf-wires g{--wf-arc:var(--mo-g);}
+.wf-wires g.live{--wf-arc:#1e9bff;}
+.wf-wires .live .wz,.wf-wires .live .wc{stroke-dasharray:22 78;animation-duration:.75s;}
+.wf-wires .live .wz{stroke-width:10;opacity:.85;}
+.wf-wires .live .b{animation-delay:-.37s;}
+.wf-wires .live .c{animation-delay:-.18s;opacity:.6;}
+.wf-wires .live .wl{animation:wfFlick .19s steps(2) infinite;}
+@keyframes wfRun{from{stroke-dashoffset:100;}to{stroke-dashoffset:0;}}
+@keyframes wfFlick{50%{opacity:.62;}}
+.wf{--wf-zap:#ffffff;}
+/* a node */
+.wf-n{position:absolute;z-index:2;transform:translate(-50%,-50%);width:var(--ns);display:flex;flex-direction:column;align-items:center;
+  --ns:min(15cqh,11cqw);}
+.wf-box{position:relative;width:var(--ns);height:var(--ns);border-radius:min(2.6cqh,14px);display:grid;place-items:center;background:var(--mo-node);
+  border:1.5px solid var(--mo-card-br);box-shadow:0 1cqh 2.4cqh rgba(21,101,192,.14);color:var(--tone,var(--mo-b));transition:opacity .4s,filter .4s;}
+.wf-box svg{width:52%;height:52%;}
+.wf-n.trig .wf-box{border-start-start-radius:calc(var(--ns) / 2);border-end-start-radius:calc(var(--ns) / 2);}
+html[dir=ltr] .wf-n.trig .wf-box{border-radius:calc(var(--ns) / 2) min(2.6cqh,14px) min(2.6cqh,14px) calc(var(--ns) / 2);}
+html[dir=rtl] .wf-n.trig .wf-box{border-radius:min(2.6cqh,14px) calc(var(--ns) / 2) calc(var(--ns) / 2) min(2.6cqh,14px);}
+/* the ports on its two sides, as the picture has them */
+.wf-box::before,.wf-box::after{content:"";position:absolute;top:50%;width:1.5cqh;height:1.5cqh;min-width:7px;min-height:7px;border-radius:50%;transform:translate(-50%,-50%);
+  background:var(--mo-node);border:1.5px solid var(--mo-card-br);}
+.wf-box::before{left:0;}
+.wf-box::after{left:100%;}
+.wf-n.trig .wf-box::before{display:none;}
+html[dir=rtl] .wf-n.trig .wf-box::before{display:block;}
+html[dir=rtl] .wf-n.trig .wf-box::after{display:none;}
+.wf-n.last .wf-box::after{display:none;}
+html[dir=rtl] .wf-n.last .wf-box::after{display:block;}
+html[dir=rtl] .wf-n.last .wf-box::before{display:none;}
+html[dir=rtl] .wf-n.trig.last .wf-box::after{display:none;}
+.wf-bolt{position:absolute;top:50%;width:2.6cqh;min-width:12px;color:var(--mo-amber);transform:translateY(-50%);filter:drop-shadow(0 0 4px var(--mo-al));animation:wfFlick .9s steps(2) infinite;}
+html[dir=ltr] .wf-bolt{right:calc(100% + 1.2cqh);}
+html[dir=rtl] .wf-bolt{left:calc(100% + 1.2cqh);}
+.wf-t{margin-top:1.5cqh;font:800 clamp(10px,2.9cqh,15px)/1.25 var(--sans,inherit);color:var(--mo-ink);white-space:nowrap;text-align:center;}
+.wf-u{margin-top:.5cqh;font:600 clamp(8px,2.1cqh,11px)/1 var(--mono);color:var(--mo-sub);white-space:nowrap;letter-spacing:.04em;}
+/* a step to come: pale */
+.wf-n.idle .wf-box{opacity:.5;filter:grayscale(.8);}
+.wf-n.idle .wf-t{color:var(--mo-sub);}
+/* a step done: its tick */
+.wf-n.done .wf-box{border-color:var(--mo-g);box-shadow:0 0 0 3px var(--mo-gl),0 1cqh 2.4cqh rgba(47,154,71,.18);}
+.wf-ok{position:absolute;top:-1.2cqh;right:-1.2cqh;width:3.6cqh;height:3.6cqh;min-width:15px;min-height:15px;border-radius:50%;display:grid;place-items:center;
+  background:var(--mo-g);color:#fff;box-shadow:0 0 0 2px var(--mo-node),0 0 8px var(--mo-gl);animation:wfPop .5s cubic-bezier(.2,1.6,.4,1) both;}
+.wf-ok svg{width:64%;height:64%;}
+@keyframes wfPop{from{transform:scale(0);}}
+/* the step it is at: it glows, a light goes round its edge, current lands on it in sparks */
+.wf-n.on .wf-box{border-color:transparent;box-shadow:0 0 0 4px var(--mo-bl),0 0 3cqh var(--mo-bl);animation:wfHot 1.2s ease-in-out infinite;}
+.wf-n.on .wf-box > i{position:absolute;inset:-2px;border-radius:inherit;padding:2.5px;pointer-events:none;
+  background:conic-gradient(from var(--wf-a),transparent 0 55%,var(--mo-b) 75%,var(--mo-g) 92%,transparent);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:wfAround 1.1s linear infinite;}
+@keyframes wfAround{to{--wf-a:360deg;}}
+@keyframes wfHot{50%{box-shadow:0 0 0 7px var(--mo-bl),0 0 5cqh var(--mo-bl);}}
+.wf-n.on .wf-t{color:var(--mo-b);}
+.wf-sp{position:absolute;top:50%;width:0;height:0;pointer-events:none;}
+html[dir=ltr] .wf-sp{left:0;}
+html[dir=rtl] .wf-sp{left:100%;}
+.wf-sp b{position:absolute;left:0;top:0;width:2.6cqh;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--wf-zap),var(--mo-b));transform-origin:0 50%;
+  transform:rotate(var(--r)) translateX(.6cqh) scaleX(0);box-shadow:0 0 6px var(--mo-b);animation:wfSpark .8s ease-out infinite;animation-delay:var(--d);}
+@keyframes wfSpark{0%{transform:rotate(var(--r)) translateX(.4cqh) scaleX(0);opacity:1;}45%{transform:rotate(var(--r)) translateX(1.4cqh) scaleX(1);opacity:1;}
+  100%{transform:rotate(var(--r)) translateX(3.6cqh) scaleX(.2);opacity:0;}}
+/* the figure at the top, the order's name, and the bar along the foot */
+.wf-meter{position:absolute;left:50%;top:2.6cqh;z-index:4;transform:translateX(-50%);display:flex;align-items:baseline;gap:.6em;padding:.6cqh 2cqh .8cqh;border-radius:999px;
+  background:var(--mo-card);border:1px solid var(--mo-card-br);box-shadow:0 1cqh 2.6cqh var(--mo-bl);pointer-events:none;}
+.wf-meter .rl-pv{font:900 clamp(16px,6.6cqh,42px)/1 var(--cond);color:var(--mo-b);letter-spacing:.02em;font-variant-numeric:tabular-nums;}
+.wf-hud{position:absolute;inset:3.4cqh 3.4cqh auto;z-index:3;display:flex;justify-content:space-between;align-items:center;pointer-events:none;
+  font:700 clamp(8px,2.2cqh,12px)/1 var(--mono);letter-spacing:.16em;color:var(--mo-sub);}
+.wf-hud b{color:var(--mo-b);font-weight:800;}
+.wf-hud .live{display:inline-flex;align-items:center;gap:.6em;color:var(--mo-g);}
+.wf-hud .live::before{content:"";width:1.4cqh;height:1.4cqh;min-width:7px;min-height:7px;border-radius:50%;background:var(--mo-g);box-shadow:0 0 8px var(--mo-g);animation:wfFlick 1s steps(2) infinite;}
+.wf-run{position:absolute;left:50%;bottom:4.4cqh;z-index:4;transform:translateX(-50%);display:flex;align-items:center;gap:1.2cqh;padding:1.4cqh 2.8cqh;border-radius:1.6cqh;
+  overflow:hidden;color:#fff;font:800 clamp(10px,2.9cqh,15px)/1 var(--sans,inherit);white-space:nowrap;
+  background:linear-gradient(100deg,var(--mo-b),var(--mo-g));box-shadow:0 1cqh 3cqh var(--mo-bl);pointer-events:none;}
+.wf-run svg{width:2.8cqh;height:2.8cqh;min-width:13px;min-height:13px;}
+.wf-run .rl-pv{font-family:var(--mono);font-variant-numeric:tabular-nums;opacity:.92;}
+.wf-run::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);animation:wfShine 2.4s ease-in-out infinite;}
+@keyframes wfShine{60%,100%{transform:translateX(120%);}}
+.wf-prog{position:absolute;left:3.4cqh;right:3.4cqh;bottom:1.8cqh;height:5px;border-radius:3px;background:var(--mo-track);overflow:hidden;z-index:4;}
+.wf-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--mo-b),var(--mo-g));transform-origin:left;transform:scaleX(var(--pv,0));transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 1.4cqh var(--mo-gl);}
+/* its steps for a reader of the screen (they are what the nodes say) */
+.wf .wf-sr{position:absolute !important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+@media (max-width:520px){ .wf-u{display:none;} .wf-t{font-size:10px;} }
+@container (max-width:560px){ .wf-hud > span:first-child{display:none;} }
+@media (prefers-reduced-motion: reduce){ .wf *,.wf::before{animation:none !important;} }
+@media print{ .wf{display:none;} }
+/* ============================================================
    THE SHOWREEL OF «الشيتات» (asked for, 2 November 2026: «make a dynamic 15-second motion graphics video… like it's your
    showreel… go all out» — «عايز البروميت ده يظهر فى اى رفع شيت او تحديث الشيت فى الصندوق بتاعه فقط فى صفحة الشيتات، مش
    يفتحلى صفحة للموشن جيرافك، والغى القديم وحافظ على تناسق الالوان»). An order of «الشيتات» on its way plays fifteen seconds
@@ -3378,7 +3497,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "dd8e2977a90e";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "077bc0272a04";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7456,7 +7575,7 @@ function reelPct(p){
   return Math.round(Math.max(lo, Math.min(hi - 1, est)));
 }
 function pctTick(){
-  [].forEach.call(document.querySelectorAll(".reel[data-p]"), r => {
+  [].forEach.call(document.querySelectorAll(".reel[data-p], .wf[data-p]"), r => {
     const v = reelPct(r.dataset.p.split(",").map(Number));
     r.style.setProperty("--pv", (v / 100).toFixed(3));
     [].forEach.call(r.querySelectorAll(".rl-pv"), x => { if(x.textContent !== v + "%") x.textContent = v + "%"; });
@@ -7502,6 +7621,67 @@ function moReel(kind, at, since, items, prog){
     '<div class="rl-meter"><b class="rl-pv">' + pv + '%</b></div><div class="rl-cr"></div><div class="rl-hud"><span><b>NCM</b> REEL · ' + esc(word) + "</span></div>" +
     '<ol class="steps rl-steps">' + items.map((h, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + esc(h) + "</li>").join("") + "</ol>" +
     '<div class="rl-prog"><i></i></div></div>';
+}
+// «الشيتات» on its way, as a workflow (see «THE WORKFLOW» in the styles): a node for each step, current along the wires it has
+// come by. «keys» are the steps' words; «prog» and «since» make the figure as the reel's did.
+const WF_STEP = {
+  dkA1: ["send", "trigger: sent"], dkA2: ["inbox", "desk: received"], dkA3: ["sheet", "excel: paste"], dkA4: ["check", "verify: cells"],
+  dkA5: ["swap", "file: replace"], dkA6: ["find", "upload: search"], dkE3: ["db", "sync: database"], dkE4: ["photo", "review: photos"],
+  dkE5: ["up", "upload: photos"], dkS3: ["up", "upload: drive"], dkS4: ["check", "verify: sheet"], dkP3: ["photo", "read: photos"],
+  dkL3: ["sheet", "ASE → sheet"], dkL4: ["db", "sync: database"], dkD3: ["down", "download: sheet"], isS3: ["photo", "read: cards"]
+};
+const WF_ICON = Object.assign({}, MO_ICON, {
+  send: '<path d="M21 3 10.500 13.500"/><path d="M21 3l-6.500 18-4-7.500L3 9.500z"/>',
+  inbox: '<path d="M22 12.500h-6l-2 3h-4l-2-3H2"/><path d="M5.500 5.100 2 12.500v5.500a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.500l-3.500-7.400A2 2 0 0 0 16.700 4H7.300a2 2 0 0 0-1.800 1.100z"/>',
+  check: '<path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/>',
+  swap: '<path d="M4 8h14l-3.500-3.500M20 16H6l3.500 3.500"/>',
+  find: '<circle cx="11" cy="11" r="6.500"/><path d="M20 20l-4.200-4.200"/>',
+  up: '<path d="M7 18.500h10a4 4 0 0 0 .600-7.950A5.500 5.500 0 0 0 7.100 9.200 4.700 4.700 0 0 0 7 18.500z"/><path d="M12 16v-5.500M9.700 12.800 12 10.500l2.300 2.300"/>',
+  down: '<path d="M12 4v11M7.500 10.500 12 15l4.500-4.500M5 19.500h14"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2.500v3M12 18.500v3M2.500 12h3M18.500 12h3M5.300 5.300l2.100 2.100M16.600 16.600l2.100 2.100M5.300 18.700l2.100-2.100M16.600 7.400l2.100-2.100"/>'
+});
+// the colour of each kind of node, as the picture's icons each have theirs
+const WF_TONE = { send: "var(--mo-amber)", inbox: "var(--mo-b)", sheet: "var(--mo-g)", word: "var(--mo-b)", check: "var(--mo-g)", swap: "var(--mo-amber)", find: "var(--mo-b)",
+  db: "var(--mo-b)", cloud: "var(--mo-b)", up: "var(--mo-b)", down: "var(--mo-g)", photo: "var(--mo-amber)", gear: "var(--mo-sub)" };
+function moWork(kind, at, since, keys, prog){
+  const word = REEL_WORD[kind] || "NCM", n = keys.length, rtl = document.documentElement.dir === "rtl";
+  const p = [prog ? prog[0] : 0, prog ? prog[1] : 100, +since || Date.now(), REEL_TAU[kind] || 90], pv = reelPct(p);
+  // where each node stands on the board (in hundredths of it): across, up and down by turns as in the picture; first on the right in Arabic
+  const pts = keys.map((k, i) => { const x = n > 1 ? 11 + i * 78 / (n - 1) : 50; return [rtl ? 100 - x : x, i % 2 ? 40 : 55]; });
+  const svg = (d, cls) => '<path class="' + cls + '" d="' + d + '" pathLength="100"/>';
+  let wires = "";
+  for(let i = 0; i < n - 1; i++){
+    const [x1, y1] = pts[i], [x2, y2] = pts[i + 1], m = (x1 + x2) / 2;
+    const d = "M" + x1.toFixed(2) + " " + y1 + " C" + m.toFixed(2) + " " + y1 + " " + m.toFixed(2) + " " + y2 + " " + x2.toFixed(2) + " " + y2;
+    const state = i + 1 < at ? "done" : i + 1 === at ? "live" : "idle";
+    wires += '<g class="' + state + '">' + svg(d, "wb" + (state === "idle" ? " idle" : "")) +
+      (state === "idle" ? "" : svg(d, "wl") + ["", " b"].concat(state === "live" ? [" c"] : []).map(c => svg(d, "wz" + c) + svg(d, "wc" + c)).join("")) + "</g>";
+  }
+  const icon = k => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (WF_ICON[k] || WF_ICON.gear) + "</svg>";
+  const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>';
+  const bolt = '<svg class="wf-bolt" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.500 2 4 13.500h6.500L9.500 22 20 9.500h-6.500z"/></svg>';
+  const sparks = [-40, -20, 0, 20, 40].map((r, i) => '<b style="--r:' + (rtl ? r : 180 + r) + "deg;--d:" + (i * .13).toFixed(2) + 's"></b>').join("");
+  const nodes = keys.map((k, i) => {
+    const [ic, sub] = WF_STEP[k] || ["gear", "step"], st = i < at ? "done" : i === at ? "on" : "idle";
+    return '<div class="wf-n ' + st + (i === 0 ? " trig" : "") + (i === n - 1 ? " last" : "") + '" style="left:' + pts[i][0].toFixed(2) + "%;top:" + pts[i][1] + "%;--tone:" + (WF_TONE[ic] || "var(--mo-b)") + '">' +
+      '<div class="wf-box">' + icon(ic) + (st === "on" ? '<i></i><span class="wf-sp">' + sparks + "</span>" : "") + (st === "done" ? '<span class="wf-ok">' + tick + "</span>" : "") + (i === 0 ? bolt : "") + "</div>" +
+      '<div class="wf-t">' + esc(t(k)) + '</div><div class="wf-u">' + esc(sub) + "</div></div>";
+  }).join("");
+  const on = pts[Math.min(at, n - 1)];
+  const flask = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.500 3h5M10 3v6.200L4.600 18.400A1.700 1.700 0 0 0 6.100 21h11.800a1.700 1.700 0 0 0 1.500-2.600L14 9.200V3M7.200 15h9.600"/></svg>';
+  return '<div class="wf' + (at > 1 ? " on" : "") + '" data-wf="' + esc(kind) + '" data-p="' + p.join(",") + '" style="--pv:' + (pv / 100).toFixed(3) + '">' +
+    '<span class="wf-glow" style="left:' + on[0].toFixed(2) + "%;top:" + on[1] + '%"></span>' +
+    '<svg class="wf-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs>' +
+      '<linearGradient id="wfGrad" x1="' + (rtl ? 1 : 0) + '" x2="' + (rtl ? 0 : 1) + '"><stop offset="0" stop-color="var(--mo-b)"/><stop offset="1" stop-color="var(--mo-g)"/></linearGradient>' +
+      '<filter id="wfZap" filterUnits="userSpaceOnUse" x="-5" y="-5" width="110" height="110"><feTurbulence type="turbulence" baseFrequency="0.09 0.3" numOctaves="2" seed="1" result="nz">' +
+        '<animate attributeName="seed" values="1;4;7;2;9;5;3" dur=".42s" calcMode="discrete" repeatCount="indefinite"/></feTurbulence>' +
+        '<feDisplacementMap in="SourceGraphic" in2="nz" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter></defs>' + wires + "</svg>" +
+    nodes +
+    '<div class="wf-hud"><span><b>NCM</b> · ' + esc(word) + '</span><span class="live">LIVE</span></div>' +
+    '<div class="wf-meter"><b class="rl-pv">' + pv + "%</b></div>" +
+    '<div class="wf-run">' + flask + "<span>" + esc(t("dkRunning")) + '</span><span class="rl-pv">' + pv + "%</span></div>" +
+    '<div class="wf-prog"><i></i></div>' +
+    '<ol class="steps wf-sr">' + keys.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + esc(t(k)) + "</li>").join("") + "</ol></div>";
 }
 // over the whole screen: the stage of the page that is open, kept up as it changes; one that has been put back stays back
 let moKey = "";
@@ -8251,7 +8431,7 @@ function deskCardHTML(kind){
     body = '<div class="desk-line">' + (name || pill("blue", t(o.status === "queued" ? "dkQueued" : "dkRunning"))) +
         '<span class="desk-two"><span class="count"><span class="num" data-since="' + (+o.started_at || +o.at || 0) + '"></span></span>' +
         (o.id ? '<button class="btn sm danger" data-act="desk-cancel" data-id="' + esc(o.id) + '">' + t("cancel") + "</button>" : "") + "</span></div>" +
-      (moOn() ? moReel(kind, at, +o.started_at || +o.at, DESK_STEPS[kind].map(k => t(k)), [at / DESK_STEPS[kind].length * 100, (at + 1) / DESK_STEPS[kind].length * 100]) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
+      (moOn() ? moWork(kind, at, +o.started_at || +o.at, DESK_STEPS[kind], [at / DESK_STEPS[kind].length * 100, (at + 1) / DESK_STEPS[kind].length * 100]) : steps + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   else if(o.status === "done" && ase){
     const r = o.result || {}, left = (+r.room || 0) - (+r.rows_after || 0);
@@ -9536,7 +9716,7 @@ function permitCardHTML(){
     const at = b0.status === "reading" ? 2 : 1, steps = ["dkA1", "dkA2", "isS3"];
     going = '<div class="desk-line"><b class="desk-file">' + fileName(b0.file || "") + '</b><span class="desk-two"><span class="count"><span class="num" data-since="' + (+b0.at || 0) + '"></span></span>' +
         '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b0.id) + '">' + t("cancel") + "</button></span></div>" +
-      (moOn() ? moReel("permits", at, +b0.at, steps.map(k => t(k)), [at / steps.length * 100, (at + 1) / steps.length * 100])
+      (moOn() ? moWork("permits", at, +b0.at, steps, [at / steps.length * 100, (at + 1) / steps.length * 100])
               : '<ol class="steps">' + steps.map((k, i) => '<li class="' + (i < at ? "done" : i === at ? "on" : "") + '">' + t(k) + "</li>").join("") + "</ol>" + (at > 1 ? '<div class="scan"><span></span></div>' : ""));
   }
   const rows = list.slice(going ? 1 : 0).map(b => '<div class="b"><span class="num">' + esc(b.file || "") + "</span>" +

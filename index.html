@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-A+HizxLwq6TpFPxf3oGMBD9tVz+rsVpiIK01uXfi/eE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-ELLtdl72Hv+M5n/yVKsHkdC5te6XWWszMMsGkqG4qyc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3378,7 +3378,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "48e7adb4863b";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "fd990f4d08c1";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -9750,6 +9750,9 @@ function paintAdm(){
   const box = $("admv");
   if(!box || st.view !== "adm") return;
   if(!link()){ box.innerHTML = '<div class="empty"><p><button class="btn primary" data-act="link">' + t("connectBtn") + "</button></p></div>"; return; }
+  // nothing is shown — and nothing can be pressed — until the database has said what each one has (2 November 2026: drawn before
+  // its answer, everyone showed everything on, and a chip pressed then would have kept «everything but one» for him)
+  if(!ADM.at){ box.innerHTML = '<div class="empty"><h3>' + t(ADM.err ? "todayOffline" : "isBusy") + "</h3></div>"; return; }
   const typing = document.activeElement && document.activeElement.id, name = $("adm-name") ? $("adm-name").value : "", pin = $("adm-pin") ? $("adm-pin").value : "", again = $("adm-again") ? $("adm-again").value : "";
   const me = admMe();
   const chip = (u, k, label) => { const on = !u.pages || (PERM_GROUP[k] || [k]).every(x => u.pages.indexOf(x) >= 0); return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
@@ -9789,6 +9792,7 @@ async function admSet(name, pages, off){
   paintAdm();
 }
 function admToggle(name, key){
+  if(!ADM.at) return;
   const u = admUsers().find(x => x.name === name);
   if(!u) return;
   const all = admAll(), now = new Set(u.pages || all), keys = PERM_GROUP[key] || [key];
@@ -9797,6 +9801,7 @@ function admToggle(name, key){
   admSet(name, pages.length === all.length ? null : pages, u.off);      // everything on is no list at all
 }
 function admOff(name){
+  if(!ADM.at) return;
   const u = admUsers().find(x => x.name === name);
   if(u && name !== admMe()) admSet(name, u.pages, !u.off);
 }
@@ -9862,7 +9867,7 @@ async function admRepin(){
   await admSync();
 }
 async function admDel(name){
-  if(!name || !confirm(t("adDelSure", name))) return;
+  if(!ADM.at || !name || !confirm(t("adDelSure", name))) return;
   try{ await dbCall("system_user_del", { p_name: name }); toast(t("adDeleted")); }catch(e){ toast(t("adFail"), true); }
   await admSync();
 }

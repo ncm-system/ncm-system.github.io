@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-25Eb8vb3wP6tyX1DwCpek1fzJbzyW6xKWDhF7aixpdk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-yI7TLMDmwM82pqDETF/12LjQLTsgKuCxYYMnPMYVNOY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1042,19 +1042,56 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .multi-ta:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,101,192,.10);}
 .multi-bar{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
 /* ADMIN: a box to add a user with, and a box for every user — his pages and what he may do, each a chip that is on or off */
-.adm-add,.adm-u{margin-bottom:14px;}
+/* ADMIN, laid out again (4 November 2026: «تنظملى صفحة الادمن بشكل افضل… مش عجبانى خالص»): three counts and the box to add
+   a user with across the top; then a box for each user — his initials, his name, whether he may come in and how many of
+   the pages and buttons are his, the things to do with him in one row, and the pages under the menu's own headings. A
+   chip that is on is the system's blue with a tick; one that is off is a faint outline — no more yellow. */
 .adm-app{margin:0 0 14px;text-align:center;}
-.adm-form{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;}
-.adm-form .field{min-width:210px;text-align:center;}
-.adm-u .panel-t{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.adm-u .uav{width:32px;height:32px;font-size:12.5px;}
+.adm-top{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:14px;align-items:stretch;margin-bottom:16px;}
+.adm-stats{display:grid;grid-template-columns:repeat(3,minmax(96px,1fr));gap:10px;}
+.adm-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 14px rgba(21,101,192,.06);}
+.adm-stat-v{font-size:28px;font-weight:800;line-height:1.1;color:var(--blue);}
+.adm-stat.ok .adm-stat-v{color:var(--ok);}
+.adm-stat.bad .adm-stat-v{color:var(--bad);}
+.adm-stat-k{font-size:12.5px;font-weight:800;color:var(--muted);}
+.adm-add{margin:0;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;gap:10px;}
+.adm-add-h{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink);}
+.adm-add-h svg{width:20px;height:20px;color:var(--blue);}
+.adm-form{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.adm-form .field{flex:1 1 180px;min-width:0;text-align:center;}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:16px;align-items:start;}
+.adm-u{margin:0;padding:0;overflow:hidden;}
+.adm-head{display:flex;align-items:center;gap:13px;padding:16px 18px 12px;}
+.adm-u .adm-av{flex:none;width:48px;height:48px;font-size:17px;box-shadow:0 6px 16px rgba(21,101,192,.18);}
+.adm-u .adm-av.g{box-shadow:0 6px 16px rgba(75,165,72,.2);}
+.adm-id{min-width:0;display:flex;flex-direction:column;gap:6px;}
+.adm-u .panel-t{margin:0;font-size:17px;letter-spacing:.03em;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.adm-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:700;}
+.adm-n b{color:var(--ink);font-size:13px;}
+.adm-acts{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px 14px;border-bottom:1px solid var(--line);}
+.adm-b{display:inline-flex;align-items:center;gap:6px;}
+.adm-b svg{width:15px;height:15px;flex:none;}
+.adm-del{margin-inline-start:auto;color:var(--bad);border-color:var(--bad-br);background:transparent;}
+.adm-del:hover{background:rgba(251,227,227,.55);}
+.adm-repin{padding:12px 18px;background:var(--tint);border-bottom:1px solid var(--line);}
+.adm-perms{display:flex;flex-direction:column;gap:14px;padding:14px 18px 18px;}
 .adm-u.off .adm-perms{opacity:.45;}
-.adm-acts{display:flex;gap:7px;flex-wrap:wrap;}
-.adm-perms{display:flex;flex-direction:column;gap:12px;}
-.adm-row{display:flex;align-items:center;gap:12px;}
-.adm-k{flex:none;width:76px;font-size:13px;font-weight:800;color:var(--muted);}
-.adm-row .chips{justify-content:flex-start;flex:1;}
-.adm-row .chip{cursor:pointer;}
+.adm-sec{display:flex;flex-direction:column;gap:8px;}
+.adm-k{font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.adm-k::after{content:"";flex:1;height:1px;background:var(--line);}
+.adm-row{display:flex;align-items:flex-start;gap:10px;}
+.adm-g{flex:none;width:62px;padding-top:7px;font-size:11.5px;font-weight:800;color:var(--muted);}
+.adm-row .chips{justify-content:flex-start;flex:1;gap:6px;}
+#admv .chip{cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:10px;font-size:13px;font-weight:700;
+  background:transparent;border:1px dashed var(--line-2);color:var(--muted);transition:background .15s,border-color .15s,color .15s;}
+#admv .chip .chip-i{width:13px;height:13px;flex:none;display:none;}
+#admv .chip.on{background:rgba(21,101,192,.09);border:1px solid rgba(21,101,192,.35);color:var(--blue);}
+#admv .chip.on .chip-i{display:block;}
+#admv .chip:hover{border-color:var(--blue);color:var(--blue);}
+html.dark #admv .chip.on{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.4);color:#8cc0ff;}
+@media (max-width:900px){ .adm-top{grid-template-columns:1fr;} }
+/* solid, over the moving background: the names and the chips are read, not glanced at */
+#admv .panel,#admv .adm-stat{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
 .spc-seg{align-self:center;}
 /* «المساعد»: what it understood, as chips under the box — and what it could make nothing of, struck out */
@@ -1443,8 +1480,11 @@ html.dark .themebtn svg .sun{display:inline;}
   /* two boxes side by side want 420 dots each: on a phone they stand one under the other */
   body.madm .grid2{grid-template-columns:minmax(0,1fr);}
   body.madm .desk{grid-template-columns:minmax(0,1fr);}
-  body.madm .adm-row{flex-direction:column;align-items:stretch;gap:6px;}
-  body.madm .adm-k{width:auto;}
+  body.madm .adm-row{flex-direction:column;align-items:stretch;gap:5px;}
+  body.madm .adm-g{width:auto;padding-top:0;}
+  body.madm .adm-head,body.madm .adm-perms{padding-inline:14px;}
+  body.madm .adm-acts{padding-inline:14px;}
+  body.madm .adm-stat-v{font-size:22px;}
   body.madm #drawer{width:100vw;}
   /* anyone else, between 720 and 920: the menu stays at the side, a little slimmer, and the page takes the rest */
   body:not(.madm) #app{grid-template-columns:232px minmax(0,1fr);}
@@ -3538,7 +3578,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "ebbd4e492e3d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "39556be4b753";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3782,7 +3822,7 @@ const I18N = {
     cmMissing:"مش موجود في ASE", cmViolation:"مخالفة في ASE", cmDeleted:"محذوف في ASE", cmLeft:"استقالة في ASE",
     cmOther:"على شركة تانية في ASE", cmMoved:"خطاب تحويل", cmBanOurs:"ممنوع عندنا بس", cmLetter:"رقم الخطاب مختلف",
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
-    adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
+    adUsers:"المستخدمين", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
     navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
@@ -3925,7 +3965,7 @@ const I18N = {
     cmMissing:"Not in ASE", cmViolation:"Violation in ASE", cmDeleted:"Deleted in ASE", cmLeft:"Resigned in ASE",
     cmOther:"Under another company in ASE", cmMoved:"Transfer letter", cmBanOurs:"Banned here only", cmLetter:"Letter number differs",
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
-    adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
+    adUsers:"Users", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
     navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
@@ -10084,30 +10124,61 @@ function paintAdm(){
   // its answer, everyone showed everything on, and a chip pressed then would have kept «everything but one» for him)
   if(!ADM.at){ box.innerHTML = '<div class="empty"><h3>' + t(ADM.err ? "todayOffline" : "isBusy") + "</h3></div>"; return; }
   const typing = document.activeElement && document.activeElement.id, name = $("adm-name") ? $("adm-name").value : "", pin = $("adm-pin") ? $("adm-pin").value : "", again = $("adm-again") ? $("adm-again").value : "";
-  const me = admMe();
-  const chip = (u, k, label) => { const on = !u.pages || (PERM_GROUP[k] || [k]).every(x => u.pages.indexOf(x) >= 0); return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + esc(label) + "</button>"; };
+  const me = admMe(), users = admUsers();
+  const has = (u, k) => !u.pages || (PERM_GROUP[k] || [k]).every(x => u.pages.indexOf(x) >= 0);
+  const TICK = '<svg class="chip-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const chip = (u, k, label) => { const on = has(u, k); return '<button type="button" class="chip' + (on ? " on" : "") + '" data-adm-p="' + esc(u.name) + "|" + k + '" aria-pressed="' + on + '">' + TICK + esc(label) + "</button>"; };
+  // the pages as the menu has them: under the same headings (البحث · السجلات · التقارير), in the same order
+  const groups = [];
+  PERM_PAGES.forEach(k => {
+    const b = document.querySelector('#nav button[data-view="' + k + '"]'), h = b && b.closest(".navg") && b.closest(".navg").querySelector(".navh");
+    const label = h ? h.textContent.trim() : "";
+    let g = groups.find(x => x.label === label); if(!g) groups.push(g = { label, keys: [] }); g.keys.push(k);
+  });
+  const ICO = {
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+    adm: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3.5v5.2c0 4.6-3.2 8-8 9.3-4.8-1.3-8-4.7-8-9.3V6.5L12 3z"/><path d="M9.5 12.5l2 2 3.5-4"/></svg>',
+    off: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v8"/><path d="M6.3 7.2a8 8 0 1 0 11.4 0"/></svg>',
+    del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/></svg>',
+    add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 20c0-3.6 3.2-5.6 7-5.6"/><path d="M18 13v7M14.5 16.5h7"/></svg>'
+  };
+  const on = users.filter(u => !u.off).length;
   box.innerHTML =
     (ADM.err ? '<div class="today-state">' + pill("bad", t("todayOffline")) + "</div>" : "") +
     (appAsk && !appInside() ? '<p class="adm-app"><button class="btn primary" data-act="app-install">' + t("appInstall") + "</button></p>" : "") +
-    '<section class="panel adm-add"><div class="panel-h"><h3 class="panel-t">' + t("adAdd") + "</h3></div><div class=\"panel-b adm-form\">" +
-      '<input class="field" id="adm-name" type="text" autocomplete="off" spellcheck="false" maxlength="60" aria-label="' + t("adName") + '" placeholder="' + t("adName") + '">' +
-      '<input class="field" id="adm-pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
-      '<button class="btn primary" data-act="adm-add"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === "+" ? "adSealing" : "adSave") + "</button></div></section>" +
-    admUsers().map((u, i) =>
-      '<section class="panel adm-u' + (u.off ? " off" : "") + '"><div class="panel-h">' +
-        '<h3 class="panel-t"><span class="uav' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) + "</span> " + esc(u.name) + " " + pill(u.off ? "bad" : "ok", t(u.off ? "adOff" : "adOn")) + "</h3>" +
+    '<div class="adm-top">' +
+      '<div class="adm-stats">' +
+        '<div class="adm-stat"><span class="adm-stat-v num">' + users.length + '</span><span class="adm-stat-k">' + t("adUsers") + "</span></div>" +
+        '<div class="adm-stat ok"><span class="adm-stat-v num">' + on + '</span><span class="adm-stat-k">' + t("adOn") + "</span></div>" +
+        '<div class="adm-stat' + (users.length - on ? " bad" : "") + '"><span class="adm-stat-v num">' + (users.length - on) + '</span><span class="adm-stat-k">' + t("adOff") + "</span></div>" +
+      "</div>" +
+      '<section class="panel adm-add"><div class="adm-add-h">' + ICO.add + "<b>" + t("adAdd") + '</b></div><div class="adm-form">' +
+        '<input class="field" id="adm-name" type="text" autocomplete="off" spellcheck="false" maxlength="60" aria-label="' + t("adName") + '" placeholder="' + t("adName") + '">' +
+        '<input class="field" id="adm-pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
+        '<button class="btn primary" data-act="adm-add"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === "+" ? "adSealing" : "adSave") + "</button></div></section>" +
+    "</div>" +
+    '<div class="adm-grid">' +
+    users.map((u, i) => {
+      const pages = PERM_PAGES.filter(k => has(u, k)).length, cans = PERM_CAN.filter(k => has(u, k)).length;
+      return '<section class="panel adm-u' + (u.off ? " off" : "") + (u.name === me ? " me" : "") + '">' +
+        '<div class="adm-head"><span class="uav adm-av' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) + "</span>" +
+          '<div class="adm-id"><h3 class="panel-t">' + esc(u.name) + "</h3>" +
+            '<div class="adm-sub">' + pill(u.off ? "bad" : "ok", t(u.off ? "adOff" : "adOn")) +
+              '<span class="adm-n"><b class="num">' + pages + "</b>/" + PERM_PAGES.length + " " + t("adPages") + '</span><span class="adm-n"><b class="num">' + cans + "</b>/" + PERM_CAN.length + " " + t("adCan") + "</span></div></div></div>" +
         '<div class="adm-acts">' +
-          (u.name === me ? "" : '<button class="btn sm' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + t(u.off ? "adStart" : "adStop") + "</button>") +
-          '<button class="btn sm" data-adm-pin="' + esc(u.name) + '">' + t("adNewPin") + "</button>" +
-          (u.name === me ? '<button class="btn sm" data-adm-pin="' + esc(u.name) + '" data-adm-a="1">' + t("adAdmPin") + "</button>" : "") +
-          (u.name !== me ? '<button class="btn sm danger" data-adm-del="' + esc(u.name) + '">' + t("adDel") + "</button>" : "") +
-        "</div></div>" +
-        (ADM.pin === u.name ? '<div class="panel-b adm-form"><input class="field" id="adm-again" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
+          (u.name === me ? "" : '<button class="btn sm adm-b' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + ICO.off + t(u.off ? "adStart" : "adStop") + "</button>") +
+          '<button class="btn sm adm-b" data-adm-pin="' + esc(u.name) + '">' + ICO.pin + t("adNewPin") + "</button>" +
+          (u.name === me ? '<button class="btn sm adm-b" data-adm-pin="' + esc(u.name) + '" data-adm-a="1">' + ICO.adm + t("adAdmPin") + "</button>" : "") +
+          (u.name !== me ? '<button class="btn sm adm-b adm-del" data-adm-del="' + esc(u.name) + '">' + ICO.del + t("adDel") + "</button>" : "") +
+        "</div>" +
+        (ADM.pin === u.name ? '<div class="adm-form adm-repin"><input class="field" id="adm-again" type="password" inputmode="numeric" autocomplete="new-password" maxlength="' + PIN_LEN + '" aria-label="' + esc(t("adPin", PIN_LEN)) + '" placeholder="' + esc(t("adPin", PIN_LEN)) + '">' +
           '<button class="btn primary" data-act="adm-repin"' + (ADM.busy ? " disabled" : "") + ">" + t(ADM.busy === u.name ? "adSealing" : ADM.pinAdmin ? "adAdmPin" : "adNewPin") + '</button><button class="btn" data-adm-pin="">' + t("cancel") + "</button></div>" : "") +
-        '<div class="panel-b adm-perms">' +
-          '<div class="adm-row"><span class="adm-k">' + t("adPages") + '</span><div class="chips">' + PERM_PAGES.map(k => chip(u, k, t(VIEW_NAME[k]))).join("") + "</div></div>" +
-          '<div class="adm-row"><span class="adm-k">' + t("adCan") + '</span><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div>" +
-        "</div></section>").join("");
+        '<div class="adm-perms">' +
+          '<div class="adm-sec"><div class="adm-k">' + t("adPages") + "</div>" +
+            groups.map(g => '<div class="adm-row">' + (g.label ? '<span class="adm-g">' + esc(g.label) + "</span>" : "") + '<div class="chips">' + g.keys.map(k => chip(u, k, t(VIEW_NAME[k]))).join("") + "</div></div>").join("") + "</div>" +
+          '<div class="adm-sec"><div class="adm-k">' + t("adCan") + '</div><div class="adm-row"><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div></div>" +
+        "</div></section>";
+    }).join("") + "</div>";
   if($("adm-name")){ $("adm-name").value = name; $("adm-pin").value = pin; }
   if($("adm-again")) $("adm-again").value = again;
   if(typing && $(typing)) $(typing).focus();

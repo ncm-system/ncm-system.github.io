@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-nClnamjB2np+hbg/g651VIadAAIVRZAZg0pKHZMs/sc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-ei0ZkdUKsSzs2FXRadsExB80o9k3exUK6bKnXjRVLUA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -130,6 +130,28 @@ html.dark .side-bar{background:rgba(21,32,44,.94);}.side{overflow-x:hidden;}
 .side-bar .netdot{width:32px;}.side-bar .net-v{padding:0 8px;font-size:13px;letter-spacing:.02em;}.side-bar .langbtn{padding:0 9px;gap:5px;}.side-bar .langbtn span{font-size:13.5px;}
 .side-bar:not(:has(.netbox:not([hidden]))) .side-lang{margin:0;}
 .navg:not(:has(button:not([hidden]))){display:none;}
+/* THE FOOT OF THE MENU, FIXED (4 November 2026: «شلى التصاريح والموظفين دى وخلى اسم المستخدم بس وتسجيل الخروج وفوقهم سرعة النت
+   والحاجات الى جمبها ويفضلو ثابتين تحت»): where the menu is a column at the side, only the pages scroll — the logo stays at
+   the top, and the row of the network, the dark mode and the language, with the name and the way out under it, at the foot */
+@media (min-width:921px) and (min-height:521px){
+  .side{overflow-y:hidden;}
+  .side > .nav{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;margin-inline:-13px;padding-inline:13px;scrollbar-width:thin;}
+  .side > .side-bar{position:static;}
+  .side-foot{flex:none;margin-top:0;padding-top:10px;}
+  .side-foot .side-user{margin-bottom:0;}
+  body.calm .side > .nav{margin-inline:-12px;padding-inline:12px;scrollbar-width:none;}
+  body.calm .side > .nav::-webkit-scrollbar{display:none;}
+  body.calm .side > .side-bar{margin-bottom:0;border-radius:0;}
+}
+@media (min-width:721px) and (max-width:920px) and (min-height:521px){
+  body:not(.madm) .side{overflow-y:hidden;}
+  body:not(.madm) .side > .nav{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;margin-inline:-13px;padding-inline:13px;scrollbar-width:thin;}
+  body:not(.madm) .side > .side-bar{position:static;}
+  body:not(.madm) .side-foot{flex:none;margin-top:0;padding-top:10px;}
+  body:not(.madm) .side-foot .side-user{margin-bottom:0;}
+  body.calm:not(.madm) .side > .nav{margin-inline:-12px;padding-inline:12px;scrollbar-width:none;}
+  body.calm:not(.madm) .side > .side-bar{margin-bottom:0;border-radius:0;}
+}
 .nav button{
   position:relative;display:flex;align-items:center;gap:10px;width:100%;padding-block:3px;padding-inline:7px 10px;
   border-radius:14px;border:1px solid transparent;background:none;
@@ -673,8 +695,6 @@ tr.lgrow.open .lgchev{transform:rotate(-135deg);vertical-align:-1px;}
 @media (max-width:520px){#gate .gsig .credit-name{font-size:19px;letter-spacing:.24em;text-indent:.24em;}}
 .shake{animation:shake .36s;}
 @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
-.src-mini{display:flex;flex-direction:column;gap:6px;}
-.src-mini div{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);}
 .dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--mute-br);}
 .dot.on{background:var(--ok);}
 .dot.lost{background:var(--bad);}
@@ -1464,7 +1484,6 @@ html.dark .themebtn svg .sun{display:inline;}
   body.madm .side.open .side-lang{display:flex;flex:1;margin-top:0;justify-content:flex-start;}
   body.madm .side.open .side-foot{display:block;flex:2;margin-top:0;padding-top:0;}
   body.madm .side.open .side-user{margin-bottom:0;}
-  body.madm .side.open .src-mini{display:none;}
   body.madm .rlamp{margin-bottom:6px;}
   /* «رجوع» stands in the bar itself, beside the menu's button: hung over the page it sat on top of whatever the page
      began with. And the bar carries the mark, so the page does not draw it a second time under it. */
@@ -2437,7 +2456,6 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
         <em class="urole" id="user-role"></em>
         <button class="fab" id="logout" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
       </div>
-      <div class="src-mini" id="src-mini"></div>
     </div>
   </aside>
 
@@ -3580,7 +3598,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "54efba7d01ff";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "6330dcbfc8ce";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4883,13 +4901,6 @@ function paintShell(){
   const nb = $("nb-check");
   nb.textContent = any ? M.issues : "";
   nb.className = "nb" + (M.issues ? " alert" : "");
-  // on this PC the time shown is when the sheet was last saved; online it is when it was last read
-  const mini = !DISK
-    ? (kind, label) => '<div><span class="dot' + (net[kind] === false || (DATA[kind] && DATA[kind].fallback) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
-        (net[kind] === false ? t("noConnMini") : DATA[kind] && DATA[kind].fallback ? t("fallbackMini") : DATA[kind] ? num(stamp(DATA[kind].loadedAt)) : t("notYet")) + "</div>"
-    : (kind, label) => '<div><span class="dot' + (lost(kind) ? " lost" : DATA[kind] ? " on" : "") + '"></span>' + t(label) + " " +
-        (lost(kind) ? t("lostMini") : DATA[kind] ? num(stamp(DATA[kind].lastModified)) : t("notYet")) + "</div>";
-  $("src-mini").innerHTML = mini("per", "miniPer") + mini("emp", "miniEmp");
   [].forEach.call($("nav").querySelectorAll("button"), b => b.classList.toggle("on", b.dataset.view === (st.view === "rep" ? "home" : st.view)));
   paintBack();
 }

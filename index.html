@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-yI7TLMDmwM82pqDETF/12LjQLTsgKuCxYYMnPMYVNOY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-nClnamjB2np+hbg/g651VIadAAIVRZAZg0pKHZMs/sc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1059,8 +1059,8 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-add-h svg{width:20px;height:20px;color:var(--blue);}
 .adm-form{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
 .adm-form .field{flex:1 1 180px;min-width:0;text-align:center;}
-.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:16px;align-items:start;}
-.adm-u{margin:0;padding:0;overflow:hidden;}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:16px;align-items:stretch;}
+.adm-u{margin:0;padding:0;overflow:hidden;display:flex;flex-direction:column;}
 .adm-head{display:flex;align-items:center;gap:13px;padding:16px 18px 12px;}
 .adm-u .adm-av{flex:none;width:48px;height:48px;font-size:17px;box-shadow:0 6px 16px rgba(21,101,192,.18);}
 .adm-u .adm-av.g{box-shadow:0 6px 16px rgba(75,165,72,.2);}
@@ -1068,7 +1068,7 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-u .panel-t{margin:0;font-size:17px;letter-spacing:.03em;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .adm-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:700;}
 .adm-n b{color:var(--ink);font-size:13px;}
-.adm-acts{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px 14px;border-bottom:1px solid var(--line);}
+.adm-acts{display:flex;gap:7px;flex-wrap:wrap;min-height:34px;padding:0 18px 14px;border-bottom:1px solid var(--line);}
 .adm-b{display:inline-flex;align-items:center;gap:6px;}
 .adm-b svg{width:15px;height:15px;flex:none;}
 .adm-del{margin-inline-start:auto;color:var(--bad);border-color:var(--bad-br);background:transparent;}
@@ -1081,15 +1081,17 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-k::after{content:"";flex:1;height:1px;background:var(--line);}
 .adm-row{display:flex;align-items:flex-start;gap:10px;}
 .adm-g{flex:none;width:62px;padding-top:7px;font-size:11.5px;font-weight:800;color:var(--muted);}
-.adm-row .chips{justify-content:flex-start;flex:1;gap:6px;}
-#admv .chip{cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:10px;font-size:13px;font-weight:700;
+/* every box the same: the chips stand in equal columns, so one user's box lines up with the next one's chip for chip */
+.adm-row .chips{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:6px;}
+#admv .chip{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;white-space:nowrap;overflow:hidden;padding:6px 8px;border-radius:10px;font-size:13px;font-weight:700;
   background:transparent;border:1px dashed var(--line-2);color:var(--muted);transition:background .15s,border-color .15s,color .15s;}
-#admv .chip .chip-i{width:13px;height:13px;flex:none;display:none;}
+#admv .chip .chip-i{width:13px;height:13px;flex:none;visibility:hidden;}
 #admv .chip.on{background:rgba(21,101,192,.09);border:1px solid rgba(21,101,192,.35);color:var(--blue);}
-#admv .chip.on .chip-i{display:block;}
+#admv .chip.on .chip-i{visibility:visible;}
 #admv .chip:hover{border-color:var(--blue);color:var(--blue);}
 html.dark #admv .chip.on{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.4);color:#8cc0ff;}
-@media (max-width:900px){ .adm-top{grid-template-columns:1fr;} }
+.adm-row.cans .chips{grid-template-columns:repeat(auto-fill,minmax(168px,1fr));}
+@media (max-width:1100px){ .adm-top{grid-template-columns:1fr;} }
 /* solid, over the moving background: the names and the chips are read, not glanced at */
 #admv .panel,#admv .adm-stat{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
@@ -3578,7 +3580,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "39556be4b753";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "54efba7d01ff";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10176,7 +10178,7 @@ function paintAdm(){
         '<div class="adm-perms">' +
           '<div class="adm-sec"><div class="adm-k">' + t("adPages") + "</div>" +
             groups.map(g => '<div class="adm-row">' + (g.label ? '<span class="adm-g">' + esc(g.label) + "</span>" : "") + '<div class="chips">' + g.keys.map(k => chip(u, k, t(VIEW_NAME[k]))).join("") + "</div></div>").join("") + "</div>" +
-          '<div class="adm-sec"><div class="adm-k">' + t("adCan") + '</div><div class="adm-row"><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div></div>" +
+          '<div class="adm-sec"><div class="adm-k">' + t("adCan") + '</div><div class="adm-row cans"><span class="adm-g"></span><div class="chips">' + PERM_CAN.map(k => chip(u, k, t(PERM_WORD[k]))).join("") + "</div></div></div>" +
         "</div></section>";
     }).join("") + "</div>";
   if($("adm-name")){ $("adm-name").value = name; $("adm-pin").value = pin; }

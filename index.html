@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-r8nMC7G0/WJhVrKvD+mGIjcCUpdLwWG3UPBFsetgyJ0=' 'sha256-ic1Vv6rai2Tm3+es1PkOVxKCQynnGI86bQOWMe73tw4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-1kvxWEnKX3uG7SxmmmW70b8ONKiDgT/9W44U8feOcIg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2772,7 +2772,10 @@ const EMP_COLS = {
   "العنوان":"address", "تاريخ التصريح":"permit_date", "حالة التصريح":"permit_status",
   "سبب المنع":"ban_reason", "انتهاء الاستقالة":"resignation_end_date", "ملاحظات":"notes",
   // the letter the permit came on — added to the table on 2 October 2026
-  "رقم الخطاب":"letter_number", "تاريخ الخطاب":"letter_date", "الشركة":"letter_company", "ملاحظات الخطاب":"letter_note"
+  "رقم الخطاب":"letter_number", "تاريخ الخطاب":"letter_date", "الشركة":"letter_company", "ملاحظات الخطاب":"letter_note",
+  // the day his own ID card runs out — in the sheet and the table since 20 October 2026, read here from 3 November 2026 («ليه اغلب
+  // بطايق الموظفين مش بيظهر فيها تاريخ انتهاء البطاقة»: the page had never read it)
+  "انتهاء البطاقة":"id_card_expiry"
 };
 function empStatus(e){
   const raw = e.permit_status, dl = e.dl;
@@ -3521,7 +3524,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "87a95415269e";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "bb0b90fa8c85";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -6665,6 +6668,12 @@ function permitRecHTML(r, i, total, veh){
       rowHTML(t("colMail"), r.mail)) +
     group("ASE DATA", ase) + '<div class="rec-pad"></div></article>';
 }
+// «البطاقة سارية حتى» on his card, red once it has gone by (with the ID cards' own key, x-photo)
+function empCardEnd(e){
+  if(!can("x-photo") || !e.id_card_expiry) return "";
+  const d = NCM.parseStrict(e.id_card_expiry), gone = !!d && d < NCM.today0();
+  return rowHTML(t("cdColExpiry"), d ? fmt(d) + (gone ? " — " + t("rvExpired") : "") : e.id_card_expiry, gone ? "bad" : "", !!d);
+}
 function empCardHTML(e){
   const cat = e.category === "blue" ? "BLUE COLLAR" : e.category === "white" ? "WHITE COLLAR" : "";
   const rEnd = e.resignation_end_date;
@@ -6678,7 +6687,7 @@ function empCardHTML(e){
       (e.dl !== null ? '<div class="permit-c">' + esc(countdown(e.dl)) + "</div>" : "") + "</div>" +
       (e.pdate ? '<div class="permit-d num">' + fmt(e.pdate) + "</div>" : '<div class="permit-d na">' + esc(e.permit_date || "—") + "</div>") + "</div>" +
     group(t("grpPersonal"), rowHTML(t(e.foreign ? "passport" : "colNid"), e.national_id, "", true) + (e.foreign ? "" : nidRows(e.nid)) +
-      rowHTML(t("phone"), fmtPhone(e.phone), "", true) + rowHTML(t("address"), e.address)) +
+      rowHTML(t("phone"), fmtPhone(e.phone), "", true) + rowHTML(t("address"), e.address) + empCardEnd(e)) +
     group(t("grpWork"), rowHTML(t("colJob"), e.job_title) + rowHTML(t("colDept"), e.department) +
       rowHTML(t("hireDate"), NCM.parseStrict(e.hire_date) ? fmt(NCM.parseStrict(e.hire_date)) : e.hire_date, "", true) +
       rowHTML(t("notes"), empNote(e))) +

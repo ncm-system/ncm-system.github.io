@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-1kvxWEnKX3uG7SxmmmW70b8ONKiDgT/9W44U8feOcIg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-i2mCeBO7F+0vdBiLL1GApUSsyXMXz74AuaNLN2gBQVQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3524,7 +3524,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "bb0b90fa8c85";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "3c93f3437ee4";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5376,6 +5376,10 @@ const LISTS = {
       { k:"dept", tk:"colDept", h:r => esc(dash(r.department)), sv:r => sortText(r.department), x:r => r.department },
       { k:"nid", tk:"colNid", h:r => num(r.national_id), sv:r => r.national_id, x:r => r.national_id, cls:"nowrap" },
       { k:"addr", tk:"address", h:r => r.address ? esc(r.address) : dimDash, sv:r => sortText(r.address), x:r => r.address, cls:"wide" },
+      // his own ID card's end (3 November 2026: «خلى التاريخ فى جدول الموظفين كمان»), red once gone by — with x-photo, as on his card;
+      // on the screen only: the employees' workbooks keep the columns asked for (empSheet)
+      { k:"idend", tk:"cdColExpiry", h:r => { const d = NCM.parseStrict(r.id_card_expiry); return d ? (d < NCM.today0() ? pill("bad", fmt(d)) : num(fmt(d))) : esc(dash(r.id_card_expiry)); },
+        sv:r => { const d = NCM.parseStrict(r.id_card_expiry); return d ? d.getTime() : Infinity; }, x:r => can("x-photo") ? r.id_card_expiry : "", cls:"nowrap" },
       { k:"cat", tk:"colType", h:r => r.category === "blue" ? pill("blue", "BLUE") : r.category === "white" ? pill("white", "WHITE") : esc(dash(r.category)), sv:r => r.category, x:r => r.category },
       { k:"st", tk:"colStatus", h:r => pill(r.st.k, stLabel(r)) + (r.resigned ? " " + pill("bad", t("resigned")) : ""), sv:r => r.st.label, x:r => stLabel(r) + (r.resigned ? " (" + t("resigned") + ")" : ""), tone:r => r.resigned ? "bad" : r.st.k, cls:"nowrap" },
       { k:"pdate", tk:"colPermitDate", h:r => r.pdate ? num(fmt(r.pdate)) : esc(dash(r.permit_date)), sv:r => r.pdate ? r.pdate.getTime() : Infinity, x:r => r.pdate ? fmt(r.pdate) : r.permit_date, cls:"nowrap" },

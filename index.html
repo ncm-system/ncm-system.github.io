@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-jyWgzKfg8w90X1pqSTUQbTaidQ7LzUXsnnx7y1qn/qU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-MVEyET3O/6O1mhy62Q1sFKoY6DYRjKRApXA95DreTrY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1131,6 +1131,11 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 .adm-u .panel-t{margin:0;font-size:17px;letter-spacing:.03em;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .adm-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:700;}
 .adm-n b{color:var(--ink);font-size:13px;}
+.adm-pinat{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:12.5px;font-weight:700;color:var(--muted);}
+.adm-pinat svg{width:14px;height:14px;flex:none;color:var(--blue);}
+.adm-pinat b{color:var(--text);font-size:12.5px;direction:ltr;unicode-bidi:isolate;}
+.adm-pinat .adm-dot{opacity:.5;}
+.adm-pinat i{font-style:normal;color:var(--text-2);}
 .adm-acts{display:flex;gap:7px;flex-wrap:wrap;min-height:34px;padding:0 18px 14px;border-bottom:1px solid var(--line);}
 .adm-b{display:inline-flex;align-items:center;gap:6px;}
 .adm-b svg{width:15px;height:15px;flex:none;}
@@ -3704,7 +3709,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "7d4938af96f1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "3d83d0d1e6a8";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3948,7 +3953,7 @@ const I18N = {
     cmMissing:"مش موجود في ASE", cmViolation:"مخالفة في ASE", cmDeleted:"محذوف في ASE", cmLeft:"استقالة في ASE",
     cmOther:"على شركة تانية في ASE", cmMoved:"خطاب تحويل", cmBanOurs:"ممنوع عندنا بس", cmLetter:"رقم الخطاب مختلف",
     navAdm:"ADMIN", adAdd:"إضافة مستخدم", adName:"الاسم", adPin:n => "الباسورد — " + n + " أرقام", adSave:"إضافة", adPages:"الصفحات", adCan:"الصلاحيات",
-    adUsers:"المستخدمين", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
+    adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
     navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
@@ -4098,7 +4103,7 @@ const I18N = {
     cmMissing:"Not in ASE", cmViolation:"Violation in ASE", cmDeleted:"Deleted in ASE", cmLeft:"Resigned in ASE",
     cmOther:"Under another company in ASE", cmMoved:"Transfer letter", cmBanOurs:"Banned here only", cmLetter:"Letter number differs",
     navAdm:"ADMIN", adAdd:"Add a user", adName:"Name", adPin:n => "Password — " + n + " digits", adSave:"Add", adPages:"Pages", adCan:"May",
-    adUsers:"Users", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
+    adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
     navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
@@ -10223,7 +10228,7 @@ async function admSync(){
 // everyone who has a way in: the page's own users first, then the ones added here — each with what the database says of him
 function admUsers(){
   const by = new Map(ADM.rows.map(r => [r.name, r])), names = usersIn().map(u => u.name).filter((n, i, all) => all.indexOf(n) === i);
-  const row = (name, added) => { const r = by.get(name) || {}; return { name, added, off: !!r.off, pages: Array.isArray(r.pages) ? permsNorm(r.pages) : null }; };
+  const row = (name, added) => { const r = by.get(name) || {}; return { name, added, off: !!r.off, pages: Array.isArray(r.pages) ? permsNorm(r.pages) : null, pinAt: r.pin_at || "", admPinAt: r.adm_pin_at || "" }; };
   // «حذف نهائي» (2 November 2026: «عايز ازود فى كل مستخدم انى اقدر احذفه نهائى»): a removed name stays in the database, marked
   // gone, so that one the page was built with does not come back — and is listed nowhere
   const gone = n => !!(by.get(n) || {}).gone;
@@ -10282,7 +10287,10 @@ function paintAdm(){
         '<div class="adm-head"><span class="uav adm-av' + (i % 2 ? " g" : "") + '">' + esc(initials(u.name)) + "</span>" +
           '<div class="adm-id"><h3 class="panel-t">' + esc(u.name) + "</h3>" +
             '<div class="adm-sub">' + pill(u.off ? "bad" : "ok", t(u.off ? "adOff" : "adOn")) +
-              '<span class="adm-n"><b class="num">' + pages + "</b>/" + PERM_PAGES.length + " " + t("adPages") + '</span><span class="adm-n"><b class="num">' + cans + "</b>/" + PERM_CAN.length + " " + t("adCan") + "</span></div></div></div>" +
+              '<span class="adm-n"><b class="num">' + pages + "</b>/" + PERM_PAGES.length + " " + t("adPages") + '</span><span class="adm-n"><b class="num">' + cans + "</b>/" + PERM_CAN.length + " " + t("adCan") + "</span></div>" +
+            // when his password was last given (4 November 2026: «اعملى اخر توقيت اتغيير الباسورد») — and, for the admin's own name, the admin's
+            '<div class="adm-pinat">' + ICO.pin + "<span>" + t("adPinAt") + " " + (u.pinAt ? '<b class="num">' + esc(stamp(Date.parse(u.pinAt))) + "</b>" : "<i>" + esc(t("adPinNever")) + "</i>") + "</span>" +
+              (u.name === me ? '<span class="adm-dot">·</span><span>' + t("adAdmPinAt") + " " + (u.admPinAt ? '<b class="num">' + esc(stamp(Date.parse(u.admPinAt))) + "</b>" : "<i>" + esc(t("adPinNever")) + "</i>") + "</span>" : "") + "</div></div></div>" +
         '<div class="adm-acts">' +
           (u.name === me ? "" : '<button class="btn sm adm-b' + (u.off ? " primary" : "") + '" data-adm-off="' + esc(u.name) + '">' + ICO.off + t(u.off ? "adStart" : "adStop") + "</button>") +
           '<button class="btn sm adm-b" data-adm-pin="' + esc(u.name) + '">' + ICO.pin + t("adNewPin") + "</button>" +

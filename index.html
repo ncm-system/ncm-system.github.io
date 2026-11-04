@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-WIouTJDpfG8bEKLHFHf1g/uVw5kdikxBALC72JxAl0w='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-3rLpD/ZCL8T/n4x4P3w/ol6qf7b9eNs+f6vMn0BVgs0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2467,6 +2467,7 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
       <div class="navg">
         <div class="navh" data-i18n="navgSearch">البحث</div>
         <button data-view="multi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11M4 11h6M4 16h5"/><circle cx="16" cy="15" r="3.6"/><path d="M21 20l-2.4-2.4"/></svg><span data-i18n="navSearch">بحث</span></button>
+        <button data-view="esrch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.6"/><path d="M2.8 19.5c.6-3.400 3.100-5.300 6.200-5.300 1.200 0 2.300.3 3.200.8"/><circle cx="17" cy="15.500" r="3.300"/><path d="M21.500 20l-2.100-2.100"/></svg><span data-i18n="navEsrch">بحث الموظفين</span></button>
         <button data-view="spc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.500-5.600-6.500-10.500a6.500 6.500 0 0 1 13 0C18.500 15.400 12 21 12 21z"/><circle cx="12" cy="10.500" r="2.300"/></svg><span data-i18n="navSpc">بحث خاص</span></button>
         <button data-view="ase"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.500" cy="10.500" r="6"/><path d="M15 15l5 5M8 10.500h5M10.500 8v5"/></svg><span data-i18n="navAse">ASE SEARCH</span></button>
       </div>
@@ -3661,7 +3662,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "60e10b603cb9";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "0a36c7a91ee2";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3867,7 +3868,7 @@ try{ const saved = localStorage.getItem(LANG_KEY); if(saved === "en" || saved ==
 const isEN = () => lang === "en";
 const I18N = {
   ar: {
-    navSearch:"بحث", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات",
+    navSearch:"بحث", navEsrch:"بحث الموظفين", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات",
     navCheck:"فحص الداتا", navSrc:"الشيتات", navgSearch:"البحث", navgRecords:"السجلات", navgReports:"التقارير", navgSystem:"النظام",
     dropHere:"افلت الشيتات هنا", close:"إغلاق", reading:"جارٍ القراءة", readingSheets:"جارٍ قراءة الشيتات",
     sheetPer:"شيت التصاريح", sheetEmp:"شيت الموظفين", and:" و",
@@ -4017,7 +4018,7 @@ const I18N = {
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
   },
   en: {
-    navSearch:"Search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits",
+    navSearch:"Search", navEsrch:"Employee search", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits",
     navCheck:"Data check", navSrc:"Sheets", navgSearch:"Search", navgRecords:"Records", navgReports:"Reports", navgSystem:"System",
     dropHere:"Drop the sheets here", close:"Close", reading:"Reading", readingSheets:"Reading the sheets",
     sheetPer:"Permits sheet", sheetEmp:"Employees sheet", and:" and ",
@@ -4246,6 +4247,7 @@ const st = {
   view: "multi", chart: "emp",                                 // the search page is the home page; the months chart opens on the employees (asked for, 4 October 2026)
   month: "",                                                    // the month of the chart whose list is open under it ("year-month"), or none
   multi: { text: "", mode: "ind", res: null, cat: "" },         // cat: the box over the answers that was pressed, or none
+  esrch: { text: "", collar: "", res: null, cat: "" },          // «بحث الموظفين»: what was typed · all, White or Blue · the answer · the box pressed
   ase: { text: "", res: null, cat: "" },
   spc: { by: "place", text: "", res: null, cat: "" },
   ask: { text: "", res: null, cat: "" },
@@ -5066,7 +5068,7 @@ function render(){
   const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log" && st.view !== "ask";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
   ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
-     check: renderChecks, src: renderSources, multi: renderMulti, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, ask: renderAsk, edits: renderEdits, issued: renderIssued, live: renderLive }[st.view] || renderMulti)();
+     check: renderChecks, src: renderSources, multi: renderMulti, esrch: renderEsrch, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, ask: renderAsk, edits: renderEdits, issued: renderIssued, live: renderLive }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
 const rowsAt = host => { const w = host && host.querySelector(".tblwrap"); return w ? w.scrollTop : 0; };
@@ -5736,6 +5738,7 @@ const sndSrc = { id: x => x, shown: () => { const n = sndNow(); return n.tab ? n
 const PICK_SRC = {
   emp: listSrc("emp"), ind: listSrc("ind"), veh: listSrc("veh"), snd: sndSrc, rnw: sndSrc,
   ase: { id: x => x.id, shown: () => aseItems(aseShown()), all: () => aseItems((st.ase.res && st.ase.res.rows) || []), paint: () => paintAse() },
+  esrch: { id: r => "emp:" + r.e.emp_code, shown: () => st.esrch.res ? esrchRows(st.esrch.res).filter(pickable) : [], all: () => st.esrch.res ? st.esrch.res.rows.filter(pickable) : [], paint: () => paintEsrch(true) },
   multi: { id: r => multiOpen(r), shown: () => st.multi.res ? multiRows(st.multi.res).filter(pickable) : [], all: () => st.multi.res ? st.multi.res.rows.filter(pickable) : [], paint: () => paintMulti(true) },
   spc: { id: personKey, shown: () => st.spc.res ? spcRows(st.spc.res) : [], all: () => st.spc.res ? st.spc.res.rows : [], paint: () => paintSpc() },
   cmp: { id: personKey, shown: () => cmpRows(), all: () => CMP.res ? CMP.res.all : [], paint: () => paintCmp() },
@@ -6617,6 +6620,142 @@ function goMulti(){
   histAdd();
   if(st.multi.res && st.multi.res.terms) logAct("search", { m: st.multi.res.mode, n: st.multi.res.terms, f: st.multi.res.found, q: parseTerms(st.multi.text).terms });
 }
+/* ============================================================
+   «بحث الموظفين» (asked for, 4 November 2026: «صفحة بحث تحت بحث علطول ويكون بحث يخص الموظفين فقط وايت وبلو ويكون متعدد برضو
+   ولما ابحث عن اى من الموظفين دول يجبلى الداتا بتاعتهم كانة التطبيق ملوش علاقة يعنى بالورك شيت»): the employees' table and
+   nothing else — White and Blue, or one of them — a list in, a row per line out, as «بحث» does; each row the employee as the
+   employees' page and his card have him (his row opens his card, which holds nothing of the work sheet). Not a word from the
+   work sheet. A page of its own, «esrch»: shut, as anything new is, for whoever has his pages chosen.
+   ============================================================ */
+function findEmps(term, collar){
+  if(!M.emp) return capped([]);
+  const d = digitsOnly(term), f = foldArabic(term), numeric = /^[\d\s-]+$/.test(term), hits = [], seen = new Set();
+  const ok = e => !collar || e.category === collar;
+  const add = e => { if(e && !seen.has(e.emp_code) && ok(e)){ seen.add(e.emp_code); hits.push(e); } };
+  if(numeric){
+    // a national id whole · a code · or a run of digits from inside a national id
+    if(d.length === 14) (M.emp.byNid.get(d) || []).forEach(add);
+    else{
+      add(M.emp.byCode.get(d));
+      if(d.length >= 5) M.emp.list.forEach(e => { if(e.nid && e.nid.includes(d)) add(e); });
+    }
+    return capped(hits);
+  }
+  if(!f) return capped([]);
+  // a name, whole or in part, Arabic or English, the closest first — and a passport number as it is written
+  const words = wordsOf(term), hasAll = x => words.every(w => x.includes(w));
+  const en = e => (e.full_name_en || "").toLowerCase().replace(/\s+/g, "");
+  const rank = e => { const a = foldArabic(e.full_name), b = en(e);
+    return a === f || b === f || foldArabic(e.national_id) === f ? 0 : a.includes(f) || b.includes(f) ? 1 : hasAll(a) || hasAll(b) ? 2 : 9; };
+  const found = M.emp.list.map(e => ({ e, r: rank(e) })).filter(x => x.r < 9 && ok(x.e));
+  found.sort((a, b) => a.r - b.r || sortText(a.e.full_name).localeCompare(sortText(b.e.full_name), "ar"));
+  found.forEach(x => add(x.e));
+  if(hits.length > NAME_SHOW) return { list: hits.slice(0, NAME_SHOW), more: hits.length - NAME_SHOW, names: true };
+  return capped(hits);
+}
+function runEsrch(){
+  const s = st.esrch, parsed = parseTerms(s.text), rows = [];
+  let found = 0;
+  parsed.terms.forEach((term, i) => {
+    const hits = findEmps(term, s.collar);
+    if(!hits.list.length){ rows.push({ n: i + 1, term, miss: true }); return; }
+    found++;
+    hits.list.forEach(e => rows.push({ n: i + 1, term, e }));
+    if(hits.more) rows.push({ n: i + 1, term, more: hits.more, names: !!hits.names });
+  });
+  s.res = { rows, terms: parsed.terms.length, dup: parsed.dup, found, miss: parsed.terms.length - found };
+  s.cat = "";
+}
+function esrchRows(res){
+  const c = st.esrch.cat;
+  return !c ? res.rows : c === "found" ? res.rows.filter(pickable) : c === "miss" ? res.rows.filter(r => r.miss) : res.rows.filter(r => r.e && r.e.category === c);
+}
+// the employees' page's own columns, each read off the row's employee
+const esrchCols = () => LISTS.emp.cols.map(c => Object.assign({}, c, { h: r => c.h(r.e), x: r => c.x(r.e), only: c.only ? r => c.only(r.e) : null, tone: c.tone ? r => c.tone(r.e) : null }));
+function paintEsrch(keep){
+  const res = st.esrch.res, box = $("eres");
+  if(!box) return;
+  if(!res || !res.terms){ gmsPut(box); return; }
+  gmsOff();
+  const at = keep ? rowsAt(box) : 0;
+  const found = res.rows.filter(pickable), all = esrchCols(), cols = found.length ? written(all, found) : all;
+  const brief = new Set(BRIEF.emp), out = c => brief.has(c.k) ? "" : " fullonly";          // on paper: the short columns, as the employees' page
+  const many = k => res.rows.filter(r => r.e && r.e.category === k).length, cat = st.esrch.cat, shown = paperRows("esrch", esrchRows(res));
+  const sbtn = (k, cls, label, n) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-ecat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(n) + "</button>";
+  const sum = '<div class="sum pick">' + sbtn("", "white", t("sumAsked"), res.terms) + sbtn("found", "ok", t("sumFound"), res.found) +
+    (res.miss ? sbtn("miss", "bad", t("sumMiss"), res.miss) : "") + (res.dup ? '<span class="pill">' + t("sumDup") + " " + num(res.dup) + "</span>" : "") +
+    (many("white") ? sbtn("white", "white", "WHITE", many("white")) : "") + (many("blue") ? sbtn("blue", "blue", "BLUE", many("blue")) : "") + "</div>";
+  box.innerHTML = (M.emp ? "" : '<div class="note warn">' + esc(t("searchLacks", sheetName("emp"))) + "</div>") +
+    '<section class="panel"><div class="panel-h">' + sum +
+      '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("esrch-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + out(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
+    shown.map(r => {
+      const lead = '<td class="ix fz fz0">' + r.n + "</td>", term = '<span class="term">' + esc(r.term) + "</span>";
+      if(r.miss) return '<tr class="miss">' + lead + '<td colspan="' + cols.length + '">' + term + pill("bad", t("missRow")) + "</td></tr>";
+      if(r.more) return '<tr class="more">' + lead + '<td colspan="' + cols.length + '">' + esc(t(r.names ? "moreNames" : "moreRow", r.term, r.more)) + "</td></tr>";
+      // what was typed is only repeated when it is not already in the row: a code or a national id is
+      const id = "emp:" + r.e.emp_code, d = digitsOnly(r.term);
+      const typed = d && (d === r.e.emp_code || d === r.e.nid) ? "" : '<span class="typed">' + t("typed") + esc(r.term) + "</span>";
+      return '<tr data-open="' + esc(id) + '">' + lead +
+        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + out(c) + '">' + (i ? "" : pickBox("esrch", id)) + c.h(r) + (c.k === "name" ? typed : "") + "</td>").join("") + "</tr>";
+    }).join("") + "</tbody></table></div></section>";
+  paintPicks();
+  freeze();
+  rowsTo(box, at);
+}
+function esrchLines(){
+  const el = $("et-n");
+  if(el) el.innerHTML = t("lines", num(parseTerms(st.esrch.text).terms.length));
+}
+function renderEsrch(){
+  const s = st.esrch;
+  page(
+    '<div class="multi-head noprint">' +
+      '<div class="multi-box">' +
+        '<textarea class="multi-ta" id="et" spellcheck="false" autocomplete="off" aria-label="' + t("navEsrch") + '"></textarea>' +
+        '<div class="multi-bar">' +
+          '<div class="seg">' + [["", t("dkAll")], ["white", "WHITE"], ["blue", "BLUE"]].map(k =>
+            '<button data-ecollar="' + k[0] + '" class="' + (s.collar === k[0] ? "on" : "") + '">' + esc(k[1]) + "</button>").join("") + "</div>" +
+          '<button class="btn primary" data-act="esrch-go">' + t("search") + "</button>" +
+          '<button class="btn" data-act="esrch-clear">' + t("clear") + "</button>" +
+          '<span class="multi-n" id="et-n"></span>' +
+        "</div>" +
+      "</div>" +
+    "</div>",
+    '<div class="pg-table" id="eres"></div>');
+  $("et").value = s.text;
+  esrchLines(); paintEsrch();
+  $("et").focus();
+}
+function goEsrch(){
+  const ta = $("et");
+  if(ta) st.esrch.text = ta.value;
+  pickDrop("esrch");
+  runEsrch(); paintEsrch(); esrchLines();
+  if(st.esrch.res && st.esrch.res.terms) logAct("search", { m: "emp", n: st.esrch.res.terms, f: st.esrch.res.found, q: parseTerms(st.esrch.text).terms });
+}
+async function exportEsrch(brief){
+  const res = st.esrch.res;
+  if(!res) return;
+  const rows = pickedRows("esrch", esrchRows(res)).filter(pickable).map(r => r.e);
+  if(!rows.length) return;
+  if(brief){
+    const cols = briefCols("emp");
+    await saveXLSX({
+      name: t("csvEsrch"), rtl: !isEN(),
+      header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
+      text: cols.map((c, i) => c.k === "nid" ? i + 1 : -1).filter(i => i >= 0),
+      rows: rows.map((r, n) => [n + 1].concat(cols.map(c => xcell(c, r)))),
+      red: rows.map(empBan)
+    }, t("csvEsrch"));
+    return toast(t("exported", rows.length));
+  }
+  const sheet = empSheet(rows, { left: true });
+  sheet.name = t("csvEsrch");
+  await saveXLSX(sheet, t("csvEsrch"));
+  toast(t("exported", rows.length));
+}
 async function exportMulti(brief){
   const res = st.multi.res;
   if(!res || !res.rows.length) return;
@@ -6902,7 +7041,7 @@ const isAdmin = () => !!session && session.role === "admin";        // both edit
    change reaches a window that is already open. No list at all means everything a user may see. The admin's own
    pages are never on anybody's list: they are his because he is the admin, and nobody else's menu, page or message
    says that there is one. This is what the page shows — the sheets a user's key reads are the same for all. */
-const PERM_PAGES = ["multi", "spc", "ase", "home", "live", "emp", "ind", "veh", "snd", "rnw", "check", "cmp", "issued"];
+const PERM_PAGES = ["multi", "esrch", "spc", "ase", "home", "live", "emp", "ind", "veh", "snd", "rnw", "check", "cmp", "issued"];
 /* WHAT IS ADDED LATER IS A PERMISSION OF ITS OWN (asked for, 6 October 2026: «خلي اللي أنا حددته الصبح يظهر لمديري هو
    بس اللي يظهر لحد ما… أحدد لو عايز يظهرله حاجة تانية ولا لا»). A user whose pages were chosen has a list, and
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
@@ -7282,7 +7421,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
+const VIEW_NAME = { multi: "navSearch", esrch: "navEsrch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
 const logOpen = new Set();                          // the lines that stand open
 /* «سجل النشاط» FOLDED (asked for, 23 October 2026: «سجل النشاط والأجهزة يظهر سهم لضغط عليه يعرض القايمه مش تفضل القايمه ثابته»):
    the devices and each visit show their heading only — who, where, when, how many lines — and an arrow; pressing the heading
@@ -7321,7 +7460,7 @@ function logMoreHTML(r){
     const c = d.c || {}, L = LISTS[d.v], chip = L && c.st ? (L.chips.find(x => x[0] === c.st) || [])[1] : "";
     const filter = [chip ? t(chip) : "", c.dept, c.collar, c.co, c.mail].filter(Boolean).map(x => pill("white", x)).join(" ") + (c.q ? ' <span class="term">' + esc(c.q) + "</span>" : "");
     const body = '<div class="lgkvs">' + kv("lgPageK", pageName(d.v)) + (r.act === "export" ? kv("fileLabel", esc(d.f || "")) + kv("lgRowsK", d.n ? num(+d.n) : "") : "") +
-      kv("sender", c.o ? esc(c.o) : "") + kv("lgByK", c.by ? esc(t(SPC_WORD[c.by] || SPC_WORD.place)) : c.m ? esc(t(c.m === "veh" ? "segVehicles" : "segPeople")) : "") + kv("filter", filter) + "</div>" + typed;
+      kv("sender", c.o ? esc(c.o) : "") + kv("lgByK", c.by ? esc(t(SPC_WORD[c.by] || SPC_WORD.place)) : c.m ? esc(t(c.m === "veh" ? "segVehicles" : c.m === "emp" ? "navEsrch" : "segPeople")) : "") + kv("filter", filter) + "</div>" + typed;
     return d.v || terms.length ? body : "";
   }
   return "";
@@ -7372,6 +7511,7 @@ function logRun(id){
   if(d.m === "ase"){ st.ase.text = q; go("ase"); return aseGo(); }
   if(d.m === "spc"){ st.spc.by = SPC_BY.indexOf(d.by) < 0 ? "place" : d.by; st.spc.text = q; go("spc"); return goSpc(); }
   if(d.m === "ask"){ st.ask.text = q; go("ask"); return goAsk(); }
+  if(d.m === "emp"){ st.esrch.text = q; go("esrch"); return goEsrch(); }
   st.multi.mode = d.m === "veh" ? "veh" : "ind"; st.multi.text = q;
   go("multi"); goMulti();
 }
@@ -7393,7 +7533,7 @@ function logLine(r){
     case "blocked": return [pill("ban", t("lgBlocked")), esc(t(d.text === "admin" ? "lgByAdmin" : "lgByThree"))];
     case "unblocked": return [pill("ok", t("lgUnblocked")), esc(t("lgByAdmin"))];
     case "page": return [pill("white", t("lgPage")), pageName(d.v) + (d.o ? " — " + esc(d.o) : "")];
-    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "ask" ? t("navAsk") : d.m === "spc" ? t("navSpc") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
+    case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "ask" ? t("navAsk") : d.m === "spc" ? t("navSpc") : d.m === "emp" ? t("navEsrch") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
     case "ase": return [pill("warn", t("asUp")), esc(t("asRows", (+d.n || 0).toLocaleString("en-US")))];
     case "card": return [pill("white", t("lgCard")), whose()];
     case "export": return [pill("warn", t("lgExport")), esc(dash(d.f))];
@@ -10662,6 +10802,10 @@ document.addEventListener("click", e => {
     if(a === "log-more") return logSync(true);
     if(a === "month-x"){ st.month = ""; return paintMonth(); }
     if(a === "multi-go") return goMulti();
+    if(a === "esrch-go") return goEsrch();
+    if(a === "esrch-csv") return exportEsrch();
+    if(a === "esrch-csv-brief") return exportEsrch(true);
+    if(a === "esrch-clear"){ pickDrop("esrch"); st.esrch.text = ""; st.esrch.res = null; st.esrch.cat = ""; return renderEsrch(); }
     if(a === "multi-csv") return exportMulti();
     if(a === "multi-csv-brief") return exportMulti(true);
     if(a === "spc-csv-brief") return exportSpc(true);
@@ -10748,6 +10892,10 @@ document.addEventListener("click", e => {
   if(spcat){ st.spc.cat = st.spc.cat === spcat.dataset.spcat ? "" : spcat.dataset.spcat; return paintSpc(); }
   const spby = tg.closest("[data-spby]");
   if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }      // another thing to ask by: the box starts empty
+  const ecollar = tg.closest("[data-ecollar]");
+  if(ecollar){ st.esrch.collar = ecollar.dataset.ecollar; const had = !!(st.esrch.res && st.esrch.res.terms); renderEsrch(); if(had) goEsrch(); return; }
+  const ecat = tg.closest("[data-ecat]");
+  if(ecat){ st.esrch.cat = st.esrch.cat === ecat.dataset.ecat ? "" : ecat.dataset.ecat; return paintEsrch(); }
   const mmode = tg.closest("[data-mmode]");
   if(mmode){
     if($("mt")) st.multi.text = $("mt").value;      // the list is kept; only what it is looked up in changes
@@ -10768,6 +10916,7 @@ document.addEventListener("click", e => {
 let lqTimer = null;
 out.addEventListener("input", e => {
   if(e.target.id === "mt"){ st.multi.text = e.target.value; return multiLines(); }
+  if(e.target.id === "et"){ st.esrch.text = e.target.value; return esrchLines(); }
   if(e.target.id === "ed-date"){ [].forEach.call(document.querySelectorAll("#editbox [data-ed-word].on"), b => b.classList.remove("on")); $("ed-msg").textContent = ""; return; }
   if(e.target.id === "at"){ st.ase.text = e.target.value; return aseLines(); }
   if(e.target.id === "sp"){ st.spc.text = e.target.value; return; }
@@ -10792,6 +10941,7 @@ out.addEventListener("toggle", e => { if(e.target.matches && e.target.matches("d
 // Enter is a new line in the list, as in any text box; Ctrl+Enter runs it
 out.addEventListener("keydown", e => {
   if(e.target.id === "mt" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); goMulti(); }
+  if(e.target.id === "et" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); goEsrch(); }
   if(e.target.id === "at" && e.key === "Enter" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); aseGo(); }
   if(e.target.id === "sp" && e.key === "Enter"){ e.preventDefault(); goSpc(); }        // one line: Enter asks
   if(e.target.id === "aq" && e.key === "Enter"){ e.preventDefault(); goAsk(); }

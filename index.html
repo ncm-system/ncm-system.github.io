@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-b8/NMfzarmpTakMAo4TbnkGiD5u7F5DdmiiAcdksD58='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-WIouTJDpfG8bEKLHFHf1g/uVw5kdikxBALC72JxAl0w='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1912,6 +1912,69 @@ html.dark .ase-alert{color:#ffd28a;}
 .desk-mini.bad{background:rgba(220,60,60,.12);color:var(--bad);}
 .desk.one .desk-mini{display:none;}
 .desk.one .desk-card.open .panel-b{min-height:min(64vh,620px);}
+/* «الشيتات» laid out again (4 November 2026) — see deskCardHTML */
+.desk-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:6px 0 16px;}
+.desk-sum.off,.desk-sum:empty{display:none;}
+.dsum{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:var(--panel);
+  box-shadow:0 4px 14px rgba(21,101,192,.06);cursor:pointer;font:inherit;color:var(--text);text-align:start;transition:border-color .15s,box-shadow .15s,transform .15s;}
+.dsum span{font-size:13.5px;font-weight:800;color:var(--muted);}
+.dsum b{font-size:28px;font-weight:800;line-height:1;color:var(--navy);}
+.dsum.blue b{color:var(--blue);} .dsum.ok b{color:var(--ok);} .dsum.bad b{color:var(--bad);}
+.dsum:hover{transform:translateY(-1px);border-color:var(--blue);}
+.dsum.on{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,101,192,.15);}
+#desk:not(.one){grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;align-items:stretch;}
+#desk:not(.one) .desk-ase{grid-column:auto;}
+#desk[data-f=blue] .desk-card:not([data-tone=blue]),#desk[data-f=ok] .desk-card:not([data-tone=ok]),
+#desk[data-f=issue] .desk-card:not([data-tone=warn]):not([data-tone=bad]){display:none;}
+#desk .desk-card{position:relative;display:flex;flex-direction:column;margin:0;overflow:hidden;background:var(--panel);border-radius:18px;}
+#desk.one .desk-card:not(.open){display:none;}
+#desk .desk-card::before{content:"";position:absolute;inset-inline:0;top:0;height:3px;background:var(--dk);opacity:.9;}
+#desk .desk-card[data-tone=blue]::before{background:linear-gradient(90deg,transparent,var(--dk),transparent);background-size:50% 100%;background-repeat:no-repeat;animation:dkRun 1.6s linear infinite;}
+#desk .desk-card[data-tone=blue]{box-shadow:0 0 0 2px rgba(21,101,192,.22),0 10px 26px rgba(21,101,192,.12);}
+@keyframes dkRun{from{background-position:-60% 0;}to{background-position:160% 0;}}
+.desk-ic{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:14px;color:var(--dk);
+  background:color-mix(in srgb,var(--dk) 11%,transparent);border:1px solid color-mix(in srgb,var(--dk) 24%,transparent);}
+.desk-sub{font-size:13px;font-weight:700;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:0;}
+.desk-sub:empty::before{content:"—";opacity:.6;}
+#desk:not(.one) .desk-card .panel-h{flex:1;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto auto 1fr auto;
+  grid-template-areas:"ic mini" "t t" "l l" "s s" "b b";align-items:start;gap:8px 10px;padding:20px 18px 16px;border-bottom:0;}
+#desk:not(.one) .desk-ic{grid-area:ic;}
+#desk:not(.one) .desk-card .panel-t{grid-area:t;margin:6px 0 0;font-size:16px;line-height:1.4;}
+#desk:not(.one) .desk-last{grid-area:l;justify-self:start;margin:0;}
+#desk:not(.one) .desk-sub{grid-area:s;}
+#desk:not(.one) .desk-mini{grid-area:mini;justify-self:end;align-self:center;margin:0;}
+#desk:not(.one) .desk-card .panel-h > .btn{grid-area:b;justify-self:stretch;justify-content:center;margin-top:6px;}
+#desk:not(.one) .desk-card .panel-h > .desk-two{grid-area:b;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+#desk:not(.one) .desk-card .panel-h > .desk-two .btn{justify-content:center;}
+.desk-mini.blue::before{content:"";display:inline-block;width:7px;height:7px;margin-inline-end:6px;border-radius:50%;background:currentColor;vertical-align:1px;animation:aaPulse 1.4s ease-out infinite;box-shadow:0 0 0 0 rgba(21,101,192,.45);}
+/* opened: a head across the page — the icon, the name over its line, when, and the button — and the stage under it */
+#desk.one .desk-card .panel-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"ic t l b" "ic s l b";align-items:center;gap:3px 16px;padding:18px 22px;}
+#desk.one .desk-ic{grid-area:ic;width:54px;height:54px;border-radius:16px;}
+#desk.one .desk-ic svg{width:26px;height:26px;}
+#desk.one .desk-card .panel-t{grid-area:t;font-size:19px;margin:0;}
+#desk.one .desk-sub{grid-area:s;-webkit-line-clamp:1;}
+#desk.one .desk-last{grid-area:l;margin:0;}
+#desk.one .desk-card .panel-h > .btn,#desk.one .desk-card .panel-h > .desk-two{grid-area:b;}
+#desk.one .desk-card.open .panel-b{min-height:0;justify-content:flex-start;padding:20px 22px 22px;gap:16px;}
+#desk.one .desk-card.open .panel-b:has(.wf,.reel,.mo){min-height:min(64vh,620px);}
+#desk.one .desk-facts{padding:14px 18px;border-radius:14px;background:var(--tint);border:1px solid var(--line);}
+#desk.one .desk-said{padding:12px 16px;border-radius:14px;background:var(--bad-bg);border:1px solid var(--bad-br);}
+#desk.one .desk-none{padding:34px 0;font-size:22px;opacity:.5;}
+@media (max-width:640px){
+  .desk-sum{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #desk.one .desk-card .panel-h{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ic t" "ic s" "l l" "b b";}
+  #desk.one .desk-card .panel-h > .btn{justify-self:stretch;justify-content:center;}
+}
+@media (prefers-reduced-motion: reduce){ #desk .desk-card[data-tone=blue]::before,.desk-mini.blue::before{animation:none;} }
+/* the sheets themselves, under the boxes: a card each, what is known of it in small tiles, the path on one line */
+.src-grid{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));}
+.src-grid > .panel{margin:0;border-radius:18px;}
+.src-grid .rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+.src-grid .row{flex-direction:column;align-items:flex-start;gap:3px;margin:0;padding:10px 12px;border:0;border-radius:12px;background:var(--tint);}
+.src-grid .row dt{font-size:12px;color:var(--muted);}
+.src-grid .row dd{text-align:start;font-size:14.5px;}
+.src-grid .row:first-child{grid-column:1 / -1;}
+.src-grid .row:first-child dd{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;unicode-bidi:plaintext;font-size:12.5px;font-weight:700;color:var(--text-2);}
 /* …over the whole screen (22 October 2026: «عايزه يبقا باكبر حجم للشاشه»): a wait that begins opens there by itself; a click
    or Esc puts it back in its box, and a click on the box opens it again. What it shows is the box's, kept up as it changes. */
 .mo{cursor:zoom-in;}
@@ -3598,7 +3661,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "16912a48a230";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "60e10b603cb9";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3879,7 +3942,7 @@ const I18N = {
     dkF_ph_unclear:v => "صور مش واضحة (اترفعت): " + v[0],
     dkF_ph_differs:v => "اترفعت، بس بيانات صاحبها في الشيت مش زي البطاقة — راجع: " + v[0], dkF_ph_twice:v => "صورة موجودة مرتين (‎.jpeg و ‎.jpg) — ماترفعش ولا صورة: " + v[0],
     dkF_ph_other:v => "ملفات مش صور اتسابت مكانها: " + v[0],
-    dkRenew:"تجديد بطايق الموظفين", dkRenewRun:"استبدال البطايق", dkR3:"مراجعة البطايق", dkR4:"استبدال الصور", dkR5:"تاريخ البطاقة ← القاعدة",
+    dkRenew:"تجديد بطايق الموظفين", dkAll:"الكل", dkIssue:"محتاج نظرة", dkRenewRun:"استبدال البطايق", dkR3:"مراجعة البطايق", dkR4:"استبدال الصور", dkR5:"تاريخ البطاقة ← القاعدة",
     dkERnBusy:"فيه صور مستنية في «صور جديدة» — اعمل «تحديث» الموظفين الأول",
     dkF_rn_none:"مفيش بطايق في فولدر «البطايق بعد التجديد»", dkF_rn_done:v => "اتبدّلت بطاقة " + v[0] + " موظف", dkF_rn_old:v => "البطايق القديمة اتحفظت في «البطايق القديمة\\" + v[0] + "»",
     dkF_rn_unknown:v => "مش كود موظف على رأس العمل — اتسابت في الفولدر: " + v[0], dkF_rn_noold:v => "مالهمش بطاقة قديمة (مش تجديد — دي بتترفع من «صور جديدة»): " + v[0],
@@ -4029,7 +4092,7 @@ const I18N = {
     dkF_ph_unclear:v => "Unclear photos (uploaded all the same) — " + v[0],
     dkF_ph_differs:v => "Uploaded, but the sheet does not say what the card says — look at " + v[0], dkF_ph_twice:v => "A photo is there twice (.jpeg and .jpg), none was uploaded — " + v[0],
     dkF_ph_other:v => "Files that are not photos were left where they are — " + v[0],
-    dkRenew:"Employees' ID card renewal", dkRenewRun:"Replace the cards", dkR3:"Card review", dkR4:"Photos replaced", dkR5:"Card date → database",
+    dkRenew:"Employees' ID card renewal", dkAll:"All", dkIssue:"Needs a look", dkRenewRun:"Replace the cards", dkR3:"Card review", dkR4:"Photos replaced", dkR5:"Card date → database",
     dkERnBusy:"Photos are waiting in «صور جديدة» — run the employees' update first",
     dkF_rn_none:"No cards in «البطايق بعد التجديد»", dkF_rn_done:v => v[0] + (v[0] === 1 ? " employee's card replaced" : " employees' cards replaced"), dkF_rn_old:v => "The old cards are kept in «البطايق القديمة\\" + v[0] + "»",
     dkF_rn_unknown:v => "Not the code of an employee on the books — left in the folder: " + v[0], dkF_rn_noold:v => "No old card to replace (a first card goes by «صور جديدة»): " + v[0],
@@ -6632,8 +6695,8 @@ function renderSources(){
       pgHead(t("navSrc"), '<div style="display:flex;gap:8px"><button class="btn primary" data-act="refresh">' + t("refreshSheets") + "</button></div>"),
       scrollPart(
         // what the work PC can be asked to do, from wherever the admin is signed in (see the desk, below)
-        '<div id="ase-alert"></div>' + '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk" id="desk"></div>' +
-        '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2" style="margin-top:6px">' +
+        '<div id="ase-alert"></div>' + '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk-sum" id="desk-sum"></div><div class="desk" id="desk"></div>' +
+        '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2 src-grid" style="margin-top:6px">' +
         cloudCard(DATA.per, "per", t("sheetPer"), t("srcSheet"), M.ind ? [[t("rPeople"), M.ind.list.length], [t("rIndRows"), M.ind.list.reduce((n, g) => n + g.records.length, 0)],
                                                                          [t("rVeh"), M.veh.list.length], [t("rVehRows"), M.veh.list.reduce((n, g) => n + g.records.length, 0)]] : []) +
         cloudCard(DATA.emp, "emp", t("sheetEmp"), t("srcDb"), M.emp ? [[t("rEmp"), M.emp.list.length]] : []) +
@@ -6659,8 +6722,8 @@ function renderSources(){
       (live ? "" : '<button class="btn" data-act="pick">' + t("chooseFiles") + "</button>") + "</div>"),
     scrollPart(
       // first what this PC can be asked to do with the sheets — the two daily routines, a new ASE export (see the desk, below) — then the sheets themselves
-      '<div id="ase-alert"></div>' + '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk" id="desk"></div>' +
-      '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2" style="margin-top:6px">' +
+      '<div id="ase-alert"></div>' + '<div class="sect-h" style="margin-top:8px"><span>' + t("dkTitle") + '</span><span id="desk-state"></span></div><div class="desk-sum" id="desk-sum"></div><div class="desk" id="desk"></div>' +
+      '<div class="sect-h"><span>' + t("dkSources") + '</span></div><div class="grid2 src-grid" style="margin-top:6px">' +
       card(DATA.per, "per", t("sheetPer"), M.ind ? [[t("rPeople"), M.ind.list.length], [t("rIndRows"), M.ind.list.reduce((n, g) => n + g.records.length, 0)],
                                                     [t("rVeh"), M.veh.list.length], [t("rVehRows"), M.veh.list.reduce((n, g) => n + g.records.length, 0)]] : []) +
       card(DATA.emp, "emp", t("sheetEmp"), M.emp ? [[t("rEmp"), M.emp.list.length]] : []) +
@@ -8535,6 +8598,33 @@ function deskStep(o){
 function deskLast(kind){ let at = 0; DESK.orders.forEach(o => { if(o.kind === kind && o.status === "done" && +o.finished_at > at) at = +o.finished_at; }); return at; }
 const deskLastHTML = at => { if(!at) return ""; const d = new Date(at), p = n => String(n).padStart(2, "0");      // the day and the hour: the year goes without saying
   return '<span class="desk-last" title="' + esc(stamp(at)) + '"><span>' + t("dkLast") + '</span><b class="num">' + p(d.getDate()) + "/" + p(d.getMonth() + 1) + " · " + p(d.getHours()) + ":" + p(d.getMinutes()) + "</b></span>"; };
+/* «الشيتات» LAID OUT AGAIN (asked for, 4 November 2026: «عايزك تظبطلى شكل صفحة الشيتات مش عجبانى نهائى صممها من اول وجديد بشكل
+   احترافى»): each box a card of its own size in an even grid — an icon in its colour, its name, when it was last brought up to date,
+   a line of what it last came to (data, never guidance), and its button at the foot; above them, the boxes counted — all · on their way
+   · done · wanting a look — each a button that shows those boxes only. Opened, a box is a head across the page and its stage under it. */
+const DESK_ICON = { employees: "db", sheet: "up", ase: "sheet", idph: "photo", letters: "word", drive: "down", renew: "swap", permits: "check" };
+const DESK_HUE = { employees: "var(--mo-b)", sheet: "var(--mo-b)", ase: "var(--mo-g)", idph: "var(--mo-amber)", letters: "var(--mo-g)", drive: "var(--mo-g)", renew: "var(--mo-amber)", permits: "var(--mo-g)" };
+const deskIcon = kind => '<span class="desk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + (WF_ICON[DESK_ICON[kind]] || "") + "</svg></span>";
+// what a box last came to, in a line: the step it is at · why it stopped · the weightiest thing its end said
+function deskHead(kind, o){
+  if(!o) return "";
+  if(o.status === "lost") return t("dkLost");
+  if(deskLive(o)){ const k = (DESK_STEPS[kind] || [])[deskStep(o)]; return k ? t(k) : t("dkRunning"); }
+  if(o.status !== "done") return t(DESK_ERR[o.error] || "dkEOther");
+  if(kind === "ase"){ const r = o.result || {}; return r.rows_after ? t("dkRows") + " " + Number(r.rows_after).toLocaleString("en-US") : t("dkDone"); }
+  const f = deskFacts(o), by = tone => f.find(x => DESK_FACT[x[0]][0] === tone);
+  const pick = by("bad") || by("warn") || by("ok") || f[0];
+  return pick ? t(DESK_FACT[pick[0]][1], pick.slice(1)) : t("dkDone");
+}
+function deskSumPaint(){
+  const el = $("desk-sum"), box = $("desk");
+  if(!el || !box) return;
+  const tones = [].map.call(box.querySelectorAll(".desk-card"), c => c.dataset.tone || "none"), f = st.deskF || "";
+  const n = k => tones.filter(x => k === "issue" ? x === "warn" || x === "bad" : x === k).length;
+  const tile = (k, label, v, cls) => '<button type="button" class="dsum ' + cls + (f === k ? " on" : "") + '" data-desk-f="' + k + '" aria-pressed="' + (f === k) + '"><span>' + esc(label) + '</span><b class="num">' + v + "</b></button>";
+  el.innerHTML = tile("", t("dkAll"), tones.length, "all") + tile("blue", t("dkRunning"), n("blue"), "blue") + tile("ok", t("dkDone"), n("ok"), "ok") + tile("issue", t("dkIssue"), n("issue"), "bad");
+  el.classList.toggle("off", box.classList.contains("one"));
+}
 function deskCardHTML(kind){
   const o = deskNow(kind), live = deskLive(o), ase = kind === "ase", idph = kind === "idph";
   // ASE has two ways in: a file from this PC, or the copy that is on ASE SEARCH (what the manager loaded there)
@@ -8585,7 +8675,8 @@ function deskCardHTML(kind){
   // on the page of all of them, where each one stands, in a word (each opens on its own page: 22 October 2026)
   const mtone = !o ? "" : live ? "blue" : o.status === "done" ? deskTone(o) : "bad";
   const mini = !o ? "" : '<span class="desk-mini ' + mtone + '">' + esc(t(live ? (o.status === "queued" ? "dkQueued" : "dkRunning") : o.status === "done" ? (mtone === "ok" ? "dkDone" : mtone === "warn" ? "dkDoneWarn" : "dkDoneBad") : "dkFailed")) + "</span>";
-  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '" data-desk="' + kind + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h"><h3 class="panel-t">' + t(DESK_TITLE[kind]) + "</h3>" + deskLastHTML(deskLast(kind)) + mini + btn + "</div>" +
+  return '<section class="panel desk-card' + (ase ? " desk-ase" : "") + '" data-desk="' + kind + '" data-tone="' + (mtone || "none") + '" style="--dk:' + DESK_HUE[kind] + '"' + (ase ? ' id="ase-drop"' : "") + '><div class="panel-h">' +
+    deskIcon(kind) + '<h3 class="panel-t">' + t(DESK_TITLE[kind]) + '</h3><span class="desk-sub">' + esc(deskHead(kind, o)) + "</span>" + deskLastHTML(deskLast(kind)) + mini + btn + "</div>" +
     '<div class="panel-b">' + body + "</div></section>";
 }
 function paintDesk(){
@@ -8596,11 +8687,12 @@ function paintDesk(){
   const now = DESK_KINDS.map(deskNow);
   // drawn again only when something on it has changed — the clock of a thing on its way runs in its own place
   const sig = JSON.stringify([lang, now.map(o => o && [o.id, o.status, o.step, o.error, o.finished_at, o.file, o.result ? JSON.stringify(o.result).length : 0])]);
-  if(sig === deskSig && box.firstChild){ deskTick(); return deskShow(); }
+  if(sig === deskSig && box.firstChild){ deskTick(); deskSumPaint(); return deskShow(); }
   deskSig = sig;
   box.innerHTML = '<button type="button" class="btn sm desk-back" data-desk-back><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>' + t("navSrc") + "</button>" +
     DESK_KINDS.map(deskCardHTML).join("") + (ONLINE ? "" : (issCardDrawn = permitCardHTML()));
   deskTick();
+  deskSumPaint();
   deskShow();
   if(!ONLINE && !issBatchTimer) issBatches();
 }
@@ -8667,11 +8759,15 @@ function deskShow(){
   if(!box) return;
   if(st.desk && DESK_KINDS.indexOf(st.desk) < 0 && (ONLINE || st.desk !== "permits")) st.desk = "";
   box.classList.toggle("one", !!st.desk);
+  box.dataset.f = st.desk ? "" : st.deskF || "";
+  if($("desk-sum")) $("desk-sum").classList.toggle("off", !!st.desk);
   [].forEach.call(box.querySelectorAll(".desk-card"), c => c.classList.toggle("open", c.dataset.desk === st.desk));
   aseAlertPaint();
   moSync();
 }
 document.addEventListener("click", e => {
+  const sum = e.target.closest && e.target.closest("[data-desk-f]");
+  if(sum){ st.deskF = st.deskF === sum.dataset.deskF ? "" : sum.dataset.deskF; deskSumPaint(); return deskShow(); }
   const box = $("desk"), el = e.target;
   if(!box || !el.closest || !box.contains(el)) return;
   if(el.closest("[data-desk-back]")){ st.desk = ""; return deskShow(); }
@@ -9908,7 +10004,10 @@ function permitCardHTML(){
      b.status === "failed" ? pill("bad", t(b.error === "cancelled" ? "dkECancelled" : "isBFail")) : pill(b.status === "reading" ? "blue" : "warn", t(b.status === "reading" ? "isBRead" : "isBWait")) +
        '<button class="btn sm danger" data-act="iss-cancel" data-id="' + esc(b.id) + '">' + t("cancel") + "</button>") +
     (b.done_at ? '<span class="num">' + num(stamp(+b.done_at)) + "</span>" : "") + "</div>").join("");
-  return '<section class="panel desk-card" data-desk="permits" id="permit-drop"><div class="panel-h"><h3 class="panel-t">' + t("dkPermits") + "</h3>" +
+  const head = !b0 ? "" : b0.status === "done" ? t("isBDone", +(b0.counts || {}).cards || 0, +(b0.counts || {}).given || 0, +(b0.counts || {}).skipped || 0)
+    : b0.status === "failed" ? t(b0.error === "cancelled" ? "dkECancelled" : "isBFail") : t(b0.status === "reading" ? "isBRead" : "isBWait");
+  return '<section class="panel desk-card" data-desk="permits" data-tone="' + (tone === "warn" && live(b0) ? "blue" : tone || "none") + '" style="--dk:' + DESK_HUE.permits + '" id="permit-drop"><div class="panel-h">' +
+    deskIcon("permits") + '<h3 class="panel-t">' + t("dkPermits") + '</h3><span class="desk-sub">' + esc(head) + "</span>" +
     deskLastHTML(list.reduce((m, b) => b.status === "done" && +b.done_at > m ? +b.done_at : m, 0)) + mini +
     '<button class="btn primary sm" data-act="iss-up"' + (list.some(live) ? " disabled" : "") + ">" + t("isUp") + "</button></div>" +
     '<div class="panel-b">' + going + (rows ? '<div class="iss-batch">' + rows + "</div>" : going ? "" : '<div class="desk-none">' + dimDash + "</div>") + "</div></section>";
@@ -9925,7 +10024,7 @@ async function issBatches(){
     const open = card.classList.contains("open");
     card.outerHTML = html; issCardDrawn = html;
     if(open) $("permit-drop").classList.add("open");
-    deskTick(); moSync();
+    deskTick(); deskSumPaint(); moSync();
   }
   const done = list.filter(b => b.status === "done").map(b => b.id).join(",");
   if(issBatchSeen && done !== issBatchSeen) issuedSync();             // a batch has just come to its end

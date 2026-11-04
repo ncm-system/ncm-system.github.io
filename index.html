@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-ei0ZkdUKsSzs2FXRadsExB80o9k3exUK6bKnXjRVLUA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-b8/NMfzarmpTakMAo4TbnkGiD5u7F5DdmiiAcdksD58='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3598,7 +3598,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "6330dcbfc8ce";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "16912a48a230";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3879,6 +3879,13 @@ const I18N = {
     dkF_ph_unclear:v => "صور مش واضحة (اترفعت): " + v[0],
     dkF_ph_differs:v => "اترفعت، بس بيانات صاحبها في الشيت مش زي البطاقة — راجع: " + v[0], dkF_ph_twice:v => "صورة موجودة مرتين (‎.jpeg و ‎.jpg) — ماترفعش ولا صورة: " + v[0],
     dkF_ph_other:v => "ملفات مش صور اتسابت مكانها: " + v[0],
+    dkRenew:"تجديد بطايق الموظفين", dkRenewRun:"استبدال البطايق", dkR3:"مراجعة البطايق", dkR4:"استبدال الصور", dkR5:"تاريخ البطاقة ← القاعدة",
+    dkERnBusy:"فيه صور مستنية في «صور جديدة» — اعمل «تحديث» الموظفين الأول",
+    dkF_rn_none:"مفيش بطايق في فولدر «البطايق بعد التجديد»", dkF_rn_done:v => "اتبدّلت بطاقة " + v[0] + " موظف", dkF_rn_old:v => "البطايق القديمة اتحفظت في «البطايق القديمة\\" + v[0] + "»",
+    dkF_rn_unknown:v => "مش كود موظف على رأس العمل — اتسابت في الفولدر: " + v[0], dkF_rn_noold:v => "مالهمش بطاقة قديمة (مش تجديد — دي بتترفع من «صور جديدة»): " + v[0],
+    dkF_rn_twice:v => "صورة موجودة مرتين بامتدادين — اتسابت: " + v[0], dkF_rn_refused:v => "مش بطاقة صاحب الكود — ماتبدّلتش: " + v[0], dkF_rn_unchecked:v => v[0] + " صورة ما اتراجعتش — ماتبدّلش حاجة",
+    dkF_rn_failed:v => v[0] + " صورة ما اترفعتش — رجعت في الفولدر والقديمة مكانها", dkF_rn_noexp:v => "تاريخ البطاقة الجديدة ماتقراش — اكتبه في الشيت بإيدك: " + v[0],
+    dkF_rn_exp:v => "اتحدّث «انتهاء البطاقة» لـ " + v[0] + " موظف", dkF_rn_exp_missing:v => "مالقيتش صفهم في الشيت (على رأس العمل) — التاريخ ماتكتبش: " + v[0], dkF_rn_exp_failed:v => "التاريخ ماتكتبش في شيت الموظفين (" + v[0] + ")",
     dkF_sh_same:"مفيش جديد — الملف زي آخر رفع", dkF_sh_up:v => "اترفع: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " رقم قومي كان مكتوب نص واتحوّل رقم", dkF_vf_ok:v => "الفحص سليم — الشيت والتطبيق" + (v[0] || v[1] ? " (" + v[0] + " صف أفراد · " + v[1] + " صف مركبات)" : ""), dkF_vf_bad:v => "الفحص لقى " + v[0] + " ملاحظة", dkF_vf_none:"الفحص ما اشتغلش",
     dkEBusy:"شغّالة بالفعل", dkECut:"اتقطع قبل ما يخلص", dkECancelled:"اتلغت", cxSure:"تلغي العملية دي؟", cxSent:"اتبعت الإلغاء", asStopped:"الرفع اتلغى — النسخة اللي قبله زي ما هي", dkENotHere:"الملف ما وصلش جهاز الشغل — ارفعه من جهاز الشغل نفسه", dkELong:"طوّل عن المتوقع", dkEProgram:"السكربت مش في مكانه", dkEOther:"وقف",
@@ -4022,6 +4029,13 @@ const I18N = {
     dkF_ph_unclear:v => "Unclear photos (uploaded all the same) — " + v[0],
     dkF_ph_differs:v => "Uploaded, but the sheet does not say what the card says — look at " + v[0], dkF_ph_twice:v => "A photo is there twice (.jpeg and .jpg), none was uploaded — " + v[0],
     dkF_ph_other:v => "Files that are not photos were left where they are — " + v[0],
+    dkRenew:"Employees' ID card renewal", dkRenewRun:"Replace the cards", dkR3:"Card review", dkR4:"Photos replaced", dkR5:"Card date → database",
+    dkERnBusy:"Photos are waiting in «صور جديدة» — run the employees' update first",
+    dkF_rn_none:"No cards in «البطايق بعد التجديد»", dkF_rn_done:v => v[0] + (v[0] === 1 ? " employee's card replaced" : " employees' cards replaced"), dkF_rn_old:v => "The old cards are kept in «البطايق القديمة\\" + v[0] + "»",
+    dkF_rn_unknown:v => "Not the code of an employee on the books — left in the folder: " + v[0], dkF_rn_noold:v => "No old card to replace (a first card goes by «صور جديدة»): " + v[0],
+    dkF_rn_twice:v => "A photo is there twice under two endings — left: " + v[0], dkF_rn_refused:v => "Not the card of the code's owner — not replaced: " + v[0], dkF_rn_unchecked:v => v[0] + " photos were not looked at — nothing was replaced",
+    dkF_rn_failed:v => v[0] + " photos did not go up — back in the folder, the old ones in their place", dkF_rn_noexp:v => "The new card's date could not be read — write it in the sheet: " + v[0],
+    dkF_rn_exp:v => "«انتهاء البطاقة» updated for " + v[0] + " employees", dkF_rn_exp_missing:v => "No row on the books for them — the date was not written: " + v[0], dkF_rn_exp_failed:v => "The date was not written in the employees' sheet (" + v[0] + ")",
     dkF_sh_same:"Nothing new — the file is as last uploaded", dkF_sh_up:v => "Uploaded — " + v[0] + " people rows · " + v[1] + " vehicle rows" + (v[2] || v[3] ? " (" + (v[2] > 0 ? "+" : "") + v[2] + " · " + (v[3] > 0 ? "+" : "") + v[3] + ")" : ""),
     dkF_sh_ids:v => v[0] + " national ids typed as text were turned into numbers", dkF_vf_ok:v => "Check passed — the sheet and the app" + (v[0] || v[1] ? " (" + v[0] + " people rows · " + v[1] + " vehicle rows)" : ""), dkF_vf_bad:v => "The check found " + v[0] + (v[0] === 1 ? " problem" : " problems"), dkF_vf_none:"The check could not run",
     dkEBusy:"Already running", dkECut:"Cut short before its end", dkECancelled:"Cancelled", cxSure:"Cancel this?", cxSent:"Cancelling", asStopped:"Upload cancelled — the copy before it is as it was", dkENotHere:"The file did not reach the work PC — upload it from the work PC itself", dkELong:"Took longer than expected", dkEProgram:"The script is not in its place", dkEOther:"Stopped",
@@ -7637,13 +7651,13 @@ const MO_ICON = {
 const moIcon = k => '<span class="mo-end"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + MO_ICON[k] + "</svg></span>";
 const moFlow = (from, to) => '<div class="mo-flow" aria-hidden="true">' + moIcon(from) + '<span class="mo-wire"><i></i><i></i><i></i></span>' + moIcon(to) + "</div>";
 // an order of «الشيتات» on its way: from where to where, and which of its steps it is at
-const MO_WAY = { employees: ["sheet", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
+const MO_WAY = { employees: ["sheet", "db"], renew: ["photo", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
 // «الشيتات» on its way: the showreel, in its own box (see «THE SHOWREEL» in the styles). «since» is when the order started:
 // the reel is set back by that, so a box drawn again goes on where it was.
-const REEL_WORD = { employees: "EMPLOYEES", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS", reader: "ID CARDS", readerVeh: "LICENCES" };
+const REEL_WORD = { employees: "EMPLOYEES", renew: "ID RENEWAL", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS", reader: "ID CARDS", readerVeh: "LICENCES" };
 // how far it has got: [lowest, highest, since, how long it usually takes] -> a figure that creeps up within its step and never
 // reaches the next step's (nor 100%) before the order does
-const REEL_TAU = { employees: 40, sheet: 120, ase: 90, idph: 240, letters: 40, drive: 40, permits: 120, reader: 150, readerVeh: 150 };
+const REEL_TAU = { employees: 40, renew: 60, sheet: 120, ase: 90, idph: 240, letters: 40, drive: 40, permits: 120, reader: 150, readerVeh: 150 };
 function reelPct(p){
   const [lo, hi, since, tau] = p;
   if(lo >= 100) return 100;
@@ -7704,7 +7718,7 @@ const WF_STEP = {
   dkA1: ["send", "trigger: sent"], dkA2: ["inbox", "desk: received"], dkA3: ["sheet", "excel: paste"], dkA4: ["check", "verify: cells"],
   dkA5: ["swap", "file: replace"], dkA6: ["find", "upload: search"], dkE3: ["db", "sync: database"], dkE4: ["photo", "review: photos"],
   dkE5: ["up", "upload: photos"], dkS3: ["up", "upload: drive"], dkS4: ["check", "verify: sheet"], dkP3: ["photo", "read: photos"],
-  dkL3: ["sheet", "ASE → sheet"], dkL4: ["db", "sync: database"], dkD3: ["down", "download: sheet"], isS3: ["photo", "read: cards"]
+  dkL3: ["sheet", "ASE → sheet"], dkL4: ["db", "sync: database"], dkR3: ["photo", "review: cards"], dkR4: ["swap", "replace: cards"], dkR5: ["db", "sync: card date"], dkD3: ["down", "download: sheet"], isS3: ["photo", "read: cards"]
 };
 const WF_ICON = Object.assign({}, MO_ICON, {
   send: '<path d="M21 3 10.500 13.500"/><path d="M21 3l-6.500 18-4-7.500L3 9.500z"/>',
@@ -8293,15 +8307,16 @@ function cardsTick(){
    ============================================================ */
 const DESK_KEY = "ncm_system_desk";
 const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE", DESK_IDPH = "وارد صور البطايق";          // the desk knows a thing of ours by these names
-const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات", letters: "خطابات", drive: "درايف" };
+const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات", letters: "خطابات", drive: "درايف", renew: "بطايق" };
 const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the copy on ASE SEARCH is what goes into the work sheet
 // «رفع ورد الصور» (asked for, 19 October 2026): this PC's copy only — the file is read where the photos are
 // «خطابات الموظفين من ASE» (asked for, 21 October 2026): this PC's copy only — the employees' sheet and ASE Data are here
 if(st.desk === undefined) st.desk = "";
-const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive"]);          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
-const DESK_TITLE = { employees: "dkEmp", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", letters: "dkLetters", drive: "dkDrive" };
+// «تجديد بطايق الموظفين» (4 November 2026): this PC's copy only — the cards are in a folder of this PC's
+const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive", "renew"]);          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
+const DESK_TITLE = { employees: "dkEmp", renew: "dkRenew", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", letters: "dkLetters", drive: "dkDrive" };
 // the steps an order goes through, by kind: sent · taken up · then its own
-const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"] };
+const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"], renew: ["dkA1", "dkA2", "dkR3", "dkR4", "dkR5"] };
 const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
 // why an order was not done, in the desk's word for it -> ours
 const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", cancelled: "dkECancelled", took_too_long: "dkELong", program_missing: "dkEProgram",
@@ -8314,7 +8329,7 @@ const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", cancelled:
   copy_same: "dkESame", copy_empty: "dkENoCopy", copy_changed: "dkECopyBusy", copy_failed: "dkECopyFail",
   sh_edits_waiting: "dkEEdWait", ed_list_failed: "dkEEdList", not_a_word: "dkENotWord",
   emp_sheet_changed: "dkEEmpChanged", ase_columns_changed: "dkEAseCols", ase_sheet_missing: "dkEAseCols", emp_columns_changed: "dkEEmpCols", check_failed: "dkECheck",
-  dr_download_failed: "dkEDrive", dr_no_sheet_address: "dkEDrive", dr_not_a_sheet: "dkEDrive", dr_tabs_missing: "dkEDriveBad" };
+  rn_waiting_busy: "dkERnBusy", dr_download_failed: "dkEDrive", dr_no_sheet_address: "dkEDrive", dr_not_a_sheet: "dkEDrive", dr_tabs_missing: "dkEDriveBad" };
 // what a routine says of its own end -> how it is to be taken (ok · aside: said, nothing to do · warn · bad) and the words for it
 const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp_found"], emp_skipped: ["warn", "dkF_emp_skipped"], emp_failed: ["bad", "dkF_emp_failed"],
   emp_unverified: ["bad", "dkF_emp_unverified"], emp_blank: ["aside", "dkF_emp_blank"], emp_missing: ["aside", "dkF_emp_missing"],
@@ -8326,7 +8341,10 @@ const DESK_FACT = { emp_same: ["ok", "dkF_emp_same"], emp_found: ["ok", "dkF_emp
   ed_done: ["ok", "dkF_ed_done"], ed_bad: ["bad", "dkF_ed_bad"], ed_none: ["aside", "dkF_ed_none"],
   ip_tied: ["ok", "dkF_ip_tied"], ip_left: ["warn", "dkF_ip_left"], ip_up: ["ok", "dkF_ip_up"], ip_known: ["aside", "dkF_ip_known"],
   lt_done: ["ok", "dkF_lt_done"], lt_same: ["ok", "dkF_lt_same"], lt_missing: ["aside", "dkF_lt_missing"],
-  dr_done: ["ok", "dkF_dr_done"], dr_file: ["aside", "dkF_dr_file"] };
+  dr_done: ["ok", "dkF_dr_done"], dr_file: ["aside", "dkF_dr_file"],
+  rn_none: ["aside", "dkF_rn_none"], rn_done: ["ok", "dkF_rn_done"], rn_old: ["aside", "dkF_rn_old"], rn_unknown: ["warn", "dkF_rn_unknown"], rn_noold: ["warn", "dkF_rn_noold"],
+  rn_twice: ["warn", "dkF_rn_twice"], rn_refused: ["bad", "dkF_rn_refused"], rn_unchecked: ["warn", "dkF_rn_unchecked"], rn_failed: ["bad", "dkF_rn_failed"],
+  rn_noexp: ["warn", "dkF_rn_noexp"], rn_exp: ["ok", "dkF_rn_exp"], rn_exp_missing: ["warn", "dkF_rn_exp_missing"], rn_exp_failed: ["bad", "dkF_rn_exp_failed"] };
 // sent: asked for here and not yet taken by the desk · orders: the desk's own list · owed: what this window has still to announce the end of
 const DESK = { sent: [], orders: [], stamp: 0, owed: new Set() };
 let deskSig = "", deskBusy = false;
@@ -8510,6 +8528,7 @@ function deskStep(o){
   if(o.kind === "letters") return o.step === "sync" ? 3 : 2;
   if(o.kind === "drive") return 2;
   if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
+  if(o.kind === "renew") return o.step === "expiry" || o.step === "sync" ? 4 : o.step === "swap" ? 3 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 2 : 1;
   return o.step === "verify" ? 3 : o.step === "swap" ? 4 : o.step === "copy" ? 5 : 2;
 }
 // the last time a box's thing was brought up to date: the newest of its orders that ran to its end
@@ -8523,7 +8542,7 @@ function deskCardHTML(kind){
     ? '<span class="desk-two"><button class="btn primary sm" data-act="desk-ase"' + (live ? " disabled" : "") + ">" + t("dkAsePick") + "</button>" +
       '<button class="btn sm" data-act="desk-run" data-kind="ase"' + (live ? " disabled" : "") + ">" + t("dkAseSys") + "</button></span>"
     : idph ? '<button class="btn primary sm" data-act="desk-idph"' + (live ? " disabled" : "") + ">" + t("dkIdphPick") + "</button>"
-    : '<button class="btn primary sm" data-act="desk-run" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t(kind === "drive" ? "dkDriveRun" : "dkRun") + "</button>";
+    : '<button class="btn primary sm" data-act="desk-run" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t(kind === "drive" ? "dkDriveRun" : kind === "renew" ? "dkRenewRun" : "dkRun") + "</button>";
   const name = o && (ase || idph) ? '<b class="desk-file">' + (o.file === DESK_FROM_SYSTEM ? esc(t("dkFromSys")) : fileName(o.file)) + "</b>" : "";
   const end = (tone, word) => '<span class="desk-end">' + (o.status === "done" ? '<span class="pct-done num">100%</span>' : "") + pill(tone, t(word)) + '<span class="logwhen">' + deskWhen(o.finished_at) + "</span></span>";
   let body;

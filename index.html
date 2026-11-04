@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-cZ4auCUjEo8+sMZhaLt6t9FhoLWKFuoub3ncPhVBRVU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-VIuipTGuAWCaTydM5jCizV+Mg36gnGyujs20guMWLR4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -669,6 +669,40 @@ tr.lgrow.open .lgchev{transform:rotate(-135deg);vertical-align:-1px;}
 #linkbox .gate-card{gap:12px;padding:30px 28px 24px;max-width:420px;}
 #link-pin{width:100%;text-align:center;font-family:var(--mono);font-size:22px;letter-spacing:.3em;direction:ltr;}
 .logv.gate{border-color:var(--bad-br);}
+/* «سجل النشاط» laid out again (4 November 2026) — see logDay */
+.log-sum{margin:4px 0 14px;}
+.dsum.warn b{color:var(--warn);}
+#logv .logv{border-radius:18px;overflow:hidden;margin-bottom:10px;background:var(--panel);}
+#logv .logv > .panel-h{padding:12px 18px;}
+#logv .logv .panel-t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15px;}
+.lg-av{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;font-size:12.5px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--blue),#4a8fe0);box-shadow:0 4px 10px rgba(21,101,192,.22);direction:ltr;}
+.lg-av.gate{background:linear-gradient(135deg,var(--bad),#e06a6a);box-shadow:0 4px 10px rgba(194,47,47,.22);}
+.lg-who{font-weight:800;}
+.lg-dev{display:inline-flex;align-items:center;gap:5px;padding:2px 10px 2px 8px;border-radius:999px;background:var(--tint);border:1px solid var(--line);}
+.lg-dev .logdev{margin:0;}
+.lg-os{display:inline-grid;place-items:center;color:var(--muted);vertical-align:-3px;margin-inline-end:6px;}
+.lg-dev .lg-os{margin:0;}
+#logv .logv.gate > .panel-h{background:color-mix(in srgb,var(--bad-bg) 55%,transparent);}
+.lg-day{display:flex;align-items:center;gap:12px;margin:18px 2px 10px;font-size:13px;font-weight:800;color:var(--muted);}
+.lg-day::after{content:"";flex:1;height:1px;background:var(--line-2);}
+.lg-day span{padding:4px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--navy);}
+/* the lines of a visit as a timeline: the hour, a dot in the colour of what was done on a thread, the thing done */
+#logv .logv .tbl td{border-bottom:0;}
+#logv .logv .tbl tbody tr:not(.lgmore) + tr:not(.lgmore) td{border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);}
+#logv .logv:not([data-fold=dev]) .tbl td.ix{position:relative;width:86px;padding-inline-end:30px;color:var(--muted);font-weight:700;}
+#logv .logv:not([data-fold=dev]) .tbl td.ix::before{content:"";position:absolute;inset-inline-end:13px;top:0;bottom:0;width:2px;background:var(--line);}
+#logv .logv:not([data-fold=dev]) .tbl td.ix::after{content:"";position:absolute;inset-inline-end:9px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;
+  background:var(--dot,var(--mute-br));box-shadow:0 0 0 3px var(--panel),0 0 0 5px color-mix(in srgb,var(--dot,var(--mute-br)) 22%,transparent);}
+#logv .logv .tbl tbody tr:first-child td.ix::before{top:50%;}
+#logv .logv .tbl tbody tr:last-child td.ix::before,#logv .logv .tbl tbody tr:has(+ tr.lgmore:last-child) td.ix::before{bottom:50%;}
+#logv .logv:not([data-fold=dev]) .tbl td{text-align:start;}
+#logv .logv:not([data-fold=dev]) .tbl td:nth-child(2){width:1%;white-space:nowrap;padding-inline-end:14px;}
+#logv .logv:not([data-fold=dev]) .tbl tr.lgmore td{text-align:center;}
+.lgt-ok{--dot:var(--ok);} .lgt-bad{--dot:var(--bad);} .lgt-warn{--dot:var(--warn);} .lgt-blue{--dot:var(--blue);} .lgt-mute{--dot:var(--mute-br);}
+#logv .logv .tbl tr.lgmore td{background:var(--tint);border-radius:0;}
+/* the devices: what each is, and a locked one in a quiet red */
+#logv .logv[data-fold=dev] .tbl tr.banrow td{background:color-mix(in srgb,var(--bad-bg) 60%,transparent);color:var(--text);}
 .logv.gate .panel-h{background:rgba(251,227,227,.45);}
 .gate-card .credit{padding:6px 0 0;}
 /* his name at the foot of the gate (4 November 2026: «فى صفحة الدخول عايزك تعمل ديزين شيك باسمى فى من تحت»): «Designed by»
@@ -3662,7 +3696,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "91adaba8db65";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "bf4c3c0bea34";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3868,7 +3902,7 @@ try{ const saved = localStorage.getItem(LANG_KEY); if(saved === "en" || saved ==
 const isEN = () => lang === "en";
 const I18N = {
   ar: {
-    navSearch:"بحث", navEsrch:"بحث الموظفين", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات",
+    navSearch:"بحث", navEsrch:"بحث الموظفين", lgToday:"النهارده", lgYesterday:"امبارح", lgVisits:"الزيارات", lgSearches:"بحث", lgOuts:"تصدير وطباعة", lgWrongs:"محاولات غلط", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات",
     navCheck:"فحص الداتا", navSrc:"الشيتات", navgSearch:"البحث", navgRecords:"السجلات", navgReports:"التقارير", navgSystem:"النظام",
     dropHere:"افلت الشيتات هنا", close:"إغلاق", reading:"جارٍ القراءة", readingSheets:"جارٍ قراءة الشيتات",
     sheetPer:"شيت التصاريح", sheetEmp:"شيت الموظفين", and:" و",
@@ -4018,7 +4052,7 @@ const I18N = {
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
   },
   en: {
-    navSearch:"Search", navEsrch:"Employee search", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits",
+    navSearch:"Search", navEsrch:"Employee search", lgToday:"Today", lgYesterday:"Yesterday", lgVisits:"Visits", lgSearches:"Searches", lgOuts:"Exports and prints", lgWrongs:"Wrong PINs", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits",
     navCheck:"Data check", navSrc:"Sheets", navgSearch:"Search", navgRecords:"Records", navgReports:"Reports", navgSystem:"System",
     dropHere:"Drop the sheets here", close:"Close", reading:"Reading", readingSheets:"Reading the sheets",
     sheetPer:"Permits sheet", sheetEmp:"Employees sheet", and:" and ",
@@ -7372,7 +7406,7 @@ async function logCard(ref){
   if(who) logAct("card", { s: who.src, h: await renewHash(who.id) });
 }
 
-let LOG = [], DEVICES = [], logAt = 0, logErr = false, logBusy = false, logMore = false, logWho = "", logSig = "";
+let LOG = [], DEVICES = [], logAt = 0, logErr = false, logBusy = false, logMore = false, logWho = "", logSig = "", logKind = "";
 // the devices alone: asked for every minute, so that a device that has just locked itself shows on the menu at once
 async function devicesSync(){
   if(!link() || !isAdmin()) return;
@@ -7545,6 +7579,24 @@ function logLine(r){
     default: return [pill("mute", r.act), esc(d.text || "")];
   }
 }
+/* «سجل النشاط» LAID OUT AGAIN (asked for, 4 November 2026: «عايزك تظبطلى الصفحة بتاعت سجل النشاط شكلها وتصميمها مش عاجبنى
+   خالص»): counts at the top that are pressed to show those lines only; the devices with what they are; every visit under the day
+   it began on, headed by who (his initials, or the gate's shield), what he is and on what; inside, the lines as a timeline, a dot
+   each in the colour of what was done. */
+const LOG_KIND = { search: ["search"], out: ["export", "print"], wrong: ["wrong", "blocked"] };
+const logKindOf = r => Object.keys(LOG_KIND).find(k => LOG_KIND[k].indexOf(r.act) !== -1) || "";
+const LOG_TONE = { in: "ok", out: "mute", idle: "mute", wrong: "bad", blocked: "bad", unblocked: "ok", page: "mute", search: "blue", ase: "warn", card: "mute",
+  export: "warn", print: "warn", renew: "ok", unrenew: "bad", give: "ok", ungive: "bad" };
+// a day as it is said: today · yesterday · the day's name and its date
+function logDay(ms){
+  const d = new Date(ms), day = new Date(d.getFullYear(), d.getMonth(), d.getDate()), gone = Math.round((NCM.today0() - day) / 864e5);
+  if(gone === 0) return t("lgToday");
+  if(gone === 1) return t("lgYesterday");
+  return d.toLocaleDateString(isEN() ? "en-GB" : "ar-EG", { weekday: "long" }) + " · " + fmt(day);
+}
+// a device's kind, as an icon: a phone, or a screen
+const logOs = tag => '<span class="lg-os" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+  (/Android|iOS/.test(String(tag || "")) ? '<rect x="7" y="2.500" width="10" height="19" rx="2.400"/><path d="M11 18.500h2"/>' : '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>') + "</svg></span>";
 async function paintLog(){
   if(!$("logv")) return;
   if(!link()){                                      // this PC's own copy, before the PIN was given
@@ -7556,7 +7608,7 @@ async function paintLog(){
   const box = $("logv"), acts = $("log-acts");
   if(!box || st.view !== "log") return;
   // drawn again only when something on it has changed
-  const sig = [LOG.length ? LOG[0].id : 0, LOG.length, logWho, lang, logErr, indexFor === M, DEVICES.map(d => d.device + d.blocked + d.wrong + d.last_at).join(",")].join("|");
+  const sig = [LOG.length ? LOG[0].id : 0, LOG.length, logWho, logKind, lang, logErr, indexFor === M, DEVICES.map(d => d.device + d.blocked + d.wrong + d.last_at).join(",")].join("|");
   if(sig === logSig && box.firstChild) return;
   logSig = sig;
   const names = [...new Set(LOG.map(r => r.who).filter(Boolean))].sort();
@@ -7569,25 +7621,40 @@ async function paintLog(){
   const devices = !DEVICES.length ? "" :
     '<section class="panel logv fold' + (logFold.has("dev") ? " open" : "") + '" data-fold="dev"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + t("devT") + '</h3><span class="count">' + t("rows", DEVICES.length) + "</span></div>" +
     '<div class="tblwrap"><table class="tbl plain"><thead><tr>' + ["devName", "devLast", "devSeen", "devState"].map(k => '<th class="nos">' + t(k) + "</th>").join("") + '<th class="nos"></th></tr></thead><tbody>' +
-    DEVICES.map(d => '<tr' + (d.blocked ? ' class="banrow"' : "") + '><td class="nowrap"><span class="logdev">' + esc(d.tag || d.device.slice(-6)) + "</span>" + (d.device === mine ? " " + pill("link", t("devThis")) : "") + "</td>" +
+    DEVICES.map(d => '<tr' + (d.blocked ? ' class="banrow"' : "") + '><td class="nowrap">' + logOs(d.tag) + '<span class="logdev">' + esc(d.tag || d.device.slice(-6)) + "</span>" + (d.device === mine ? " " + pill("link", t("devThis")) : "") + "</td>" +
       "<td>" + esc(dash(d.last_user)) + '</td><td class="nowrap">' + num(stamp(Date.parse(d.last_at))) + "</td>" +
       "<td>" + (d.blocked ? pill("ban", t("devLocked")) : pill("ok", t("devOpen"))) + (d.wrong && !d.blocked ? " " + pill("warn", t("devWrong", d.wrong)) : "") + "</td>" +
       '<td class="act">' + (d.blocked ? '<button class="btn sm primary" data-dev-set="' + esc(d.device) + '|0">' + t("devUnlock") + "</button>"
                           : d.device === mine ? "" : '<button class="btn sm danger" data-dev-set="' + esc(d.device) + '|1">' + t("devLock") + "</button>") + "</td></tr>").join("") +
     "</tbody></table></div></section>";
-  // every visit on its own: the lines of one sign-in together, the newest visit first, and inside a visit the lines as they happened
+  // what is counted at the top — every visit · the searches · the files and the paper · the wrong PINs at the gate — each pressed
+  // shows those lines only (pressed again, all of them)
+  const mineRows = LOG.filter(r => !logWho || r.who === logWho), shownRows = logKind ? mineRows.filter(r => logKindOf(r) === logKind) : mineRows;
+  const visitKey = r => r.session || "?" + r.who + r.device;
+  const tile = (k, label, v, cls) => '<button type="button" class="dsum ' + cls + (logKind === k ? " on" : "") + '" data-log-k="' + k + '" aria-pressed="' + (logKind === k) + '"><span>' + esc(label) + '</span><b class="num">' + v + "</b></button>";
+  const sum = '<div class="desk-sum log-sum">' + tile("", t("lgVisits"), new Set(mineRows.map(visitKey)).size, "all") +
+    tile("search", t("lgSearches"), mineRows.filter(r => logKindOf(r) === "search").length, "blue") + tile("out", t("lgOuts"), mineRows.filter(r => logKindOf(r) === "out").length, "warn") +
+    tile("wrong", t("lgWrongs"), mineRows.filter(r => logKindOf(r) === "wrong").length, "bad") + "</div>";
+  // every visit on its own: the lines of one sign-in together, the newest visit first, and inside a visit the lines as they happened;
+  // the visits under the day they began on
   const visits = new Map();
-  LOG.forEach(r => { if(logWho && r.who !== logWho) return; const k = r.session || "?" + r.who + r.device; if(!visits.has(k)) visits.set(k, []); visits.get(k).push(r); });
-  box.innerHTML = state + devices + (!visits.size ? '<div class="empty"><h3>' + t("lgNone") + "</h3></div>" : [...visits.entries()].map(([key, rows]) => {
+  shownRows.forEach(r => { const k = visitKey(r); if(!visits.has(k)) visits.set(k, []); visits.get(k).push(r); });
+  let dayWas = "";
+  box.innerHTML = state + sum + devices + (!visits.size ? '<div class="empty"><h3>' + t("lgNone") + "</h3></div>" : [...visits.entries()].map(([key, rows]) => {
     const list = rows.slice().reverse(), first = list[0], last = list[list.length - 1], a = Date.parse(first.at), z = Date.parse(last.at);
+    const day = logDay(a), dayHead = day === dayWas ? "" : '<div class="lg-day"><span>' + esc(day) + "</span></div>";
+    dayWas = day;
     const gate = list.every(r => r.role === "gate" || r.act === "blocked" || r.act === "unblocked");         // what happened at the gate, with nobody signed in
     const role = gate ? pill("bad", t("roleGate")) : pill(first.role === "admin" ? "link" : "white", t(first.role === "admin" ? "roleAdmin" : "roleViewer"));
-    return '<section class="panel logv fold' + (gate ? " gate" : "") + (logFold.has(key) ? " open" : "") + '" data-fold="' + esc(key) + '"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + esc(first.who || "—") + " " + role + ' <span class="logdev">' + esc(first.device) + "</span></h3>" +
+    const av = '<span class="lg-av' + (gate ? " gate" : "") + '" aria-hidden="true">' + (gate ? '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M12 8v5M12 16.500h.01"/></svg>' : esc(initials(first.who || "?"))) + "</span>";
+    return dayHead + '<section class="panel logv fold' + (gate ? " gate" : "") + (logFold.has(key) ? " open" : "") + '" data-fold="' + esc(key) + '"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + av +
+        '<span class="lg-who">' + esc(first.who || "—") + "</span> " + role + ' <span class="lg-dev">' + logOs(first.device) + '<span class="logdev">' + esc(first.device) + "</span></span></h3>" +
         '<span class="logwhen"><span class="count">' + t("rows", list.length) + "</span> " + num(stamp(a)) + (z - a > 59000 ? " <i>" + t("lgUntil") + "</i> " + num(stamp(z).slice(11)) : "") + "</span></div>" +
       '<div class="tblwrap"><table class="tbl plain"><tbody>' + list.map(r => { const w = logLine(r), more = logMoreHTML(r), open = more && logOpen.has(String(r.id));
         // a line about a card opens the card; a line with more to say opens on it
         const card = r.act === "card" || r.act === "renew" || r.act === "unrenew" ? logCardRef(logDetail(r)) : "";
-        return "<tr" + (card ? ' class="lgrow" data-open="' + esc(card) + '"' : more ? ' class="lgrow' + (open ? " open" : "") + '" data-log="' + r.id + '"' : "") + '><td class="ix">' + num(stamp(Date.parse(r.at)).slice(11)) + '</td><td class="nowrap">' + w[0] + "</td><td>" +
+        const tone = " lgt-" + (LOG_TONE[r.act] || "mute");
+        return "<tr" + (card ? ' class="lgrow' + tone + '" data-open="' + esc(card) + '"' : more ? ' class="lgrow' + tone + (open ? " open" : "") + '" data-log="' + r.id + '"' : ' class="' + tone.trim() + '"') + '><td class="ix">' + num(stamp(Date.parse(r.at)).slice(11)) + '</td><td class="nowrap">' + w[0] + "</td><td>" +
           (r.who !== first.who && r.who ? esc(r.who) + (w[1] ? " · " : "") : "") + (w[1] || "") + (more ? '<span class="lgchev" aria-hidden="true"></span>' : "") + "</td></tr>" +
           (open ? '<tr class="lgmore"><td colspan="3">' + more + "</td></tr>" : ""); }).join("") +
       "</tbody></table></div></section>";
@@ -10857,6 +10924,8 @@ document.addEventListener("click", e => {
     paintMonth(true);
     return;
   }
+  const lgK = tg.closest("[data-log-k]");
+  if(lgK){ logKind = logKind === lgK.dataset.logK ? "" : lgK.dataset.logK; logSig = ""; return paintLog(); }
   const lgRun = tg.closest("[data-log-run]");
   if(lgRun) return logRun(lgRun.dataset.logRun);
   const lgRow = tg.closest("tr[data-log]");

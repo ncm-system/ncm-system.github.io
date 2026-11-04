@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-IWKznc8d2eGfF7ecCQrWP5co4QQSekcpfMmsmYP2qHA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-jyWgzKfg8w90X1pqSTUQbTaidQ7LzUXsnnx7y1qn/qU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -338,6 +338,15 @@ body.bgmo .main{isolation:isolate;}
 /* the panels a shade more solid, so a table reads as clearly over it as on the plain page */
 body.bgmo .panel{background:rgba(255,255,255,.9);}
 html.dark body.bgmo .panel{background:rgba(21,32,44,.92);}
+/* the design looked over (4 November 2026: «راجع على التصميم بالكامل ولو فى حاجه محتاجة تتظبط بشكل اشيك من كده اعملها»): the moving
+   background stays as it is; what stands on it is made to read. A soft halo of the page's own colour behind the mark and the page's
+   name and buttons — a card or an icon passing behind them fades there instead of crossing the words — and the rows of «فحص الداتا»
+   as solid as the panels (they let the motion through at .72) */
+body.bgmo .pg-fixed > .cbrand,body.bgmo .pg-head{position:relative;isolation:isolate;}
+body.bgmo .pg-fixed > .cbrand::before,body.bgmo .pg-head::before{content:"";position:absolute;z-index:-1;inset:-12px -70px;border-radius:999px;pointer-events:none;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--bg) 94%,transparent) 62%,transparent);}
+body.bgmo .chk{background:rgba(255,255,255,.92);}
+html.dark body.bgmo .chk{background:rgba(21,32,44,.92);}
 /* the search box: glass reaching out over its own margins, and the light round its edge */
 body.bgmo .multi-box{width:calc(100% + 42px);max-width:682px;margin:-11px -21px -17px;padding:10px 20px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.75);
   background:linear-gradient(155deg,rgba(255,255,255,.46),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(1.5px) saturate(1.15);backdrop-filter:blur(1.5px) saturate(1.15);
@@ -3695,7 +3704,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "53e5734be7a3";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "7d4938af96f1";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

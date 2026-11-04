@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-3rLpD/ZCL8T/n4x4P3w/ol6qf7b9eNs+f6vMn0BVgs0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XL4wLzbg+Zvep+nb2ljwCPvu4yBx04tVnyjfpPTCaQA=' 'sha256-cZ4auCUjEo8+sMZhaLt6t9FhoLWKFuoub3ncPhVBRVU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3662,7 +3662,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "0a36c7a91ee2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "91adaba8db65";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10971,8 +10971,12 @@ document.addEventListener("error", e => {
     if(!calm()) return;
     const b = e.target.closest && e.target.closest("button[data-view]");
     if(!b || b.hidden) return;
+    // the line's own place and width, in the menu that scrolls (4 November 2026: the pages scroll on their own now, with room at
+    // their sides — «الماوس وهو بيتحرك على الشريط الجانبى الخيال بتاع كل صفحة مش مظبوط زى الاول»)
     const a = b.getBoundingClientRect(), n = nav.getBoundingClientRect();
-    lens.style.height = a.height + "px"; lens.style.transform = "translateY(" + (a.top - n.top).toFixed(1) + "px)"; lens.classList.add("on");
+    lens.style.height = a.height + "px"; lens.style.width = a.width + "px"; lens.style.right = "auto";
+    lens.style.left = (a.left - n.left + nav.scrollLeft - nav.clientLeft).toFixed(1) + "px";
+    lens.style.transform = "translateY(" + (a.top - n.top + nav.scrollTop - nav.clientTop).toFixed(1) + "px)"; lens.classList.add("on");
     if(document.body.classList.contains("rail")){
       const s = b.querySelector("span[data-i18n]"), rtl = getComputedStyle(nav).direction === "rtl", side = nav.closest(".side").getBoundingClientRect();
       tip.textContent = s ? s.textContent : "";

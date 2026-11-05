@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-JzgDsQYfHGQxwPbvOaorO9jUNyQIoOAxq/9cB+jk+pA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-uVNx3zRdnwQ8jUMp27LxdxocKxECO8LinJSbwX+hNDc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -221,13 +221,40 @@ html.dark .side-bar{background:rgba(21,32,44,.94);}.side{overflow-x:hidden;}
 .langbtn svg{flex:none;}
 .langbtn span{font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.1em;line-height:1;}
 .side-foot{margin-top:auto;padding-top:18px;}
-.side-user{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;padding:7px 8px 7px 12px;
-  border-radius:var(--r);background:var(--tint);border:1px solid var(--line-2);
-  font-family:var(--cond);font-weight:700;font-size:13.5px;letter-spacing:.1em;color:var(--blue);direction:ltr;
-}
+/* who is in, and the way out (asked for, 5 November 2026: «اسم اليوزر يبقا مميز وشكله حلو ملفت للانتباه فى صندوق لوحدة وجمبة زر تسجيل
+   الخروج فى صندوق لوحدة»): two boxes side by side — the name on a card of the company's blue running into its green, its initials in a ring,
+   a light passing over it now and then; the way out a square of its own that turns red under the hand */
+.side-user{display:flex;align-items:stretch;gap:8px;margin-bottom:12px;direction:ltr;}
 .side-user[hidden]{display:none;}
-.side-user .fab{width:30px;height:30px;background:#fff;}
+.su-card{
+  position:relative;overflow:hidden;flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;
+  border-radius:14px;color:#fff;background:linear-gradient(120deg,#0e4c93 0%,#1565c0 48%,#2f8f5b 100%);
+  box-shadow:0 6px 18px -8px rgba(21,101,192,.75),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.su-card::after{
+  content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:suShine 6s ease-in-out infinite;
+}
+@keyframes suShine{0%,62%{left:-60%;}100%{left:130%;}}
+.su-av{
+  flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.02em;color:#0e4c93;background:#fff;
+  box-shadow:0 0 0 2px rgba(255,255,255,.45),0 0 0 4px rgba(75,165,72,.55);
+}
+.su-txt{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;}
+#user-name{
+  font-family:var(--cond);font-weight:800;font-size:14.5px;letter-spacing:.09em;line-height:1.1;color:#fff;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+.su-card .urole{margin:0;padding:1px 8px;font-size:10.5px;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);color:#fff;}
+.side-user .su-out{
+  flex:none;width:46px;height:auto;min-height:46px;border-radius:14px;background:var(--panel,#fff);border:1px solid var(--line-2);color:var(--navy);
+  box-shadow:0 4px 12px -8px rgba(15,40,80,.5);transition:background .18s,color .18s,border-color .18s,transform .18s;
+}
+.side-user .su-out:hover,.side-user .su-out:focus-visible{background:#c62828;border-color:#c62828;color:#fff;transform:translateY(-1px);}
+.side-user .su-out svg{width:18px;height:18px;}
+html.dark .su-card .urole{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);color:#fff;}
+@media (prefers-reduced-motion:reduce){.su-card::after{animation:none;display:none;}}
 
 /* THE SIGN-IN SCREEN IN MOTION (asked for, 22 October 2026: a 15-second showreel, «go all out», «حوالين شاشة الدخول فى السيستم»):
    colour drifting behind; a word of the project, large and outlined, every 3 seconds (22 October 2026: «كلام ليه علاقه بالمشروع»); permit cards floating up, a
@@ -2563,9 +2590,8 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
       <button type="button" class="rlamp" id="rlamp" hidden><span class="dot lost"></span><span id="rlamp-t"></span></button>
       <!-- who is signed in, and the way out — the online edition only -->
       <div class="side-user" id="side-user" hidden>
-        <span id="user-name"></span>
-        <em class="urole" id="user-role"></em>
-        <button class="fab" id="logout" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
+        <div class="su-card"><span class="su-av" id="user-av" aria-hidden="true"></span><span class="su-txt"><span id="user-name"></span><em class="urole" id="user-role"></em></span></div>
+        <button class="fab su-out" id="logout" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
       </div>
     </div>
   </aside>
@@ -3711,7 +3737,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1049ce9579c5";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5e037bf523d3";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4942,7 +4968,7 @@ function signOut(message){
 }
 async function startOnline(){
   useSources();
-  $("user-name").textContent = session.u; $("side-user").hidden = false;
+  $("user-name").textContent = session.u; $("user-av").textContent = initials(session.u || "?").toUpperCase(); $("side-user").hidden = false;
   $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";          // only the admin's login says what it is: anyone else is simply signed in
   histLoad();
   permsSync();
@@ -10992,7 +11018,7 @@ if(ONLINE){
 }
 async function startLocal(){
   useSources();
-  $("user-name").textContent = session.u; $("side-user").hidden = false;      // who is in, and the way out — as online
+  $("user-name").textContent = session.u; $("user-av").textContent = initials(session.u || "?").toUpperCase(); $("side-user").hidden = false;      // who is in, and the way out — as online
   $("user-role").textContent = isAdmin() ? t("roleAdmin") : "";
   histLoad();
   permsSync();

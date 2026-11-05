@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-cP6IavqxsmCiERx2o4THSKWSAdpYOfKYCmhZvDBheFs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-BPiQcOths8EjB/qbR60N1YZR49qVHSOaETCktpcdS9k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2231,9 +2231,11 @@ html.dark :where(body.calm) .bar-track{background:#1e2a37;}
 /* THE GLASS MENU — where the menu is a column beside the page */
 .nav-lens{display:none;}
 @media (min-width:921px){
-  body.calm{--side:278px;}
-  body.calm.rail{--side:92px;}
-  body.calm #app{transition:grid-template-columns .35s cubic-bezier(.3,.9,.3,1);}
+  /* the column's width set on the grid itself, not as a variable on body (5 November 2026: «الشريط الجانبى… تقيل جدا فى الظهور» — a variable
+     changed on body is worked out again for every element under it: 160 ms on «تصاريح الأفراد», at every step of the opening) */
+  body.calm #app{grid-template-columns:278px minmax(0,1fr);}
+  body.calm.rail #app{grid-template-columns:92px minmax(0,1fr);}
+  body.calm #app{transition:grid-template-columns .24s cubic-bezier(.3,.9,.3,1);}
   body.calm .side{top:12px;height:calc(100vh - 24px);margin:12px;margin-inline-end:4px;padding:18px 12px 12px;border-radius:26px;
     background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(244,248,253,.42));border:1px solid rgba(255,255,255,.85);border-inline-end:1px solid rgba(255,255,255,.85);
     box-shadow:0 22px 48px rgba(21,58,99,.14),0 2px 6px rgba(21,58,99,.06),inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(21,101,192,.05);
@@ -2285,13 +2287,13 @@ html.dark :where(body.calm) .bar-track{background:#1e2a37;}
   body.calm.rail .nav .nb.alert{background:var(--bad);}
   body.calm.rail .nav button.on::after{display:none;}
   body.calm.rail .rlamp{width:12px;height:12px;margin:4px auto 8px;padding:0;border-radius:50%;font-size:0;gap:0;justify-content:center;}
-  body.calm.rail .rlamp > *{display:none;}
+  body.calm.rail .rlamp > span{display:none;}
   /* folded, the network row is its dot alone (5 November 2026: «لما يتصغر يتشال منه سرعة النت والازرار الى جمبها ما عدا نقطة متصل») */
   body.calm.rail .side-bar{flex-direction:column;gap:6px;margin-inline:-10px;}
   body.calm.rail .side-bar .net-v,body.calm.rail .side-bar .side-lang{display:none;}
   /* always small, open under the hand (same day: «يفضل ديما صغير لحد ما اروح علية بالماوس يكبر عادى وشيل الزر الى بيصغرة»), and the page
      moves over to make room beside it, not under it (same day: «يرحل معاه الجدول ويبان جمبه مش على الجدول») — open, it is the full column */
-  body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
+  body.calm.rail .side-foot .su-card{display:none;}   /* named, not «:not(.fab)»: a «*» there made a change of the menu's width work out every element of the page again */
 }
 /* ============================================================
    THE WORKFLOW OF «الشيتات» (asked for, 2 November 2026, on two pictures of a workflow of nodes: «عايز شكل الشيتات وهى بتعمل
@@ -3871,7 +3873,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2bac01d26425";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "7f35a0762d0a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

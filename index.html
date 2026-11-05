@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-BPiQcOths8EjB/qbR60N1YZR49qVHSOaETCktpcdS9k='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-sLybMbJvkmAZ+VgYZQ6UpTa/66wUGGzqDIdxeMSUfGc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -995,15 +995,15 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}}
 @keyframes barGrow{from{transform:scaleX(0);}}
 @keyframes colGrow{from{transform:scaleY(0);}}
-.enter .tile{animation:boxIn .48s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards;}
-.enter .tile.pulse{animation:boxIn .48s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards, tilePulse 1.9s ease-in-out .9s infinite;}
-.enter .tiles > :nth-child(2){--d:.05s;} .enter .tiles > :nth-child(3){--d:.1s;} .enter .tiles > :nth-child(4){--d:.15s;}
-.enter .tiles > :nth-child(5){--d:.2s;} .enter .tiles > :nth-child(6){--d:.25s;} .enter .tiles > :nth-child(7){--d:.3s;}
-.enter .tiles > :nth-child(8){--d:.35s;} .enter .tiles > :nth-child(n+9){--d:.4s;}
-.enter .sect-h,.enter .toolbar,.enter .note,.enter .chk,.enter .empty,.enter .dropcard{animation:fadeUp .4s ease-out backwards;}
-.enter .panel{animation:fadeUp .46s ease-out .06s backwards;}
-.enter .bar-fill{transform-origin:right center;animation:barGrow .7s cubic-bezier(.2,.8,.2,1) .18s backwards;}
-.enter .col-bar,.grow .col-bar{transform-origin:center bottom;animation:colGrow .6s cubic-bezier(.2,.8,.2,1) var(--d,.1s) backwards;}
+.enter .tile{animation:boxIn .3s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards;}
+.enter .tile.pulse{animation:boxIn .3s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards, tilePulse 1.9s ease-in-out .9s infinite;}
+.enter .tiles > :nth-child(2){--d:.025s;} .enter .tiles > :nth-child(3){--d:.05s;} .enter .tiles > :nth-child(4){--d:.075s;}
+.enter .tiles > :nth-child(5){--d:.1s;} .enter .tiles > :nth-child(6){--d:.125s;} .enter .tiles > :nth-child(7){--d:.15s;}
+.enter .tiles > :nth-child(8){--d:.175s;} .enter .tiles > :nth-child(n+9){--d:.2s;}
+.enter .sect-h,.enter .toolbar,.enter .note,.enter .chk,.enter .empty,.enter .dropcard{animation:fadeUp .22s ease-out backwards;}  /* quicker (5 November 2026: «اسرع ما يمكن») */
+.enter .panel{animation:fadeUp .24s ease-out .02s backwards;}
+.enter .bar-fill{transform-origin:right center;animation:barGrow .45s cubic-bezier(.2,.8,.2,1) .08s backwards;}
+.enter .col-bar,.grow .col-bar{transform-origin:center bottom;animation:colGrow .4s cubic-bezier(.2,.8,.2,1) var(--d,.05s) backwards;}
 .cols > :nth-child(2){--d:.13s;} .cols > :nth-child(3){--d:.16s;} .cols > :nth-child(4){--d:.19s;} .cols > :nth-child(5){--d:.22s;}
 .cols > :nth-child(6){--d:.25s;} .cols > :nth-child(7){--d:.28s;} .cols > :nth-child(8){--d:.31s;} .cols > :nth-child(9){--d:.34s;}
 .cols > :nth-child(10){--d:.37s;} .cols > :nth-child(11){--d:.4s;} .cols > :nth-child(12){--d:.43s;}
@@ -2235,7 +2235,7 @@ html.dark :where(body.calm) .bar-track{background:#1e2a37;}
      changed on body is worked out again for every element under it: 160 ms on «تصاريح الأفراد», at every step of the opening) */
   body.calm #app{grid-template-columns:278px minmax(0,1fr);}
   body.calm.rail #app{grid-template-columns:92px minmax(0,1fr);}
-  body.calm #app{transition:grid-template-columns .24s cubic-bezier(.3,.9,.3,1);}
+  body.calm #app{transition:grid-template-columns .15s cubic-bezier(.3,.9,.3,1);}
   body.calm .side{top:12px;height:calc(100vh - 24px);margin:12px;margin-inline-end:4px;padding:18px 12px 12px;border-radius:26px;
     background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(244,248,253,.42));border:1px solid rgba(255,255,255,.85);border-inline-end:1px solid rgba(255,255,255,.85);
     box-shadow:0 22px 48px rgba(21,58,99,.14),0 2px 6px rgba(21,58,99,.06),inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(21,101,192,.05);
@@ -3873,7 +3873,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "7f35a0762d0a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e767cfd4634f";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5440,12 +5440,13 @@ function dashIn(){
   let t = 80;
   const at = (el, ms) => el.style.setProperty("--dd", Math.round(ms) + "ms");
   [].forEach.call(out.querySelectorAll(".sect-h, .tile, .panel"), el => {
-    if(el.classList.contains("sect-h")){ at(el, t); t += 110; return; }
-    if(el.classList.contains("tile")){ at(el, t); t += 55; return; }
-    at(el, t); const p = t; t += 150;
-    [].forEach.call(el.querySelectorAll(".bar-row"), (r, k) => at(r, p + 330 + k * 60));
-    [].forEach.call(el.querySelectorAll(".col"), (c, k) => at(c, p + 300 + k * 45));
-    [].forEach.call(el.querySelectorAll("tbody tr"), (r, k) => at(r, p + 260 + Math.min(k, 14) * 40));
+    // half the steps of before (5 November 2026: «اسرع ما يمكن»)
+    if(el.classList.contains("sect-h")){ at(el, t); t += 55; return; }
+    if(el.classList.contains("tile")){ at(el, t); t += 28; return; }
+    at(el, t); const p = t; t += 75;
+    [].forEach.call(el.querySelectorAll(".bar-row"), (r, k) => at(r, p + 165 + k * 30));
+    [].forEach.call(el.querySelectorAll(".col"), (c, k) => at(c, p + 150 + k * 22));
+    [].forEach.call(el.querySelectorAll("tbody tr"), (r, k) => at(r, p + 130 + Math.min(k, 14) * 20));
   });
   out.classList.add("dashin");
   clearTimeout(dashTimer); dashTimer = setTimeout(() => out.classList.remove("dashin"), t + 2200);
@@ -5840,7 +5841,7 @@ const written = (cols, rows) => cols.filter(c => (!c.only || rows.every(c.only))
    in one go the moment the browser is idle (a second at most), or as soon as the list is scrolled down towards them, or
    before anything that needs every row: printing, coming back to a place down the list. What is picked, exported or
    printed was never read off the screen — it is the list itself — so it is all of it from the start. */
-const TBL_FIRST = 200;
+const TBL_FIRST = 60;                 // 5 November 2026 («اسرع ما يمكن»): the rows a screen shows first, the rest the moment the browser is idle
 let tblRest = null, tblToken = 0, tblPrinting = false;
 function tblFlush(){
   const r = tblRest;
@@ -6192,10 +6193,10 @@ function paintSenders(){
   // a row opens that sender's sheet to be looked at; the button on it exports without looking
   $("tbl").innerHTML = !rows.length ? '<div class="empty"><h3>' + t("none") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl plain"><thead><tr>' +
-      ["sender", "colIndOk", "colIndBan", "colVehOk", "colVehBan", "colTotal"].map(k => "<th>" + t(k) + "</th>").join("") + "<th></th></tr></thead><tbody>" +
-      rows.map(e =>
+      ["sender", "colIndOk", "colIndBan", "colVehOk", "colVehBan", "colTotal"].map(k => "<th>" + t(k) + "</th>").join("") + "<th></th></tr></thead><tbody" + tblBodyAttr(rows.length) + ">" +
+      tblRows(rows, e =>
         "<tr" + (e.total ? ' data-snd-open="' + esc(e.k) + '"' : "") + '><td class="name">' + esc(e.name || t("notSpecified")) + "</td><td>" + cell(e.n.indok) + "</td><td>" + cell(e.n.indban) + "</td><td>" + cell(e.n.vehok) + "</td><td>" + cell(e.n.vehban) +
-          "</td><td><b>" + cell(e.total) + '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>").join("") +
+          "</td><td><b>" + cell(e.total) + '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>") +
     "</tbody></table></div>";
 }
 /* What the workbook of one sender holds — built once, used twice: the page
@@ -11062,7 +11063,7 @@ document.addEventListener("error", e => {
   nav.addEventListener("mouseover", e => { if(!calm()) return; lastB = e.target.closest && e.target.closest("button[data-view]"); place(lastB); });
   nav.addEventListener("mouseleave", () => { lastB = null; lens.classList.remove("on"); });
   const side = nav.closest(".side"); let shut = 0;
-  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); moving = Date.now() + 5000; lookSync(); setTimeout(settle, 900); };
+  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); moving = Date.now() + 5000; lookSync(); setTimeout(settle, 400); };
   // the menu has finished opening or closing (its column's width): the lens goes where the hand is, the page's motion and frozen columns are set again
   const settle = () => { if(!moving) return; moving = 0; try{ place(lastB); gmsAim(); freeze(); }catch(e){} };
   document.getElementById("app").addEventListener("transitionend", e => { if(e.propertyName === "grid-template-columns") settle(); });

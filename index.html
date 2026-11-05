@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-GY1EUN1Cob3esPFNHLL6IkDygh9ezrKNXdcrIB4nuag='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-u/2F9fu3ScKyQOs7IEjYg1JqaVEnuqp7VI4W/LC318Y='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2289,11 +2289,8 @@ html.dark :where(body.calm) .bar-track{background:#1e2a37;}
   /* folded, the network row is its dot alone (5 November 2026: «لما يتصغر يتشال منه سرعة النت والازرار الى جمبها ما عدا نقطة متصل») */
   body.calm.rail .side-bar{flex-direction:column;gap:6px;margin-inline:-10px;}
   body.calm.rail .side-bar .net-v,body.calm.rail .side-bar .side-lang{display:none;}
-  /* always small, open under the hand (same day: «يفضل ديما صغير لحد ما اروح علية بالماوس يكبر عادى وشيل الزر الى بيصغرة»): the page keeps the
-     rail's width (--side) and the menu opens over it, so nothing on the page moves */
-  body.calm.railx{--side:92px;}
-  body.calm.railx .side{position:relative;z-index:40;width:254px;max-width:none;}
-  body.calm .side{transition:width .28s cubic-bezier(.3,.9,.3,1);}
+  /* always small, open under the hand (same day: «يفضل ديما صغير لحد ما اروح علية بالماوس يكبر عادى وشيل الزر الى بيصغرة»), and the page
+     moves over to make room beside it, not under it (same day: «يرحل معاه الجدول ويبان جمبه مش على الجدول») — open, it is the full column */
   body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
 }
 /* ============================================================
@@ -3802,7 +3799,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "46e8ad9e2b4e";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "a79700d0c5d3";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10916,20 +10913,23 @@ document.addEventListener("error", e => {
   if(!nav) return;
   const lens = document.createElement("span"); lens.className = "nav-lens"; lens.setAttribute("aria-hidden", "true"); nav.appendChild(lens);
   const calm = () => document.body.classList.contains("calm") && window.innerWidth > 920;
-  nav.addEventListener("mouseover", e => {
-    if(!calm()) return;
-    const b = e.target.closest && e.target.closest("button[data-view]");
-    if(!b || b.hidden) return;
+  let lastB = null, moving = 0;
+  const place = b => {
+    if(!b || b.hidden || Date.now() < moving) return;
     // the line's own place and width, in the menu that scrolls (4 November 2026: the pages scroll on their own now, with room at
     // their sides — «الماوس وهو بيتحرك على الشريط الجانبى الخيال بتاع كل صفحة مش مظبوط زى الاول»)
     const a = b.getBoundingClientRect(), n = nav.getBoundingClientRect();
     lens.style.height = a.height + "px"; lens.style.width = a.width + "px"; lens.style.right = "auto";
     lens.style.left = (a.left - n.left + nav.scrollLeft - nav.clientLeft).toFixed(1) + "px";
     lens.style.transform = "translateY(" + (a.top - n.top + nav.scrollTop - nav.clientTop).toFixed(1) + "px)"; lens.classList.add("on");
-  });
-  nav.addEventListener("mouseleave", () => { lens.classList.remove("on"); });
+  };
+  nav.addEventListener("mouseover", e => { if(!calm()) return; lastB = e.target.closest && e.target.closest("button[data-view]"); place(lastB); });
+  nav.addEventListener("mouseleave", () => { lastB = null; lens.classList.remove("on"); });
   const side = nav.closest(".side"); let shut = 0;
-  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); lookSync(); };
+  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); moving = Date.now() + 5000; lookSync(); setTimeout(settle, 900); };
+  // the menu has finished opening or closing (its column's width): the lens goes where the hand is, the page's motion and frozen columns are set again
+  const settle = () => { if(!moving) return; moving = 0; try{ place(lastB); gmsAim(); freeze(); }catch(e){} };
+  document.getElementById("app").addEventListener("transitionend", e => { if(e.propertyName === "grid-template-columns") settle(); });
   side.addEventListener("mouseenter", () => { if(calm()) openSide(true); });
   side.addEventListener("mouseleave", () => { shut = setTimeout(() => openSide(false), 220); });
 })();

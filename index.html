@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-GVobtnKD2gnu5V9vHjPxaAnQlmBZLfOm7Y4FM7uLJFY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-cP6IavqxsmCiERx2o4THSKWSAdpYOfKYCmhZvDBheFs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2603,7 +2603,8 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
   body.madm .brand .appname{font-size:12px;letter-spacing:.12em;}
   body.madm .menubtn{width:40px;height:40px;border-radius:14px;}
   body.madm .backbtn{top:11px;height:36px;border-radius:14px;}
-  body.madm .backbtn:disabled{opacity:0;pointer-events:none;}
+  /* back is the phone's own (5 November 2026: «خلى الرجوع فى من الموبيل مش زر») — see «THE PHONE'S OWN BACK» */
+  body.madm .backbtn{display:none !important;}
   /* the menu: a sheet over the whole screen, its lines big enough for a thumb */
   body.madm .side.open{position:fixed;inset:0;z-index:90;height:100dvh;max-height:none;overflow-y:auto;align-content:flex-start;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));
     background:rgba(246,249,253,.97);}
@@ -3870,7 +3871,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "67c1fc543a82";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2bac01d26425";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

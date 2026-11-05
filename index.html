@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-MigMAeF6G5NyXI5M5EAzg3WzuXEwPtJ6JzgW3adnm98='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-GY1EUN1Cob3esPFNHLL6IkDygh9ezrKNXdcrIB4nuag='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -403,18 +403,23 @@ body.bgmo .main{isolation:isolate;}
 body.bgmo .main .panel,body.bgmo .main .chk{background:linear-gradient(155deg,rgba(255,255,255,.55),rgba(255,255,255,.30));border:1px solid rgba(255,255,255,.78);
   -webkit-backdrop-filter:blur(16px) saturate(1.45);backdrop-filter:blur(16px) saturate(1.45);box-shadow:0 12px 34px -16px rgba(21,60,120,.32),inset 0 1px 0 rgba(255,255,255,.9);}
 body.bgmo .panel-h{border-bottom-color:rgba(255,255,255,.7);background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0));}
-body.bgmo .tbl th{background:rgba(234,242,251,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom-color:rgba(255,255,255,.8);}
+body.bgmo .tbl th{border-bottom-color:rgba(255,255,255,.8);}
 body.bgmo .tbl td{border-bottom-color:rgba(31,78,121,.09);}
 body.bgmo .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.24);}
 body.bgmo .tbl tbody tr:hover{background:rgba(255,255,255,.6);}
-body.bgmo .tbl .fz{background:rgba(250,252,253,.82);}
+/* the columns that stay put, and the header, are solid (same day: «العمودين دول او اى عواميد ثابته تفضل ثابته وميبنش تحتها حاجه») */
+body.bgmo .tbl .fz{background:#f7faff;}
+body.bgmo .tbl tbody tr:nth-child(even) .fz{background:#f2f7fd;}
+body.bgmo .tbl tbody tr:hover .fz{background:#eef4fc;}
+body.bgmo .tbl th,body.bgmo .tbl th.fz{background:#e9f1fb;-webkit-backdrop-filter:none;backdrop-filter:none;}
 body.bgmo .btn:not(.primary),body.bgmo .field,body.bgmo .seg{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.85);}
 html.dark body.bgmo .main .panel,html.dark body.bgmo .main .chk{background:linear-gradient(155deg,rgba(26,39,53,.55),rgba(21,32,44,.30));border-color:rgba(140,185,240,.2);box-shadow:0 12px 34px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);}
 html.dark body.bgmo .panel-h{border-bottom-color:rgba(140,185,240,.15);background:none;}
-html.dark body.bgmo .tbl th{background:rgba(28,43,60,.8);border-bottom-color:rgba(140,185,240,.18);}
+html.dark body.bgmo .tbl th{border-bottom-color:rgba(140,185,240,.18);}
 html.dark body.bgmo .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.03);}
 html.dark body.bgmo .tbl tbody tr:hover{background:rgba(255,255,255,.07);}
-html.dark body.bgmo .tbl .fz{background:rgba(21,32,44,.88);}
+html.dark body.bgmo .tbl .fz,html.dark body.bgmo .tbl tbody tr:nth-child(even) .fz,html.dark body.bgmo .tbl tbody tr:hover .fz{background:#172331;}
+html.dark body.bgmo .tbl th,html.dark body.bgmo .tbl th.fz{background:#1c2b3c;}
 html.dark body.bgmo .btn:not(.primary),html.dark body.bgmo .field,html.dark body.bgmo .seg{background:rgba(26,39,53,.55);border-color:rgba(140,185,240,.2);}
 body.bgmo .main .tile{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
   box-shadow:0 10px 26px -16px rgba(21,60,120,.35),inset 0 1px 0 rgba(255,255,255,.9);}
@@ -2224,13 +2229,7 @@ html.dark :where(body.calm) .tbl td{border-bottom-color:#1e2a37;}
 html.dark :where(body.calm) .bar-track{background:#1e2a37;}
 
 /* THE GLASS MENU — where the menu is a column beside the page */
-.side-fold{display:none;}
 .nav-lens{display:none;}
-.side-tip{position:fixed;z-index:60;padding:6px 11px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap;pointer-events:none;
-  color:var(--blue-deep);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.7));border:1px solid rgba(255,255,255,.9);
-  box-shadow:0 8px 20px rgba(21,58,99,.16),inset 0 0 0 1px rgba(21,101,192,.10);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transform:translateY(-50%);}
-.side-tip[hidden]{display:none;}
-html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba(120,170,240,.22);}
 @media (min-width:921px){
   body.calm{--side:278px;}
   body.calm.rail{--side:92px;}
@@ -2273,20 +2272,11 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
     transition:transform .42s cubic-bezier(.3,1.35,.45,1),height .3s,opacity .22s;}
   body.calm .nav-lens.on{opacity:1;}
   html.dark body.calm .nav-lens{background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px rgba(120,170,240,.2);}
-  /* the fold: a round glass button at the top corner */
-  body.calm .side-fold{display:flex;position:absolute;z-index:5;top:12px;inset-inline-end:10px;width:28px;height:28px;padding:0;border-radius:50%;align-items:center;justify-content:center;
-    border:1px solid rgba(21,101,192,.14);background:rgba(255,255,255,.85);color:var(--blue-deep);box-shadow:0 4px 12px rgba(21,58,99,.14);cursor:pointer;transition:transform .3s;}
-  body.calm .side-fold svg{width:14px;height:14px;transition:transform .3s;}
-  html[dir=rtl] body.calm .side-fold svg{transform:scaleX(-1);}
-  body.calm.rail .side-fold svg{transform:rotate(180deg);}
-  html[dir=rtl] body.calm.rail .side-fold svg{transform:scaleX(-1) rotate(180deg);}
-  html.dark body.calm .side-fold{background:rgba(26,39,53,.9);color:#cfe3ff;border-color:rgba(120,170,240,.22);}
   /* folded: a rail of icons, a hairline for each group, the name beside the icon under the hand */
   body.calm.rail .side{padding:14px 10px 10px;}
-  body.calm.rail .side > .brand{margin:-14px -10px 0;padding:44px 6px 10px;top:-14px;}
+  body.calm.rail .side > .brand{margin:-14px -10px 0;padding:14px 6px 10px;top:-14px;}
   body.calm.rail .side .brand .tagline,body.calm.rail .side .brand .hr,body.calm.rail .side .brand .appname{display:none;}
   body.calm.rail .side .brand .ncm{font-size:21px;}
-  body.calm.rail .side-fold{inset-inline-end:auto;inset-inline-start:50%;margin-inline-start:-14px;top:10px;}
   body.calm.rail .navh{height:1px;padding:0;margin:9px 16px;font-size:0;background:rgba(21,101,192,.12);}
   body.calm.rail .navg:first-child .navh{display:none;}
   body.calm.rail .nav button{justify-content:center;padding:11px 0;}
@@ -2296,9 +2286,14 @@ html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba
   body.calm.rail .nav button.on::after{display:none;}
   body.calm.rail .rlamp{width:12px;height:12px;margin:4px auto 8px;padding:0;border-radius:50%;font-size:0;gap:0;justify-content:center;}
   body.calm.rail .rlamp > *{display:none;}
+  /* folded, the network row is its dot alone (5 November 2026: «لما يتصغر يتشال منه سرعة النت والازرار الى جمبها ما عدا نقطة متصل») */
   body.calm.rail .side-bar{flex-direction:column;gap:6px;margin-inline:-10px;}
-  body.calm.rail .side-bar .netbox,body.calm.rail .side-bar .side-lang{flex-direction:column;}
-  body.calm.rail .side-bar .net-v{display:none;}
+  body.calm.rail .side-bar .net-v,body.calm.rail .side-bar .side-lang{display:none;}
+  /* always small, open under the hand (same day: «يفضل ديما صغير لحد ما اروح علية بالماوس يكبر عادى وشيل الزر الى بيصغرة»): the page keeps the
+     rail's width (--side) and the menu opens over it, so nothing on the page moves */
+  body.calm.railx{--side:92px;}
+  body.calm.railx .side{position:relative;z-index:40;width:254px;max-width:none;}
+  body.calm .side{transition:width .28s cubic-bezier(.3,.9,.3,1);}
   body.calm.rail .side-foot .side-user > :not(.fab){display:none;}
 }
 /* ============================================================
@@ -2598,7 +2593,6 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 
 <div id="app">
   <aside class="side">
-    <button type="button" class="side-fold" id="side-fold" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="brand">
       <span class="ncm">N<i>C</i><b>M</b></span>
       <span class="tagline">NUCLEAR CONCRETE MIXES</span>
@@ -3808,7 +3802,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "5afa3c75bc35";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "46e8ad9e2b4e";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -3993,7 +3987,13 @@ const out = $("out");
 const esc = s => String(s === null || s === undefined ? "" : s)
   .replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 const num = s => '<span class="num">' + esc(s) + "</span>";
-const dash = s => (s === "" || s === null || s === undefined) ? "—" : s;
+// a cell with nothing in it shows nothing on a card (asked for, 5 November 2026: «اى خلية فى اى شيت مش مكتوب فيها حاجه متظهرش فى اى كرت…
+// الاجانب مش مكتوب تاريخ انتهاء البطاقة بس متظهر فى الكارت غير محدد لا خليها متظهرش خالص»): empty, or only a word put in for nothing
+const BLANK_RE = /^\s*(?:غير محدد|غير معروف|لا يوجد|لايوجد|[-—–_.؟?]+|n\/?a|#n\/a|null|none|undefined)\s*$/i;
+const isBlank = v => v === "" || v === null || v === undefined || BLANK_RE.test(String(v));
+// and in a table (same day: «العمود لو مش مكتوب فى حاجه ميظهرش فى الجدول اصلا… الخلية الى مش مكتوب فيها تظهر فى الجدول فاضية»): an empty
+// cell is drawn empty — no «—», no «غير محدد» — and a column with nothing in it on any row is not drawn (written · hasCell)
+const dash = s => isBlank(s) ? "" : s;
 
 /* ============================================================
    LANGUAGE
@@ -5614,7 +5614,7 @@ function renderRep(){
    is all there to scroll through.
    ============================================================ */
 const sortText = s => foldArabic(s);
-const dimDash = '<span class="dim">—</span>';
+const dimDash = "";                                                // an empty cell is empty (5 November 2026)
 // a date kept as text in the sheet: shown as a date when it is one, as written when it is not («غير محدد»); sorted as a date, the rest last
 const dateCell = s => { const d = NCM.parseStrict(s); return !s ? dimDash : d ? num(fmt(d)) : esc(s); };
 const dateSort = s => { const d = NCM.parseStrict(s); return d ? d.getTime() : Infinity; };
@@ -5754,7 +5754,7 @@ function freeze(){
     [].forEach.call(tb.querySelectorAll("thead th.fz"), (th, i) => { if(i) tb.style.setProperty("--fz" + i, at + "px"); at += th.offsetWidth; });
   });
 }
-const hasCell = v => !(v === "" || v === null || v === undefined);
+const hasCell = v => !isBlank(v);
 /* A column that belongs to one kind of row only (`only`) — the reason for a
    ban, the end of a resignation — is shown when every row on screen is of
    that kind, and not otherwise: in a list where two of four hundred are
@@ -6647,14 +6647,13 @@ function multiOpen(r){
    left to run — a page drawn, a search answered, nothing starts it over. Its rings follow the search box of a page that has one. */
 let gmsRO = null;
 const bgmoWant = () => !!session && $("gate").hidden && can("x-motion") && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-// «x-look»: the calm look and the glass menu; folded into a rail if he folded it (remembered on the device)
-const RAIL_KEY = "ncm_side_rail";
+// «x-look»: the calm look and the glass menu, always folded into a rail (5 November 2026) — open while the hand is on it (railx)
+let sideOpen = false;
 function lookSync(){
   const on = !!session && can("x-motion");          // one button with the motion (2 November 2026: «لية مش كله واحد»)
-  let rail = false;
-  try{ rail = localStorage.getItem(RAIL_KEY) === "1"; }catch(e){}
   document.body.classList.toggle("calm", on);
-  document.body.classList.toggle("rail", on && rail);
+  document.body.classList.toggle("rail", on && !sideOpen);
+  document.body.classList.toggle("railx", on && sideOpen);
 }
 function bgmoSync(){
   lookSync();
@@ -7022,10 +7021,6 @@ function renderSources(){
 /* ============================================================
    DRAWER
    ============================================================ */
-// a cell with nothing in it shows nothing on a card (asked for, 5 November 2026: «اى خلية فى اى شيت مش مكتوب فيها حاجه متظهرش فى اى كرت…
-// الاجانب مش مكتوب تاريخ انتهاء البطاقة بس متظهر فى الكارت غير محدد لا خليها متظهرش خالص»): empty, or only a word put in for nothing
-const BLANK_RE = /^\s*(?:غير محدد|غير معروف|لا يوجد|لايوجد|[-—–_.؟?]+|n\/?a|#n\/a|null|none|undefined)\s*$/i;
-const isBlank = v => v === "" || v === null || v === undefined || BLANK_RE.test(String(v));
 const rowHTML = (label, value, cls, isNum) =>
   isBlank(value) ? "" :
   '<div class="row"><dt>' + esc(label) + '</dt><dd class="' + (cls || "") + (isNum ? " num" : "") + '">' + esc(value) + "</dd></div>";
@@ -10917,10 +10912,9 @@ document.addEventListener("error", e => {
 
 /* THE GLASS MENU's lens and the names of a folded menu (see «THE CALM LOOK» in the styles) */
 (function(){
-  const nav = document.getElementById("nav"), fold = document.getElementById("side-fold");
+  const nav = document.getElementById("nav");
   if(!nav) return;
   const lens = document.createElement("span"); lens.className = "nav-lens"; lens.setAttribute("aria-hidden", "true"); nav.appendChild(lens);
-  const tip = document.createElement("div"); tip.className = "side-tip"; tip.hidden = true; document.body.appendChild(tip);
   const calm = () => document.body.classList.contains("calm") && window.innerWidth > 920;
   nav.addEventListener("mouseover", e => {
     if(!calm()) return;
@@ -10932,21 +10926,12 @@ document.addEventListener("error", e => {
     lens.style.height = a.height + "px"; lens.style.width = a.width + "px"; lens.style.right = "auto";
     lens.style.left = (a.left - n.left + nav.scrollLeft - nav.clientLeft).toFixed(1) + "px";
     lens.style.transform = "translateY(" + (a.top - n.top + nav.scrollTop - nav.clientTop).toFixed(1) + "px)"; lens.classList.add("on");
-    if(document.body.classList.contains("rail")){
-      const s = b.querySelector("span[data-i18n]"), rtl = getComputedStyle(nav).direction === "rtl", side = nav.closest(".side").getBoundingClientRect();
-      tip.textContent = s ? s.textContent : "";
-      tip.style.top = (a.top + a.height / 2) + "px";
-      tip.style.left = rtl ? "" : (side.right + 10) + "px"; tip.style.right = rtl ? (window.innerWidth - side.left + 10) + "px" : "";
-      tip.hidden = false;
-    }
   });
-  nav.addEventListener("mouseleave", () => { lens.classList.remove("on"); tip.hidden = true; });
-  if(fold) fold.addEventListener("click", () => {
-    const rail = !document.body.classList.contains("rail");
-    try{ localStorage.setItem(RAIL_KEY, rail ? "1" : "0"); }catch(e){}
-    tip.hidden = true; lookSync();
-    setTimeout(() => { try{ gmsAim(); }catch(e){} }, 400);
-  });
+  nav.addEventListener("mouseleave", () => { lens.classList.remove("on"); });
+  const side = nav.closest(".side"); let shut = 0;
+  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); lookSync(); };
+  side.addEventListener("mouseenter", () => { if(calm()) openSide(true); });
+  side.addEventListener("mouseleave", () => { shut = setTimeout(() => openSide(false), 220); });
 })();
 /* drop anywhere */
 let dragDepth = 0;

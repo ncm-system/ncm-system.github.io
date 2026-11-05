@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-Ns7XSQlQsPXGhMjsVdzbDC6N1eqOLyCQ1G4DGVVDzBI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-sCD9GtdBKKxprK+CR50Zd6teQNkETtMCCE2T5WRQ8qU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1790,7 +1790,7 @@ html.dark .itr-ring{border-color:#6fd16b;box-shadow:0 0 50px rgba(111,209,107,.6
 @keyframes itrApp{from{opacity:0;letter-spacing:.7em;}to{opacity:1;letter-spacing:.24em;}}
 /* «WELCOME» and who it is, under the system's name (asked for, 5 November 2026: «فى الصفحة الافتتاحية… يظهر تحتها مرحبا اسم المستخدم وتبقا
    بالانجليزى»): the word comes in from apart, the name rises after it in the company's blue running into its green, a line drawn under them */
-.itr-hi{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:6px;direction:ltr;opacity:0;}
+.itr-hi{margin-top:clamp(36px,7vh,70px);display:flex;flex-direction:column;align-items:center;gap:6px;direction:ltr;opacity:0;}
 .itr-hi-w{font-family:var(--cond);font-weight:700;font-size:clamp(15px,2vw,23px);letter-spacing:.55em;text-indent:.55em;color:#77776f;}
 #itr-name{position:relative;font-family:var(--cond);font-weight:800;font-size:clamp(24px,4vw,46px);letter-spacing:.12em;text-indent:.12em;white-space:nowrap;
   background:linear-gradient(90deg,#1565c0,#2d5f99 40%,#3b9b4f);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:8px;}
@@ -3781,7 +3781,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1798e4b739ec";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "621a15cc7fe7";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

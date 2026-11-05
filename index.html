@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-sCD9GtdBKKxprK+CR50Zd6teQNkETtMCCE2T5WRQ8qU='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-1022IYBTCcBEBW0vXAnkMQGSGzYO/Qszb4KfAtwEeNk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -227,61 +227,66 @@ html.dark .side-bar{background:rgba(21,32,44,.94);}.side{overflow-x:hidden;}
 .side-user{display:flex;align-items:stretch;gap:8px;margin-bottom:12px;direction:ltr;}
 .side-user[hidden]{display:none;}
 .su-card{
-  position:relative;overflow:hidden;flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;
-  border-radius:14px;color:#fff;background:linear-gradient(120deg,#0e4c93 0%,#1565c0 48%,#2f8f5b 100%);
-  box-shadow:0 6px 18px -8px rgba(21,101,192,.75),inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;overflow:hidden;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:8px 10px 8px 48px;min-height:46px;
+  border-radius:14px;color:var(--blue-deep);background:linear-gradient(120deg,#ffffff 0%,#f4f7fb 60%,#eef3f9 100%);border:1px solid var(--line-2);
+  box-shadow:0 6px 16px -10px rgba(21,101,192,.45),inset 0 1px 0 #fff;
 }
+/* light, as the rest of the system (asked for, same day: «اسم المستخدم يبقا فى نص الصندوق والحروف زى ما هى — الوان الصناديق فاتحة تتناسق مع
+   التصميم»): the name in the middle of its box, the initials' ring where it was */
 .su-card::after{
   content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;pointer-events:none;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:suShine 6s ease-in-out infinite;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:suShine 6s ease-in-out infinite;
 }
 @keyframes suShine{0%,62%{left:-60%;}100%{left:130%;}}
 .su-av{
-  flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
-  font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.02em;color:#0e4c93;background:#fff;
-  box-shadow:0 0 0 2px rgba(255,255,255,.45),0 0 0 4px rgba(75,165,72,.55);
+  position:absolute;left:8px;top:50%;margin-top:-16px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:.02em;color:#fff;background:linear-gradient(145deg,#1565c0,#2f8f5b);
+  box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(75,165,72,.45);
 }
-.su-txt{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;}
+.su-txt{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;max-width:100%;}
 #user-name{
-  font-family:var(--cond);font-weight:800;font-size:14.5px;letter-spacing:.09em;line-height:1.1;color:#fff;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-shadow:0 1px 2px rgba(0,0,0,.25);
+  font-family:var(--cond);font-weight:800;font-size:14.5px;letter-spacing:.06em;line-height:1.1;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+  background:linear-gradient(90deg,#0e4c93,#1565c0 45%,#2f8f5b);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.su-card .urole{margin:0;padding:1px 8px;font-size:10.5px;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);color:#fff;}
 .side-user .su-out{
-  flex:none;width:46px;height:auto;min-height:46px;border-radius:14px;background:var(--panel,#fff);border:1px solid var(--line-2);color:var(--navy);
-  box-shadow:0 4px 12px -8px rgba(15,40,80,.5);transition:background .18s,color .18s,border-color .18s,transform .18s;
+  flex:none;width:46px;height:auto;min-height:46px;border-radius:14px;background:linear-gradient(145deg,#fff,#eef5fd);border:1px solid var(--line-2);color:var(--blue-deep);
+  box-shadow:0 6px 16px -10px rgba(21,101,192,.45);transition:background .18s,color .18s,border-color .18s,transform .18s;
 }
-.side-user .su-out:hover,.side-user .su-out:focus-visible{background:#c62828;border-color:#c62828;color:#fff;transform:translateY(-1px);}
+.side-user .su-out:hover,.side-user .su-out:focus-visible{background:#fdecec;border-color:#e3a5a5;color:#c62828;transform:translateY(-1px);}
 .side-user .su-out svg{width:18px;height:18px;}
-html.dark .su-card .urole{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);color:#fff;}
+html.dark .su-card{background:linear-gradient(120deg,#1a2735 0%,#1c2b3c 100%);box-shadow:none;}
+html.dark .su-card::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent);}
+html.dark #user-name{background:linear-gradient(90deg,#9cc8f5,#cfe1f6 50%,#9ad69a);-webkit-background-clip:text;background-clip:text;}
+html.dark .su-av{box-shadow:0 0 0 2px #15202c,0 0 0 4px rgba(75,165,72,.5);}
+html.dark .side-user .su-out{background:var(--panel-2);color:var(--navy);}
+html.dark .side-user .su-out:hover{background:#4a1f22;border-color:#c62828;color:#ffb4b4;}
 /* no word says it (asked for, same day: «شيل ادمن دى خالص متخلهاش تبان — لما ادخل بالباسورد بتاع الادمن يبقا الصندوق ده مميز عن باقى الصناديق»):
-   the label stays in the page for what reads it, never on the screen; the admin's own sign-in shows as the box itself — night blue and gold,
-   a gold ring round the initials and a gold edge that breathes */
+   the label stays in the page for what reads it, never on the screen; the admin's own sign-in shows as the box itself — the company's
+   light blue running into its green, a stronger light on its edge that breathes (no gold: «ابعد عن الدهبى ده خالص») */
 #user-role{display:none !important;}
 .side-user:has(#user-role:not(:empty)) .su-card{
-  background:linear-gradient(120deg,#0b1f3a 0%,#123a6b 52%,#8a6a1c 100%);
-  box-shadow:0 6px 20px -8px rgba(201,160,60,.8),inset 0 0 0 1.5px rgba(232,196,104,.85),inset 0 1px 0 rgba(255,255,255,.2);
-  animation:suGold 3.2s ease-in-out infinite;
+  background:linear-gradient(120deg,#e8f1fc 0%,#dbe9fa 50%,#dff1df 100%);border-color:#b9d3f1;
+  box-shadow:0 6px 18px -8px rgba(21,101,192,.55),inset 0 1px 0 #fff;animation:suAdm 3.2s ease-in-out infinite;
 }
-.side-user:has(#user-role:not(:empty)) .su-card::after{background:linear-gradient(100deg,transparent,rgba(255,226,150,.38),transparent);}
-.side-user:has(#user-role:not(:empty)) .su-av{color:#0b1f3a;background:linear-gradient(145deg,#fff6dc,#f0d08a);box-shadow:0 0 0 2px rgba(255,236,180,.6),0 0 0 4px #c9a03c;}
-.side-user:has(#user-role:not(:empty)) #user-name{color:#fff4d6;}
-.side-user:has(#user-role:not(:empty)) .su-out{border-color:#c9a03c;}
-@keyframes suGold{0%,100%{box-shadow:0 6px 20px -8px rgba(201,160,60,.8),inset 0 0 0 1.5px rgba(232,196,104,.85),inset 0 1px 0 rgba(255,255,255,.2);}
-  50%{box-shadow:0 8px 26px -6px rgba(232,196,104,.95),inset 0 0 0 1.5px rgba(255,226,150,1),inset 0 1px 0 rgba(255,255,255,.2);}}
+.side-user:has(#user-role:not(:empty)) .su-av{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(21,101,192,.55),0 0 12px 2px rgba(75,165,72,.45);}
+.side-user:has(#user-role:not(:empty)) .su-out{border-color:#b9d3f1;background:linear-gradient(145deg,#fff,#e8f1fc);}
+html.dark .side-user:has(#user-role:not(:empty)) .su-out{background:#183456;border-color:#2f5a8a;color:#cfe1f6;}
+html.dark .side-user:has(#user-role:not(:empty)) .su-card{background:linear-gradient(120deg,#183456 0%,#1a3050 50%,#1b3f2e 100%);border-color:#2f5a8a;}
+@keyframes suAdm{0%,100%{box-shadow:0 6px 18px -8px rgba(21,101,192,.55),inset 0 1px 0 #fff;}50%{box-shadow:0 8px 24px -6px rgba(75,165,72,.6),inset 0 1px 0 #fff;}}
 @media (prefers-reduced-motion:reduce){.side-user:has(#user-role:not(:empty)) .su-card{animation:none;}}
 /* the colours of the sign-in box running round both boxes (asked for, same day: «خلى كل الصناديق يلف حوالين منها الوان زى بتاعت شاشة
    الدخول»): the same blue-into-green light on their edge, gold on the admin's own; the two a little apart so they do not turn together */
 .side-user .su-out{position:relative;}
 .su-card::before,.side-user .su-out::before{
-  content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;
-  background:conic-gradient(from var(--gate-a),transparent 0 52%,rgba(255,255,255,.95) 66%,rgba(150,210,255,1) 76%,rgba(140,235,130,1) 88%,transparent 97%);
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;
+  background:conic-gradient(from var(--gate-a),transparent 0 62%,rgba(21,101,192,.95) 76%,rgba(75,165,72,.95) 86%,transparent 96%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
   animation:gEdge 5s linear infinite;
 }
 .side-user .su-out::before{inset:-1px;background:conic-gradient(from var(--gate-a),transparent 0 58%,rgba(21,101,192,.95) 74%,rgba(75,165,72,.95) 86%,transparent 96%);animation-delay:-2.5s;}
-.side-user:has(#user-role:not(:empty)) .su-card::before{background:conic-gradient(from var(--gate-a),transparent 0 55%,rgba(255,226,150,1) 72%,rgba(201,160,60,1) 86%,transparent 96%);}
-.side-user:has(#user-role:not(:empty)) .su-out::before{background:conic-gradient(from var(--gate-a),transparent 0 55%,rgba(232,196,104,1) 72%,rgba(201,160,60,1) 86%,transparent 96%);}
+.side-user:has(#user-role:not(:empty)) .su-card::before{padding:2.5px;animation-duration:3.5s;background:conic-gradient(from var(--gate-a),transparent 0 50%,rgba(21,101,192,1) 70%,rgba(75,165,72,1) 86%,transparent 96%);}
+.side-user:has(#user-role:not(:empty)) .su-out::before{animation-duration:3.5s;}
 @media (prefers-reduced-motion:reduce){.su-card::before,.side-user .su-out::before{animation:none;}}
 @media (prefers-reduced-motion:reduce){.su-card::after{animation:none;display:none;}}
 
@@ -3781,7 +3786,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "621a15cc7fe7";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2a94afa0fae3";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

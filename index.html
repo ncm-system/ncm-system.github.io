@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-vG5mmzbVvYGR8t6P4u0nEEnyM8ZdPolgrnkBh4noEes='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-GVobtnKD2gnu5V9vHjPxaAnQlmBZLfOm7Y4FM7uLJFY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2590,7 +2590,9 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
    buttons and counts one line each that the thumb moves sideways, and nothing ever wider than the screen */
 #tabbar{display:none;}
 @media (max-width:920px){
-  html:has(body.madm),body.madm{overflow-x:hidden;}
+  /* the root alone (5 November 2026: with body too, the body became a box of its own that took the finger and the wheel, and «لوحة المتابعة»
+     would not go down) */
+  html:has(body.madm){overflow-x:clip;}
   body.madm #out{overflow-x:clip;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));}
   body.madm .pg-head::before,body.madm .pg-fixed > .cbrand::before{inset:-8px 0 !important;}
   /* the top bar */
@@ -3868,7 +3870,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cadf8db06055";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "67c1fc543a82";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5214,6 +5216,7 @@ function goBack(){
   st.rnw = Object.assign({ q: "", open: null, tab: "" }, was.rnw || st.rnw);
   closeDrawer();
   paintShell(); render();
+  if(document.body.classList.contains("madm")) window.scrollTo(0, 0);        // on the phone the page scrolls as one: back at its top
 }
 function go(view){
   st.view = view;
@@ -10585,6 +10588,28 @@ $("nav").addEventListener("click", e => {
   go(b.dataset.view);
 });
 $("back").addEventListener("click", goBack);
+/* THE PHONE'S OWN BACK (5 November 2026: «الرجوع فى مشاكل كتير»): the system is one page, so the phone's back gesture used to leave it
+   altogether. One step is kept in the browser's history while someone is in; the phone's back takes it, and does what «رجوع» would — the card
+   open is closed first, then the menu, then the page before — and the step is put back, so the system is only left when there is nothing to go back to */
+(function(){
+  const phone = () => document.body.classList.contains("madm") && !!session && $("gate").hidden;
+  let armed = false;
+  const arm = () => { if(armed || !phone()) return; try{ history.pushState({ ncm: 1 }, ""); armed = true; }catch(e){} };
+  window.addEventListener("popstate", () => {
+    if(!armed) return;
+    armed = false;
+    if(!phone()) return;
+    const drawer = $("drawer"), side = document.querySelector(".side"), zoom = $("zoom");
+    if(zoom && zoom.classList.contains("on")) zoom.classList.remove("on");
+    else if(drawer && drawer.classList.contains("on")) closeDrawer();
+    else if(side && side.classList.contains("open")) menuFold(false);
+    else if(trail.length) goBack();
+    else return;                                    // nothing to go back to: the phone's back leaves, as anywhere else
+    arm();
+  });
+  document.addEventListener("click", arm, true);   // a browser takes a step into its history only after a touch on the page
+  new MutationObserver(arm).observe($("gate"), { attributes: true, attributeFilter: ["hidden"] });
+})();
 $("menu-btn").addEventListener("click", () => menuFold(!document.querySelector(".side").classList.contains("open")));
 /* THE TABS AT THE FOOT OF THE PHONE (5 November 2026, see «THE PHONE AS AN APP» in the styles): the pages most used, as the menu has them
    (the same buttons, the same permissions: a page he has not is not there), and «القائمة» for all the rest */

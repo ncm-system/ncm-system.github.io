@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-g8yPIn7nBk36d32txbvwZhsuSDpltH1nqvCwhz+zEAY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-BSNjdLhVHI8FDht/XAWdecpWq3Q3Jg3yFLYSqSbvgCg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -412,7 +412,6 @@ body.bgmo .tbl .fz{background:#f7faff;}
 body.bgmo .tbl tbody tr:nth-child(even) .fz{background:#f2f7fd;}
 body.bgmo .tbl tbody tr:hover .fz{background:#eef4fc;}
 body.bgmo .tbl th,body.bgmo .tbl th.fz{background:#e9f1fb;-webkit-backdrop-filter:none;backdrop-filter:none;}
-body.bgmo .btn:not(.primary),body.bgmo .field,body.bgmo .seg{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.85);}
 html.dark body.bgmo .main .panel,html.dark body.bgmo .main .chk{background:linear-gradient(155deg,rgba(26,39,53,.55),rgba(21,32,44,.30));border-color:rgba(140,185,240,.2);box-shadow:0 12px 34px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);}
 html.dark body.bgmo .panel-h{border-bottom-color:rgba(140,185,240,.15);background:none;}
 html.dark body.bgmo .tbl th{border-bottom-color:rgba(140,185,240,.18);}
@@ -420,14 +419,6 @@ html.dark body.bgmo .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.0
 html.dark body.bgmo .tbl tbody tr:hover{background:rgba(255,255,255,.07);}
 html.dark body.bgmo .tbl .fz,html.dark body.bgmo .tbl tbody tr:nth-child(even) .fz,html.dark body.bgmo .tbl tbody tr:hover .fz{background:#172331;}
 html.dark body.bgmo .tbl th,html.dark body.bgmo .tbl th.fz{background:#1c2b3c;}
-html.dark body.bgmo .btn:not(.primary),html.dark body.bgmo .field,html.dark body.bgmo .seg{background:rgba(26,39,53,.55);border-color:rgba(140,185,240,.2);}
-body.bgmo .main .tile{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
-  box-shadow:0 10px 26px -16px rgba(21,60,120,.35),inset 0 1px 0 rgba(255,255,255,.9);}
-body.bgmo .main .tile.warn{background:linear-gradient(155deg,rgba(255,250,236,.72),rgba(255,244,214,.42));}
-body.bgmo .main .chip{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
-html.dark body.bgmo .main .tile{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));box-shadow:0 10px 26px -16px rgba(0,0,0,.6);}
-html.dark body.bgmo .main .tile.warn{background:linear-gradient(155deg,rgba(60,48,20,.5),rgba(40,32,14,.3));}
-html.dark body.bgmo .main .chip{background:rgba(26,39,53,.55);}
 body.bgmo #admv .panel,body.bgmo #admv .adm-stat,body.bgmo #desk .desk-card,body.bgmo #desk-sum > *{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));
   -webkit-backdrop-filter:blur(16px) saturate(1.45);backdrop-filter:blur(16px) saturate(1.45);border-color:rgba(255,255,255,.8);box-shadow:0 12px 30px -16px rgba(21,60,120,.32),inset 0 1px 0 rgba(255,255,255,.9);}
 html.dark body.bgmo #admv .panel,html.dark body.bgmo #admv .adm-stat,html.dark body.bgmo #desk .desk-card,html.dark body.bgmo #desk-sum > *{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));border-color:rgba(140,185,240,.2);}
@@ -2664,6 +2655,15 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
   body.madm{overscroll-behavior-y:contain;}
   /* the names of the tabs whole, on two lines where they need them */
 }
+/* the small things glass as weakly as a plain rule, so any colour that says a state (a red id in the review, a red button, a picked chip) keeps
+   its own (6 November 2026: the review's red id had turned glass) */
+:where(body.bgmo) .btn:where(:not(.primary)),:where(body.bgmo) .field,:where(body.bgmo) .seg{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.85);}
+:where(html.dark body.bgmo) .btn:where(:not(.primary)),:where(html.dark body.bgmo) .field,:where(html.dark body.bgmo) .seg{background:rgba(26,39,53,.55);border-color:rgba(140,185,240,.2);}
+:where(body.bgmo .main) .tile{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
+  box-shadow:0 10px 26px -16px rgba(21,60,120,.35),inset 0 1px 0 rgba(255,255,255,.9);}
+:where(body.bgmo .main) .chip{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+:where(html.dark body.bgmo .main) .tile{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));box-shadow:0 10px 26px -16px rgba(0,0,0,.6);}
+:where(html.dark body.bgmo .main) .chip{background:rgba(26,39,53,.55);}
 </style>
 </head>
 <body>
@@ -3879,7 +3879,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "4af69e48e7e0";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e042c8a43e4a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4132,7 +4132,7 @@ const I18N = {
     adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -4282,7 +4282,7 @@ const I18N = {
     adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -10253,9 +10253,9 @@ function paintIssued(){
   $("iss-miss").innerHTML = miss.map(x => pill("bad", t("isMiss") + ": " + esc(x.text))).join("");
   // the three parts: how many, and how many of them were handed theirs
   $("iss-tiles").innerHTML = '<div class="tiles" style="--n:4;--half:2">' + ISS_SEGS.map(k => {
-    const mine = found.filter(r => r.seg === k && !r.pulled && !r.dead), g = mine.filter(issHeld).length;
+    const mine = found.filter(r => r.seg === k), g = mine.filter(issHeld).length, nn = mine.filter(r => issCat(r) === "not").length;
     return '<button type="button" class="tile' + (k === seg ? " picked job" : "") + '" data-isseg="' + k + '"><span class="tile-k">' + t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : "segPeople") + "</span>" +
-      '<span class="tile-v num">' + num(mine.length) + '</span><span class="tile-s"><span class="g">' + esc(t("isGiven")) + " " + num(g) + '</span><span class="n">' + esc(t("isNot")) + " " + num(mine.length - g) + "</span></span></button>";
+      '<span class="tile-v num">' + num(mine.length) + '</span><span class="tile-s"><span class="g">' + esc(t("isGiven")) + " " + num(g) + '</span><span class="n">' + esc(t("isNot")) + " " + num(nn) + "</span></span></button>";
   }).join("") + "</div>";
   const n = { given: rows.filter(issHeld).length, not: rows.filter(r => issCat(r) === "not").length, pulled: rows.filter(r => issCat(r) === "pulled").length, dead: rows.filter(r => r.dead).length };
   const lost = built.lost.filter(c => (c.kind === "veh") === veh);
@@ -10295,7 +10295,8 @@ function paintIssued(){
 function issActs(r){
   const key = esc(issCardKey(r.card));
   if(r.dead) return "";
-  if(r.pulled) return isAdmin() ? '<button class="btn sm' + (issOver(r) ? " danger" : "") + ' iss-give" data-iss-kill="' + key + '">' + t("isKill") + "</button>" : "";
+  if(r.pulled) return isAdmin() ? '<button class="btn sm' + (issOver(r) ? " danger" : "") + ' iss-give" data-iss-kill="' + key + '">' + t("isKill") + "</button> " +
+    '<button class="btn sm iss-give" data-iss-unpull="' + key + '">' + t("isUnpull") + "</button>" : "";
   if(r.given) return isAdmin() && r.card.id ? '<button class="btn sm danger iss-give" data-iss-pull="' + key + '">' + t("isPull") + "</button>" : "";
   return '<button class="btn sm primary iss-give" data-iss-give="' + key + '">' + t("isGive") + "</button>";
 }
@@ -10304,10 +10305,11 @@ async function issPull(key, what){
   const r = ISS.rows.get(key);
   if(what === "pull" && !confirm(t("isPullSure"))) return;
   if(what === "dead" && !confirm(t(r && !issOver(r) ? "isKillEarly" : "isKillSure"))) return;
+  if(what === "unpull" && !confirm(t("isUnpullSure"))) return;
   const i = key.indexOf(":");
   try{
     await dbCall("system_card_pull", { p_name: link().u || "", p_kind: key.slice(0, i), p_refs: [key.slice(i + 1)], p_do: what });
-    toast(t(what === "pull" ? "isPulled" : "isDead"));
+    toast(t(what === "pull" ? "isPulled" : what === "dead" ? "isDead" : "isGiven"));
   }catch(e){ toast(t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn"), true); }
   await issuedSync();
 }
@@ -10884,6 +10886,8 @@ document.addEventListener("click", e => {
   if(issP) return issPull(issP.dataset.issPull, "pull");
   const issK = tg.closest("[data-iss-kill]");
   if(issK) return issPull(issK.dataset.issKill, "dead");
+  const issU = tg.closest("[data-iss-unpull]");
+  if(issU) return issPull(issU.dataset.issUnpull, "unpull");
   const issR = tg.closest("#issv tr[data-iss-card]");
   issFrom = issR ? { open: issR.dataset.open, card: issR.dataset.issCard } : null;
   const opener = tg.closest("[data-open]");

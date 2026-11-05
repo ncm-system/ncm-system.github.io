@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-sLybMbJvkmAZ+VgYZQ6UpTa/66wUGGzqDIdxeMSUfGc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-g8yPIn7nBk36d32txbvwZhsuSDpltH1nqvCwhz+zEAY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2230,6 +2230,12 @@ html.dark :where(body.calm) .bar-track{background:#1e2a37;}
 
 /* THE GLASS MENU — where the menu is a column beside the page */
 .nav-lens{display:none;}
+.side-tip{position:fixed;z-index:60;padding:6px 11px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap;pointer-events:none;
+  color:var(--blue-deep);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.7));border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 8px 20px rgba(21,58,99,.16),inset 0 0 0 1px rgba(21,101,192,.10);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transform:translateY(-50%);}
+.side-tip[hidden]{display:none;}
+html.dark .side-tip{color:#cfe3ff;background:rgba(26,39,53,.9);border-color:rgba(120,170,240,.22);}
+@media (min-width:921px){ body.calm .side > .brand{cursor:pointer;-webkit-user-select:none;user-select:none;} }
 @media (min-width:921px){
   /* the column's width set on the grid itself, not as a variable on body (5 November 2026: «الشريط الجانبى… تقيل جدا فى الظهور» — a variable
      changed on body is worked out again for every element under it: 160 ms on «تصاريح الأفراد», at every step of the opening) */
@@ -3873,7 +3879,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e767cfd4634f";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "4af69e48e7e0";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4126,7 +4132,7 @@ const I18N = {
     adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -4276,7 +4282,7 @@ const I18N = {
     adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -6720,13 +6726,16 @@ function multiOpen(r){
    left to run — a page drawn, a search answered, nothing starts it over. Its rings follow the search box of a page that has one. */
 let gmsRO = null;
 const bgmoWant = () => !!session && $("gate").hidden && can("x-motion") && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-// «x-look»: the calm look and the glass menu, always folded into a rail (5 November 2026) — open while the hand is on it (railx)
-let sideOpen = false;
+/* «x-look»: the calm look and the glass menu. The menu stays as it is, and folds into a rail of icons — and back — when its NCM is pressed
+   (6 November 2026: «خلى الشريط الجانبى ثابت يتقفل بزر بس زى الاول وخلى الزر مخفى ادوس على ncm يصغر الشريط ادوس عليها تانى يرجع لوضعه»);
+   remembered on the device. (For one day it opened under the hand and folded itself again — gone.) */
+const RAIL_KEY = "ncm_side_rail";
+let sideRail = false;
+try{ sideRail = localStorage.getItem(RAIL_KEY) === "1"; }catch(e){}
 function lookSync(){
   const on = !!session && can("x-motion");          // one button with the motion (2 November 2026: «لية مش كله واحد»)
   document.body.classList.toggle("calm", on);
-  document.body.classList.toggle("rail", on && !sideOpen);
-  document.body.classList.toggle("railx", on && sideOpen);
+  document.body.classList.toggle("rail", on && sideRail);
 }
 function bgmoSync(){
   lookSync();
@@ -7208,6 +7217,7 @@ function openDrawer(ref){
   $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn(); paintEditBtn(); paintGiveBtn();
   logCard(ref);
   $("dr-b").innerHTML = h;
+  hasCardPaint();
   editNote();
   idPhotos(ref);
   $("dr-b").scrollTop = 0;
@@ -10012,6 +10022,15 @@ async function cardOpen(data){
     return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: raw.slice(0, 12) }, key, raw.slice(12))));
   }catch(e){ return null; }
 }
+/* «حاصل على كارت» (asked for, 6 November 2026: «فى المستخدمين غير الادمن فى كارت اى موظف او اى تصريح لو هو حاصل على كارت يتكتب حاصل على
+   كارت»): on the card of a man or a vehicle opened anywhere, by anyone but the admin — a card handed over and not taken back */
+function hasCardPaint(){
+  const ref = drawerRef || "", head = document.querySelector("#dr-b .rec .pills");
+  if(isAdmin() || !link() || !head || !/^(ind|emp|veh):/.test(ref)) return;
+  if(!ISS.loaded || ISS.of !== M){ if(!ISS.busy && !ISS.err) issuedSync(); else if(ISS.loaded) issIndex().then(() => { if(drawerRef === ref) hasCardPaint(); }); return; }
+  const old = document.getElementById("dr-hascard"); if(old) old.remove();
+  if(issCards(ref).some(c => c.given && !c.pulled && !c.dead)) head.insertAdjacentHTML("beforeend", '<span class="pill ok" id="dr-hascard">' + esc(t("hasCard")) + "</span>");
+}
 async function issuedSync(){
   if(!link() || ISS.busy) return;
   ISS.busy = true;
@@ -10025,7 +10044,7 @@ async function issuedSync(){
   finally{ ISS.busy = false; }
   await issIndex();
   if(st.view === "issued") paintIssued();
-  if($("drawer").classList.contains("on")) paintGiveBtn();
+  if($("drawer").classList.contains("on")){ paintGiveBtn(); hasCardPaint(); }
 }
 // what a row of a page is known by in the database: [sheet, hash] — a man by his id and by his employee's code, a vehicle by its plate
 function issKeys(open){
@@ -10065,16 +10084,34 @@ function issBuild(){
     }
     if(!r) r = { out: true, veh: c.kind === "veh", x: c.x || {} };
     r.card = c; r.cards = [c]; r.given = c.given ? c : null; r.code = c.code || ""; r.until = c.until || ""; r.seg = r.out ? "out" : c.kind;
+    r.pulled = +c.pulled || 0; r.dead = +c.dead || 0;
     // an employee put down by his code: «الكارت ساري حتى» is his permit's own date, «تاريخ التصريح» in the employees' sheet (asked for the same day)
     if(r.seg === "emp" && !r.until){ const e = r.emps[0]; r.until = e.pdate ? fmt(e.pdate) : (e.permit_date || ""); }
     rows.push(r);
   });
+  /* A MAN JUST TAKEN ON (asked for, 6 November 2026: «الموظفين الى بتتعين جديد… لما حد يتعين جديد مش بيروح فى كروت الموظفين انه مستلمش»):
+     «موظفين» was the employees' cards put down by code on 18 October; anyone on duty since, with no card of that kind, was in none of it.
+     He is now, «لسه ماتسلمش», and «تم تسليم التصريح» puts his card down by his code as it does for anyone. */
+  if(M.emp && ISS.h){
+    const had = new Set(ISS.list.filter(c => c.kind === "emp").map(c => c.ref));
+    M.emp.list.forEach(e => {
+      if(e.resigned) return;
+      const ref = ISS.h.emp.get(e.emp_code);
+      if(!ref || had.has(ref)) return;
+      const card = { id: 0, kind: "emp", ref, code: "", until: "", src: "", given: null };
+      rows.push({ g: e.per || null, emps: [e], card, cards: [card], given: null, code: "", until: e.pdate ? fmt(e.pdate) : (e.permit_date || ""), seg: "emp", fresh: true });
+    });
+  }
   const rowOf = r => r.out ? 2e9 + (+r.card.id || 0) : r.seg === "emp" ? (parseInt(r.emps[0].emp_code, 10) || 0) : r.g ? r.g.cur.row || 0 : 1e9 + (parseInt(r.emps[0].emp_code, 10) || 0);
   rows.sort((a, b) => rowOf(a) - rowOf(b));
   ISS.rows = new Map(rows.map(r => [issCardKey(r.card), r]));
   return { rows, lost };
 }
-const issCat = r => r.given ? "given" : "not";
+/* «سحب التصريح» (asked for, 6 November 2026: «لما موظف يمشى اسحب منه التصريح ويبقا موجود عندى لحد ما ينتهى واعدمه»): a card taken
+   back is kept until the day it runs to, then destroyed — the admin's alone (system_card_pull). Taken back, it is no longer «تم التسليم». */
+const issHeld = r => !!r.given && !r.pulled && !r.dead;
+const issOver = r => { const d = NCM.parseStrict(r.until || ""); return !!d && d < NCM.today0(); };
+const issCat = r => r.dead ? "dead" : r.pulled ? "pulled" : r.given ? "given" : "not";
 /* THE SEARCH, ONE OR MANY — he picks (asked for the same day). «فردي»: what is typed is one thing, every word of it
    somewhere in the row (its name, id, plate, card's code, employee's code, job …). «متعدد»: a line — or what stands
    between commas — is one thing looked for, and a row that answers any of them is shown; what answers nothing in any
@@ -10095,8 +10132,10 @@ function issHits(rows, terms){
    its type and whose it is in the name's, job's and id's places. «تم التسليم» green, the day alone under it. */
 const issDayOf = ms => { const d = new Date(+ms); return isNaN(d) ? "" : fmt(d); };
 const ISS_COLS = [
-  { tk:"isState", cls:"nowrap", h:r => r.given ? '<div class="iss-cell">' + pill("ok", t("isGiven")) + '<span class="iss-day num">' + num(issDayOf(r.given.given)) + "</span></div>" : pill("warn", t("isNot")),
-    x:r => r.given ? t("isGiven") + " " + issDayOf(r.given.given) : t("isNot") },
+  { tk:"isState", cls:"nowrap", h:r => r.dead ? '<div class="iss-cell">' + pill("mute", t("isDead")) + '<span class="iss-day num">' + num(issDayOf(r.dead)) + "</span></div>"
+      : r.pulled ? '<div class="iss-cell">' + pill("bad", t("isPulled")) + '<span class="iss-day num">' + num(issDayOf(r.pulled)) + "</span>" + (issOver(r) ? pill("warn", t("isReady")) : "") + "</div>"
+      : r.given ? '<div class="iss-cell">' + pill("ok", t("isGiven")) + '<span class="iss-day num">' + num(issDayOf(r.given.given)) + "</span></div>" : pill("warn", t("isNot")),
+    x:r => r.dead ? t("isDead") + " " + issDayOf(r.dead) : r.pulled ? t("isPulled") + " " + issDayOf(r.pulled) : r.given ? t("isGiven") + " " + issDayOf(r.given.given) : t("isNot") },
   { tk:"isCode", cls:"nowrap", h:r => r.code ? "<b>" + esc(r.code) + "</b>" : dimDash, x:r => r.code },
   { tk:"isUntil", cls:"nowrap", h:r => r.until ? num(r.until) : dimDash, x:r => r.until }
 ];
@@ -10214,15 +10253,15 @@ function paintIssued(){
   $("iss-miss").innerHTML = miss.map(x => pill("bad", t("isMiss") + ": " + esc(x.text))).join("");
   // the three parts: how many, and how many of them were handed theirs
   $("iss-tiles").innerHTML = '<div class="tiles" style="--n:4;--half:2">' + ISS_SEGS.map(k => {
-    const mine = found.filter(r => r.seg === k), g = mine.filter(r => r.given).length;
+    const mine = found.filter(r => r.seg === k && !r.pulled && !r.dead), g = mine.filter(issHeld).length;
     return '<button type="button" class="tile' + (k === seg ? " picked job" : "") + '" data-isseg="' + k + '"><span class="tile-k">' + t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : "segPeople") + "</span>" +
       '<span class="tile-v num">' + num(mine.length) + '</span><span class="tile-s"><span class="g">' + esc(t("isGiven")) + " " + num(g) + '</span><span class="n">' + esc(t("isNot")) + " " + num(mine.length - g) + "</span></span></button>";
   }).join("") + "</div>";
-  const n = { given: rows.filter(r => r.given).length };
-  n.not = rows.length - n.given;
+  const n = { given: rows.filter(issHeld).length, not: rows.filter(r => issCat(r) === "not").length, pulled: rows.filter(r => issCat(r) === "pulled").length, dead: rows.filter(r => r.dead).length };
   const lost = built.lost.filter(c => (c.kind === "veh") === veh);
   const b = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-iscat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
   const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + b("", "blue", t("isAll"), rows.length) + b("given", "ok", t("isGiven"), n.given) + b("not", "warn", t("isNot"), n.not) +
+    (n.pulled ? b("pulled", "bad", t("isPulled"), n.pulled) : "") + (n.dead ? b("dead", "mute", t("isDead"), n.dead) : "") +
     (lost.length && !terms.length ? b("lost", "bad", t("isLost"), lost.length) : "") + "</div>";
   if(cat === "lost" && lost.length){
     box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + '</div><div class="note">' + t("isLostNote") + "</div>" +
@@ -10231,7 +10270,7 @@ function paintIssued(){
         (c.given ? pill("ok", t("isGiven")) : pill("warn", t("isNot"))) + "</td></tr>").join("") + "</tbody></table></div></section>";
     return;
   }
-  const mine = cat === "given" || cat === "not" ? rows.filter(r => issCat(r) === cat) : rows;
+  const mine = ["given", "not", "pulled", "dead"].indexOf(cat) >= 0 ? rows.filter(r => issCat(r) === cat) : rows;
   const cols = seg === "out" ? ISS_OUT_COLS : issCols(veh), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
   /* the same list painted again (a card handed over, the list asked for anew): it stays where it was scrolled to —
      it went back to its top every time (19 October 2026: «لما أجي أسلم حد يطلع في أول الجدول») */
@@ -10245,12 +10284,32 @@ function paintIssued(){
     shown.map((r, i) => { const id = issOpen(r);
       return '<tr' + (id ? ' data-open="' + esc(id) + '"' : ' style="cursor:default"') + ' data-iss-card="' + esc(issCardKey(r.card)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
         cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") +
-        (may ? '<td class="act">' + (r.given ? "" : '<button class="btn sm primary iss-give" data-iss-give="' + esc(issCardKey(r.card)) + '">' + t("isGive") + "</button>") + "</td>" : "") + "</tr>"; }).join("") +
+        (may ? '<td class="act">' + issActs(r) + "</td>" : "") + "</tr>"; }).join("") +
     (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
     "</tbody></table></div>") + "</section>";
   freeze();
   const now = box.querySelector(".tblwrap");
   if(keep && now){ now.scrollTop = keep.y; now.scrollLeft = keep.x; if(window.scrollY !== keep.w) window.scrollTo(0, keep.w); }
+}
+// the button of a row: hand it over · (the admin) take it back · destroy it
+function issActs(r){
+  const key = esc(issCardKey(r.card));
+  if(r.dead) return "";
+  if(r.pulled) return isAdmin() ? '<button class="btn sm' + (issOver(r) ? " danger" : "") + ' iss-give" data-iss-kill="' + key + '">' + t("isKill") + "</button>" : "";
+  if(r.given) return isAdmin() && r.card.id ? '<button class="btn sm danger iss-give" data-iss-pull="' + key + '">' + t("isPull") + "</button>" : "";
+  return '<button class="btn sm primary iss-give" data-iss-give="' + key + '">' + t("isGive") + "</button>";
+}
+async function issPull(key, what){
+  if(!isAdmin() || !link()) return;
+  const r = ISS.rows.get(key);
+  if(what === "pull" && !confirm(t("isPullSure"))) return;
+  if(what === "dead" && !confirm(t(r && !issOver(r) ? "isKillEarly" : "isKillSure"))) return;
+  const i = key.indexOf(":");
+  try{
+    await dbCall("system_card_pull", { p_name: link().u || "", p_kind: key.slice(0, i), p_refs: [key.slice(i + 1)], p_do: what });
+    toast(t(what === "pull" ? "isPulled" : "isDead"));
+  }catch(e){ toast(t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn"), true); }
+  await issuedSync();
 }
 /* «تم تسليم التصريح» (on) — or, the admin only, its undoing — for the rows given by what opens them. A row that has
    cards has them all marked; one without (a card not in the file) is put down by its own first key. */
@@ -10821,6 +10880,10 @@ document.addEventListener("click", e => {
   }
   const issB = tg.closest("[data-iss-give]");
   if(issB) return issGive([issB.dataset.issGive], true);
+  const issP = tg.closest("[data-iss-pull]");
+  if(issP) return issPull(issP.dataset.issPull, "pull");
+  const issK = tg.closest("[data-iss-kill]");
+  if(issK) return issPull(issK.dataset.issKill, "dead");
   const issR = tg.closest("#issv tr[data-iss-card]");
   issFrom = issR ? { open: issR.dataset.open, card: issR.dataset.issCard } : null;
   const opener = tg.closest("[data-open]");
@@ -11049,6 +11112,7 @@ document.addEventListener("error", e => {
   const nav = document.getElementById("nav");
   if(!nav) return;
   const lens = document.createElement("span"); lens.className = "nav-lens"; lens.setAttribute("aria-hidden", "true"); nav.appendChild(lens);
+  const tip = document.createElement("div"); tip.className = "side-tip"; tip.hidden = true; document.body.appendChild(tip);
   const calm = () => document.body.classList.contains("calm") && window.innerWidth > 920;
   let lastB = null, moving = 0;
   const place = b => {
@@ -11060,15 +11124,28 @@ document.addEventListener("error", e => {
     lens.style.left = (a.left - n.left + nav.scrollLeft - nav.clientLeft).toFixed(1) + "px";
     lens.style.transform = "translateY(" + (a.top - n.top + nav.scrollTop - nav.clientTop).toFixed(1) + "px)"; lens.classList.add("on");
   };
-  nav.addEventListener("mouseover", e => { if(!calm()) return; lastB = e.target.closest && e.target.closest("button[data-view]"); place(lastB); });
-  nav.addEventListener("mouseleave", () => { lastB = null; lens.classList.remove("on"); });
-  const side = nav.closest(".side"); let shut = 0;
-  const openSide = o => { clearTimeout(shut); if(sideOpen === o) return; sideOpen = o; lens.classList.remove("on"); moving = Date.now() + 5000; lookSync(); setTimeout(settle, 400); };
+  // folded, a page's name comes up beside its icon under the hand
+  const tipFor = b => {
+    if(!b || !document.body.classList.contains("rail")){ tip.hidden = true; return; }
+    const sp = b.querySelector("span[data-i18n]"), a = b.getBoundingClientRect(), sd = nav.closest(".side").getBoundingClientRect(), rtl = getComputedStyle(nav).direction === "rtl";
+    tip.textContent = sp ? sp.textContent : "";
+    tip.style.top = (a.top + a.height / 2) + "px";
+    tip.style.left = rtl ? "" : (sd.right + 10) + "px"; tip.style.right = rtl ? (window.innerWidth - sd.left + 10) + "px" : "";
+    tip.hidden = !tip.textContent;
+  };
+  nav.addEventListener("mouseover", e => { if(!calm()) return; lastB = e.target.closest && e.target.closest("button[data-view]"); place(lastB); tipFor(lastB); });
+  nav.addEventListener("mouseleave", () => { lastB = null; lens.classList.remove("on"); tip.hidden = true; });
+  const side = nav.closest(".side"), brand = side.querySelector(".brand");
+  // the button no one sees: the menu's own NCM
+  if(brand) brand.addEventListener("click", () => {
+    if(!calm()) return;
+    sideRail = !sideRail;
+    try{ localStorage.setItem(RAIL_KEY, sideRail ? "1" : "0"); }catch(e){}
+    lens.classList.remove("on"); tip.hidden = true; moving = Date.now() + 5000; lookSync(); setTimeout(settle, 400);
+  });
   // the menu has finished opening or closing (its column's width): the lens goes where the hand is, the page's motion and frozen columns are set again
   const settle = () => { if(!moving) return; moving = 0; try{ place(lastB); gmsAim(); freeze(); }catch(e){} };
   document.getElementById("app").addEventListener("transitionend", e => { if(e.propertyName === "grid-template-columns") settle(); });
-  side.addEventListener("mouseenter", () => { if(calm()) openSide(true); });
-  side.addEventListener("mouseleave", () => { shut = setTimeout(() => openSide(false), 220); });
 })();
 /* drop anywhere */
 let dragDepth = 0;

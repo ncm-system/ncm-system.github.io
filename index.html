@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-1022IYBTCcBEBW0vXAnkMQGSGzYO/Qszb4KfAtwEeNk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-MigMAeF6G5NyXI5M5EAzg3WzuXEwPtJ6JzgW3adnm98='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -396,18 +396,43 @@ body.bgmo .main{isolation:isolate;}
 #bgmo .gmo-cards i{animation-name:gCardIn;}
 @keyframes gCardIn{0%{opacity:0;transform:translateY(0) rotate(-8deg);}8%{opacity:.95;}50%{transform:translateY(-62cqh) rotate(5deg);}92%{opacity:.9;}100%{opacity:0;transform:translateY(-118cqh) rotate(-4deg);}}
 #bgmo .gmo-streams i{width:75cqmax;}
-/* the panels a shade more solid, so a table reads as clearly over it as on the plain page */
-body.bgmo .panel{background:rgba(255,255,255,.9);}
-html.dark body.bgmo .panel{background:rgba(21,32,44,.92);}
+/* GLASS, every page (asked for, 5 November 2026: «السيستم كله بكل صفحاته يبان بشكل زجاجى… ويظهر مع الموشن جيرافيك عادى ده يبقا اصل السيستم
+   ولو فى اى حاجه قديمة امسحها»): over the moving background (#bgmo, x-motion) every board, table, box and card is frosted glass — the motion
+   seen through it, the words clear on it; the colours that say a state (late · banned · done) keep theirs. The old «a shade more solid»
+   rules it replaces are gone (the panels at .9/.97, «فحص الداتا» at .92, ADMIN solid) */
+body.bgmo .main .panel,body.bgmo .main .chk{background:linear-gradient(155deg,rgba(255,255,255,.55),rgba(255,255,255,.30));border:1px solid rgba(255,255,255,.78);
+  -webkit-backdrop-filter:blur(16px) saturate(1.45);backdrop-filter:blur(16px) saturate(1.45);box-shadow:0 12px 34px -16px rgba(21,60,120,.32),inset 0 1px 0 rgba(255,255,255,.9);}
+body.bgmo .panel-h{border-bottom-color:rgba(255,255,255,.7);background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0));}
+body.bgmo .tbl th{background:rgba(234,242,251,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom-color:rgba(255,255,255,.8);}
+body.bgmo .tbl td{border-bottom-color:rgba(31,78,121,.09);}
+body.bgmo .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.24);}
+body.bgmo .tbl tbody tr:hover{background:rgba(255,255,255,.6);}
+body.bgmo .tbl .fz{background:rgba(250,252,253,.82);}
+body.bgmo .btn:not(.primary),body.bgmo .field,body.bgmo .seg{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(255,255,255,.85);}
+html.dark body.bgmo .main .panel,html.dark body.bgmo .main .chk{background:linear-gradient(155deg,rgba(26,39,53,.55),rgba(21,32,44,.30));border-color:rgba(140,185,240,.2);box-shadow:0 12px 34px -16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);}
+html.dark body.bgmo .panel-h{border-bottom-color:rgba(140,185,240,.15);background:none;}
+html.dark body.bgmo .tbl th{background:rgba(28,43,60,.8);border-bottom-color:rgba(140,185,240,.18);}
+html.dark body.bgmo .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.03);}
+html.dark body.bgmo .tbl tbody tr:hover{background:rgba(255,255,255,.07);}
+html.dark body.bgmo .tbl .fz{background:rgba(21,32,44,.88);}
+html.dark body.bgmo .btn:not(.primary),html.dark body.bgmo .field,html.dark body.bgmo .seg{background:rgba(26,39,53,.55);border-color:rgba(140,185,240,.2);}
+body.bgmo .main .tile{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
+  box-shadow:0 10px 26px -16px rgba(21,60,120,.35),inset 0 1px 0 rgba(255,255,255,.9);}
+body.bgmo .main .tile.warn{background:linear-gradient(155deg,rgba(255,250,236,.72),rgba(255,244,214,.42));}
+body.bgmo .main .chip{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+html.dark body.bgmo .main .tile{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));box-shadow:0 10px 26px -16px rgba(0,0,0,.6);}
+html.dark body.bgmo .main .tile.warn{background:linear-gradient(155deg,rgba(60,48,20,.5),rgba(40,32,14,.3));}
+html.dark body.bgmo .main .chip{background:rgba(26,39,53,.55);}
+body.bgmo #admv .panel,body.bgmo #admv .adm-stat,body.bgmo #desk .desk-card,body.bgmo #desk-sum > *{background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(255,255,255,.34));
+  -webkit-backdrop-filter:blur(16px) saturate(1.45);backdrop-filter:blur(16px) saturate(1.45);border-color:rgba(255,255,255,.8);box-shadow:0 12px 30px -16px rgba(21,60,120,.32),inset 0 1px 0 rgba(255,255,255,.9);}
+html.dark body.bgmo #admv .panel,html.dark body.bgmo #admv .adm-stat,html.dark body.bgmo #desk .desk-card,html.dark body.bgmo #desk-sum > *{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));border-color:rgba(140,185,240,.2);}
+
 /* the design looked over (4 November 2026: «راجع على التصميم بالكامل ولو فى حاجه محتاجة تتظبط بشكل اشيك من كده اعملها»): the moving
    background stays as it is; what stands on it is made to read. A soft halo of the page's own colour behind the mark and the page's
-   name and buttons — a card or an icon passing behind them fades there instead of crossing the words — and the rows of «فحص الداتا»
-   as solid as the panels (they let the motion through at .72) */
+   name and buttons — a card or an icon passing behind them fades there instead of crossing the words */
 body.bgmo .pg-fixed > .cbrand,body.bgmo .pg-head{position:relative;isolation:isolate;}
 body.bgmo .pg-fixed > .cbrand::before,body.bgmo .pg-head::before{content:"";position:absolute;z-index:-1;inset:-12px -70px;border-radius:999px;pointer-events:none;
   background:radial-gradient(closest-side,color-mix(in srgb,var(--bg) 94%,transparent) 62%,transparent);}
-body.bgmo .chk{background:rgba(255,255,255,.92);}
-html.dark body.bgmo .chk{background:rgba(21,32,44,.92);}
 /* the search box: glass reaching out over its own margins, and the light round its edge */
 body.bgmo .multi-box{width:calc(100% + 42px);max-width:682px;margin:-11px -21px -17px;padding:10px 20px 16px;border-radius:26px;border:1px solid rgba(255,255,255,.75);
   background:linear-gradient(155deg,rgba(255,255,255,.46),rgba(255,255,255,.16));-webkit-backdrop-filter:blur(1.5px) saturate(1.15);backdrop-filter:blur(1.5px) saturate(1.15);
@@ -1221,8 +1246,6 @@ table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;
 html.dark #admv .chip.on{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.4);color:#8cc0ff;}
 .adm-row.cans .chips{grid-template-columns:repeat(auto-fill,minmax(168px,1fr));}
 @media (max-width:1100px){ .adm-top{grid-template-columns:1fr;} }
-/* solid, over the moving background: the names and the chips are read, not glanced at */
-#admv .panel,#admv .adm-stat{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;}
 /* «بحث خاص»: what is asked by (a place, a letter, a company), and one line to type it in */
 .spc-seg{align-self:center;}
 /* «المساعد»: what it understood, as chips under the box — and what it could make nothing of, struck out */
@@ -2143,8 +2166,7 @@ html:has(body.calm){background-color:#f1f4f8;background-image:radial-gradient(90
 html.dark:has(body.calm){background-color:#0f1821;background-image:none;}
 /* boards: white, a hairline, the lightest of shadows */
 :where(body.calm) .panel{background:#fff;border:1px solid var(--c-line);border-radius:16px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);}
-body.calm.bgmo .panel{background:rgba(255,255,255,.97);}
-html.dark body.calm .panel,html.dark body.calm.bgmo .panel{background:#141f2a;}
+html.dark body.calm .panel{background:#141f2a;}
 :where(body.calm) .panel-h{border-bottom-color:var(--c-line);}
 :where(body.calm) .panel-t{font-size:14.5px;color:var(--text);}
 html.dark :where(body.calm) .panel-t{color:var(--text);}
@@ -3786,7 +3808,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2a94afa0fae3";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5afa3c75bc35";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4136,7 +4158,7 @@ const I18N = {
     grpWork:"بيانات التوظيف", hireDate:"تاريخ التعيين", grpSecurity:"بيانات أمنية", grpLetter:"بيانات الخطاب", letterNote:"ملاحظات الخطاب", histAria:"سجل البحث", histEmpty:"السجل فاضي", histClear:"مسح السجل", banReason:"سبب المنع", resignEnd:"انتهاء الاستقالة",
     photoAlt:"صورة البطاقة", noPhoto:"لا يوجد صورة",
     drEmp:c => "موظف — كود " + c,
-    drInd:"تصاريح فرد", noNameShort:"بدون اسم", nidNotReg:"رقم قومي غير مسجل",
+    drInd:"تصاريح فرد", noNameShort:"بدون اسم",
     nPermits:n => n + (n === 1 ? " تصريح" : " تصاريح"), empLink:c => "موظف NCM — كود " + c,
     fromNid:"من الرقم القومي", nameForms:"الاسم مكتوب بأكتر من شكل",
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
@@ -4286,7 +4308,7 @@ const I18N = {
     grpWork:"EMPLOYMENT DETAILS", hireDate:"Hire date", grpSecurity:"SECURITY DETAILS", grpLetter:"LETTER DETAILS", letterNote:"Letter notes", histAria:"Search history", histEmpty:"No searches yet", histClear:"Clear history", banReason:"Ban reason", resignEnd:"Resignation ends",
     photoAlt:"ID card photo", noPhoto:"No photo",
     drEmp:c => "Employee — code " + c,
-    drInd:"Individual's permits", noNameShort:"No name", nidNotReg:"National ID not registered",
+    drInd:"Individual's permits", noNameShort:"No name",
     nPermits:n => "\u200E" + n + (n === 1 ? " permit" : " permits"), empLink:c => "NCM employee — code " + c,
     fromNid:"FROM THE NATIONAL ID", nameForms:"NAME WRITTEN MORE THAN ONE WAY",
     drVeh:"Vehicle permits", plateForms:"PLATE WRITTEN MORE THAN ONE WAY"
@@ -7000,8 +7022,12 @@ function renderSources(){
 /* ============================================================
    DRAWER
    ============================================================ */
+// a cell with nothing in it shows nothing on a card (asked for, 5 November 2026: «اى خلية فى اى شيت مش مكتوب فيها حاجه متظهرش فى اى كرت…
+// الاجانب مش مكتوب تاريخ انتهاء البطاقة بس متظهر فى الكارت غير محدد لا خليها متظهرش خالص»): empty, or only a word put in for nothing
+const BLANK_RE = /^\s*(?:غير محدد|غير معروف|لا يوجد|لايوجد|[-—–_.؟?]+|n\/?a|#n\/a|null|none|undefined)\s*$/i;
+const isBlank = v => v === "" || v === null || v === undefined || BLANK_RE.test(String(v));
 const rowHTML = (label, value, cls, isNum) =>
-  (value === "" || value === null || value === undefined) ? "" :
+  isBlank(value) ? "" :
   '<div class="row"><dt>' + esc(label) + '</dt><dd class="' + (cls || "") + (isNum ? " num" : "") + '">' + esc(value) + "</dd></div>";
 const group = (title, rows) => rows ? '<div class="grp"><span class="grp-t">' + title + '</span><dl class="rows">' + rows + "</dl></div>" : "";
 function fmtPhone(v){
@@ -7050,7 +7076,7 @@ function permitRecHTML(r, i, total, veh){
 }
 // «البطاقة سارية حتى» on his card, red once it has gone by (with the ID cards' own key, x-photo)
 function empCardEnd(e){
-  if(!can("x-photo") || !e.id_card_expiry) return "";
+  if(!can("x-photo") || isBlank(e.id_card_expiry)) return "";
   const d = NCM.parseStrict(e.id_card_expiry), gone = !!d && d < NCM.today0();
   return rowHTML(t("cdColExpiry"), d ? fmt(d) + (gone ? " — " + t("rvExpired") : "") : e.id_card_expiry, gone ? "bad" : "", !!d);
 }
@@ -7067,7 +7093,7 @@ function empCardHTML(e){
         (cat ? pill(e.category, cat) : "") + (e.foreign ? pill("link", t("foreignPill")) : "") + "</div></div>" +
     '<div class="permit"><div><div class="permit-k">' + t("permitStatus") + '</div><div class="permit-s">' + esc(stLabel(e)) + "</div>" +
       (e.dl !== null ? '<div class="permit-c">' + esc(countdown(e.dl)) + "</div>" : "") + "</div>" +
-      (e.pdate ? '<div class="permit-d num">' + fmt(e.pdate) + "</div>" : '<div class="permit-d na">' + esc(e.permit_date || "—") + "</div>") + "</div>" +
+      (e.pdate ? '<div class="permit-d num">' + fmt(e.pdate) + "</div>" : isBlank(e.permit_date) ? "" : '<div class="permit-d na">' + esc(e.permit_date) + "</div>") + "</div>" +
     group(t("grpPersonal"), rowHTML(t(e.foreign ? "passport" : "colNid"), e.national_id, "", true) + (e.foreign ? "" : nidRows(e.nid)) +
       rowHTML(t("phone"), fmtPhone(e.phone), "", true) + rowHTML(t("address"), e.address) + empCardEnd(e) + empQual(e)) +
     group(t("grpWork"), rowHTML(t("colJob"), e.job_title) + rowHTML(t("colDept"), e.department) +
@@ -7093,7 +7119,7 @@ function openDrawer(ref){
     title = t("drInd");
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head">' +
           '<h2 class="nm">' + esc(g.name || t("noNameShort")) + "</h2>" +
-          '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : pill("mute", t("nidNotReg"))) +
+          '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : "") +
             '<span class="pill warn">' + t("nPermits", g.records.length) + "</span>" +
             (g.emp ? g.emp.map(e => '<button class="pill link" data-open="emp:' + esc(e.emp_code) + '" style="cursor:pointer">' + esc(t("empLink", e.emp_code)) + "</button>").join("") : "") +
           "</div>" + occBar(g.records.length) + "</div>" +

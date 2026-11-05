@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-u/2F9fu3ScKyQOs7IEjYg1JqaVEnuqp7VI4W/LC318Y='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-vG5mmzbVvYGR8t6P4u0nEEnyM8ZdPolgrnkBh4noEes='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2584,6 +2584,75 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 @keyframes rlStamp{0%,93.33%{transform:scale(0) rotate(-40deg);animation-timing-function:cubic-bezier(.2,1.8,.4,1);}95.33%,100%{transform:none;}}
 /* asked for less motion: the last shot, still */
 @media (prefers-reduced-motion:reduce){ .reel .rl-s6,.reel .rl-s6 *{opacity:1!important;transform:none!important;clip-path:none!important;} }
+/* THE PHONE AS AN APP (asked for, 5 November 2026: «اعمل افضل تصميم للموبيل… اتحرك فى الموبيل براحتى كانة ابلكيشن حقيقى مش عايز كل حاجه تبقى
+   راكبة فوق بعض» — set to his phone alone, an OPPO Reno 11 5G, about 393 dots wide: «لو غيرت الموبيل هقولك»). A bar at the top that stays
+   (the mark, «رجوع», the menu), a bar of tabs at the bottom for the pages most used, the whole menu a sheet over the screen, the rows of
+   buttons and counts one line each that the thumb moves sideways, and nothing ever wider than the screen */
+#tabbar{display:none;}
+@media (max-width:920px){
+  html:has(body.madm),body.madm{overflow-x:hidden;}
+  body.madm #out{overflow-x:clip;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));}
+  body.madm .pg-head::before,body.madm .pg-fixed > .cbrand::before{inset:-8px 0 !important;}
+  /* the top bar */
+  body.madm .side{padding:8px 12px;min-height:56px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+    border-bottom:1px solid rgba(21,101,192,.1);box-shadow:0 6px 20px -10px rgba(14,76,147,.3);}
+  html.dark body.madm .side{background:rgba(21,32,44,.9);}
+  body.madm .brand .ncm{font-size:22px;}
+  body.madm .brand .appname{font-size:12px;letter-spacing:.12em;}
+  body.madm .menubtn{width:40px;height:40px;border-radius:14px;}
+  body.madm .backbtn{top:11px;height:36px;border-radius:14px;}
+  body.madm .backbtn:disabled{opacity:0;pointer-events:none;}
+  /* the menu: a sheet over the whole screen, its lines big enough for a thumb */
+  body.madm .side.open{position:fixed;inset:0;z-index:90;height:100dvh;max-height:none;overflow-y:auto;align-content:flex-start;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));
+    background:rgba(246,249,253,.97);}
+  html.dark body.madm .side.open{background:rgba(14,22,33,.98);}
+  body.madm .side.open .nav{max-height:none;overflow:visible;gap:2px;}
+  body.madm .side.open .nav button{min-height:48px;font-size:15px;border-radius:14px;}
+  body.madm .side.open .navh{display:block;padding:14px 8px 6px;font-size:12px;}
+  /* the tabs at the bottom */
+  body.madm #tabbar:not([hidden]){display:flex;position:fixed;z-index:92;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));height:66px;padding:6px;gap:2px;
+    align-items:stretch;justify-content:space-around;border-radius:24px;direction:rtl;background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.95);
+    -webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 18px 40px -14px rgba(14,76,147,.45),0 2px 8px rgba(14,76,147,.12);}
+  html[dir=ltr] body.madm #tabbar:not([hidden]){direction:ltr;}
+  body.madm #tabbar .tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:4px 2px;border:0;border-radius:18px;
+    background:none;color:#5b6b7e;font:inherit;font-size:10.5px;font-weight:800;line-height:1.1;-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s;}
+  body.madm #tabbar .tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  body.madm #tabbar .tab svg{width:22px;height:22px;flex:none;}
+  body.madm #tabbar .tab.on{color:#fff;background:linear-gradient(135deg,#1565c0,#2f8f5b);box-shadow:0 8px 18px -8px rgba(21,101,192,.8);}
+  html.dark body.madm #tabbar:not([hidden]){background:rgba(21,32,44,.92);border-color:rgba(120,170,240,.16);}
+  html.dark body.madm #tabbar .tab{color:#a9b8c8;}
+  /* a page's head: the title, then its buttons on one line that moves sideways */
+  body.madm .pg-t{font-size:22px;}
+  body.madm .pg-head > div{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;max-width:100%;}
+  body.madm .pg-head > div::-webkit-scrollbar,body.madm .toolbar .chips::-webkit-scrollbar,body.madm .panel-h > .sum::-webkit-scrollbar{display:none;}
+  body.madm .pg-head > div > *{flex:none;}
+  /* the counts: one line, moved with the thumb */
+  body.madm .toolbar{gap:8px;}
+  body.madm .toolbar .chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;max-width:100%;padding-block:2px;}
+  body.madm .toolbar .chips > *{flex:none;scroll-snap-align:start;}
+  body.madm .panel-h > .sum{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;}
+  body.madm .panel-h > .sum > *{flex:none;}
+  /* the filters: the search line the width of the screen, the two lists side by side, the buttons after */
+  body.madm .toolbar > input.field{flex:1 1 100%;min-width:0;}
+  body.madm .toolbar > select.field{flex:1 1 calc(50% - 4px);min-width:0;}
+  body.madm .toolbar > .btn{flex:1 1 auto;}
+  /* the tables: a little tighter, the name column narrower */
+  body.madm .tbl{font-size:13.5px;}
+  body.madm .tbl th,body.madm .tbl td{padding:9px 8px;}
+  body.madm .tbl td.name{min-width:150px;}
+  body.madm .tbl .fz1.name{min-width:42vw;}
+  /* the card over the page: above the tabs */
+  body.madm #drawer{z-index:95;}
+  /* behind the pages, the quiet part of the motion only: the words, cards, rings and lines that ran behind a box are left out, so nothing
+     stands on anything */
+  body.madm #bgmo .gmo-word,body.madm #bgmo .gmo-cards,body.madm #bgmo .gmo-rings,body.madm #bgmo .gmo-streams,body.madm #bgmo .gmo-beam{display:none !important;}
+  body.madm #bgmo{position:fixed;inset:0;}             /* the screen's, not the page's: no plain band under a short page, and no motion the height of a long list */
+  /* a press is felt, as in an app */
+  body.madm button,body.madm .btn,body.madm .chip,body.madm .tile{-webkit-tap-highlight-color:transparent;}
+  body.madm .btn:active,body.madm .chip:active,body.madm .tile:active,body.madm #tabbar .tab:active,body.madm .nav button:active{transform:scale(.96);transition:transform .08s;}
+  body.madm{overscroll-behavior-y:contain;}
+  /* the names of the tabs whole, on two lines where they need them */
+}
 </style>
 </head>
 <body>
@@ -3799,7 +3868,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "a79700d0c5d3";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "cadf8db06055";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10517,6 +10586,45 @@ $("nav").addEventListener("click", e => {
 });
 $("back").addEventListener("click", goBack);
 $("menu-btn").addEventListener("click", () => menuFold(!document.querySelector(".side").classList.contains("open")));
+/* THE TABS AT THE FOOT OF THE PHONE (5 November 2026, see «THE PHONE AS AN APP» in the styles): the pages most used, as the menu has them
+   (the same buttons, the same permissions: a page he has not is not there), and «القائمة» for all the rest */
+(function(){
+  const TABS = ["multi", "esrch", "emp", "home", "ind"];
+  const bar = document.createElement("nav"); bar.id = "tabbar"; bar.hidden = true; document.body.appendChild(bar);
+  const side = document.querySelector(".side"), nav = $("nav");
+  const menuSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  let sig = "";
+  const paint = () => {
+    const items = TABS.map(v => nav.querySelector('button[data-view="' + v + '"]')).filter(b => b && !b.hidden).slice(0, 4);
+    // a tab's name short enough for its place (the menu keeps the whole one)
+    const SHORT = { esrch: ["بحث موظف", "Staff"], home: ["اللوحة", "Dashboard"] };
+    const label = b => SHORT[b.dataset.view] ? SHORT[b.dataset.view][isEN() ? 1 : 0] : (b.querySelector("span[data-i18n]") || {}).textContent || "";
+    const now = items.map(b => b.dataset.view + ":" + label(b)).join("|") + "|" + t("menuAria");
+    if(now !== sig){
+      sig = now;
+      bar.innerHTML = items.map(b => '<button type="button" class="tab" data-tab="' + b.dataset.view + '">' + (b.querySelector("svg") ? b.querySelector("svg").outerHTML : "") + "<span>" + esc(label(b)) + "</span></button>").join("") +
+        '<button type="button" class="tab" data-tab="menu">' + menuSvg + "<span>" + esc(t("menuAria")) + "</span></button>";
+    }
+    const open = side.classList.contains("open"), on = nav.querySelector("button.on");
+    [].forEach.call(bar.querySelectorAll(".tab"), x => x.classList.toggle("on", open ? x.dataset.tab === "menu" : !!on && x.dataset.tab === on.dataset.view));
+    bar.hidden = !session || !$("gate").hidden;
+  };
+  let queued = false;
+  const later = () => { if(queued) return; queued = true; requestAnimationFrame(() => { queued = false; paint(); }); };
+  bar.addEventListener("click", e => {
+    const b = e.target.closest(".tab"); if(!b) return;
+    if(b.dataset.tab === "menu"){ menuFold(!side.classList.contains("open")); later(); return; }
+    menuFold(false);
+    const nb = nav.querySelector('button[data-view="' + b.dataset.tab + '"]'); if(nb) nb.click();
+    try{ window.scrollTo({ top: 0, behavior: "smooth" }); }catch(e2){ window.scrollTo(0, 0); }
+    later();
+  });
+  new MutationObserver(later).observe(nav, { subtree: true, attributes: true, attributeFilter: ["class", "hidden"], characterData: true, childList: true });
+  new MutationObserver(later).observe(side, { attributes: true, attributeFilter: ["class"] });
+  new MutationObserver(later).observe($("gate"), { attributes: true, attributeFilter: ["hidden"] });
+  later();
+})();
+
 $("nav").addEventListener("click", e => { if(e.target.closest("button[data-view]")) menuFold(false); });
 $("dr-print").addEventListener("click", printCard);
 $("rlamp").addEventListener("click", () => { menuFold(false); if(st.view !== "src"){ leave(); go("src"); } });

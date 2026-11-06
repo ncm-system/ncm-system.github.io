@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-jC2J7vks2kyqZWY1R1kI4juuswI/BwQ2HXW7ujgv7Xk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-Dje/c5JD1Xr2g4ALCEh67FC7qoATNbuAR3zWHlwXOCs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2671,6 +2671,9 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 :where(body.bgmo .main) .chip{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
 :where(html.dark body.bgmo .main) .tile{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));box-shadow:0 10px 26px -16px rgba(0,0,0,.6);}
 :where(html.dark body.bgmo .main) .chip{background:rgba(26,39,53,.55);}
+.hc-pill{margin-inline-start:6px;font-size:11px;padding:1px 7px;vertical-align:middle;white-space:nowrap;}
+td.name .hc-pill{display:inline-block;}
+@media print{ .hc-pill{display:none !important;} }
 </style>
 </head>
 <body>
@@ -3886,7 +3889,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2a13403db7f1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e0f7886ec25a";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10047,11 +10050,40 @@ async function cardOpen(data){
    كارت»): on the card of a man or a vehicle opened anywhere, by anyone but the admin — a card handed over and not taken back */
 function hasCardPaint(){
   const ref = drawerRef || "", head = document.querySelector("#dr-b .rec .pills");
-  if(isAdmin() || !link() || !head || !/^(ind|emp|veh):/.test(ref)) return;
+  if(!link() || !head || !/^(ind|emp|veh):/.test(ref)) return;
   if(!ISS.loaded || ISS.of !== M){ if(!ISS.busy && !ISS.err) issuedSync(); else if(ISS.loaded) issIndex().then(() => { if(drawerRef === ref) hasCardPaint(); }); return; }
   const old = document.getElementById("dr-hascard"); if(old) old.remove();
   if(issCards(ref).some(c => c.given && !c.pulled && !c.dead)) head.insertAdjacentHTML("beforeend", '<span class="pill ok" id="dr-hascard">' + esc(t("hasCard")) + "</span>");
 }
+/* …and in the tables too, for everyone, the admin with them (asked for, 6 November 2026: «اكيد طبعا عايز» — to «في الجداول كمان؟ وليك
+   إنت كمان؟»): beside the name (or the plate) of every row of a man or a vehicle with a card handed over and not taken back. On the screen
+   only — the files and the paper are as they were. Not on «الكروت», which says it in its own column. */
+const issHeldBy = open => issCards(open).some(c => c.given && !c.pulled && !c.dead);
+let hcBusy = 0;
+function hasCardRows(again){
+  const out = $("out");
+  if(!out || !link() || st.view === "issued") return;
+  if(!ISS.loaded || ISS.of !== M || !ISS.h){
+    if(!ISS.busy && !ISS.err && !ISS.loaded) issuedSync();
+    else if(ISS.loaded && !ISS.busy && ISS.of !== M) issIndex().then(() => hasCardRows(true));
+    return;
+  }
+  if(again) out.querySelectorAll("tr[data-hc]").forEach(tr => { tr.removeAttribute("data-hc"); const x = tr.querySelector(".hc-pill"); if(x) x.remove(); });
+  out.querySelectorAll("tr[data-open]:not([data-hc])").forEach(tr => {
+    tr.setAttribute("data-hc", "");
+    const open = tr.getAttribute("data-open") || "";
+    if(!/^(ind|emp|veh):/.test(open) || !issHeldBy(open)) return;
+    let td = tr.querySelector("td.name");
+    if(!td){
+      const tbl = tr.closest("table"), ths = tbl ? Array.from(tbl.querySelectorAll("thead th")) : [], want = [t("colName"), t("colPlate")];
+      const i = ths.findIndex(th => want.indexOf((th.firstChild && th.firstChild.nodeType === 3 ? th.firstChild.nodeValue : th.textContent).trim()) >= 0);
+      if(i >= 0) td = tr.children[i];
+    }
+    if(!td) td = Array.from(tr.children).find(c => !c.classList.contains("ix"));
+    if(td) td.insertAdjacentHTML("beforeend", '<span class="pill ok hc-pill">' + esc(t("hasCard")) + "</span>");
+  });
+}
+new MutationObserver(() => { if(!hcBusy) hcBusy = requestAnimationFrame(() => { hcBusy = 0; hasCardRows(); }); }).observe($("out"), { childList: true, subtree: true });
 async function issuedSync(){
   if(!link() || ISS.busy) return;
   ISS.busy = true;
@@ -10066,6 +10098,7 @@ async function issuedSync(){
   await issIndex();
   if(st.view === "issued") paintIssued();
   if($("drawer").classList.contains("on")){ paintGiveBtn(); hasCardPaint(); }
+  hasCardRows(true);
 }
 // what a row of a page is known by in the database: [sheet, hash] — a man by his id and by his employee's code, a vehicle by its plate
 function issKeys(open){

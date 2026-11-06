@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-/XZwT7lxWL1OkZZnjVjXTIbGtq93kpoMUuDLeS1L+CA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-jC2J7vks2kyqZWY1R1kI4juuswI/BwQ2HXW7ujgv7Xk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -16,7 +16,7 @@
 <link rel="icon" href="ncm-logo.ico?v=4" sizes="16x16 24x24 32x32 48x48 64x64 128x128 256x256" type="image/x-icon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Great+Vibes&family=IBM+Plex+Mono:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Pacifico&family=IBM+Plex+Mono:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    PERMISSION SYSTEM (was «NCM SYSTEM» until 22 October 2026) — the desk-side companion to the NCM PERMISSION app.
@@ -1816,10 +1816,10 @@ html.dark .itr-ring{border-color:#6fd16b;box-shadow:0 0 50px rgba(111,209,107,.6
    بالانجليزى»): the word comes in from apart, the name rises after it in the company's blue running into its green, a line drawn under them */
 .itr-hi{margin-top:clamp(20px,4.5vh,46px);width:min(760px,88vw);direction:ltr;opacity:0;}
 .itr-sign{display:block;width:100%;height:auto;overflow:visible;}
-.itr-sign text{font-family:"Great Vibes","Segoe Script","Brush Script MT",cursive;fill:url(#sg-ink);fill-opacity:0;stroke:url(#sg-ink);stroke-width:1.4;
+.itr-sign text{font-family:"Pacifico","Segoe Script","Brush Script MT",cursive;fill:url(#sg-ink);fill-opacity:0;stroke:url(#sg-ink);stroke-width:1.4;
   stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;paint-order:stroke;}
-.itr-sign .sg-w{font-size:78px;}
-.itr-sign .sg-n{font-size:118px;}
+.itr-sign .sg-w{font-size:64px;}
+.itr-sign .sg-n{font-size:96px;}
 .itr-sign .sg-r{transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0);}
 /* written as the video showed (6 November 2026: «عايز مرحبا واسم المستخدم… تترسم كده و خلى سرعتها مع ساعة الواجهة الافتتاحية»): the pen goes left to
    right, its line drawn and the ink coming in behind it — «Welcome» from 3.3 s, the name from 3.95 s, both done by 5.1 s,
@@ -3886,7 +3886,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "00cf8addd1ee";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2a13403db7f1";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5043,13 +5043,15 @@ async function submitPin(){
 function signFit(){
   const fit = (tx, r) => {
     const t1 = $(tx), r1 = $(r); if(!t1 || !r1) return;
-    let b; try{ b = t1.getBBox(); }catch(e){ return; }
+    let b; try{ t1.style.fontSize = ""; b = t1.getBBox(); }catch(e){ return; }
     if(!b || !b.width) return;
+    // a long name in this round hand is wide: it comes down to fit
+    if(b.width > 960){ t1.style.fontSize = (parseFloat(getComputedStyle(t1).fontSize) * 960 / b.width) + "px"; b = t1.getBBox(); }
     r1.setAttribute("x", b.x - 6); r1.setAttribute("width", b.width + 12);
   };
   fit("sg-w", "sg-r1"); fit("itr-name", "sg-r2");
 }
-if(document.fonts && document.fonts.load) document.fonts.load('118px "Great Vibes"', "Welcome").then(signFit, () => {});
+if(document.fonts && document.fonts.load) document.fonts.load('96px "Pacifico"', "Welcome").then(signFit, () => {});
 function playIntro(){
   const el = $("intro");
   if(!el || !can("x-motion") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;

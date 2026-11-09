@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TZ/MaKeJQx+KuAT4YFF7OeV8xV2rQJaQAkwLSGTR5x4=' 'sha256-xL9dlWT2LoVwb9QrbI8yPYU/ocUntoPxnLROcZ2CzCI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-AZ3JHQTm8P0vReSfFJxU5e938aPeERrzLnvlcemt4Kc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3251,8 +3251,20 @@ function headerDrift(header, expect){
   const got = expect.map((_, i) => plain(header[2 + i]));
   return got.every((g, i) => g === plain(expect[i])) ? null : got;
 }
-function buildIndividuals(p){
-  const sh = p.sheets.ind, C = IND_COL, groups = new Map();
+/* THE TEMPORARY SHEETS ARE READ BY THEIR HEADINGS (9 November 2026): Khaled took out of them the columns a temporary permit has no use for
+   (ملاحظات · MAIL TYPE · the ASE ones) and may take out or move more — so each column is found by its heading, folded; a heading that is not
+   there is a column that is not there. */
+const TMP_HEADS = {
+  ind: { NAME: "الاسم", JOB: "الوظيفة", ID: "الرقم القومى", ADDR: "العنوان", NOTE: "ملاحظات", SENDER: "المرسل", PERMIT: "تصريح", DAY: "Mail Day", MAIL: "MAIL TYPE" },
+  veh: { PLATE: "رقم السيارة", TYPE: "النوع", OWNER: "تابعه", PERMIT: "تصريح", DAY: "Mail Day", MAIL: "MAIL TYPE" }
+};
+function colsByHead(header, kind){
+  const at = {}, heads = (header || []).map(h => foldArabic(h));
+  Object.keys(TMP_HEADS[kind]).forEach(k => { const i = heads.indexOf(foldArabic(TMP_HEADS[kind][k])); at[k] = i >= 0 ? i : -1; });
+  return at;
+}
+function buildIndividuals(p, cols){
+  const sh = p.sheets.ind, C = cols || IND_COL, groups = new Map();
   sh.rows.forEach(r => {
     const c = r.c;
     const idVal = normalize(c[C.ID]), nameVal = normalize(c[C.NAME]);
@@ -3282,8 +3294,8 @@ function buildIndividuals(p){
   });
   return { list, groups, byNid, rows: sh.rows.length, drift: headerDrift(sh.header, EXPECT.ind) };
 }
-function buildVehicles(p){
-  const sh = p.sheets.veh, C = VEH_COL, groups = new Map();
+function buildVehicles(p, cols){
+  const sh = p.sheets.veh, C = cols || VEH_COL, groups = new Map();
   sh.rows.forEach(r => {
     const c = r.c, plate = normalize(c[C.PLATE]);
     if(!plate) return;
@@ -3456,11 +3468,11 @@ function buildModel(data){
     M.ind = buildIndividuals(data.per); M.veh = buildVehicles(data.per);
     // the temporary permits: the same rules as their kind, lists of their own
     if(data.per.sheets.tind){
-      M.tind = buildIndividuals({ sheets: { ind: data.per.sheets.tind } });
+      M.tind = buildIndividuals({ sheets: { ind: data.per.sheets.tind } }, colsByHead(data.per.sheets.tind.header, "ind"));
       // a temporary permit takes no letter number and nothing of ASE (Khaled, the same day): whatever stands in those columns is not read
       M.tind.list.forEach(g => g.records.forEach(r => { r.letter = r.company = r.ldate = r.anote = ""; }));
     }
-    if(data.per.sheets.tveh) M.tveh = buildVehicles({ sheets: { veh: data.per.sheets.tveh } });
+    if(data.per.sheets.tveh) M.tveh = buildVehicles({ sheets: { veh: data.per.sheets.tveh } }, colsByHead(data.per.sheets.tveh.header, "veh"));
   }
   if(M.emp && M.ind){
     M.emp.list.forEach(e => { e.per = e.foreign ? null : (M.ind.byNid.get(e.nid) || null); });
@@ -3907,7 +3919,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "be3ea693cca6";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "76c431f99e4f";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5853,8 +5865,9 @@ const tmpOver = r => { if(!r.p.date || !r.cur.dayDate) return false; const end =
 const tmpSeg = view => '<div class="seg noprint">' + [["tind", "tmpInd"], ["tveh", "tmpVeh"]].map(k =>
   '<button data-tmpk="' + k[0] + '" class="' + (view === k[0] ? "on" : "") + '">' + t(k[1]) + (M[k[0]] ? ' <b class="num">' + M[k[0]].list.length + "</b>" : "") + "</button>").join("") + "</div>";
 function tmpList(kind){
-  // no letter number and nothing of ASE: a temporary permit has none («التصاريح المؤقته لا بتاخد رقم خطاب ولا اى بيانات من ase»)
-  const NO_ASE = ["letter", "company", "ldate", "anote"];
+  // no letter number and nothing of ASE: a temporary permit has none («التصاريح المؤقته لا بتاخد رقم خطاب ولا اى بيانات من ase»); nor
+  // the notes and MAIL TYPE, which Khaled took out of the two sheets the same day
+  const NO_ASE = ["letter", "company", "ldate", "anote", "note", "mail"];
   const L = LISTS[kind], view = "t" + kind, cols = L.cols.filter(c => NO_ASE.indexOf(c.k) < 0), uniq = a => [...new Set(a.filter(Boolean))].sort();
   cols.splice(cols.findIndex(c => c.k === "permit") + 1, 0, { k: "dur", tk: "colDur", cls: "nowrap",
     h: r => { const d = tmpDays(r); return d === null ? dimDash : tmpOver(r) ? pill("warn", t("durDays", d)) : esc(t("durDays", d)); },
@@ -5865,9 +5878,7 @@ function tmpList(kind){
     tk: "navTmp", need: view, csv: kind === "ind" ? "csvTind" : "csvTveh", none: "tmpNoSheet", seg: () => tmpSeg(view),
     all: () => M[view].list,
     chips: PER_CHIPS.concat([["over", "cOver"]]), pick: (r, k) => k === "all" || (k === "over" ? tmpOver(r) : r.p.cat === k),
-    selects: () => kind === "ind"
-      ? [["mail", "allMail", uniq(M.tind.list.map(g => g.cur.mail))]]
-      : [["mail", "allMail", uniq(M.tveh.list.map(g => g.cur.mail))]],
+    selects: () => [],
     open: r => view + ":" + r.key,
     xk, cols
   });

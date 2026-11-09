@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UrFP2pQyMK/diF+UNRohZL6yxWoRdeKSLtPbqGAwWEs=' 'sha256-Dje/c5JD1Xr2g4ALCEh67FC7qoATNbuAR3zWHlwXOCs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TZ/MaKeJQx+KuAT4YFF7OeV8xV2rQJaQAkwLSGTR5x4=' 'sha256-xL9dlWT2LoVwb9QrbI8yPYU/ocUntoPxnLROcZ2CzCI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2706,6 +2706,7 @@ td.name .hc-pill{display:inline-block;}
         <button data-view="emp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="navEmp">الموظفين</span><em class="nb" id="nb-emp"></em></button>
         <button data-view="ind"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"/><circle cx="9" cy="11" r="2"/><path d="M5.8 16c.6-1.5 1.8-2.2 3.2-2.2s2.6.7 3.2 2.2M15 10h3.5M15 13.5h3.5"/></svg><span data-i18n="navInd">تصاريح الأفراد</span><em class="nb" id="nb-ind"></em></button>
         <button data-view="veh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2a2 2 0 0 1 1.9 1.5L21 13"/><rect x="3" y="13" width="18" height="5" rx="1"/><circle cx="7" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/></svg><span data-i18n="navVeh">تصاريح المركبات</span><em class="nb" id="nb-veh"></em></button>
+        <button data-view="tind"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="13" height="14" rx="2.4"/><path d="M6.5 10h6M6.5 13.5h3"/><circle cx="17.5" cy="15.5" r="4.2"/><path d="M17.5 13.6v1.9l1.3 1"/></svg><span data-i18n="navTmp">التصاريح المؤقتة</span><em class="nb" id="nb-tind"></em></button>
       </div>
       <div class="navg">
         <div class="navh" data-i18n="navgReports">التقارير</div>
@@ -2837,6 +2838,9 @@ const NCM = (() => {
 const EXPIRY_WINDOW = 30;                 // days that count as "expiring soon" — the app's number
 const IND_TAB = "تصاريح أفراد";           // matched trimmed: the real tab carries a trailing space
 const VEH_TAB = "تصاريح مركبات";
+// THE TEMPORARY PERMITS (asked for, 9 November 2026): a sheet after each permit sheet, the very same sheet, for permits that run three months
+// at the most. Read when the work sheet has them; matched folded (أ/ا, the spaces), as Khaled wrote the names without a hamza.
+const TIND_TAB = "تصاريح افراد مؤقتة", TVEH_TAB = "تصاريح مركبات مؤقتة";
 const EMP_TAB = "employees";
 
 /* ---------- text ---------- */
@@ -3098,6 +3102,7 @@ async function readFile(file, onStep){
   }
   const find = want => tabs.find(t => t.name.trim() === want);
   const ind = find(IND_TAB), veh = find(VEH_TAB), emp = find(EMP_TAB);
+  const folded = want => tabs.find(t => foldArabic(t.name) === foldArabic(want)), tind = folded(TIND_TAB), tveh = folded(TVEH_TAB);
   const kind = (ind && veh) ? "per" : emp ? "emp" : null;
   if(!kind){
     const found = tabs.map(t => t.name.trim()).join(" · ");
@@ -3119,6 +3124,8 @@ async function readFile(file, onStep){
   if(kind === "per"){
     payload.sheets.ind = await tab(ind, 16, "تصاريح الأفراد");
     payload.sheets.veh = await tab(veh, 8, "تصاريح المركبات");
+    if(tind) payload.sheets.tind = await tab(tind, 16, "تصاريح الأفراد المؤقتة");
+    if(tveh) payload.sheets.tveh = await tab(tveh, 8, "تصاريح المركبات المؤقتة");
   }else{
     payload.sheets.emp = await tab(emp, 0, "الموظفين");
   }
@@ -3443,12 +3450,22 @@ function runChecks(M){
 }
 
 function buildModel(data){
-  const M = { emp: null, ind: null, veh: null, checks: [] };
+  const M = { emp: null, ind: null, veh: null, tind: null, tveh: null, checks: [] };
   if(data.emp) M.emp = buildEmployees(data.emp);
-  if(data.per){ M.ind = buildIndividuals(data.per); M.veh = buildVehicles(data.per); }
+  if(data.per){
+    M.ind = buildIndividuals(data.per); M.veh = buildVehicles(data.per);
+    // the temporary permits: the same rules as their kind, lists of their own
+    if(data.per.sheets.tind){
+      M.tind = buildIndividuals({ sheets: { ind: data.per.sheets.tind } });
+      // a temporary permit takes no letter number and nothing of ASE (Khaled, the same day): whatever stands in those columns is not read
+      M.tind.list.forEach(g => g.records.forEach(r => { r.letter = r.company = r.ldate = r.anote = ""; }));
+    }
+    if(data.per.sheets.tveh) M.tveh = buildVehicles({ sheets: { veh: data.per.sheets.tveh } });
+  }
   if(M.emp && M.ind){
     M.emp.list.forEach(e => { e.per = e.foreign ? null : (M.ind.byNid.get(e.nid) || null); });
     M.ind.list.forEach(g => { g.emp = (g.nid && M.emp.byNid.get(g.nid)) || null; });
+    if(M.tind) M.tind.list.forEach(g => { g.emp = (g.nid && M.emp.byNid.get(g.nid)) || null; });
   }
   M.checks = runChecks(M);
   M.issues = M.checks.filter(c => c.sev !== "info").reduce((n, c) => n + c.rows.length, 0);
@@ -3882,14 +3899,15 @@ const DISK = FROM_DISK && !ONLINE;
 if(ONLINE && window.top !== window.self) document.documentElement.style.display = "none";
 const CLOUD = {
   sheet: "",
-  tabs: { ind: "تصاريح أفراد ", veh: "تصاريح مركبات" },       // the trailing space is part of the first tab's real name
+  tabs: { ind: "تصاريح أفراد ", veh: "تصاريح مركبات",       // the trailing space is part of the first tab's real name
+          tind: "تصاريح افراد مؤقتة", tveh: "تصاريح مركبات مؤقتة" },      // the temporary permits (9 November 2026)
   db: "",
   bucket: "",
   every: 120000                                  // how often the two sources are read again while the page is open
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e0f7886ec25a";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "be3ea693cca6";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4101,7 +4119,7 @@ try{ const saved = localStorage.getItem(LANG_KEY); if(saved === "en" || saved ==
 const isEN = () => lang === "en";
 const I18N = {
   ar: {
-    navSearch:"بحث", navEsrch:"بحث الموظفين", lgToday:"النهارده", lgYesterday:"امبارح", lgVisits:"الزيارات", lgSearches:"بحث", lgOuts:"تصدير وطباعة", lgWrongs:"محاولات غلط", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات",
+    navSearch:"بحث", navEsrch:"بحث الموظفين", lgToday:"النهارده", lgYesterday:"امبارح", lgVisits:"الزيارات", lgSearches:"بحث", lgOuts:"تصدير وطباعة", lgWrongs:"محاولات غلط", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات", navTmp:"التصاريح المؤقتة", tmpInd:"أفراد", tmpVeh:"مركبات", tmpNoSheet:"شيت التصاريح المؤقتة مش موجود في الورك شيت", colDur:"المدة", durDays:n => n + " يوم", cOver:"أكتر من 3 شهور", drTind:"تصريح فرد مؤقت", drTveh:"تصريح مركبة مؤقت", csvTind:"تصاريح-أفراد-مؤقتة", csvTveh:"تصاريح-مركبات-مؤقتة",
     navCheck:"فحص الداتا", navSrc:"الشيتات", navgSearch:"البحث", navgRecords:"السجلات", navgReports:"التقارير", navgSystem:"النظام",
     dropHere:"افلت الشيتات هنا", close:"إغلاق", reading:"جارٍ القراءة", readingSheets:"جارٍ قراءة الشيتات",
     sheetPer:"شيت التصاريح", sheetEmp:"شيت الموظفين", and:" و",
@@ -4251,7 +4269,7 @@ const I18N = {
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
   },
   en: {
-    navSearch:"Search", navEsrch:"Employee search", lgToday:"Today", lgYesterday:"Yesterday", lgVisits:"Visits", lgSearches:"Searches", lgOuts:"Exports and prints", lgWrongs:"Wrong PINs", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits",
+    navSearch:"Search", navEsrch:"Employee search", lgToday:"Today", lgYesterday:"Yesterday", lgVisits:"Visits", lgSearches:"Searches", lgOuts:"Exports and prints", lgWrongs:"Wrong PINs", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits", navTmp:"Temporary permits", tmpInd:"Individuals", tmpVeh:"Vehicles", tmpNoSheet:"The temporary permits sheet is not in the work sheet", colDur:"Length", durDays:n => n + " days", cOver:"Over 3 months", drTind:"Temporary individual permit", drTveh:"Temporary vehicle permit", csvTind:"Temporary-individual-permits", csvTveh:"Temporary-vehicle-permits",
     navCheck:"Data check", navSrc:"Sheets", navgSearch:"Search", navgRecords:"Records", navgReports:"Reports", navgSystem:"System",
     dropHere:"Drop the sheets here", close:"Close", reading:"Reading", readingSheets:"Reading the sheets",
     sheetPer:"Permits sheet", sheetEmp:"Employees sheet", and:" and ",
@@ -4487,6 +4505,8 @@ const st = {
   emp: { status: "active", dept: "", collar: "", q: "", sort: { k: "code", d: 1 } },   // who is here; the resigned are a chip away
   ind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },      // the permits' two lists stand as the sheet has them (see sortRows)
   veh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
+  tind: { status: "all", company: "", mail: "", q: "", sort: { k: "row", d: 1 } },     // «التصاريح المؤقتة»: the two lists, as their sheets have them
+  tveh: { status: "all", mail: "", q: "", sort: { k: "row", d: 1 } },
   snd: { kind: "per", q: "", open: null, tab: "ind" },  // kind: permits by sender, or the employees' lists · open: whose sheet is on screen, or none (the list)
   rnw: { q: "", open: null, tab: "" }                    // the renewal page: the same, without the switch
 };
@@ -4806,13 +4826,24 @@ async function cloudPermits(key, at){
     return text;
   };
   const texts = await Promise.all([tab(CLOUD.tabs.ind), tab(CLOUD.tabs.veh)]);
+  // the temporary permits: only when Drive has their tabs — a sheet without them is no fault, and no reason to stop the rest
+  const opt = async name => {
+    if(!gids[name]) return "";
+    try{
+      const r = await fetch(SHEET + "/export?format=csv&gid=" + gids[name] + "&_=" + Date.now(), { cache: "no-store" });
+      if(r.ok){ const text = await r.text(); if(isRows(text)) return text; }
+    }catch(e){}
+    return "";
+  };
+  const temps = await Promise.all([opt(CLOUD.tabs.tind), opt(CLOUD.tabs.tveh)]);
   const shape = (text, maxCol) => {
     const rows = parseCSV(text);
     return { header: (rows[0] || []).slice(0, maxCol),
              rows: rows.slice(1).map((c, i) => ({ n: i + 2, c: c.slice(0, maxCol) })).filter(r => r.c.some(v => v !== "")) };
   };
   return { kind: "per", cloud: true, fallback, fileName: "Google Sheet", lastModified: Date.now(), loadedAt: Date.now(),
-           size: texts[0].length + texts[1].length, sheets: { ind: shape(texts[0], 16), veh: shape(texts[1], 8) } };
+           size: texts[0].length + texts[1].length, sheets: Object.assign({ ind: shape(texts[0], 16), veh: shape(texts[1], 8) },
+             temps[0] ? { tind: shape(temps[0], 16) } : {}, temps[1] ? { tveh: shape(temps[1], 8) } : {}) };
 }
 /* The staff table, a page at a time: a plain select hands back the first 1000
    rows and says nothing about the rest. Ordering by id is what makes the pages
@@ -5220,13 +5251,14 @@ function paintShell(){
   $("nb-emp").textContent = M.emp ? countBy(M.emp.list, e => !e.resigned) : "";    // the figure the page opens on
   $("nb-ind").textContent = M.ind ? M.ind.list.length : "";
   $("nb-veh").textContent = M.veh ? M.veh.list.length : "";
+  $("nb-tind").textContent = (M.tind ? M.tind.list.length : 0) + (M.tveh ? M.tveh.list.length : 0) || "";
   // how many are near their end: people, vehicles and employees together
   const due = (M.ind ? countBy(M.ind.list, g => g.p.cat === "soon") : 0) + (M.veh ? countBy(M.veh.list, g => g.p.cat === "soon") : 0) + (M.emp ? countBy(M.emp.list, EMP_PICK.expiring) : 0);
   $("nb-rnw").textContent = any && due ? due : "";
   const nb = $("nb-check");
   nb.textContent = any ? M.issues : "";
   nb.className = "nb" + (M.issues ? " alert" : "");
-  [].forEach.call($("nav").querySelectorAll("button"), b => b.classList.toggle("on", b.dataset.view === (st.view === "rep" ? "home" : st.view)));
+  [].forEach.call($("nav").querySelectorAll("button"), b => b.classList.toggle("on", b.dataset.view === (st.view === "rep" ? "home" : st.view === "tveh" ? "tind" : st.view)));
   paintBack();
 }
 /* BACK. Every move from one page to another leaves behind what that page was
@@ -5314,7 +5346,7 @@ function render(){
   if(st.view === "none") return page("", "");                         // nothing is in his menu at all
   const blank = !DATA.emp && !DATA.per && st.view !== "src" && st.view !== "cards" && st.view !== "ase" && st.view !== "adm" && st.view !== "log";      // the card reader, the users and the log need no sheet to work
   if(blank) return renderWelcome();
-  ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"),
+  ({ home: renderHome, emp: () => renderList("emp"), ind: () => renderList("ind"), veh: () => renderList("veh"), tind: () => renderList("tind"), tveh: () => renderList("tveh"),
      check: renderChecks, src: renderSources, multi: renderMulti, esrch: renderEsrch, snd: renderSenders, rnw: renderRenew, today: renderToday, log: renderLog, cards: renderCards, ase: renderAse, spc: renderSpc, adm: renderAdm, cmp: renderCmp, rep: renderRep, edits: renderEdits, issued: renderIssued, live: renderLive }[st.view] || renderMulti)();
 }
 // where the rows of a table page have been scrolled to — kept across a repaint that is not the reader's doing
@@ -5811,6 +5843,37 @@ const LISTS = {
     ]
   }
 };
+/* «التصاريح المؤقتة» (asked for, 9 November 2026: «صفحة للتصاريح المؤقتة… تصاريح مدتها لا تتعدا ال3 شهور… عايز الداتا بتاعتهم تظهر فى السيستم»).
+   The two sheets of temporary permits are each the very sheet of its kind, so each list is the permits list of its kind read off its own
+   sheet — the same columns in the sheet's order, the same chips, the same files and paper — and a switch over it goes between the two.
+   What is added is the idea itself: beside the permit stands how long it runs from the day it was sent («المدة»), and one that runs past
+   three months is marked, with a chip of its own («أكتر من 3 شهور»): a permit that long is not a temporary one. */
+const tmpDays = r => r.p.date && r.cur.dayDate ? Math.round((r.p.date - r.cur.dayDate) / 864e5) : null;
+const tmpOver = r => { if(!r.p.date || !r.cur.dayDate) return false; const end = new Date(r.cur.dayDate); end.setMonth(end.getMonth() + 3); return r.p.date > end; };
+const tmpSeg = view => '<div class="seg noprint">' + [["tind", "tmpInd"], ["tveh", "tmpVeh"]].map(k =>
+  '<button data-tmpk="' + k[0] + '" class="' + (view === k[0] ? "on" : "") + '">' + t(k[1]) + (M[k[0]] ? ' <b class="num">' + M[k[0]].list.length + "</b>" : "") + "</button>").join("") + "</div>";
+function tmpList(kind){
+  // no letter number and nothing of ASE: a temporary permit has none («التصاريح المؤقته لا بتاخد رقم خطاب ولا اى بيانات من ase»)
+  const NO_ASE = ["letter", "company", "ldate", "anote"];
+  const L = LISTS[kind], view = "t" + kind, cols = L.cols.filter(c => NO_ASE.indexOf(c.k) < 0), uniq = a => [...new Set(a.filter(Boolean))].sort();
+  cols.splice(cols.findIndex(c => c.k === "permit") + 1, 0, { k: "dur", tk: "colDur", cls: "nowrap",
+    h: r => { const d = tmpDays(r); return d === null ? dimDash : tmpOver(r) ? pill("warn", t("durDays", d)) : esc(t("durDays", d)); },
+    sv: r => { const d = tmpDays(r); return d === null ? Infinity : d; }, x: r => { const d = tmpDays(r); return d === null ? "" : d; }, tone: r => tmpOver(r) ? "warn" : "" });
+  const xk = L.xk ? L.xk.filter(k => NO_ASE.indexOf(k) < 0) : null;
+  if(xk) xk.splice(xk.indexOf("permit") + 1, 0, "dur");
+  return Object.assign({}, L, {
+    tk: "navTmp", need: view, csv: kind === "ind" ? "csvTind" : "csvTveh", none: "tmpNoSheet", seg: () => tmpSeg(view),
+    all: () => M[view].list,
+    chips: PER_CHIPS.concat([["over", "cOver"]]), pick: (r, k) => k === "all" || (k === "over" ? tmpOver(r) : r.p.cat === k),
+    selects: () => kind === "ind"
+      ? [["mail", "allMail", uniq(M.tind.list.map(g => g.cur.mail))]]
+      : [["mail", "allMail", uniq(M.tveh.list.map(g => g.cur.mail))]],
+    open: r => view + ":" + r.key,
+    xk, cols
+  });
+}
+LISTS.tind = tmpList("ind");
+LISTS.tveh = tmpList("veh");
 function scoped(view){            // everything but the status chip, so the chips can show their own counts
   const L = LISTS[view], f = st[view], fq = foldArabic(f.q);
   return L.all().filter(r => L.match(r, f) && (!fq || r.hay.includes(fq)));
@@ -5927,7 +5990,7 @@ function tblRows(rows, one){
   if(window.requestIdleCallback) requestIdleCallback(go, { timeout: 1000 }); else setTimeout(go, 400);
   return rows.slice(0, TBL_FIRST).map(one).join("");
 }
-const BRIEF = { ind: ["name", "job", "nid", "addr", "permit"], veh: ["plate", "permit"], emp: ["code", "name", "job", "dept", "nid", "addr", "pb"] };
+const BRIEF = { ind: ["name", "job", "nid", "addr", "permit"], veh: ["plate", "permit"], tind: ["name", "job", "nid", "addr", "permit"], tveh: ["plate", "permit"], emp: ["code", "name", "job", "dept", "nid", "addr", "pb"] };
 const empBrief = e => empBan(e) ? stLabel(e) : e.resigned ? t("resigned") : e.pdate ? fmt(e.pdate) : (e.permit_date || stLabel(e));
 const PAPER = { emp: [{ k: "pb", tk: "colPermit", cls: "nowrap", h: r => r.pdate && !empBan(r) && !r.resigned ? num(fmt(r.pdate)) : esc(empBrief(r)), x: empBrief, tone: r => r.resigned ? "bad" : r.st.k }] };
 const briefCols = view => { const all = LISTS[view].cols.concat(PAPER[view] || []); return BRIEF[view].map(k => all.find(c => c.k === k)).filter(Boolean); };
@@ -5984,7 +6047,7 @@ const listSrc = v => ({ id: r => LISTS[v].open(r), shown: () => listRows(v), all
 const sndNow = () => { const sn = sndState(), e = sn.open === null ? null : sndList().find(x => x.k === sn.open), sheets = e ? senderSheets(e) : []; return { sheets, tab: sheets.find(x => x.kind === sn.tab) || sheets[0] }; };
 const sndSrc = { id: x => x, shown: () => { const n = sndNow(); return n.tab ? n.tab.open : []; }, all: () => [].concat(...sndNow().sheets.map(x => x.open)), paint: () => render() };
 const PICK_SRC = {
-  emp: listSrc("emp"), ind: listSrc("ind"), veh: listSrc("veh"), snd: sndSrc, rnw: sndSrc,
+  emp: listSrc("emp"), ind: listSrc("ind"), veh: listSrc("veh"), tind: listSrc("tind"), tveh: listSrc("tveh"), snd: sndSrc, rnw: sndSrc,
   ase: { id: x => x.id, shown: () => aseItems(aseShown()), all: () => aseItems((st.ase.res && st.ase.res.rows) || []), paint: () => paintAse() },
   esrch: { id: r => "emp:" + r.e.emp_code, shown: () => st.esrch.res ? esrchRows(st.esrch.res).filter(pickable) : [], all: () => st.esrch.res ? st.esrch.res.rows.filter(pickable) : [], paint: () => paintEsrch(true) },
   multi: { id: r => multiOpen(r), shown: () => st.multi.res ? multiRows(st.multi.res).filter(pickable) : [], all: () => st.multi.res ? st.multi.res.rows.filter(pickable) : [], paint: () => paintMulti(true) },
@@ -6069,12 +6132,12 @@ function paintTable(view, keep){
 }
 function renderList(view){
   const L = LISTS[view], f = st[view];
-  if(!M[L.need]) return page(pgHead(t(L.tk)), scrollPart('<div class="note warn">' + t("sheetNotLoaded") + "</div>"));
+  if(!M[L.need]) return page(pgHead(t(L.tk)), scrollPart((L.seg ? L.seg() : "") + '<div class="note warn">' + t(L.none && DATA.per ? L.none : "sheetNotLoaded") + "</div>"));
   // the head holds everything that is not a row; the rows are the only thing that moves
   page(
     pgHead(t(L.tk), '<div style="display:flex;gap:8px"><button class="btn sm primary" data-act="csv-brief">' + t("exportBrief") + '</button>' +
       '<button class="btn sm" data-act="csv">' + t("exportFull") + '</button><button class="btn sm" data-act="print">' + t("print") + "</button></div>") +
-    '<div class="toolbar"><div class="chips" id="chips"></div></div>' +
+    '<div class="toolbar">' + (L.seg ? L.seg() : "") + '<div class="chips" id="chips"></div></div>' +
     '<div class="toolbar">' +
       '<input class="field" id="lq" type="text" placeholder="' + t("filter") + '" value="' + esc(f.q) + '" autocomplete="off">' +
       L.selects().map(s => '<select class="field" data-sel="' + s[0] + '"><option value="">' + t(s[1]) + "</option>" +
@@ -7215,9 +7278,9 @@ function openDrawer(ref){
     title = t("drEmp", e.emp_code);
     // his card is his own: nothing of the permits sheet is shown on it (asked for, 6 October 2026)
     h = empCardHTML(e);
-  }else if(type === "ind" && M.ind){
-    const g = M.ind.groups.get(key); if(!g) return;
-    title = t("drInd");
+  }else if((type === "ind" || type === "tind") && M[type]){
+    const g = M[type].groups.get(key); if(!g) return;
+    title = t(type === "tind" ? "drTind" : "drInd");
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head">' +
           '<h2 class="nm">' + esc(g.name || t("noNameShort")) + "</h2>" +
           '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : "") +
@@ -7228,9 +7291,9 @@ function openDrawer(ref){
           (g.names.size > 1 ? group(t("nameForms"), [...g.names.values()].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
         occItems(g.records, false);
-  }else if(type === "veh" && M.veh){
-    const g = M.veh.groups.get(key); if(!g) return;
-    title = t("drVeh");
+  }else if((type === "veh" || type === "tveh") && M[type]){
+    const g = M[type].groups.get(key); if(!g) return;
+    title = t(type === "tveh" ? "drTveh" : "drVeh");
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head"><h2 class="nm">' + esc(g.plate) + "</h2>" +
           '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div>" + occBar(g.records.length) + "</div>" +
           (g.forms.size > 1 ? group(t("plateForms"), [...g.forms].map(n => rowHTML("—", n)).join("")) : "") +
@@ -7292,7 +7355,7 @@ const isAdmin = () => !!session && session.role === "admin";        // both edit
    change reaches a window that is already open. No list at all means everything a user may see. The admin's own
    pages are never on anybody's list: they are his because he is the admin, and nobody else's menu, page or message
    says that there is one. This is what the page shows — the sheets a user's key reads are the same for all. */
-const PERM_PAGES = ["multi", "esrch", "spc", "ase", "home", "live", "emp", "ind", "veh", "snd", "rnw", "check", "cmp", "issued"];
+const PERM_PAGES = ["multi", "esrch", "spc", "ase", "home", "live", "emp", "ind", "veh", "tind", "snd", "rnw", "check", "cmp", "issued"];
 /* WHAT IS ADDED LATER IS A PERMISSION OF ITS OWN (asked for, 6 October 2026: «خلي اللي أنا حددته الصبح يظهر لمديري هو
    بس اللي يظهر لحد ما… أحدد لو عايز يظهرله حاجة تانية ولا لا»). A user whose pages were chosen has a list, and
    what is not on his list he does not have: so a new page, or a new thing on a page he has, is given a key of its
@@ -7318,7 +7381,7 @@ const permsNorm = p => {
 };
 const perms = () => session && session.role !== "admin" && Array.isArray(session.pages) ? permsNorm(session.pages) : null;
 const can = k => { const mine = perms(); return !mine || mine.indexOf(k) >= 0; };
-const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v));      // the report is the dashboard's, on paper
+const canSee = v => ADMIN_VIEWS[v] ? isAdmin() && !(v === "cards" && ONLINE) : (v === "rep" ? can("home") && can("x-report") : can(v === "tveh" ? "tind" : v));      // the temporary permits are one page: «tind»      // the report is the dashboard's, on paper
 const firstPage = () => PERM_PAGES.find(can) || "none";
 let permsTimer = null;
 /* What he sees is also remembered on the device, user by user: a sign-in the database cannot be reached for opens on
@@ -7595,7 +7658,7 @@ function logFit(detail){
 // where an export or a print came from: the page's own filters, or the search behind it
 function logCtx(){
   const v = st.view, keep = o => { const c = {}; Object.keys(o).forEach(k => { if(o[k]) c[k] = o[k]; }); return c; };
-  if(v === "emp" || v === "ind" || v === "veh"){ const f = st[v]; return { c: keep({ st: f.status, dept: f.dept, collar: f.collar, co: f.company, mail: f.mail, q: f.q }) }; }
+  if(v === "emp" || v === "ind" || v === "veh" || v === "tind" || v === "tveh"){ const f = st[v]; return { c: keep({ st: f.status, dept: f.dept, collar: f.collar, co: f.company, mail: f.mail, q: f.q }) }; }
   if(v === "snd" || v === "rnw") return { c: keep({ o: sndState().open || "" }) };
   if(v === "multi" && st.multi.res) return { c: { m: st.multi.res.mode }, q: parseTerms(st.multi.text).terms };
   if(v === "spc" && st.spc.res) return { c: { by: st.spc.res.by }, q: [String(st.spc.text || "").trim()] };
@@ -11101,6 +11164,8 @@ document.addEventListener("click", e => {
   if(spby){ st.spc.by = spby.dataset.spby; st.spc.text = ""; st.spc.res = null; st.spc.cat = ""; return renderSpc(); }      // another thing to ask by: the box starts empty
   const ecollar = tg.closest("[data-ecollar]");
   if(ecollar){ st.esrch.collar = ecollar.dataset.ecollar; const had = !!(st.esrch.res && st.esrch.res.terms); renderEsrch(); if(had) goEsrch(); return; }
+  const tmpk = tg.closest("[data-tmpk]");
+  if(tmpk){ if(tmpk.dataset.tmpk !== st.view){ leave(); go(tmpk.dataset.tmpk); } return; }
   const ecat = tg.closest("[data-ecat]");
   if(ecat){ st.esrch.cat = st.esrch.cat === ecat.dataset.ecat ? "" : ecat.dataset.ecat; return paintEsrch(); }
   const mmode = tg.closest("[data-mmode]");

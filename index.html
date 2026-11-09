@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-MKyL+vGlPE1bLRPMsl2Vz1h7MauB+v3emcWTznsUcDk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-I12GvaHiqubglH66ACBFcLLWVkBZW3AdL3VjYSVkiq4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3480,6 +3480,7 @@ function buildModel(data){
       M.tind.list.forEach(g => g.records.forEach(r => { r.letter = r.company = r.ldate = r.anote = ""; }));
     }
     if(data.per.sheets.tveh) M.tveh = buildVehicles({ sheets: { veh: data.per.sheets.tveh } }, colsByHead(data.per.sheets.tveh.header, "veh"));
+    [M.tind, M.tveh].forEach(T => { if(T) T.list.forEach(g => g.records.forEach(r => { r.temp = true; })); });
   }
   if(M.emp && M.ind){
     M.emp.list.forEach(e => { e.per = e.foreign ? null : (M.ind.byNid.get(e.nid) || null); });
@@ -3926,7 +3927,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "067a83b1609c";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "cd5b64215b58";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -6699,6 +6700,8 @@ function findPeople(term){
     seenE.add(e.emp_code);
     hits.push({ g: null, emps: [e] });
   };
+  // the temporary permits: one whose man has a permit too is found as that man (his card holds both); one alone is a row of its own
+  const tempInto = () => findTemp(term, "ind").forEach(h => { const main = M.ind && M.ind.groups.get(h.g.key); if(main) addG(main); else hits.push(h); });
   if(numeric){
     if(d.length === 14){
       const g = M.ind && M.ind.byNid.get(d);
@@ -6738,11 +6741,11 @@ function findPeople(term){
     if(M.emp) M.emp.list.forEach(e => { const r = rankE(e); if(r < 9) found.push({ r, name: e.full_name, add: () => addE(e) }); });
     found.sort((a, b) => a.r - b.r || sortText(a.name).localeCompare(sortText(b.name), "ar"));
     found.forEach(x => x.add());
-    hits.push(...findTemp(term, "ind"));
+    tempInto();
     if(hits.length > NAME_SHOW) return { list: hits.slice(0, NAME_SHOW), more: hits.length - NAME_SHOW, names: true };
     return capped(hits);
   }
-  hits.push(...findTemp(term, "ind"));
+  tempInto();
   return capped(hits);
 }
 /* THE TEMPORARY PERMITS IN «بحث» (asked for, 9 November 2026: «محتاج التصاريح الموقته تظهر فى صفحة بحث عادى بس بدون فلتر مؤقته تظهر عادى فى
@@ -6765,7 +6768,10 @@ function findTemp(term, kind){
 }
 function findVehicles(term){
   if(!M.veh) return capped(findTemp(term, "veh"));
-  const tmp = findTemp(term, "veh");
+  // a temporary permit of a vehicle that has a permit too is that vehicle (its card holds both); one alone is a row of its own
+  const both = findTemp(term, "veh"), tmpOnly = both.filter(h => !M.veh.groups.has(h.g.key));
+  const tmp = both.filter(h => M.veh.groups.has(h.g.key)).map(h => ({ g: M.veh.groups.get(h.g.key), via: true })).concat(tmpOnly);
+  const plain = list => { const seen = new Set(); return list.filter(h => { if(seen.has(h.g.key + (h.temp ? "~" : ""))) return false; seen.add(h.g.key + (h.temp ? "~" : "")); return true; }); };
   const f = foldArabic(term), d = digitsOnly(term), numeric = /^[\d\s-]+$/.test(term);
   if(numeric){
     /* THE NUMBER ALONE, without the letters, finds every plate that has that
@@ -6775,13 +6781,13 @@ function findVehicles(term){
     if(!d) return capped([]);
     const rank = g => { const x = g.key.replace(/\D/g, ""); return x === d ? 0 : x.startsWith(d) ? 1 : 2; };
     return capped(M.veh.list.filter(g => g.key.includes(d)).map(g => ({ g, r: rank(g) }))
-      .sort((a, b) => a.r - b.r || a.g.key.localeCompare(b.g.key, "ar")).map(x => ({ g: x.g })).concat(tmp));
+      .sort((a, b) => a.r - b.r || a.g.key.localeCompare(b.g.key, "ar")).map(x => ({ g: x.g })).concat(tmp).filter((h, i, a) => i === a.findIndex(x => x.g === h.g)));
   }
   const exact = M.veh.groups.get(f);
-  if(exact) return capped([{ g: exact }].concat(tmp));
+  if(exact) return capped(plain([{ g: exact }].concat(tmp)));
   // letters, or letters and numbers, typed in part: every piece typed has to be in the plate
   const words = wordsOf(term);
-  return capped(M.veh.list.filter(g => g.key.includes(f) || words.every(w => g.key.includes(w))).map(g => ({ g })).concat(tmp));
+  return capped(plain(M.veh.list.filter(g => g.key.includes(f) || words.every(w => g.key.includes(w))).map(g => ({ g })).concat(tmp)));
 }
 /* EVERY BOX THAT COUNTS SOMETHING IS PRESSED (asked for, 6 October 2026: «أي صندوق هيظهر في أي صفحة عايزه تفاعلي أقدر
    أدخل عليه»). Over the search's answers: «مطلوب» is every line, «موجود» the lines that found someone, «مش موجود» the
@@ -7262,8 +7268,16 @@ function occBar(n){
   if(n < 2) return "";
   return '<div class="occ-bar noprint">' + Array.from({ length: n }, (_, i) => '<button type="button" class="occ-chip' + (i === n - 1 ? " on" : "") + '" data-occ="' + i + '">' + num(i + 1) + "</button>").join("") + "</div>";
 }
-function occItems(records, veh){
-  return records.map((r, n, a) => '<div class="occ-item' + (n === a.length - 1 ? "" : " off") + '" data-occ-i="' + n + '">' + permitRecHTML(r, n, a.length, veh) +
+/* A MAN WITH A PERMIT AND A TEMPORARY ONE (asked for, 9 November 2026: «لو لى مؤقت وعادى يظهر العادى وجوه الكارت يظهر المؤقت زى الفكره بتاعت 1
+   و 2 و 3… الى هى لو لي اكتر من تصريح»): his card is his permits' card, and his temporary permits are among its numbers, by their day — each one
+   with «تصريح مؤقت» at its top. (A card of a temporary permit alone says so once, under the id — tmpFlag in openDrawer.) */
+const withTemp = (records, T, key) => {
+  const tg = T && T.groups.get(key);
+  if(!tg) return records;
+  return records.concat(tg.records).sort((a, b) => a.dayDate && b.dayDate ? a.dayDate - b.dayDate : a.dayDate ? -1 : b.dayDate ? 1 : 0);
+};
+function occItems(records, veh, flagged){
+  return records.map((r, n, a) => '<div class="occ-item' + (n === a.length - 1 ? "" : " off") + '" data-occ-i="' + n + '">' + (flagged && r.temp ? tmpFlag() : "") + permitRecHTML(r, n, a.length, veh) +
     '<div class="shots occ-shots" data-day="' + occDay(r.dayDate) + '"></div></div>').reverse().join("");      // the newest first in the page, as before
 }
 function occPick(n){
@@ -7327,24 +7341,26 @@ function openDrawer(ref){
   }else if((type === "ind" || type === "tind") && M[type]){
     const g = M[type].groups.get(key); if(!g) return;
     title = t(type === "tind" ? "drTind" : "drInd");
+    const recs = type === "ind" ? withTemp(g.records, M.tind, key) : g.records, mixed = recs !== g.records;
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head">' +
           '<h2 class="nm">' + esc(g.name || t("noNameShort")) + "</h2>" +
           '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : "") +
-            '<span class="pill warn">' + t("nPermits", g.records.length) + "</span>" +
+            '<span class="pill warn">' + t("nPermits", recs.length) + "</span>" +
             (g.emp ? g.emp.map(e => '<button class="pill link" data-open="emp:' + esc(e.emp_code) + '" style="cursor:pointer">' + esc(t("empLink", e.emp_code)) + "</button>").join("") : "") +
-          "</div>" + (type === "tind" ? tmpFlag() : "") + occBar(g.records.length) + "</div>" +
+          "</div>" + (type === "tind" ? tmpFlag() : "") + occBar(recs.length) + "</div>" +
           group(t("fromNid"), nidRows(g.nid)) +
           (g.names.size > 1 ? group(t("nameForms"), [...g.names.values()].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
-        occItems(g.records, false);
+        occItems(recs, false, mixed);
   }else if((type === "veh" || type === "tveh") && M[type]){
     const g = M[type].groups.get(key); if(!g) return;
     title = t(type === "tveh" ? "drTveh" : "drVeh");
+    const recs = type === "veh" ? withTemp(g.records, M.tveh, key) : g.records, mixed = recs !== g.records;
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head"><h2 class="nm">' + esc(g.plate) + "</h2>" +
-          '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div>" + (type === "tveh" ? tmpFlag() : "") + occBar(g.records.length) + "</div>" +
+          '<div class="pills"><span class="pill warn">' + t("nPermits", recs.length) + "</span></div>" + (type === "tveh" ? tmpFlag() : "") + occBar(recs.length) + "</div>" +
           (g.forms.size > 1 ? group(t("plateForms"), [...g.forms].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
-        occItems(g.records, true);
+        occItems(recs, true, mixed);
   }else return;
   $("dr-t").textContent = title;
   $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn(); paintEditBtn(); paintGiveBtn();
@@ -10566,6 +10582,10 @@ async function idPhotos(ref){
   else sets = await idPhotosCloud(kind, k);
   /* no photos of his temporary permit: his photos from his permits (asked for, the same day: «لما افتح اى صفحة فى المؤقت تنده على الصورة
      دى… عشان تظهرلى فى كارت الشخص») — the same id or plate in the other photos */
+  if(!temp && k && M["t" + type] && M["t" + type].groups.get(key)){
+    const more = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(true)) : await idPhotosCloud("t" + type, k);
+    if(more && more.length) sets = (sets || []).concat(more.filter(x => !(sets || []).some(y => y.day === x.day)));
+  }
   if(temp && !(sets && sets.length) && k){
     const reg = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(false)) : await idPhotosCloud(type, k);
     if(reg && reg.length) sets = reg;

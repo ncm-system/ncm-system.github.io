@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-AZ3JHQTm8P0vReSfFJxU5e938aPeERrzLnvlcemt4Kc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-5qF1UD76UkuxfZls6xIMJHDQHVXmsHBA/Ru/YSTk6fo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2820,6 +2820,7 @@ td.name .hc-pill{display:inline-block;}
 <input type="file" id="ase-pick" accept=".xlsx" hidden>
 <input type="file" id="ase-up" accept=".xlsx" hidden>
 <input type="file" id="idph-pick" accept=".docx,.docm" hidden>
+<input type="file" id="tidph-pick" accept=".docx,.docm" hidden>
 
 <!-- ============================================================
      CORE — no DOM in here. Reads an .xlsx with nothing but the
@@ -3919,7 +3920,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "76c431f99e4f";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5a1cf20c5a5b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4190,7 +4191,7 @@ const I18N = {
     asId:"الرقم القومي", asName:"الاسم", asStatus:"الحالة", asOrg:"الشركة", asPos:"الوظيفة", asArea:"منطقة الدخول", asCit:"الجنسية",
     asLDate:"تاريخ الخطاب", asLNo:"رقم الخطاب", asConfirm:"التأكيد", asOwner:"رقم خطاب المالك", asNote:"ملاحظة",
     dkTitle:"التحديث", dkSources:"مصادر البيانات", dkEmp:"قاعدة بيانات الموظفين والصور", dkSheet:"work sheet على الدرايف", dkAse:"ASE Data", dkLetters:"خطابات الموظفين من ASE", dkDrive:"نسخة من شيت الدرايف", dkDriveRun:"تنزيل", dkD3:"التنزيل", dkF_dr_done:v => "اتنزلت: " + v[0] + " صف أفراد · " + v[1] + " صف مركبات", dkF_dr_file:v => "FOR WORK\\نسخ من الدرايف — " + v[0], dkEDrive:"الشيت ما اتنزلش من الدرايف", dkEDriveBad:"اللي نزل من الدرايف مش الشيت (التابين مش فيه)", dkL3:"ASE ← شيت الموظفين", dkL4:"قاعدة البيانات", dkF_lt_done:v => "اتحدّث خطاب " + v[0] + " موظف (" + v[1] + " خانة)", dkF_lt_same:"خطابات الموظفين مطابقة لـ ASE", dkF_lt_missing:v => v[0] + " موظف مش موجود في ASE", dkEEmpChanged:"شيت الموظفين اتحفظ أثناء التحديث — ماتغيّرش", dkEAseCols:"أعمدة ASE Data اتغيّرت", dkEEmpCols:"أعمدة شيت الموظفين اتغيّرت",
-    dkRun:"تحديث", dkAsePick:"رفع ملف ASE", dkLast:"آخر تحديث", aaNew:"اترفع ملف ASE جديد على السيستم", aaRows:n => n + " صف", aaGet:"تنزيل الملف الأصلي", aaNoFile:"الملف الأصلي مش محفوظ — اترفع قبل ما حفظه يبدأ", aaGetFail:"الملف ماتنزلش", dkIdph:"صور البطايق والرخص", dkIdphPick:"رفع ورد الصور", dkP3:"الصور بتتقري وبتتربط بالناس", dkIdphBusy:"فيه ورد صور بيتضاف دلوقتي", needDocx:"اختار ملف ورد (.docx)", dkENotWord:"الملف مش ورد صور (مفيش فيه جدول صور)", dkF_ip_tied:v => "اتربط " + v[0] + " من " + v[1] + " صف بأصحابهم", dkF_ip_left:v => v[0] + " صف ماتربطش بحد في الشيت", dkF_ip_up:v => "اترفع " + v[0] + " صورة أونلاين", dkF_ip_known:"الملف ده كان متضاف قبل كده", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
+    dkRun:"تحديث", dkAsePick:"رفع ملف ASE", dkLast:"آخر تحديث", aaNew:"اترفع ملف ASE جديد على السيستم", aaRows:n => n + " صف", aaGet:"تنزيل الملف الأصلي", aaNoFile:"الملف الأصلي مش محفوظ — اترفع قبل ما حفظه يبدأ", aaGetFail:"الملف ماتنزلش", dkIdph:"صور البطايق والرخص", dkTidph:"صور البطايق والرخص — المؤقتة", dkIdphPick:"رفع ورد الصور", dkP3:"الصور بتتقري وبتتربط بالناس", dkIdphBusy:"فيه ورد صور بيتضاف دلوقتي", needDocx:"اختار ملف ورد (.docx)", dkENotWord:"الملف مش ورد صور (مفيش فيه جدول صور)", dkF_ip_tied:v => "اتربط " + v[0] + " من " + v[1] + " صف بأصحابهم", dkF_ip_left:v => v[0] + " صف ماتربطش بحد في الشيت", dkF_ip_up:v => "اترفع " + v[0] + " صورة أونلاين", dkF_ip_known:"الملف ده كان متضاف قبل كده", dkDropHere:"افلت ملف ASE هنا", dkAseBusy:"فيه ملف ASE بيتحدّث دلوقتي",
     dkQueued:"مستني القارئ", dkRunning:"شغّال", dkDone:"تم", dkDoneWarn:"تم — فيه ملاحظات", dkDoneBad:"تم — فيه مشكلة", dkFailed:"ماتمّش", dkBusy:"القارئ مشغول", dkLost:"الطلب ما وصلش فولدر التصدير",
     dkA1:"اتبعت", dkA2:"استلام", dkA3:"إكسيل", dkA4:"فحص", dkA5:"تبديل", dkA6:"نسخة البحث", dkAseSys:"ASE من السيستم", dkFromSys:"نسخة ASE SEARCH",
     dkESame:"work sheet فيه نفس نسخة ASE SEARCH بالفعل", dkENoCopy:"مفيش شيت ASE مرفوع على ASE SEARCH", dkECopyBusy:"فيه ملف بيترفع على ASE SEARCH دلوقتي", dkECopyFail:"نسخة ASE SEARCH ما اتقرتش", dkCopyOk:"نسخة ASE SEARCH اتحدّثت بنفس الملف", dkCopyNo:"نسخة ASE SEARCH ما اتحدّثتش — ارفع الملف من صفحة ASE SEARCH", dkE3:"الداتا", dkE4:"مراجعة الصور", dkE5:"رفع الصور", dkS3:"الرفع", dkS4:"الفحص",
@@ -4340,7 +4341,7 @@ const I18N = {
     asId:"National ID", asName:"Name", asStatus:"Status", asOrg:"Organization", asPos:"Position", asArea:"Access area", asCit:"Citizenship",
     asLDate:"Letter date", asLNo:"Letter number", asConfirm:"Confirm", asOwner:"Owner letter number", asNote:"Note",
     dkTitle:"Updates", dkSources:"Data sources", dkEmp:"Employees database and photos", dkSheet:"Work sheet on the Drive", dkAse:"ASE Data", dkLetters:"Employees' letters from ASE", dkDrive:"A copy of the Drive sheet", dkDriveRun:"Download", dkD3:"Download", dkF_dr_done:v => "Downloaded: " + v[0] + " individuals · " + v[1] + " vehicles", dkF_dr_file:v => "FOR WORK\\نسخ من الدرايف — " + v[0], dkEDrive:"The sheet could not be downloaded from Drive", dkEDriveBad:"What came from Drive is not the sheet (its two tabs are not in it)", dkL3:"ASE → employees sheet", dkL4:"Database", dkF_lt_done:v => v[0] + " employees' letters updated (" + v[1] + " cells)", dkF_lt_same:"The employees' letters match ASE", dkF_lt_missing:v => v[0] + " employees not in ASE", dkEEmpChanged:"The employees sheet was saved meanwhile — left as it was", dkEAseCols:"The ASE Data columns changed", dkEEmpCols:"The employees sheet columns changed",
-    dkRun:"Update", dkAsePick:"Upload ASE file", dkLast:"Last update", aaNew:"A new ASE export was uploaded on the system", aaRows:n => n + " rows", aaGet:"Download the original file", aaNoFile:"The original file was not kept — it was uploaded before keeping began", aaGetFail:"The file did not come down", dkIdph:"ID card and licence photos", dkIdphPick:"Upload a Word file of photos", dkP3:"Reading the photos and tying them to people", dkIdphBusy:"A Word file of photos is being added right now", needDocx:"Pick a Word file (.docx)", dkENotWord:"Not a Word file of photos (no table of photos in it)", dkF_ip_tied:v => v[0] + " of " + v[1] + " rows tied to their owners", dkF_ip_left:v => v[0] + " rows tied to nobody in the sheet", dkF_ip_up:v => v[0] + " photos put online", dkF_ip_known:"This file had been added before", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
+    dkRun:"Update", dkAsePick:"Upload ASE file", dkLast:"Last update", aaNew:"A new ASE export was uploaded on the system", aaRows:n => n + " rows", aaGet:"Download the original file", aaNoFile:"The original file was not kept — it was uploaded before keeping began", aaGetFail:"The file did not come down", dkIdph:"ID card and licence photos", dkTidph:"ID card and licence photos — temporary", dkIdphPick:"Upload a Word file of photos", dkP3:"Reading the photos and tying them to people", dkIdphBusy:"A Word file of photos is being added right now", needDocx:"Pick a Word file (.docx)", dkENotWord:"Not a Word file of photos (no table of photos in it)", dkF_ip_tied:v => v[0] + " of " + v[1] + " rows tied to their owners", dkF_ip_left:v => v[0] + " rows tied to nobody in the sheet", dkF_ip_up:v => v[0] + " photos put online", dkF_ip_known:"This file had been added before", dkDropHere:"Drop the ASE file here", dkAseBusy:"An ASE file is being applied right now",
     dkQueued:"Waiting for the reader", dkRunning:"Running", dkDone:"Done", dkDoneWarn:"Done — with notes", dkDoneBad:"Done — with a problem", dkFailed:"Not done", dkBusy:"Reader busy", dkLost:"The request did not reach the export folder",
     dkA1:"Sent", dkA2:"Received", dkA3:"Excel", dkA4:"Checking", dkA5:"Replacing", dkA6:"Search copy", dkAseSys:"ASE from the system", dkFromSys:"The ASE SEARCH copy",
     dkESame:"The work sheet already holds the ASE SEARCH copy", dkENoCopy:"No ASE sheet has been uploaded on ASE SEARCH", dkECopyBusy:"A file is being uploaded on ASE SEARCH right now", dkECopyFail:"The ASE SEARCH copy could not be read", dkCopyOk:"The ASE SEARCH copy was updated with the same file", dkCopyNo:"The ASE SEARCH copy was not updated — upload the file on the ASE SEARCH page", dkE3:"Data", dkE4:"Checking photos", dkE5:"Uploading photos", dkS3:"Upload", dkS4:"Check",
@@ -8212,13 +8213,13 @@ const MO_ICON = {
 const moIcon = k => '<span class="mo-end"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + MO_ICON[k] + "</svg></span>";
 const moFlow = (from, to) => '<div class="mo-flow" aria-hidden="true">' + moIcon(from) + '<span class="mo-wire"><i></i><i></i><i></i></span>' + moIcon(to) + "</div>";
 // an order of «الشيتات» on its way: from where to where, and which of its steps it is at
-const MO_WAY = { employees: ["sheet", "db"], renew: ["photo", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
+const MO_WAY = { employees: ["sheet", "db"], renew: ["photo", "db"], sheet: ["sheet", "cloud"], ase: ["sheet", "sheet"], idph: ["word", "photo"], tidph: ["word", "photo"], letters: ["sheet", "db"], drive: ["cloud", "sheet"], permits: ["photo", "db"], reader: ["word", "sheet"], readerVeh: ["word", "sheet"] };
 // «الشيتات» on its way: the showreel, in its own box (see «THE SHOWREEL» in the styles). «since» is when the order started:
 // the reel is set back by that, so a box drawn again goes on where it was.
-const REEL_WORD = { employees: "EMPLOYEES", renew: "ID RENEWAL", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS", reader: "ID CARDS", readerVeh: "LICENCES" };
+const REEL_WORD = { employees: "EMPLOYEES", renew: "ID RENEWAL", sheet: "WORK SHEET", ase: "ASE DATA", idph: "ID PHOTOS", tidph: "TEMP PHOTOS", letters: "LETTERS", drive: "DRIVE COPY", permits: "PERMIT CARDS", reader: "ID CARDS", readerVeh: "LICENCES" };
 // how far it has got: [lowest, highest, since, how long it usually takes] -> a figure that creeps up within its step and never
 // reaches the next step's (nor 100%) before the order does
-const REEL_TAU = { employees: 40, renew: 60, sheet: 120, ase: 90, idph: 240, letters: 40, drive: 40, permits: 120, reader: 150, readerVeh: 150 };
+const REEL_TAU = { employees: 40, renew: 60, sheet: 120, ase: 90, idph: 240, tidph: 240, letters: 40, drive: 40, permits: 120, reader: 150, readerVeh: 150 };
 function reelPct(p){
   const [lo, hi, since, tau] = p;
   if(lo >= 100) return 100;
@@ -8867,17 +8868,17 @@ function cardsTick(){
    file names — never a person's name or number.
    ============================================================ */
 const DESK_KEY = "ncm_system_desk";
-const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE", DESK_IDPH = "وارد صور البطايق";          // the desk knows a thing of ours by these names
+const DESK_ORDER = "أمر السيستم", DESK_ASE = "وارد ASE", DESK_IDPH = "وارد صور البطايق", DESK_TIDPH = "وارد صور المؤقتة";          // the desk knows a thing of ours by these names
 const DESK_WORD = { employees: "موظفين", sheet: "شيت", ase: "ASE", edits: "تعديلات", letters: "خطابات", drive: "درايف", renew: "بطايق" };
 const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the copy on ASE SEARCH is what goes into the work sheet
 // «رفع ورد الصور» (asked for, 19 October 2026): this PC's copy only — the file is read where the photos are
 // «خطابات الموظفين من ASE» (asked for, 21 October 2026): this PC's copy only — the employees' sheet and ASE Data are here
 if(st.desk === undefined) st.desk = "";
 // «تجديد بطايق الموظفين» (4 November 2026): this PC's copy only — the cards are in a folder of this PC's
-const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive", "renew"]);          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
-const DESK_TITLE = { employees: "dkEmp", renew: "dkRenew", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", letters: "dkLetters", drive: "dkDrive" };
+const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive", "renew", "tidph"]);      // «tidph»: the temporary permits' photos, a box of their own (9 November 2026)          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
+const DESK_TITLE = { employees: "dkEmp", renew: "dkRenew", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", tidph: "dkTidph", letters: "dkLetters", drive: "dkDrive" };
 // the steps an order goes through, by kind: sent · taken up · then its own
-const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"], renew: ["dkA1", "dkA2", "dkR3", "dkR4", "dkR5"] };
+const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], tidph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"], renew: ["dkA1", "dkA2", "dkR3", "dkR4", "dkR5"] };
 const DESK_WITH_READER = ["need_check", "asked_check", "checked"];      // the card photos are being looked at by the reader
 // why an order was not done, in the desk's word for it -> ours
 const DESK_ERR = { already_running: "dkEBusy", interrupted: "dkECut", cancelled: "dkECancelled", took_too_long: "dkELong", program_missing: "dkEProgram",
@@ -9066,16 +9067,17 @@ function deskAse(file){
   deskKeep(); deskNav(); paintDesk();
   [4200, 11000].forEach(ms => setTimeout(deskSync, ms));
 }
-// «رفع ورد الصور»: the file, as it is, put down where the desk takes it from
-function deskIdph(file){
+// «رفع ورد الصور»: the file, as it is, put down where the desk takes it from — «tidph» for the temporary permits' box (9 November 2026)
+function deskIdph(file, kind){
+  kind = kind === "tidph" ? "tidph" : "idph";
   if(!isAdmin() || !file || ONLINE) return;
   if(!/\.(docx|docm)$/i.test(file.name)) return toast(t("needDocx"), true);
   if(!file.size) return toast(t("cdEmptyFile"), true);
-  if(deskLive(deskNow("idph"))) return toast(t("dkIdphBusy"), true);
+  if(deskLive(deskNow(kind))) return toast(t("dkIdphBusy"), true);
   const id = cardsId(), clean = file.name.replace(/[\/:*?"<>|\u0000-\u001f]/g, "-").replace(/\s+/g, " ").trim();
-  const name = DESK_IDPH + " [" + id + "] " + clean;
+  const name = (kind === "tidph" ? DESK_TIDPH : DESK_IDPH) + " [" + id + "] " + clean;
   cardsPut(file, name);
-  DESK.sent.unshift({ id, kind: "idph", file: clean, name, at: Date.now() });
+  DESK.sent.unshift({ id, kind, file: clean, name, at: Date.now() });
   deskKeep(); deskNav(); paintDesk();
   [4200, 11000].forEach(ms => setTimeout(deskSync, ms));
 }
@@ -9085,7 +9087,7 @@ const deskCount = n => esc(Number(n || 0).toLocaleString("en-US"));
 function deskStep(o){
   if(o.status !== "running" || o.step === "queued" || o.step === "expected") return 1;
   if(o.kind === "sheet") return o.step === "verify" ? 3 : 2;
-  if(o.kind === "idph") return 2;
+  if(o.kind === "idph" || o.kind === "tidph") return 2;
   if(o.kind === "letters") return o.step === "sync" ? 3 : 2;
   if(o.kind === "drive") return 2;
   if(o.kind === "employees") return o.step === "photos" ? 4 : DESK_WITH_READER.indexOf(o.step) !== -1 ? 3 : 2;
@@ -9100,8 +9102,8 @@ const deskLastHTML = at => { if(!at) return ""; const d = new Date(at), p = n =>
    احترافى»): each box a card of its own size in an even grid — an icon in its colour, its name, when it was last brought up to date,
    a line of what it last came to (data, never guidance), and its button at the foot; above them, the boxes counted — all · on their way
    · done · wanting a look — each a button that shows those boxes only. Opened, a box is a head across the page and its stage under it. */
-const DESK_ICON = { employees: "db", sheet: "up", ase: "sheet", idph: "photo", letters: "word", drive: "down", renew: "swap", permits: "check" };
-const DESK_HUE = { employees: "var(--mo-b)", sheet: "var(--mo-b)", ase: "var(--mo-g)", idph: "var(--mo-amber)", letters: "var(--mo-g)", drive: "var(--mo-g)", renew: "var(--mo-amber)", permits: "var(--mo-g)" };
+const DESK_ICON = { employees: "db", sheet: "up", ase: "sheet", idph: "photo", tidph: "photo", letters: "word", drive: "down", renew: "swap", permits: "check" };
+const DESK_HUE = { employees: "var(--mo-b)", sheet: "var(--mo-b)", ase: "var(--mo-g)", idph: "var(--mo-amber)", tidph: "var(--mo-amber)", letters: "var(--mo-g)", drive: "var(--mo-g)", renew: "var(--mo-amber)", permits: "var(--mo-g)" };
 const deskIcon = kind => '<span class="desk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + (WF_ICON[DESK_ICON[kind]] || "") + "</svg></span>";
 // what a box last came to, in a line: the step it is at · why it stopped · the weightiest thing its end said
 function deskHead(kind, o){
@@ -9124,12 +9126,12 @@ function deskSumPaint(){
   el.classList.toggle("off", box.classList.contains("one"));
 }
 function deskCardHTML(kind){
-  const o = deskNow(kind), live = deskLive(o), ase = kind === "ase", idph = kind === "idph";
+  const o = deskNow(kind), live = deskLive(o), ase = kind === "ase", idph = kind === "idph" || kind === "tidph";
   // ASE has two ways in: a file from this PC, or the copy that is on ASE SEARCH (what the manager loaded there)
   const btn = ase
     ? '<span class="desk-two"><button class="btn primary sm" data-act="desk-ase"' + (live ? " disabled" : "") + ">" + t("dkAsePick") + "</button>" +
       '<button class="btn sm" data-act="desk-run" data-kind="ase"' + (live ? " disabled" : "") + ">" + t("dkAseSys") + "</button></span>"
-    : idph ? '<button class="btn primary sm" data-act="desk-idph"' + (live ? " disabled" : "") + ">" + t("dkIdphPick") + "</button>"
+    : idph ? '<button class="btn primary sm" data-act="desk-idph" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t("dkIdphPick") + "</button>"
     : '<button class="btn primary sm" data-act="desk-run" data-kind="' + kind + '"' + (live ? " disabled" : "") + ">" + t(kind === "drive" ? "dkDriveRun" : kind === "renew" ? "dkRenewRun" : "dkRun") + "</button>";
   const name = o && (ase || idph) ? '<b class="desk-file">' + (o.file === DESK_FROM_SYSTEM ? esc(t("dkFromSys")) : fileName(o.file)) + "</b>" : "";
   const end = (tone, word) => '<span class="desk-end">' + (o.status === "done" ? '<span class="pct-done num">100%</span>' : "") + pill(tone, t(word)) + '<span class="logwhen">' + deskWhen(o.finished_at) + "</span></span>";
@@ -10493,8 +10495,13 @@ async function giveClick(){
    vehicle — read out of the Word files all over this PC and tied to their rows by tools/id_photos.py — kept in
    «صور البطايق» beside the page, with cards/id-photos.json saying whose they are; online, from their own private bucket
    (tools/photo_upload.py, 19 October 2026). x-photo, off for a user with a chosen list until the admin presses its chip. */
-let IDPH = null, idphAsk = null;
-function idPhotosIndex(){
+let IDPH = null, idphAsk = null, IDPH_T = null, idphAskT = null;
+function idPhotosIndex(temp){
+  if(temp){                                       // the temporary permits' photos: an index of their own (tools/photo_word.py --temp)
+    if(IDPH_T || !DISK) return Promise.resolve(IDPH_T);
+    if(!idphAskT) idphAskT = beside(CARDS_DIR + "id-photos-temp.json").then(text => { try{ IDPH_T = JSON.parse(text || "null"); }catch(e){ IDPH_T = null; } idphAskT = null; return IDPH_T; });
+    return idphAskT;
+  }
   if(IDPH || !DISK) return Promise.resolve(IDPH);
   if(!idphAsk) idphAsk = beside(CARDS_DIR + "id-photos.json").then(text => { try{ IDPH = JSON.parse(text || "null"); }catch(e){ IDPH = null; } idphAsk = null; return IDPH; });
   return idphAsk;
@@ -10515,16 +10522,25 @@ async function idPhotosCloud(type, k){
   }catch(e){ return null; }
 }
 async function idPhotos(ref){
-  const i = ref.indexOf(":"), type = ref.slice(0, i), key = ref.slice(i + 1);
+  const i = ref.indexOf(":"), kind = ref.slice(0, i), key = ref.slice(i + 1);
+  // a temporary permit («tind» / «tveh», 9 November 2026): its own photos — its own index here, its own kinds online — shown the same way
+  const temp = kind === "tind" || kind === "tveh", type = temp ? kind.slice(1) : kind;
   if((type !== "ind" && type !== "veh") || !can("x-photo")) return;
-  const g = type === "ind" ? M.ind && M.ind.groups.get(key) : null, k = type === "veh" ? key : g && g.nid;
+  const g = type === "ind" ? M[kind] && M[kind].groups.get(key) : null, k = type === "veh" ? key : g && g.nid;
   let sets = null;
-  if(DISK){ const x = await idPhotosIndex(); sets = k && x && x[type] && x[type][k]; }
-  else sets = await idPhotosCloud(type, k);
+  if(DISK){ const x = await idPhotosIndex(temp); sets = k && x && x[type] && x[type][k]; }
+  else sets = await idPhotosCloud(kind, k);
+  /* no photos of his temporary permit: his photos from his permits (asked for, the same day: «لما افتح اى صفحة فى المؤقت تنده على الصورة
+     دى… عشان تظهرلى فى كارت الشخص») — the same id or plate in the other photos */
+  if(temp && !(sets && sets.length) && k){
+    const reg = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(false)) : await idPhotosCloud(type, k);
+    if(reg && reg.length) sets = reg;
+  }
   if(drawerRef !== ref) return;
   /* none of his own: «لا يوجد صورة» under every request, as the app shows an employee with no photo (asked for, 19 October
      2026). Only when the answer came back empty — a failed call or no index on this PC says nothing. */
-  const empty = DISK ? !!(IDPH && IDPH[type]) && !(sets && sets.length) : Array.isArray(sets) && !sets.length;
+  const own = temp ? IDPH_T || IDPH : IDPH;
+  const empty = DISK ? !!(own && own[type]) && !(sets && sets.length) : Array.isArray(sets) && !sets.length;
   if(empty){
     [].forEach.call(document.querySelectorAll("#dr-b .occ-shots"), b => {
       b.innerHTML = '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + '</span></div><figure class="shot"><div class="noshot">' + t("noPhoto") + "</div></figure>";
@@ -10927,6 +10943,7 @@ $("cards-pick").addEventListener("change", e => { const f = e.target.files[0]; e
 $("iss-pick").addEventListener("change", e => { const fs = [].slice.call(e.target.files); e.target.value = ""; issUpload(fs); });
 $("ase-pick").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; deskAse(f); });
 $("idph-pick").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; deskIdph(f); });
+$("tidph-pick").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; deskIdph(f, "tidph"); });
 $("ase-up").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; aseUpload(f); });
 $("pick").addEventListener("change", e => {
   const items = [].map.call(e.target.files, f => ({ file: f, handle: null }));
@@ -11041,7 +11058,7 @@ document.addEventListener("click", e => {
     if(a === "desk-run") return deskAsk(act.dataset.kind);
     if(a === "ase-orig") return aseOrig(act);
     if(a === "desk-ase") return $("ase-pick").click();
-    if(a === "desk-idph") return $("idph-pick").click();
+    if(a === "desk-idph") return $(act.dataset.kind === "tidph" ? "tidph-pick" : "idph-pick").click();
     if(a === "ase-up") return $("ase-up").click();
     if(a === "ase-go") return aseGo();
     if(a === "spc-go") return goSpc();

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-I12GvaHiqubglH66ACBFcLLWVkBZW3AdL3VjYSVkiq4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-QSm9vrOSEMi+lY1eamff5Q+VXXozRKia91VHUDKeWXc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3927,7 +3927,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cd5b64215b58";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "19cae636b396";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7274,15 +7274,26 @@ function occBar(n){
 const withTemp = (records, T, key) => {
   const tg = T && T.groups.get(key);
   if(!tg) return records;
-  return records.concat(tg.records).sort((a, b) => a.dayDate && b.dayDate ? a.dayDate - b.dayDate : a.dayDate ? -1 : b.dayDate ? 1 : 0);
+  // his permits keep their own order; each temporary one goes in after the last of them sent on or before its day
+  const out = records.slice();
+  tg.records.forEach(r => {
+    let at = out.length;
+    if(r.dayDate){
+      let last = -1; out.forEach((x, i) => { if(x.dayDate && x.dayDate <= r.dayDate) last = i; });
+      at = last >= 0 ? last + 1 : Math.max(0, out.findIndex(x => x.dayDate));
+    }
+    out.splice(at, 0, r);
+  });
+  return out;
 };
 function occItems(records, veh, flagged){
-  return records.map((r, n, a) => '<div class="occ-item' + (n === a.length - 1 ? "" : " off") + '" data-occ-i="' + n + '">' + (flagged && r.temp ? tmpFlag() : "") + permitRecHTML(r, n, a.length, veh) +
+  return records.map((r, n, a) => '<div class="occ-item' + (n === a.length - 1 ? "" : " off") + (r.temp ? '" data-tmp="1' : "") + '" data-occ-i="' + n + '">' + (flagged && r.temp ? tmpFlag() : "") + permitRecHTML(r, n, a.length, veh) +
     '<div class="shots occ-shots" data-day="' + occDay(r.dayDate) + '"></div></div>').reverse().join("");      // the newest first in the page, as before
 }
 function occPick(n){
   [].forEach.call(document.querySelectorAll("#dr-b .occ-chip"), b => b.classList.toggle("on", +b.dataset.occ === n));
   [].forEach.call(document.querySelectorAll("#dr-b .occ-item"), x => x.classList.toggle("off", +x.dataset.occI !== n));
+  paintEditBtn();
 }
 function permitRecHTML(r, i, total, veh){
   const send = r.dayText ? r.dayText + (r.dayNote ? " " + r.dayNote : "") : r.day;
@@ -7366,6 +7377,7 @@ function openDrawer(ref){
   $("dr-renew").hidden = true; drawerRef = ref; paintRenewBtn(); paintEditBtn(); paintGiveBtn();
   logCard(ref);
   $("dr-b").innerHTML = h;
+  paintEditBtn();
   hasCardPaint();
   editNote();
   idPhotos(ref);
@@ -10013,7 +10025,8 @@ function editOf(ref){
 }
 function paintEditBtn(){
   const b = $("dr-edit");
-  b.hidden = !editOf(drawerRef) || !can("x-edit") || !link();
+  // «تعديل التصريح» writes his last permit in the permits sheet: not while a temporary permit of his is the one on show
+  b.hidden = !editOf(drawerRef) || !can("x-edit") || !link() || !!document.querySelector("#dr-b .occ-item[data-tmp]:not(.off)");
   b.textContent = t("edBtn");
 }
 function editNote(){

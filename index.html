@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-5qF1UD76UkuxfZls6xIMJHDQHVXmsHBA/Ru/YSTk6fo='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dYIb+qQqNlHq0kUWc8JUVhUYLr1Y7uuQXgPJvTAMzdw=' 'sha256-MKyL+vGlPE1bLRPMsl2Vz1h7MauB+v3emcWTznsUcDk='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1505,6 +1505,12 @@ label.pick input:focus-visible + span{box-shadow:0 0 0 3px rgba(21,101,192,.25);
 .banner .bv{font-size:16.5px;font-weight:800;text-align:end;unicode-bidi:plaintext;}
 .banner .bx{font-size:12px;font-weight:700;opacity:.85;margin-top:2px;text-align:end;}
 /* ONE REQUEST AT A TIME, AS IN THE APP: a chip a request (1 the first sent), the latest pressed; on paper, all of them */
+.tmp-flag{display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;margin:12px auto 0;padding:8px 22px;border-radius:12px;
+  background:linear-gradient(90deg,#f59e0b,#f97316);color:#fff;font-size:16px;font-weight:900;letter-spacing:.2px;border:2px solid #fff;
+  box-shadow:0 0 0 2px #f97316,0 6px 18px rgba(249,115,22,.4);animation:tmpPulse 1.8s ease-in-out infinite;}
+@keyframes tmpPulse{0%,100%{box-shadow:0 0 0 2px #f97316,0 6px 18px rgba(249,115,22,.4);}50%{box-shadow:0 0 0 5px rgba(249,115,22,.45),0 6px 22px rgba(249,115,22,.55);}}
+@media (prefers-reduced-motion: reduce){ .tmp-flag{animation:none;} }
+@media print{ .tmp-flag{animation:none;box-shadow:none;border:2px solid #f97316;color:#000;background:#ffe2c6;} }
 .occ-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:12px;}
 .occ-chip{min-width:36px;height:36px;padding:0 8px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--text);font-family:var(--mono);font-size:15px;font-weight:800;}
 .occ-chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
@@ -3920,7 +3926,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "5a1cf20c5a5b";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "067a83b1609c";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4132,7 +4138,7 @@ try{ const saved = localStorage.getItem(LANG_KEY); if(saved === "en" || saved ==
 const isEN = () => lang === "en";
 const I18N = {
   ar: {
-    navSearch:"بحث", navEsrch:"بحث الموظفين", lgToday:"النهارده", lgYesterday:"امبارح", lgVisits:"الزيارات", lgSearches:"بحث", lgOuts:"تصدير وطباعة", lgWrongs:"محاولات غلط", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات", navTmp:"التصاريح المؤقتة", tmpInd:"أفراد", tmpVeh:"مركبات", tmpNoSheet:"شيت التصاريح المؤقتة مش موجود في الورك شيت", colDur:"المدة", durDays:n => n + " يوم", cOver:"أكتر من 3 شهور", drTind:"تصريح فرد مؤقت", drTveh:"تصريح مركبة مؤقت", csvTind:"تصاريح-أفراد-مؤقتة", csvTveh:"تصاريح-مركبات-مؤقتة",
+    navSearch:"بحث", navEsrch:"بحث الموظفين", lgToday:"النهارده", lgYesterday:"امبارح", lgVisits:"الزيارات", lgSearches:"بحث", lgOuts:"تصدير وطباعة", lgWrongs:"محاولات غلط", csvEsrch:"بحث-الموظفين", navHome:"لوحة المتابعة", navLive:"المتابعة", navEmp:"الموظفين", navInd:"تصاريح الأفراد", navVeh:"تصاريح المركبات", navTmp:"التصاريح المؤقتة", tmpInd:"أفراد", tmpVeh:"مركبات", tmpNoSheet:"شيت التصاريح المؤقتة مش موجود في الورك شيت", colDur:"المدة", durDays:n => n + " يوم", cOver:"أكتر من 3 شهور", drTind:"تصريح فرد مؤقت", tmpTag:"تصريح مؤقت", colTmpNote:"ملحوظة", drTveh:"تصريح مركبة مؤقت", csvTind:"تصاريح-أفراد-مؤقتة", csvTveh:"تصاريح-مركبات-مؤقتة",
     navCheck:"فحص الداتا", navSrc:"الشيتات", navgSearch:"البحث", navgRecords:"السجلات", navgReports:"التقارير", navgSystem:"النظام",
     dropHere:"افلت الشيتات هنا", close:"إغلاق", reading:"جارٍ القراءة", readingSheets:"جارٍ قراءة الشيتات",
     sheetPer:"شيت التصاريح", sheetEmp:"شيت الموظفين", and:" و",
@@ -4282,7 +4288,7 @@ const I18N = {
     drVeh:"تصاريح مركبة", plateForms:"اللوحة مكتوبة بأكتر من شكل"
   },
   en: {
-    navSearch:"Search", navEsrch:"Employee search", lgToday:"Today", lgYesterday:"Yesterday", lgVisits:"Visits", lgSearches:"Searches", lgOuts:"Exports and prints", lgWrongs:"Wrong PINs", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits", navTmp:"Temporary permits", tmpInd:"Individuals", tmpVeh:"Vehicles", tmpNoSheet:"The temporary permits sheet is not in the work sheet", colDur:"Length", durDays:n => n + " days", cOver:"Over 3 months", drTind:"Temporary individual permit", drTveh:"Temporary vehicle permit", csvTind:"Temporary-individual-permits", csvTveh:"Temporary-vehicle-permits",
+    navSearch:"Search", navEsrch:"Employee search", lgToday:"Today", lgYesterday:"Yesterday", lgVisits:"Visits", lgSearches:"Searches", lgOuts:"Exports and prints", lgWrongs:"Wrong PINs", csvEsrch:"Employee-search", navHome:"Dashboard", navLive:"Live", navEmp:"Employees", navInd:"Individual permits", navVeh:"Vehicle permits", navTmp:"Temporary permits", tmpInd:"Individuals", tmpVeh:"Vehicles", tmpNoSheet:"The temporary permits sheet is not in the work sheet", colDur:"Length", durDays:n => n + " days", cOver:"Over 3 months", drTind:"Temporary individual permit", tmpTag:"Temporary permit", colTmpNote:"Note", drTveh:"Temporary vehicle permit", csvTind:"Temporary-individual-permits", csvTveh:"Temporary-vehicle-permits",
     navCheck:"Data check", navSrc:"Sheets", navgSearch:"Search", navgRecords:"Records", navgReports:"Reports", navgSystem:"System",
     dropHere:"Drop the sheets here", close:"Close", reading:"Reading", readingSheets:"Reading the sheets",
     sheetPer:"Permits sheet", sheetEmp:"Employees sheet", and:" and ",
@@ -6732,12 +6738,34 @@ function findPeople(term){
     if(M.emp) M.emp.list.forEach(e => { const r = rankE(e); if(r < 9) found.push({ r, name: e.full_name, add: () => addE(e) }); });
     found.sort((a, b) => a.r - b.r || sortText(a.name).localeCompare(sortText(b.name), "ar"));
     found.forEach(x => x.add());
+    hits.push(...findTemp(term, "ind"));
     if(hits.length > NAME_SHOW) return { list: hits.slice(0, NAME_SHOW), more: hits.length - NAME_SHOW, names: true };
+    return capped(hits);
   }
+  hits.push(...findTemp(term, "ind"));
   return capped(hits);
 }
+/* THE TEMPORARY PERMITS IN «بحث» (asked for, 9 November 2026: «محتاج التصاريح الموقته تظهر فى صفحة بحث عادى بس بدون فلتر مؤقته تظهر عادى فى
+   الأفراد والمركبات بس يتكتب فى اخر الجدول وفى الكارت ملحوظه أنه مؤقت»): the two temporary sheets are looked up the way their kind is — the id
+   whole or in part, the name or its words, the plate or its number — and each one found is a row of its own among the others, marked «temp»:
+   «تصريح مؤقت» in the last column, and its card is the temporary permit's. No box of its own over the answers. */
+function findTemp(term, kind){
+  const T = kind === "ind" ? M.tind : M.tveh;
+  if(!T) return [];
+  const d = digitsOnly(term), f = foldArabic(term), numeric = /^[\d\s-]+$/.test(term), words = wordsOf(term);
+  let list;
+  if(kind === "ind"){
+    if(numeric) list = d.length === 14 ? (T.byNid.get(d) ? [T.byNid.get(d)] : []) : d.length >= 5 ? T.list.filter(g => g.nid && g.nid.includes(d)) : [];
+    else list = f ? T.list.filter(g => [...g.names.keys()].some(n => n === f || n.includes(f) || words.every(w => n.includes(w)))) : [];
+    return list.map(g => ({ g, emps: g.emp || [], temp: true }));
+  }
+  if(numeric) list = d ? T.list.filter(g => g.key.includes(d)) : [];
+  else list = T.groups.get(f) ? [T.groups.get(f)] : T.list.filter(g => g.key.includes(f) || words.every(w => g.key.includes(w)));
+  return list.map(g => ({ g, temp: true }));
+}
 function findVehicles(term){
-  if(!M.veh) return capped([]);
+  if(!M.veh) return capped(findTemp(term, "veh"));
+  const tmp = findTemp(term, "veh");
   const f = foldArabic(term), d = digitsOnly(term), numeric = /^[\d\s-]+$/.test(term);
   if(numeric){
     /* THE NUMBER ALONE, without the letters, finds every plate that has that
@@ -6747,13 +6775,13 @@ function findVehicles(term){
     if(!d) return capped([]);
     const rank = g => { const x = g.key.replace(/\D/g, ""); return x === d ? 0 : x.startsWith(d) ? 1 : 2; };
     return capped(M.veh.list.filter(g => g.key.includes(d)).map(g => ({ g, r: rank(g) }))
-      .sort((a, b) => a.r - b.r || a.g.key.localeCompare(b.g.key, "ar")).map(x => ({ g: x.g })));
+      .sort((a, b) => a.r - b.r || a.g.key.localeCompare(b.g.key, "ar")).map(x => ({ g: x.g })).concat(tmp));
   }
   const exact = M.veh.groups.get(f);
-  if(exact) return capped([{ g: exact }]);
+  if(exact) return capped([{ g: exact }].concat(tmp));
   // letters, or letters and numbers, typed in part: every piece typed has to be in the plate
   const words = wordsOf(term);
-  return capped(M.veh.list.filter(g => g.key.includes(f) || words.every(w => g.key.includes(w))).map(g => ({ g })));
+  return capped(M.veh.list.filter(g => g.key.includes(f) || words.every(w => g.key.includes(w))).map(g => ({ g })).concat(tmp));
 }
 /* EVERY BOX THAT COUNTS SOMETHING IS PRESSED (asked for, 6 October 2026: «أي صندوق هيظهر في أي صفحة عايزه تفاعلي أقدر
    أدخل عليه»). Over the search's answers: «مطلوب» is every line, «موجود» the lines that found someone, «مش موجود» the
@@ -6801,7 +6829,9 @@ const MULTI_COLS = {
     { tk:"aseNote", cls:"wide", h:r => esc(letterOf(r, "anote", "letter_note")) || dimDash, x:r => letterOf(r, "anote", "letter_note") },
     { tk:"colCount", h:r => r.g ? num(r.g.records.length) : dimDash, x:r => r.g ? r.g.records.length : "" },
     { tk:"colEmp", cls:"nowrap", h:r => r.emps.length ? r.emps.map(e => pill("link", t("codeN", e.emp_code)) + " " + pill(e.st.k, empTag(e))).join(" ") : dimDash,
-      x:r => r.emps.map(e => t("codeN", e.emp_code) + " — " + empTag(e)).join(" / ") }
+      x:r => r.emps.map(e => t("codeN", e.emp_code) + " — " + empTag(e)).join(" / ") },
+    // a temporary permit (9 November 2026): said in the last column — shown only when the answers hold one
+    { tk:"colTmpNote", cls:"nowrap", h:r => r.temp ? pill("warn", t("tmpTag")) : "", x:r => r.temp ? t("tmpTag") : "" }
   ],
   veh: [
     { tk:"colPlate", cls:"nowrap", h:r => "<b>" + esc(r.g.plate) + "</b>", x:r => r.g.plate },
@@ -6810,16 +6840,17 @@ const MULTI_COLS = {
     { tk:"colPermit", cls:"nowrap", h:r => permitPill(r.g.p), x:r => permitText(r.g.p), tone:r => r.g.p.cls },
     { tk:"colSent", cls:"nowrap", h:r => r.g.cur.dayText ? num(r.g.cur.dayText) : esc(dash(r.g.cur.day)), x:r => r.g.cur.dayText || r.g.cur.day },
     { tk:"colMail", h:r => esc(dash(r.g.cur.mail)), x:r => r.g.cur.mail },
-    { tk:"colCount", h:r => num(r.g.records.length), x:r => r.g.records.length }
+    { tk:"colCount", h:r => num(r.g.records.length), x:r => r.g.records.length },
+    { tk:"colTmpNote", cls:"nowrap", h:r => r.temp ? pill("warn", t("tmpTag")) : "", x:r => r.temp ? t("tmpTag") : "" }
   ]
 };
 // the search's Excel file: its columns in the order that was asked for it, whatever order the page shows them in
-const MULTI_FILE = ["colName", "colJob", "colNid", "address", "colPermit", "colSent", "colMail", "letterNo", "letterDate", "colCompany", "sender", "notes", "aseNote", "colCount", "colEmp"];
+const MULTI_FILE = ["colName", "colJob", "colNid", "address", "colPermit", "colSent", "colMail", "letterNo", "letterDate", "colCompany", "sender", "notes", "aseNote", "colCount", "colEmp", "colTmpNote"];
 const fileCols = cols => MULTI_FILE.map(tk => cols.find(c => c.tk === tk)).filter(Boolean);
 const CAT_PILL = { ok:"ok", soon:"warn", expired:"bad", ban:"ban", renew:"bad", temp:"mute", pending:"warn", undet:"mute" };
 function multiOpen(r){
-  if(st.multi.res.mode === "veh") return "veh:" + r.g.key;
-  return r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code;
+  if(st.multi.res.mode === "veh") return (r.temp ? "tveh:" : "veh:") + r.g.key;
+  return r.g ? (r.temp ? "tind:" : "ind:") + r.g.key : "emp:" + r.emps[0].emp_code;
 }
 /* THE MOTION BEHIND EVERY PAGE (see «#bgmo» in the styles): made once when the pages are open to someone who has «x-motion», and
    left to run — a page drawn, a search answered, nothing starts it over. Its rings follow the search box of a page that has one. */
@@ -7282,6 +7313,9 @@ function empCardHTML(e){
     '<div class="shots">' + [e.emp_code + ".jpg", e.emp_code + "_2.jpg"].map(f =>
       '<figure class="shot"><img data-shot src="' + esc(photoDir()) + encodeURIComponent(f) + '" alt="' + t("photoAlt") + '" loading="lazy"></figure>').join("") + "</div></article>";
 }
+/* A TEMPORARY PERMIT'S CARD SAYS SO AT ITS TOP (asked for, 9 November 2026: «فى الكارت تحت الاسم فى صندوق صغير… او تحت الرقم القومى فى اول
+   الكارت يعنى وتبقى شكلها ملفت للانتباه»): a band of its own right under the id (the plate), that catches the eye */
+const tmpFlag = () => '<div class="tmp-flag" role="note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>' + esc(t("tmpTag")) + "</div>";
 function openDrawer(ref){
   const i = ref.indexOf(":"), type = ref.slice(0, i), key = ref.slice(i + 1);
   let title = "", h = "";
@@ -7298,7 +7332,7 @@ function openDrawer(ref){
           '<div class="pills">' + (g.nationalId ? '<span class="pill white">' + num(g.nationalId) + "</span>" : "") +
             '<span class="pill warn">' + t("nPermits", g.records.length) + "</span>" +
             (g.emp ? g.emp.map(e => '<button class="pill link" data-open="emp:' + esc(e.emp_code) + '" style="cursor:pointer">' + esc(t("empLink", e.emp_code)) + "</button>").join("") : "") +
-          "</div>" + occBar(g.records.length) + "</div>" +
+          "</div>" + (type === "tind" ? tmpFlag() : "") + occBar(g.records.length) + "</div>" +
           group(t("fromNid"), nidRows(g.nid)) +
           (g.names.size > 1 ? group(t("nameForms"), [...g.names.values()].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
@@ -7307,7 +7341,7 @@ function openDrawer(ref){
     const g = M[type].groups.get(key); if(!g) return;
     title = t(type === "tveh" ? "drTveh" : "drVeh");
     h = '<article class="rec" data-s="' + g.p.cls + '"><div class="head"><h2 class="nm">' + esc(g.plate) + "</h2>" +
-          '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div>" + occBar(g.records.length) + "</div>" +
+          '<div class="pills"><span class="pill warn">' + t("nPermits", g.records.length) + "</span></div>" + (type === "tveh" ? tmpFlag() : "") + occBar(g.records.length) + "</div>" +
           (g.forms.size > 1 ? group(t("plateForms"), [...g.forms].map(n => rowHTML("—", n)).join("")) : "") +
           '<div class="rec-pad"></div></article>' +
         occItems(g.records, true);

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-Q0GIYH3Fz/Eh7oJrZ0gr40Ioq6bNiLEsz7IuAisRO7I='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-EhceSpVUq6ZCl7NSRxI1V+jhw38cjpaLgKYI8gjG6dE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3929,7 +3929,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "47b15cc258b0";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2ba85534044b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -7811,7 +7811,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", esrch: "navEsrch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
+const VIEW_NAME = { multi: "navSearch", esrch: "navEsrch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", tind: "navTmp", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
 const logOpen = new Set();                          // the lines that stand open
 /* «سجل النشاط» FOLDED (asked for, 23 October 2026: «سجل النشاط والأجهزة يظهر سهم لضغط عليه يعرض القايمه مش تفضل القايمه ثابته»):
    the devices and each visit show their heading only — who, where, when, how many lines — and an arrow; pressing the heading

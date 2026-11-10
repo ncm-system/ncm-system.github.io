@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-mSn2QmoZudclJZcBvdNEgtQHplkMg92lKdU6uVRqnDA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-rHeM94Zte6Ir8MZ3cN3y1QbAwsW4mlYDhvuYYcrhVas='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3929,7 +3929,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "eb1fa93af6b2";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "66abc84a90fe";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4182,7 +4182,7 @@ const I18N = {
     adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", isPart:"القسم", isWho:"الاسم / رقم السيارة", isWhat:"الوظيفة / النوع", isId:"الرقم القومي / تابعه", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -4332,7 +4332,7 @@ const I18N = {
     adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", isPart:"Part", isWho:"Name / plate", isWhat:"Job / type", isId:"National ID / belongs to", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -10356,6 +10356,25 @@ const ISS_OUT_COLS = [
   ISS_COLS[0]
 ];
 const issPick = (cols, tks) => tks.map(tk => cols.find(c => c.tk === tk));
+/* ONE SEARCH OVER EVERY CARD (asked for, 10 November 2026: «خلى بقا بحث الكروت يشمل كل الكروت سواء افراد او موظفين او مؤقته او مركبات او مركبات
+   مؤقته يعنى صندوق بحث يجيب كله فى مكان واحد والفلتر بتاعه يكون اما بحث فردى او بحث متعدد بس»): whatever is typed is looked for in every
+   part at once, and what answers is one table — its part first, then the same columns for a man and a vehicle side by side */
+const issSegName = k => t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : k === "tind" ? "isTind" : k === "tveh" ? "isTveh" : "segPeople");
+const issSlot = (tk, person, veh, out) => {
+  const of = r => r.out ? null : (r.veh ? MULTI_COLS.veh : MULTI_COLS.ind).find(c => c.tk === (r.veh ? veh : person));
+  return { tk, cls: tk === "isWho" ? "name" : "",
+    h: r => { const c = of(r); return c ? c.h(r) : esc(out(r) || "") || dimDash; },
+    x: r => { const c = of(r); return c ? c.x(r) : out(r) || ""; } };
+};
+const ISS_ALL_COLS = [
+  { tk:"isPart", cls:"nowrap", h:r => pill(r.temp ? "warn" : r.out ? "bad" : "blue", issSegName(r.seg)), x:r => issSegName(r.seg) },
+  issSlot("isWho", "colName", "colPlate", r => r.veh ? r.x.plate : r.x.name),
+  issSlot("isWhat", "colJob", "colType", r => r.veh ? r.x.model : r.x.job),
+  issSlot("isId", "colNid", "colOwner", r => r.veh ? "" : r.x.nid),
+  issSlot("colPermit", "colPermit", "colPermit", () => ""),
+  ISS_COLS[0], ISS_COLS[1], ISS_COLS[2],
+  issSlot("colSent", "colSent", "colSent", () => "")
+];
 const issCols = veh => veh
   ? issPick(MULTI_COLS.veh, ["colPlate", "colType", "colOwner", "colPermit"]).concat(ISS_COLS, issPick(MULTI_COLS.veh, ["colSent", "colMail"]))
   : issPick(MULTI_COLS.ind, ["colName", "colJob", "colNid", "address", "sender", "colPermit"]).concat(ISS_COLS, issPick(MULTI_COLS.ind, ["colSent", "colMail"]));
@@ -10454,14 +10473,14 @@ function paintIssued(){
   const SEGS = issSegs();
   if(SEGS.indexOf(st.issued.seg) < 0) st.issued.seg = "emp";
   const seg = st.issued.seg, veh = seg === "veh" || seg === "tveh", built = issBuild(), terms = issTerms(), cat = st.issued.cat;
-  const found = issHits(built.rows, terms), rows = found.filter(r => r.seg === seg);
+  const all = terms.length > 0, found = issHits(built.rows, terms).filter(r => SEGS.indexOf(r.seg) >= 0), rows = all ? found : found.filter(r => r.seg === seg);
   // what was looked for and is in none of the three parts (when many are looked for)
   const miss = st.issued.mode === "many" ? terms.filter(x => !built.rows.some(r => SEGS.indexOf(r.seg) >= 0 && issAnswers(r, x))) : [];
   $("iss-miss").innerHTML = miss.map(x => pill("bad", t("isMiss") + ": " + esc(x.text))).join("");
   // the three parts: how many, and how many of them were handed theirs
   $("iss-tiles").innerHTML = '<div class="tiles' + (SEGS.length > 4 ? " six" : "") + '" style="--n:' + SEGS.length + ';--half:2">' + SEGS.map(k => {
     const mine = found.filter(r => r.seg === k), g = mine.filter(issHeld).length, nn = mine.filter(r => issCat(r) === "not").length;
-    return '<button type="button" class="tile' + (k === seg ? " picked job" : "") + '" data-isseg="' + k + '"><span class="tile-k">' + t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : k === "tind" ? "isTind" : k === "tveh" ? "isTveh" : "segPeople") + "</span>" +
+    return '<button type="button" class="tile' + (k === seg && !all ? " picked job" : "") + '" data-isseg="' + k + '"><span class="tile-k">' + t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : k === "tind" ? "isTind" : k === "tveh" ? "isTveh" : "segPeople") + "</span>" +
       '<span class="tile-v num">' + num(mine.length) + '</span><span class="tile-s"><span class="g">' + esc(t("isGiven")) + " " + num(g) + '</span><span class="n">' + esc(t("isNot")) + " " + num(nn) + "</span></span></button>";
   }).join("") + "</div>";
   const n = { given: rows.filter(issHeld).length, not: rows.filter(r => issCat(r) === "not").length, pulled: rows.filter(r => issCat(r) === "pulled").length, dead: rows.filter(r => r.dead).length };
@@ -10478,12 +10497,12 @@ function paintIssued(){
     return;
   }
   const mine = ["given", "not", "pulled", "dead"].indexOf(cat) >= 0 ? rows.filter(r => issCat(r) === cat) : rows;
-  const cols = seg === "out" ? ISS_OUT_COLS : issCols(veh), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
+  const cols = all ? ISS_ALL_COLS : seg === "out" ? ISS_OUT_COLS : issCols(veh), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
   /* the same list painted again (a card handed over, the list asked for anew): it stays where it was scrolled to —
      it went back to its top every time (19 October 2026: «لما أجي أسلم حد يطلع في أول الجدول») */
-  const same = issPainted === [seg, cat, st.issued.mode, st.issued.q].join("|"), at = box.querySelector(".tblwrap");
+  const same = issPainted === [all ? "*" : seg, cat, st.issued.mode, st.issued.q].join("|"), at = box.querySelector(".tblwrap");
   const keep = same && at ? { y: at.scrollTop, x: at.scrollLeft, w: window.scrollY } : null;
-  issPainted = [seg, cat, st.issued.mode, st.issued.q].join("|");
+  issPainted = [all ? "*" : seg, cat, st.issued.mode, st.issued.q].join("|");
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + '<span class="count">' + t("rows", mine.length) + "</span></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t(terms.length ? "spNone" : "isNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
@@ -11262,7 +11281,9 @@ document.addEventListener("click", e => {
   const cmpcat = tg.closest("[data-cmpcat]");
   if(cmpcat){ CMP.cat = CMP.cat === cmpcat.dataset.cmpcat ? "" : cmpcat.dataset.cmpcat; return paintCmp(); }
   const isseg = tg.closest("[data-isseg]");
-  if(isseg){ if(st.issued.seg !== isseg.dataset.isseg){ st.issued.seg = isseg.dataset.isseg; st.issued.cat = ""; } return paintIssued(); }
+  if(isseg){
+    if(issTerms().length){ st.issued.q = ""; if($("iss-q")) $("iss-q").value = ""; st.issued.cat = ""; }     // one search over every part: a part pressed puts it away
+    if(st.issued.seg !== isseg.dataset.isseg){ st.issued.seg = isseg.dataset.isseg; st.issued.cat = ""; } return paintIssued(); }
   const ismode = tg.closest("[data-ismode]");
   if(ismode){ if(st.issued.mode !== ismode.dataset.ismode){ st.issued.mode = ismode.dataset.ismode; renderIssued(); } return $("iss-q").focus(); }
   const iscat = tg.closest("[data-iscat]");

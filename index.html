@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-rHeM94Zte6Ir8MZ3cN3y1QbAwsW4mlYDhvuYYcrhVas='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V/GspgW+rHYf4uWAogEqjfrnhguX7qxEDZco8G7QdFU=' 'sha256-Q0GIYH3Fz/Eh7oJrZ0gr40Ioq6bNiLEsz7IuAisRO7I='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3929,7 +3929,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "66abc84a90fe";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "47b15cc258b0";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10473,7 +10473,7 @@ function paintIssued(){
   const SEGS = issSegs();
   if(SEGS.indexOf(st.issued.seg) < 0) st.issued.seg = "emp";
   const seg = st.issued.seg, veh = seg === "veh" || seg === "tveh", built = issBuild(), terms = issTerms(), cat = st.issued.cat;
-  const all = terms.length > 0, found = issHits(built.rows, terms).filter(r => SEGS.indexOf(r.seg) >= 0), rows = all ? found : found.filter(r => r.seg === seg);
+  const all = terms.length > 0, found = issHits(built.rows, terms).filter(r => SEGS.indexOf(r.seg) >= 0), rows = all ? found.slice().sort((a, b) => SEGS.indexOf(a.seg) - SEGS.indexOf(b.seg)) : found.filter(r => r.seg === seg);   // one table: part by part, in the tiles' order
   // what was looked for and is in none of the three parts (when many are looked for)
   const miss = st.issued.mode === "many" ? terms.filter(x => !built.rows.some(r => SEGS.indexOf(r.seg) >= 0 && issAnswers(r, x))) : [];
   $("iss-miss").innerHTML = miss.map(x => pill("bad", t("isMiss") + ": " + esc(x.text))).join("");

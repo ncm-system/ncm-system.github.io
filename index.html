@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-+TihBN2tyFGVCIvhepA3C/yS7HeihbsoOpIXRijrzf4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-aCT9xXoXEap+p81/uHQOTL9hfTeLVyHWs2HSVzUZ+ls='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3959,7 +3959,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "c7544be1c5f7";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "5d1eff968013";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5800,7 +5800,9 @@ function renderRep(){
    LISTS — every row, one under the other. No pages: what the filters leave
    is all there to scroll through.
    ============================================================ */
-const sortText = s => foldArabic(s);
+// (kept: a sort asks for the same name many times over — folding it each time was a seventh of a second on a search of six names)
+const sortKept = new Map();
+const sortText = s => { let v = sortKept.get(s); if(v === undefined){ if(sortKept.size > 20000) sortKept.clear(); v = foldArabic(s); sortKept.set(s, v); } return v; };
 const dimDash = "";                                                // an empty cell is empty (5 November 2026)
 // a date kept as text in the sheet: shown as a date when it is one, as written when it is not («غير محدد»); sorted as a date, the rest last
 const dateCell = s => { const d = NCM.parseStrict(s); return !s ? dimDash : d ? num(fmt(d)) : esc(s); };
@@ -6013,10 +6015,10 @@ function tblPiece(n){
   if(!r) return;
   const body = document.querySelector('#out tbody[data-rest="' + r.token + '"]');
   if(!body){ tblRest = null; return; }
-  const t0 = performance.now(), part = n ? r.rows.slice(r.at, r.at + n) : r.rows.slice(r.at);
+  const t0 = performance.now(), from = r.at, part = n ? r.rows.slice(r.at, r.at + n) : r.rows.slice(r.at);
   r.at += part.length;
-  body.insertAdjacentHTML("beforeend", part.map(r.one).join(""));
   const last = r.at >= r.rows.length;
+  body.insertAdjacentHTML("beforeend", part.map((x, k) => r.one(x, from + k)).join("") + (last ? r.tail : ""));
   if(last){ const gap = tblGap(r); if(gap) gap.remove(); body.removeAttribute("data-rest"); tblRest = null; }
   else tblSpace();
   const S = PICK_SRC[st.view];
@@ -6085,7 +6087,8 @@ function tblSizeLater(){
   const z = tblSz, go = () => { if(tblSz === z) tblSizeStep(); };
   if(window.requestIdleCallback) requestIdleCallback(go, { timeout: 200 }); else setTimeout(go, 30);
 }
-const tblHeld = z => st.view !== "issued" && ISS.loaded && ISS.of === M && /^(ind|emp|veh|tind|tveh):/.test(String(z.open(z.rows[0])));
+const tblHeld = z => { const r = z.pc >= 0 && z.open ? z.rows.find(x => !(z.skip && z.skip(x))) : null;
+  return !!r && st.view !== "issued" && ISS.loaded && ISS.of === M && /^(ind|emp|veh|tind|tveh):/.test(String(z.open(r))); };
 const tblPills = has => (has.reg ? '<span class="pill ok hc-sz">' + esc(t("hasCard")) + "</span>" : "") + (has.tmp ? '<span class="pill warn hc-sz">' + esc(t("hasTmpCard")) + "</span>" : "");
 function tblSizeStep(){
   const z = tblSz, n = z.rows.length, t0 = performance.now(), held = tblHeld(z);
@@ -6095,8 +6098,9 @@ function tblSizeStep(){
   };
   while(z.i < n && performance.now() - t0 < 6){
     const r = z.rows[z.i];
+    if(z.skip && z.skip(r)){ z.i++; continue; }
     for(let c = 0; c < z.cols.length; c++){
-      const h = String(z.cols[c].h(r)), plain = h.indexOf("<") < 0, text = plain ? h : h.replace(/<[^>]*>/g, " ");
+      const h = String(z.inner ? z.inner(z.cols[c], c, r) : z.cols[c].h(r)), plain = h.indexOf("<") < 0, text = plain ? h : h.replace(/<[^>]*>/g, " ");
       if(!text.trim()) continue;
       /* cells are compared with cells of their own make — the same tags and classes, so the same letters and sizes (a date in figures
          is not measured against a word in a pill): the widest two of each make */
@@ -6116,12 +6120,26 @@ function tblSizeStep(){
   const picks = z.tops.map(x => { const seen = new Set(), out = []; [].concat(...x.a.values(), x.b).forEach(y => { if(!seen.has(y[1])){ seen.add(y[1]); out.push(y[1]); } }); return out; });
   const deep = Math.max(...picks.map(x => x.length));
   let h = "";
-  for(let k = 0; k < deep; k++) h += '<tr class="tbl-sz">' + z.cols.map((c, i) => { const r = picks[i][k] === undefined ? null : z.rows[picks[i][k]];
+  for(let k = 0; k < deep; k++) h += '<tr class="tbl-sz">' + (z.lead || "") + z.cols.map((c, i) => { const r = picks[i][k] === undefined ? null : z.rows[picks[i][k]];
     return z.cell(c, i, r, r && i === z.pc && held ? tblPills(issHolds(z.open(r))) : ""); }).join("") + "</tr>";
   [].forEach.call(gap.parentNode.querySelectorAll("tr.tbl-sz"), x => x.remove());
   gap.insertAdjacentHTML("beforebegin", h);
   freeze();
 }
+/* A TABLE A PAGE DRAWS ITSELF — the answers of «بحث», «بحث خاص», «مقارنة ASE», the cards of «الكروت» (10 November 2026: «ميعلقش ثانية»): the
+   same way as the lists. o: rows · one(r, n) its row · tail (a last line of its own) · ncols · cols and inner(c, i, r) (what a cell holds)
+   and cls(c, i) (its class) for the widest cells · lead (a cell in front of them: the serial) · skip(r) (a row that is not of the columns)
+   · open(r) and pc (the column «حاصل على كارت» goes on). Answers the tbody and the foot. */
+function tblLazy(o){
+  tblSz = null;
+  const h = "<tbody" + tblBodyAttr(o.rows.length) + ">" + tblRows(o.rows, o.one, o.tail) + "</tbody>" + tblFoot(o.ncols);
+  if(tblNext && o.cols) tblSizeStart({ token: tblNext, cols: o.cols, rows: o.rows, open: o.open, pc: o.pc === undefined ? -1 : o.pc, skip: o.skip, inner: o.inner, lead: o.lead,
+    cell: (c, i, r, more) => '<td class="' + o.cls(c, i) + '">' + (r ? '<div class="szc">' + o.inner(c, i, r) + more + "</div>" : "") + "</td>" });
+  return h;
+}
+const tblSerial = n => '<td class="ix fz fz0"><div class="szc">' + n + "</div></td>";
+const tblNameCol = cols => { const is = (c, w) => new RegExp("(^|\\s)" + w + "(\\s|$)").test(c.cls || "");
+  let i = cols.findIndex(c => is(c, "name")); if(i < 0) i = cols.findIndex(c => c.tk === "colName" || c.tk === "colPlate"); if(i < 0) i = cols.findIndex(c => !is(c, "ix")); return i; };
 // the cards' list has come (or changed): «حاصل على كارت» is on rows it was not on — the widest cells are looked for again
 function tblSizeAgain(){ if(tblSz && tblSz.done && document.querySelector('#out tr.tbl-gap[data-gap="' + tblSz.token + '"]')) tblSizeStart(tblSz); }
 function tableHTML(cols, rows, state, open, view){
@@ -6160,10 +6178,10 @@ function tableHTML(cols, rows, state, open, view){
 // the rows of a list: the first ones now, the rest kept for tblFlush (a new list drawn meanwhile takes the place of the old one)
 let tblNext = 0;
 const tblBodyAttr = n => { tblNext = n > TBL_FIRST * 1.5 && !tblPrinting ? ++tblToken : 0; return tblNext ? ' data-rest="' + tblNext + '"' : ""; };
-function tblRows(rows, one){
-  if(!tblNext){ return rows.map(one).join(""); }
+function tblRows(rows, one, tail){
+  if(!tblNext){ return rows.map(one).join("") + (tail || ""); }
   const token = tblNext;
-  tblRest = { token, rows, one, at: TBL_FIRST, n: 60, avg: 0 };          // the rest is made as it is put in, not before
+  tblRest = { token, rows, one, at: TBL_FIRST, n: 60, avg: 0, tail: tail || "" };          // the rest is made as it is put in, not before
   requestAnimationFrame(() => { if(tblRest && tblRest.token === token){ tblSpace(); tblNear(); } });      // its room, once the first rows are laid out
   return rows.slice(0, TBL_FIRST).map(one).join("");
 }
@@ -7088,26 +7106,31 @@ function paintMulti(keep){
      loaded, a man who is banned comes back "not found" (or as an employee and
      nothing more) — so the answers say which sheet they are without. */
   const lacking = res.mode === "veh" ? (M.veh ? [] : ["per"]) : [M.ind ? "" : "per", M.emp ? "" : "emp"].filter(Boolean);
+  const typedOf = r => {
+    const key = res.mode === "veh" ? r.g.key : (r.g ? r.g.nid : r.emps[0].nid);
+    return (res.mode === "veh" ? foldArabic(r.term) : r.term) !== key ? '<span class="typed">' + t("typed") + esc(r.term) + "</span>" : "";
+  };
   box.innerHTML =
     (lacking.length ? '<div class="note warn">' + esc(t("searchLacks", lacking.map(sheetName).join(t("and")))) + "</div>" : "") +
     '<section class="panel"><div class="panel-h">' + sum +
       '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("multi-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
-    shown.map(r => {
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead>" +
+    tblLazy({ rows: shown, ncols: cols.length + 1, cols, lead: tblSerial(shown.length ? shown[shown.length - 1].n : ""), skip: r => !!(r.miss || r.more), open: multiOpen, pc: tblNameCol(cols),
+      cls: (c, i) => (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c),
+      inner: (c, i, r) => (i || !pickBox("multi", "") ? "" : '<i style="display:inline-block;width:16px;margin-inline-end:8px"></i>') + c.h(r) + (i === 0 ? typedOf(r) : ""),
+      one: r => {
       const lead = '<td class="ix fz fz0">' + r.n + "</td>", term = '<span class="term">' + esc(r.term) + "</span>";
       if(r.miss) return '<tr class="miss">' + lead + '<td colspan="' + cols.length + '">' + term + pill("bad", t("missRow")) + "</td></tr>";
       if(r.more) return '<tr class="more">' + lead + '<td colspan="' + cols.length + '">' + esc(t(r.names ? "moreNames" : "moreRow", r.term, r.more)) + "</td></tr>";
       /* What was typed is only repeated when it is not already sitting in the
          row: a line that was a national id shows that id two cells along. */
-      const key = res.mode === "veh" ? r.g.key : (r.g ? r.g.nid : r.emps[0].nid);
-      const typed = (res.mode === "veh" ? foldArabic(r.term) : r.term) !== key
-        ? '<span class="typed">' + t("typed") + esc(r.term) + "</span>" : "";
       return '<tr data-open="' + esc(multiOpen(r)) + '">' + lead +
-        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("multi", multiOpen(r))) + c.h(r) + (i === 0 ? typed : "") + "</td>").join("") + "</tr>";
-    }).join("") + "</tbody></table></div></section>";
+        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("multi", multiOpen(r))) + c.h(r) + (i === 0 ? typedOf(r) : "") + "</td>").join("") + "</tr>";
+    } }) + "</table></div></section>";
   paintPicks();
   freeze();
+  tblUpTo(at);
   rowsTo(box, at);
 }
 function multiLines(){
@@ -9836,11 +9859,14 @@ function paintSpc(){
     '<section class="panel"><div class="panel-h"><span class="count">' + t("rows", mine.length) + "</span>" +
       '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("spc-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
-    shown.map((r, n) => '<tr data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (n + 1) + "</td>" +
-      cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("spc", personKey(r))) + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>").join("") +
-    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
-    "</tbody></table></div></section>";
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + t(c.tk) + "</th>").join("") + "</tr></thead>" +
+    tblLazy({ rows: shown, ncols: cols.length + 1, cols, lead: tblSerial(shown.length), open: personKey, pc: tblNameCol(cols),
+      cls: (c, i) => (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c),
+      inner: (c, i, r) => (i || !pickBox("spc", "") ? "" : '<i style="display:inline-block;width:16px;margin-inline-end:8px"></i>') + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : ""),
+      one: (r, n) => '<tr data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (n + 1) + "</td>" +
+        cols.map((c, i) => '<td class="' + (c.cls || "") + (i ? "" : " fz fz1 fzl") + shortOut(c) + '">' + (i ? "" : pickBox("spc", personKey(r))) + c.h(r) + (i === 0 && r.old ? '<span class="typed">' + t("spOld") + "</span>" : "") + "</td>").join("") + "</tr>",
+      tail: mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "" }) +
+    "</table></div></section>";
   paintPicks();
   freeze();
 }
@@ -10081,11 +10107,14 @@ function paintCmp(){
   box.innerHTML = tiles + '<section class="panel"><div class="panel-h"><div class="sum">' + copy + '<span class="count">' + t("rows", mine.length) + "</span></div>" +
       '<div class="noprint" style="display:flex;gap:8px;align-items:center">' + pickBar() + exportBtns("cmp-csv") + '<button class="btn sm" data-act="print">' + t("print") + "</button></div></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t("cmNone") + "</h3></div>" :
-    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead><tbody>" +
-    shown.map((r, i) => "<tr" + (r.what.indexOf("moved") >= 0 ? ' class="banrow"' : "") + ' data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
-      cols.map((c, k) => '<td class="' + (c.cls || "") + (k ? "" : " fz fz1 fzl") + '">' + (k ? "" : pickBox("cmp", personKey(r))) + c.h(r) + "</td>").join("") + "</tr>").join("") +
-    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
-    "</tbody></table></div>") + "</section>";
+    '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' + cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + "</tr></thead>" +
+    tblLazy({ rows: shown, ncols: cols.length + 1, cols, lead: tblSerial(shown.length), open: personKey, pc: tblNameCol(cols),
+      cls: (c, k) => (c.cls || "") + (k ? "" : " fz fz1 fzl"),
+      inner: (c, k, r) => (k || !pickBox("cmp", "") ? "" : '<i style="display:inline-block;width:16px;margin-inline-end:8px"></i>') + c.h(r),
+      one: (r, i) => "<tr" + (r.what.indexOf("moved") >= 0 ? ' class="banrow"' : "") + ' data-open="' + esc(r.g ? "ind:" + r.g.key : "emp:" + r.emps[0].emp_code) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
+        cols.map((c, k) => '<td class="' + (c.cls || "") + (k ? "" : " fz fz1 fzl") + '">' + (k ? "" : pickBox("cmp", personKey(r))) + c.h(r) + "</td>").join("") + "</tr>",
+      tail: mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + cols.length + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "" }) +
+    "</table></div>") + "</section>";
   paintPicks();
   freeze();
 }
@@ -10691,14 +10720,17 @@ function paintIssued(){
   box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + '<span class="count">' + t("rows", mine.length) + "</span></div>" +
     (!mine.length ? '<div class="empty"><h3>' + t(terms.length ? "spNone" : "isNone") + "</h3></div>" :
     '<div class="tblwrap"><table class="tbl"><thead><tr><th class="nos fz fz0">#</th>' +
-      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + (may ? '<th class="nos"></th>' : "") + "</tr></thead><tbody>" +
-    shown.map((r, i) => { const id = issOpen(r);
-      return '<tr' + (id ? ' data-open="' + esc(id) + '"' : ' style="cursor:default"') + ' data-iss-card="' + esc(issCardKey(r.card)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
-        cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") +
-        (may ? '<td class="act">' + issActs(r) + "</td>" : "") + "</tr>"; }).join("") +
-    (mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "") +
-    "</tbody></table></div>") + "</section>";
+      cols.map((c, i) => '<th class="nos' + (i ? "" : " fz fz1 fzl") + '">' + t(c.tk) + "</th>").join("") + (may ? '<th class="nos"></th>' : "") + "</tr></thead>" +
+    tblLazy({ rows: shown, ncols: cols.length + 1 + (may ? 1 : 0), cols: may ? cols.concat([{ cls: "act", h: issActs }]) : cols, lead: tblSerial(shown.length),
+      cls: (c, j) => (c.cls || "") + (j ? "" : " fz fz1 fzl"), inner: (c, j, r) => c.h(r),
+      one: (r, i) => { const id = issOpen(r);
+        return '<tr' + (id ? ' data-open="' + esc(id) + '"' : ' style="cursor:default"') + ' data-iss-card="' + esc(issCardKey(r.card)) + '"><td class="ix fz fz0">' + (i + 1) + "</td>" +
+          cols.map((c, j) => '<td class="' + (c.cls || "") + (j ? "" : " fz fz1 fzl") + '">' + c.h(r) + "</td>").join("") +
+          (may ? '<td class="act">' + issActs(r) + "</td>" : "") + "</tr>"; },
+      tail: mine.length > SPC_SHOW ? '<tr class="more"><td class="ix fz fz0"></td><td colspan="' + (cols.length + (may ? 1 : 0)) + '">' + esc(t("spMore", mine.length - SPC_SHOW)) + "</td></tr>" : "" }) +
+    "</table></div>") + "</section>";
   freeze();
+  if(keep) tblUpTo(keep.y);
   const now = box.querySelector(".tblwrap");
   if(keep && now){ now.scrollTop = keep.y; now.scrollLeft = keep.x; if(window.scrollY !== keep.w) window.scrollTo(0, keep.w); }
 }

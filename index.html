@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-vjZPjbfKlSqCjyyHkhme9JhVT3qEVf9OUr5Eu/eHSU8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-+TihBN2tyFGVCIvhepA3C/yS7HeihbsoOpIXRijrzf4='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -1099,6 +1099,12 @@ input.field{min-width:210px;}
 .count b{font-family:var(--mono);color:var(--blue);}
 
 .tblwrap{overflow-x:auto;}
+/* the foot of a list not all drawn (tblFoot): the widest cells of each column, with no height and not seen, and the room of the rows to come */
+.tbl tfoot.tbl-ft td{padding-top:0 !important;padding-bottom:0 !important;border:0 !important;background:none !important;height:0;}
+.tbl tfoot.tbl-ft tr.tbl-sz{visibility:hidden;pointer-events:none;}
+.tbl tfoot.tbl-ft .szc{height:0;overflow:hidden;}
+.tbl tfoot.tbl-ft tr.tbl-gap td{position:static !important;}
+@media print{ .tbl tfoot.tbl-ft{display:none !important;} }
 table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;}
 .tbl th{
   position:sticky;top:0;z-index:2;text-align:start;padding:11px 11px;white-space:nowrap;
@@ -2687,8 +2693,8 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 :where(body.bgmo .main) .chip{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
 :where(html.dark body.bgmo .main) .tile{background:linear-gradient(155deg,rgba(26,39,53,.58),rgba(21,32,44,.32));box-shadow:0 10px 26px -16px rgba(0,0,0,.6);}
 :where(html.dark body.bgmo .main) .chip{background:rgba(26,39,53,.55);}
-.hc-pill{margin-inline-start:6px;font-size:11px;padding:1px 7px;vertical-align:middle;white-space:nowrap;}
-td.name .hc-pill{display:inline-block;}
+.hc-pill,.hc-sz{margin-inline-start:6px;font-size:11px;padding:1px 7px;vertical-align:middle;white-space:nowrap;}
+td.name .hc-pill,td.name .hc-sz{display:inline-block;}
 @media print{ .hc-pill{display:none !important;} }
 </style>
 </head>
@@ -3953,7 +3959,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "4c2384492766";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "c7544be1c5f7";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5980,30 +5986,157 @@ const written = (cols, rows) => cols.filter(c => (!c.only || rows.every(c.only))
    before anything that needs every row: printing, coming back to a place down the list. What is picked, exported or
    printed was never read off the screen — it is the list itself — so it is all of it from the start. */
 const TBL_FIRST = 60;                 // 5 November 2026 («اسرع ما يمكن»): the rows a screen shows first, the rest the moment the browser is idle
-let tblRest = null, tblToken = 0, tblPrinting = false;
-function tblFlush(){
+/* …AND THE REST ONLY WHEN IT IS REACHED (10 November 2026: «عايز السيستم يطلع اقوى أداء ممكن وميعلقش ثانية عايزه اسرع حاجه»). Measured: the
+   rest put in at once held the page for more than a second on «تصاريح الأفراد» (two thousand rows: the columns worked out over every cell —
+   0.75 s — their styles, their painting), and did it again after every filter typed and every sort; put in a piece at a time it cost three
+   times as much altogether. So the rest is not drawn until the list is scrolled towards it — a piece that fits between two frames, each time —
+   and the page never carries two thousand rows it is not showing. What makes that unseen:
+     · THE ROOM of the rows not drawn yet stands under the list (a row of its own, in the table's foot), so the scrollbar is the whole
+       list's from the start, and a jump far down draws up to there;
+     · THE WIDEST CELLS of every column, of the WHOLE list, stand in the foot too (no height, not seen), so the columns are as wide from the
+       first paint as the whole list makes them, and do not move as rows come in.
+   Everything, in one go, only before what needs every row: printing, the browser's own find (Ctrl+F). What is picked, exported or printed
+   was never read off the screen — it is the list itself. */
+let tblRest = null, tblToken = 0, tblPrinting = false, tblAsk = 0;
+const tblGap = r => document.querySelector('#out tr.tbl-gap[data-gap="' + r.token + '"]');
+// the room under the list for the rows not drawn yet: as many as are left, at the height the drawn ones have
+function tblSpace(){
   const r = tblRest;
   if(!r) return;
-  tblRest = null;
+  const gap = tblGap(r), body = document.querySelector('#out tbody[data-rest="' + r.token + '"]');
+  if(!gap || !body){ tblRest = null; return; }
+  if(!r.avg){ const h = body.getBoundingClientRect().height; r.avg = h > 0 && body.rows.length ? h / body.rows.length : 44; }
+  gap.firstElementChild.style.height = Math.round((r.rows.length - r.at) * r.avg) + "px";
+}
+function tblPiece(n){
+  const r = tblRest;
+  if(!r) return;
   const body = document.querySelector('#out tbody[data-rest="' + r.token + '"]');
-  if(!body) return;
-  body.insertAdjacentHTML("beforeend", r.html);
-  body.removeAttribute("data-rest");
-  paintPicks();
+  if(!body){ tblRest = null; return; }
+  const t0 = performance.now(), part = n ? r.rows.slice(r.at, r.at + n) : r.rows.slice(r.at);
+  r.at += part.length;
+  body.insertAdjacentHTML("beforeend", part.map(r.one).join(""));
+  const last = r.at >= r.rows.length;
+  if(last){ const gap = tblGap(r); if(gap) gap.remove(); body.removeAttribute("data-rest"); tblRest = null; }
+  else tblSpace();
+  const S = PICK_SRC[st.view];
+  if(S && (pickOf(st.view).on || picked(st.view).length)) paintPicks();      // what is picked, on the rows just put in
   freeze();
+  // the next piece: as many rows as fit between two frames, by how long these took (the columns are measured in freeze, so that is in it)
+  if(!last && n){ const ms = performance.now() - t0; r.n = Math.max(30, Math.min(240, Math.round(part.length * (ms < 10 ? 1.5 : ms > 22 ? 16 / ms : 1)))); }
+}
+const tblFlush = () => tblPiece(0);
+/* the list scrolled (its own frame, or the page itself): the rows it is coming to, before it gets to them — and where it has jumped
+   into the room of rows not drawn, the rows of that place */
+function tblNear(){
+  tblAsk = 0;
+  const r = tblRest;
+  if(!r) return;
+  const gap = tblGap(r);
+  if(!gap){ tblRest = null; return; }
+  if(!r.avg) tblSpace();
+  const w = gap.closest(".tblwrap"), box = w && w.scrollHeight > w.clientHeight + 4 ? w.getBoundingClientRect() : null;
+  const bottom = Math.min(innerHeight, box ? box.bottom : innerHeight), top = gap.getBoundingClientRect().top;
+  if(top - bottom > 1400) return;
+  tblPiece(top < bottom ? Math.ceil((bottom - top) / r.avg) + 60 : r.n);
+  if(tblRest && !tblAsk) tblAsk = requestAnimationFrame(tblNear);        // still near after that: the next piece, a frame later
+}
+// a place down the list wanted (the list drawn again where it had been scrolled to): the rows up to it first
+function tblUpTo(y){
+  const r = tblRest;
+  if(!r || !y) return;
+  tblSpace();
+  const gap = tblGap(r), w = gap && gap.closest(".tblwrap");
+  const need = Math.ceil((y + (w ? w.clientHeight : innerHeight)) / (r.avg || 44)) + 40 - r.at;
+  if(need > 0) tblPiece(need);
 }
 window.addEventListener("beforeprint", () => { tblPrinting = true; tblFlush(); });
 window.addEventListener("afterprint", () => { tblPrinting = false; });
-document.addEventListener("scroll", e => {
-  const w = e.target;
-  if(tblRest && w && w.scrollHeight && w.scrollTop + w.clientHeight > w.scrollHeight - 1600) tblFlush();
-}, true);
+document.addEventListener("scroll", () => { if(tblRest && !tblAsk) tblAsk = requestAnimationFrame(tblNear); }, true);
+// the browser's own find looks at what is drawn: every row, before it opens
+document.addEventListener("keydown", e => { if(tblRest && (e.ctrlKey || e.metaKey) && !e.altKey && (e.key === "f" || e.key === "F" || e.key === "g" || e.key === "G")) tblFlush(); }, true);
+/* the foot of a list that is not all drawn: the room of the rest — and, put in once they are found (tblSizeStep), the widest cells of each column */
+const tblFoot = ncols => !tblNext ? "" : '<tfoot class="tbl-ft" aria-hidden="true"><tr class="tbl-gap" data-gap="' + tblNext + '"><td colspan="' + ncols + '"></td></tr></tfoot>';
+/* THE WIDEST CELLS, FOUND WHILE THE BROWSER IS IDLE. For each column the rows whose cell is longest — as it is drawn: its words, its pills,
+   «حاصل على كارت» where the row has one — and those with the longest single word (what a column that wraps is as wide as). A few rows at a
+   time, in the gaps between frames; when every row has been looked at they are drawn in the foot, each as its cell is, with no height. A
+   list drawn again meanwhile starts its own. */
+let tblSz = null;
+const TBL_K = 2;
+function tblSizeStart(z){
+  tblSz = z; z.i = TBL_FIRST; z.done = false; z.tops = z.cols.map(() => ({ a: new Map(), b: [] })); z.font = "";
+  tblSizeLater();
+}
+// how wide a text is drawn, in the list's own letters — measured, not guessed by its length (two plates of as many letters are not as wide)
+let tblInk = null;
+const tblWide = new Map();
+function tblWidth(z, text){
+  if(!z.font){
+    const td = document.querySelector("#out table.tbl tbody td");
+    z.font = td ? getComputedStyle(td).font : "700 14.5px sans-serif";
+    if(!tblInk) tblInk = document.createElement("canvas").getContext("2d");
+    if(tblInk.font !== z.font){ tblInk.font = z.font; tblWide.clear(); }
+  }
+  let w = tblWide.get(text);
+  if(w === undefined){ if(tblWide.size > 60000) tblWide.clear(); w = tblInk.measureText(text).width; tblWide.set(text, w); }
+  return w;
+}
+function tblSizeLater(){
+  const z = tblSz, go = () => { if(tblSz === z) tblSizeStep(); };
+  if(window.requestIdleCallback) requestIdleCallback(go, { timeout: 200 }); else setTimeout(go, 30);
+}
+const tblHeld = z => st.view !== "issued" && ISS.loaded && ISS.of === M && /^(ind|emp|veh|tind|tveh):/.test(String(z.open(z.rows[0])));
+const tblPills = has => (has.reg ? '<span class="pill ok hc-sz">' + esc(t("hasCard")) + "</span>" : "") + (has.tmp ? '<span class="pill warn hc-sz">' + esc(t("hasTmpCard")) + "</span>" : "");
+function tblSizeStep(){
+  const z = tblSz, n = z.rows.length, t0 = performance.now(), held = tblHeld(z);
+  const put = (best, len, i) => {
+    if(!len || (best.length === TBL_K && len <= best[TBL_K - 1][0])) return;
+    best.push([len, i]); best.sort((x, y) => y[0] - x[0]); if(best.length > TBL_K) best.pop();
+  };
+  while(z.i < n && performance.now() - t0 < 6){
+    const r = z.rows[z.i];
+    for(let c = 0; c < z.cols.length; c++){
+      const h = String(z.cols[c].h(r)), plain = h.indexOf("<") < 0, text = plain ? h : h.replace(/<[^>]*>/g, " ");
+      if(!text.trim()) continue;
+      /* cells are compared with cells of their own make — the same tags and classes, so the same letters and sizes (a date in figures
+         is not measured against a word in a pill): the widest two of each make */
+      let make = plain ? "" : h.replace(/<(\/?[a-zA-Z0-9]+)(?:[^>]*?\sclass="([^"]*)")?[^>]*>/g, "<$1 $2>").replace(/(^|>)[^<]+/g, "$1"), len = tblWidth(z, text);
+      if(c === z.pc && held){ const has = issHolds(z.open(r)); if(has.reg || has.tmp){ make += has.reg ? "|r" : ""; make += has.tmp ? "|t" : ""; } }
+      const A = z.tops[c].a;
+      if(!A.has(make)){ if(A.size >= 8) make = "*"; if(!A.has(make)) A.set(make, []); }
+      put(A.get(make), len, z.i);
+      if(text.indexOf(" ") >= 0){ let w = 0; const parts = text.split(/\s+/); for(let k = 0; k < parts.length; k++) if(parts[k].length > w) w = parts[k].length; put(z.tops[c].b, w, z.i); }
+    }
+    z.i++;
+  }
+  if(z.i < n) return tblSizeLater();
+  z.done = true;
+  const gap = document.querySelector('#out tr.tbl-gap[data-gap="' + z.token + '"]');
+  if(!gap) return;                                   // every row is drawn by now: the list is as wide as it is
+  const picks = z.tops.map(x => { const seen = new Set(), out = []; [].concat(...x.a.values(), x.b).forEach(y => { if(!seen.has(y[1])){ seen.add(y[1]); out.push(y[1]); } }); return out; });
+  const deep = Math.max(...picks.map(x => x.length));
+  let h = "";
+  for(let k = 0; k < deep; k++) h += '<tr class="tbl-sz">' + z.cols.map((c, i) => { const r = picks[i][k] === undefined ? null : z.rows[picks[i][k]];
+    return z.cell(c, i, r, r && i === z.pc && held ? tblPills(issHolds(z.open(r))) : ""); }).join("") + "</tr>";
+  [].forEach.call(gap.parentNode.querySelectorAll("tr.tbl-sz"), x => x.remove());
+  gap.insertAdjacentHTML("beforebegin", h);
+  freeze();
+}
+// the cards' list has come (or changed): «حاصل على كارت» is on rows it was not on — the widest cells are looked for again
+function tblSizeAgain(){ if(tblSz && tblSz.done && document.querySelector('#out tr.tbl-gap[data-gap="' + tblSz.token + '"]')) tblSizeStart(tblSz); }
 function tableHTML(cols, rows, state, open, view){
   if(!rows.length) return '<div class="empty"><h3>' + t("none") + "</h3></div>";
   const sorted = sortRows(rows, cols, state.sort), shown = written(cols, rows), fz = frozen(shown.map(c => !!c.fz));
   const brief = BRIEF[view] || null;                                  // on paper: these columns, and no others
   const out = c => brief && brief.indexOf(c.k) < 0 ? " fullonly" : "";
   const paper = PAPER[view] || [];                                    // and these, which the paper alone has
+  tblSz = null;
+  // a list not all drawn: its widest cells are found while the browser is idle (tblSizeStart). The column «حاصل على كارت» goes on is the
+  // one hasCardRows puts it on: the name's, or the plate's, or the first that is not the serial
+  const cls = (c, w) => new RegExp("(^|\\s)" + w + "(\\s|$)").test(c.cls || "");
+  let pc = shown.findIndex(c => cls(c, "name")); if(pc < 0) pc = shown.findIndex(c => c.tk === "colName" || c.tk === "colPlate"); if(pc < 0) pc = shown.findIndex(c => !cls(c, "ix"));
+  const sized = () => { if(tblNext) tblSizeStart({ token: tblNext, cols: shown, rows: sorted, open, pc, cell: (c, i, r, more) => '<td class="' + (c.cls || "") + fz[i] + out(c) + '">' +
+    (r ? '<div class="szc">' + (i || !pickBox(view, "") ? "" : '<i style="display:inline-block;width:16px;margin-inline-end:8px"></i>') + c.h(r) + more + "</div>" : "") + "</td>" }); return ""; };
   return '<div class="tblwrap"><table class="tbl' + tblKind(shown.length) + '"><thead><tr>' +
     shown.map((c, i) => '<th data-sort="' + c.k + '" class="' + (state.sort.k === c.k ? (state.sort.d > 0 ? "asc" : "desc") : "") + fz[i] + out(c) + '">' +
       t(c.tk) + "<i>" + (state.sort.k === c.k && state.sort.d < 0 ? "▼" : "▲") + "</i></th>").join("") +
@@ -6012,7 +6145,7 @@ function tableHTML(cols, rows, state, open, view){
     tblRows(sorted, r => '<tr data-open="' + esc(open(r)) + '">' +
       shown.map((c, i) => '<td class="' + (c.cls || "") + fz[i] + out(c) + '">' + (i ? "" : pickBox(view, open(r))) + c.h(r) + "</td>").join("") +
       paper.map(c => '<td class="paperonly ' + (c.cls || "") + '">' + c.h(r) + "</td>").join("") + "</tr>") +
-    "</tbody></table></div>";
+    "</tbody>" + tblFoot(shown.length + paper.length) + sized() + "</table></div>";
 }
 /* THE SHORT EXPORT (asked for, 6 October 2026). Beside the full export — every column the sheet has, as before — a
    second button gives the few columns a list is usually wanted for, with a serial number in front of them:
@@ -6030,9 +6163,8 @@ const tblBodyAttr = n => { tblNext = n > TBL_FIRST * 1.5 && !tblPrinting ? ++tbl
 function tblRows(rows, one){
   if(!tblNext){ return rows.map(one).join(""); }
   const token = tblNext;
-  tblRest = { token, html: rows.slice(TBL_FIRST).map(one).join("") };
-  const go = () => { if(tblRest && tblRest.token === token) tblFlush(); };
-  if(window.requestIdleCallback) requestIdleCallback(go, { timeout: 1000 }); else setTimeout(go, 400);
+  tblRest = { token, rows, one, at: TBL_FIRST, n: 60, avg: 0 };          // the rest is made as it is put in, not before
+  requestAnimationFrame(() => { if(tblRest && tblRest.token === token){ tblSpace(); tblNear(); } });      // its room, once the first rows are laid out
   return rows.slice(0, TBL_FIRST).map(one).join("");
 }
 const BRIEF = { ind: ["name", "job", "nid", "addr", "permit"], veh: ["plate", "permit"], tind: ["name", "job", "nid", "addr", "permit"], tveh: ["plate", "permit"], emp: ["code", "name", "job", "dept", "nid", "addr", "pb"] };
@@ -6170,7 +6302,7 @@ function paintTable(view, keep){
   const rows = paperRows(view, base.filter(r => L.pick(r, f.status)));
   $("count").innerHTML = t("rows", rows.length);
   $("tbl").innerHTML = tableHTML(L.cols, rows, f, L.open, view);
-  if(at) tblFlush();                                   // coming back to a place down the list: every row first
+  tblUpTo(at);                                         // coming back to a place down the list: the rows up to it first
   paintPicks();
   freeze();
   rowsTo($("tbl"), at);
@@ -6335,7 +6467,7 @@ function paintSenders(){
       tblRows(rows, e =>
         "<tr" + (e.total ? ' data-snd-open="' + esc(e.k) + '"' : "") + '><td class="name">' + esc(e.name || t("notSpecified")) + "</td><td>" + cell(e.n.indok) + "</td><td>" + cell(e.n.indban) + "</td><td>" + cell(e.n.vehok) + "</td><td>" + cell(e.n.vehban) +
           "</td><td><b>" + cell(e.total) + '</b></td><td><button class="btn sm primary" data-snd-brief="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportBrief") + '</button> <button class="btn sm" data-snd="' + esc(e.k) + '"' + (e.total ? "" : " disabled") + ">" + t("exportFull") + "</button></td></tr>") +
-    "</tbody></table></div>";
+    "</tbody>" + tblFoot(7) + "</table></div>";
 }
 /* What the workbook of one sender holds — built once, used twice: the page
    shows it to be looked at, and «تصدير Excel» writes exactly it. So what is
@@ -6879,6 +7011,8 @@ const MULTI_COLS = {
 // the search's Excel file: its columns in the order that was asked for it, whatever order the page shows them in
 const MULTI_FILE = ["colName", "colJob", "colNid", "address", "colPermit", "colSent", "colMail", "letterNo", "letterDate", "colCompany", "sender", "notes", "aseNote", "colCount", "colEmp", "colTmpNote"];
 const fileCols = cols => MULTI_FILE.map(tk => cols.find(c => c.tk === tk)).filter(Boolean);
+// «ملحوظة» is in a file only when one of its rows is a temporary permit — as on the screen (a file of none had an empty column at its end)
+const noteCols = (cols, rows) => rows.some(r => r && r.temp) ? cols : cols.filter(c => c.tk !== "colTmpNote");
 const CAT_PILL = { ok:"ok", soon:"warn", expired:"bad", ban:"ban", renew:"bad", temp:"mute", pending:"warn", undet:"mute" };
 function multiOpen(r){
   if(st.multi.res.mode === "veh") return (r.temp ? "tveh:" : "veh:") + r.g.key;
@@ -7151,8 +7285,8 @@ async function exportMulti(brief){
   const res = st.multi.res;
   if(!res || !res.rows.length) return;
   if(brief) return saveShort("csvSearch", pickedRows("multi", multiRows(res)).filter(pickable), res.mode === "veh");
-  const cols = res.mode === "veh" ? MULTI_COLS.veh : fileCols(MULTI_COLS.ind), rows = [], red = [], at = tk => cols.findIndex(c => c.tk === tk);
-  pickedRows("multi", multiRows(res)).forEach(r => {
+  const out = pickedRows("multi", multiRows(res)), cols = noteCols(res.mode === "veh" ? MULTI_COLS.veh : fileCols(MULTI_COLS.ind), out), rows = [], red = [], at = tk => cols.findIndex(c => c.tk === tk);
+  out.forEach(r => {
     if(r.more) return;
     // red when the permit found is a ban, or when the employee behind the line is a banned one
     red.push(!r.miss && (permitBan(r.g) || (r.emps || []).some(empBan)));
@@ -9754,7 +9888,7 @@ async function exportSpc(brief){
   const res = st.spc.res, mine = res ? pickedRows("spc", spcRows(res)) : [];
   if(!mine.length) return;
   if(brief) return saveShort("csvSpecial", mine);
-  const cols = fileCols(SPC_COLS);
+  const cols = noteCols(fileCols(SPC_COLS), mine);
   await saveXLSX({
     name: t("csvSpecial"), rtl: !isEN(),
     header: [t("colSerial")].concat(cols.map(c => t(c.tk))),
@@ -10261,7 +10395,7 @@ function hasCardRows(again){
     else if(ISS.loaded && !ISS.busy && ISS.of !== M) issIndex().then(() => hasCardRows(true));
     return;
   }
-  if(again) out.querySelectorAll("tr[data-hc]").forEach(tr => { tr.removeAttribute("data-hc"); tr.querySelectorAll(".hc-pill").forEach(x => x.remove()); });
+  if(again){ out.querySelectorAll("tr[data-hc]").forEach(tr => { tr.removeAttribute("data-hc"); tr.querySelectorAll(".hc-pill").forEach(x => x.remove()); }); tblSizeAgain(); }
   out.querySelectorAll("tr[data-open]:not([data-hc])").forEach(tr => {
     tr.setAttribute("data-hc", "");
     const open = tr.getAttribute("data-open") || "";

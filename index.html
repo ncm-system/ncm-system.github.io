@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-QjfyAHCojsFIpPfylVGWIMIYmnuHCS2rG+8j5iPmewg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-JZgkw+pL7eMMyKxaIy1ehn4P26cOscS32E+X/aJfU6s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3972,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "3e5795dba590";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "37ad03b8f67b";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4163,9 +4163,12 @@ function ephFill(){
   const l = link();
   if(!imgs.length || !l) return;
   const now = Date.now(), ask = [...new Set(imgs.map(im => im.getAttribute("data-eph")).filter(n => { const h = EPH.get(n); return !h || now - h.at > 50 * 60000; }))];
-  const p = ask.length ? fetch(l.db + "/functions/v1/app-gate", { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "photo", sys: l.rt, names: ask }) }).then(r => r.json()).then(o => (o && o.ok && o.urls) || {}).catch(() => null) : null;
-  ask.forEach(n => EPH.set(n, { at: now, url: p.then(u => u === null ? undefined : (u[n] || "")) }));
+  for(let i = 0; i < ask.length; i += 100){          // a hundred a call: the gate signs two hundred at the most
+    const part = ask.slice(i, i + 100);
+    const p = fetch(l.db + "/functions/v1/app-gate", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "photo", sys: l.rt, names: part }) }).then(r => r.json()).then(o => (o && o.ok && o.urls) || null).catch(() => null);
+    part.forEach(n => EPH.set(n, { at: now, url: p.then(u => u === null ? undefined : (u[n] || "")) }));
+  }
   imgs.forEach(im => {
     const n = im.getAttribute("data-eph");
     im.setAttribute("data-eph-asked", "");
@@ -10300,6 +10303,10 @@ async function editSave(){
     const got = await editCall({ action: "add", name: link().u || "", kind: x.kind, ref: await editHash(x.kind, row.c), row: x.row, old: x.g.cur.permit, value });
     if(!got || !got.ok){ if($("ed-msg")) $("ed-msg").textContent = t(got && got.error === "not_allowed" ? "edNo" : "edFail"); return; }
     toast(t(got.drive === "done" ? "edSaved" : "edSavedWait"), got.drive !== "done");
+    /* the copy of the sheet app-gate hands out (to the app and to the system online) read again now, so the edit is in it the next
+       time anyone opens it (12 November 2026: «السرعة والدقة») */
+    if(got.drive === "done"){ const l = link(); fetch(l.db + "/functions/v1/app-gate", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "sheet", sys: l.rt, tab: x.kind === "veh" ? CLOUD.tabs.veh : CLOUD.tabs.ind, fresh: true }) }).catch(() => {}); }
     await editsSync();
     if(drawerRef === ref0 && $("drawer").classList.contains("on")) openDrawer(ref0);          // his card again, saying what it says now
   }catch(e){ if($("ed-msg")) $("ed-msg").textContent = t("edFail"); }

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-NXNVZYwjQENbac9TNWx2K7Mv4IFvW+/0tNc71i/fW9A='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-QNZMQjYhesg1OGWpJJC62EU556ahNozK3iOnhfVkDSs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -4041,7 +4041,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "8984b28f1969";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "2b9bf246bb17";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -11001,34 +11001,83 @@ const idphSrc = p => /^https:\/\//.test(String(p || "")) ? String(p) : String(p 
 /* ONLINE: the photos are in their own private bucket, each under a salted hash of what the page knows the row by (the
    same hash «الكروت» uses); the function system-photo answers the admin, or a user given x-photo, with links that
    last ten minutes — and anyone else with nothing. */
-async function idPhotosCloud(type, k){
+/* FASTER (12 November 2026, «سرعه استدعاء البطايق او الرخص فى السيستم»): every kind a card needs (its own, and its temporary one or its
+   permits' one) asked in ONE call (system-photo «signs», v11 — the permission and the lists read side by side); the answer kept nine
+   minutes (the links last ten), so a card opened again shows its photos at once; and asked for as soon as the pointer rests on a row, the
+   photos themselves fetched with it — the card opens on them. On this PC the index is read once, when the page is idle. */
+const IDPH_KEEP = 9 * 60 * 1000, idphKept = new Map();
+function idphCloudMany(asks){
   const l = link();
-  if(!l || !k) return null;
-  try{
-    const r = await fetch(l.db + "/functions/v1/system-photo", { method: "POST", cache: "no-store",
-      headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "sign", token: l.rt, name: l.u || "", kind: type, ref: await issHash(type, k) }) });
-    const got = await r.json();
-    return got && got.ok ? got.sets : null;
-  }catch(e){ return null; }
+  asks = asks.filter(a => a.k);
+  if(!l || !asks.length) return Promise.resolve(asks.map(() => null));
+  const now = Date.now(), out = asks.map(a => { const x = idphKept.get(a.kind + ":" + a.k); return x && now - x.at < IDPH_KEEP ? x.p : null; });
+  const need = asks.map((a, n) => out[n] ? -1 : n).filter(n => n >= 0);
+  if(need.length){
+    const ask = (async () => {
+      try{
+        const refs = await Promise.all(need.map(n => issHash(asks[n].kind, asks[n].k)));
+        const r = await fetch(l.db + "/functions/v1/system-photo", { method: "POST", cache: "no-store",
+          headers: { apikey: l.k, Authorization: "Bearer " + l.k, "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "signs", token: l.rt, name: l.u || "", asks: need.map((n, j) => ({ kind: asks[n].kind, ref: refs[j] })) }) });
+        const got = await r.json();
+        return got && got.ok && Array.isArray(got.sets) ? got.sets : null;
+      }catch(e){ return null; }
+    })();
+    need.forEach((n, j) => {
+      const key = asks[n].kind + ":" + asks[n].k, p = ask.then(all => all ? all[j] || [] : null);
+      idphKept.set(key, { at: now, p });
+      p.then(v => { if(v === null && idphKept.get(key) && idphKept.get(key).p === p) idphKept.delete(key); });    // a failed ask is not kept
+      out[n] = p;
+    });
+  }
+  return Promise.all(out);
 }
-async function idPhotos(ref){
+// what one card asks for: its type, whether it is a temporary permit, its id / plate, and the kinds online
+function idphWhat(ref){
   const i = ref.indexOf(":"), kind = ref.slice(0, i), key = ref.slice(i + 1);
-  // a temporary permit («tind» / «tveh», 9 November 2026): its own photos — its own index here, its own kinds online — shown the same way
   const temp = kind === "tind" || kind === "tveh", type = temp ? kind.slice(1) : kind;
-  if((type !== "ind" && type !== "veh") || !can("x-photo")) return;
+  if(type !== "ind" && type !== "veh") return null;
   const g = type === "ind" ? M[kind] && M[kind].groups.get(key) : null, k = type === "veh" ? key : g && g.nid;
+  const other = temp ? type : (M["t" + type] && M["t" + type].groups.get(key) ? "t" + type : "");
+  return { kind, key, temp, type, k, other };
+}
+function idphPrefetch(ref){
+  if(DISK || !ref || !can("x-photo")) return;
+  const w = idphWhat(ref);
+  if(!w || !w.k) return;
+  idphCloudMany([{ kind: w.kind, k: w.k }].concat(w.other ? [{ kind: w.other, k: w.k }] : [])).then(all => {
+    const sets = [].concat(...all.filter(Boolean));
+    if(!sets.length) return;
+    const top = sets.slice().sort((a, z) => String(z.day || "").localeCompare(String(a.day || "")))[0];
+    ["f", "b"].forEach(side => { if(top[side]){ const im = new Image(); im.decoding = "async"; im.src = top[side]; } });
+  });
+}
+let idphHoverT = 0;
+document.addEventListener("pointerover", e => {
+  const tr = e.target && e.target.closest ? e.target.closest("tr[data-open]") : null;
+  if(!tr) return;
+  if(DISK){ if(!IDPH && can("x-photo")) idPhotosIndex(false); return; }      // this PC: the index, read on the first row the pointer meets
+  clearTimeout(idphHoverT);
+  idphHoverT = setTimeout(() => idphPrefetch(tr.dataset.open), 90);
+}, { passive: true });
+async function idPhotos(ref){
+  // a temporary permit («tind» / «tveh», 9 November 2026): its own photos — its own index here, its own kinds online — shown the same way
+  const w = idphWhat(ref);
+  if(!w || !can("x-photo")) return;
+  const { kind, key, temp, type, k } = w;
   let sets = null;
+  // online: his own kind and the other one in the same call (kept, and maybe asked for already on the pointer's way to the row)
+  const both = DISK ? null : idphCloudMany([{ kind, k }].concat(w.other ? [{ kind: w.other, k }] : []));
   if(DISK){ const x = await idPhotosIndex(temp); sets = k && x && x[type] && x[type][k]; }
-  else sets = await idPhotosCloud(kind, k);
+  else sets = (await both)[0];
   /* no photos of his temporary permit: his photos from his permits (asked for, the same day: «لما افتح اى صفحة فى المؤقت تنده على الصورة
      دى… عشان تظهرلى فى كارت الشخص») — the same id or plate in the other photos */
   if(!temp && k && M["t" + type] && M["t" + type].groups.get(key)){
-    const more = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(true)) : await idPhotosCloud("t" + type, k);
+    const more = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(true)) : (await both)[1];
     if(more && more.length) sets = (sets || []).concat(more.filter(x => !(sets || []).some(y => y.day === x.day)));
   }
   if(temp && !(sets && sets.length) && k){
-    const reg = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(false)) : await idPhotosCloud(type, k);
+    const reg = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(false)) : (await both)[1];
     if(reg && reg.length) sets = reg;
   }
   /* THE NEWEST ONLY (asked for, 12 November 2026: «لو فى اى حد مكرر نستبدل الجديد بالقديم» — «تتشال من الكارت»): of all the photos
@@ -11079,7 +11128,7 @@ async function idPhotos(ref){
        يظهروا تحت بعض»): the photos sent that day, else the newest of those that fell under it */
     list = [list.find(x => x.day === days[at]) || list.slice().sort((a, z) => z.day.localeCompare(a.day))[0]];
     boxes[at].innerHTML = list.map(x => '<div class="shots-h"><span>' + t(type === "veh" ? "idphVeh" : "idphInd") + ended(x) + '</span></div>' +
-      ["f", "b"].filter(side => x[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(x[side])) + '" alt="" loading="lazy"></figure>').join("")).join("");
+      ["f", "b"].filter(side => x[side]).map(side => '<figure class="shot"><img data-shot src="' + esc(idphSrc(x[side])) + '" alt="" decoding="async" fetchpriority="high"></figure>').join("")).join("");
   });
 }
 

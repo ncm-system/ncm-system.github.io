@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-JD2l+LLfMSdZnsMAIjNQ+sxaLy9Lj/dYbPN+tJP4WXs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-QjfyAHCojsFIpPfylVGWIMIYmnuHCS2rG+8j5iPmewg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3963,7 +3963,7 @@ const DISK = FROM_DISK && !ONLINE;
 // never inside somebody else's frame: a page that can be framed can be dressed up to borrow a click or a PIN
 if(ONLINE && window.top !== window.self) document.documentElement.style.display = "none";
 const CLOUD = {
-  sheet: "",
+  sheet: "",                                     // (12 November 2026) the sheet is read through app-gate: its address is in no page
   tabs: { ind: "تصاريح أفراد ", veh: "تصاريح مركبات",       // the trailing space is part of the first tab's real name
           tind: "تصاريح افراد مؤقتة", tveh: "تصاريح مركبات مؤقتة" },      // the temporary permits (9 November 2026)
   db: "",
@@ -3972,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "bfcdfe24c338";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "3e5795dba590";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4885,47 +4885,23 @@ function parseCSV(text){
    that fails is gviz used: it blanks text cells in a column that is mostly
    dates, so a read that came that way is marked as a fallback. */
 async function cloudPermits(key, at){
-  const gids = {}, BS = String.fromCharCode(92), SHEET = at.sheet;
-  try{
-    const r = await fetch(SHEET + "/htmlview?_=" + Date.now(), { cache: "no-store" });
-    if(r.ok){
-      const html = await r.text(), re = /items\.push\(\{name: "((?:[^"\\]|\\.)*)"[\s\S]*?gid: "(\d+)"/g;
-      let m;
-      while((m = re.exec(html))){
-        try{ gids[JSON.parse('"' + m[1].replace(/\\x([0-9a-fA-F]{2})/g, BS + "u00$1") + '"')] = m[2]; }catch(e){}
-      }
-    }
-  }catch(e){}
-  let fallback = false;
-  /* What comes back has to be the tab's rows. Google sometimes answers with a
-     web page instead — an error page, a sign-in page — and says 200 all the
-     same; read as rows, that page emptied the permits and every search said
-     "not in the sheet". A page, or nothing at all, is a read that failed: what
-     is on screen stays, and the sheet is shown as out of reach. */
-  const isRows = text => !!text.trim() && !/^\s*</.test(text);
-  const tab = async name => {
-    if(gids[name]){
-      const r = await fetch(SHEET + "/export?format=csv&gid=" + gids[name] + "&_=" + Date.now(), { cache: "no-store" });
-      if(r.ok){ const text = await r.text(); if(isRows(text)) return text; }
-    }
-    fallback = true;
-    const g = await fetch(SHEET + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(name) + "&_=" + Date.now(), { cache: "no-store" });
-    if(!g.ok) throw new Error("sheet " + g.status);
-    const text = await g.text();
-    if(!isRows(text)) throw new Error("the sheet answered with a page, not rows");
-    return text;
+  /* THE SHEET THROUGH app-gate (12 November 2026, «اقوى امان ممكن»): with the signed-in user's own token — the sheet's address is in no page
+     and in no seal any more, so it can be moved where nobody has seen it. A tab that is not there (the temporary ones) answers null. */
+  const tok = session && session.rt;
+  const isRows = text => !!String(text || "").trim() && !/^\s*</.test(text);
+  const gate = async (name, need) => {
+    const r = await fetch(at.db + "/functions/v1/app-gate", { method: "POST", cache: "no-store", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "sheet", sys: tok || "", tab: name }) });
+    if(r.status === 401){ const e = new Error("refused"); e.code = "AUTH"; throw e; }
+    const o = await r.json().catch(() => null);
+    if(!o || !o.ok){ if(need) throw new Error("sheet " + r.status); return ""; }
+    if(!isRows(o.csv)){ if(need) throw new Error("the sheet answered with no rows"); return ""; }
+    return o.csv;
   };
-  const texts = await Promise.all([tab(CLOUD.tabs.ind), tab(CLOUD.tabs.veh)]);
+  const fallback = false;
+  const texts = await Promise.all([gate(CLOUD.tabs.ind, true), gate(CLOUD.tabs.veh, true)]);
   // the temporary permits: only when Drive has their tabs — a sheet without them is no fault, and no reason to stop the rest
-  const opt = async name => {
-    if(!gids[name]) return "";
-    try{
-      const r = await fetch(SHEET + "/export?format=csv&gid=" + gids[name] + "&_=" + Date.now(), { cache: "no-store" });
-      if(r.ok){ const text = await r.text(); if(isRows(text)) return text; }
-    }catch(e){}
-    return "";
-  };
-  const temps = await Promise.all([opt(CLOUD.tabs.tind), opt(CLOUD.tabs.tveh)]);
+  const temps = await Promise.all([gate(CLOUD.tabs.tind, false).catch(() => ""), gate(CLOUD.tabs.tveh, false).catch(() => "")]);
   const shape = (text, maxCol) => {
     const rows = parseCSV(text);
     return { header: (rows[0] || []).slice(0, maxCol),

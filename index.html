@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-IhPGIM62EBaYzyb7VpKVrF8H4z15OERybEj+46x98UI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-hvlqkSpZKBIO2FHF2XdzQe9wYypIY/BOAY1zGmmL/aE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -961,6 +961,8 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 /* the ring a box that wants a look gives off (12 November 2026: it was a box-shadow that moved, which kept the page restyling — 33% of
    the processor on «لوحة المتابعة» with nothing touched): the ring is drawn once, on its own layer, and only its opacity moves */
 .tile.pulse{position:relative;}
+.tile.still{cursor:default;}
+.tile.still:active{transform:none;}
 .tile.pulse::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 6px var(--pulse);opacity:0;
   animation:tilePulse 1.9s ease-in-out 1.4s infinite;will-change:opacity;}
 .tile.warn.pulse{--pulse:rgba(214,150,26,.55);}
@@ -1962,7 +1964,7 @@ html.dark{
 .lv::after{content:"";position:absolute;width:70%;height:70%;left:-20%;top:-30%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(21,101,192,.14),transparent);filter:blur(30px);animation:lvAu 18s ease-in-out infinite;}
 @keyframes lvDrift{to{transform:translate(26px,52px);}}
 @keyframes lvAu{50%{transform:translate(70%,60%) scale(1.2);}}
-.lv-bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:108px;gap:14px;grid-auto-flow:dense;transform-origin:50% 0;
+.lv-bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:108px;gap:14px;grid-auto-flow:row;transform-origin:50% 0;
   animation:lvCam 2s cubic-bezier(.2,.75,.15,1) .15s both;}
 .lv-bento.dp{margin-top:14px;animation-delay:.35s;}
 @keyframes lvCam{from{transform:rotateX(28deg) rotateZ(-6deg) scale(1.12) translateY(-24px);}}
@@ -2031,6 +2033,14 @@ html.dark{
 .lv-mon{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:7px;margin-top:6px;text-align:center;font-size:11px;font-weight:800;color:var(--mo-sub);}
 /* who ends soonest */
 .lv-soon{display:flex;flex-direction:column;gap:7px;overflow:auto;min-height:0;}
+/* the temporary permits at a glance, beside their two rings */
+.lv-sum{display:flex;flex-direction:column;justify-content:space-between;gap:7px;flex:1;min-height:0;}
+.lv-sum button{display:flex;align-items:center;gap:10px;flex:1;padding:6px 14px;border-radius:12px;border:1px solid var(--mo-edge);background:var(--mo-node);font:inherit;text-align:start;cursor:pointer;color:var(--text);}
+.lv-sum button[tabindex="-1"]{cursor:default;}
+.lv-sum button:hover{border-color:var(--c);}
+.lv-sum i{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;}
+.lv-sum span{flex:1;font-weight:800;font-size:13.5px;color:var(--text-2);}
+.lv-sum b{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--c);}
 .lv-soon button{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;border:1px solid var(--mo-edge);background:var(--mo-node);font:inherit;text-align:start;cursor:pointer;
   animation:lvSlide .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 55ms + 1300ms + var(--k) * 70ms);}
 .lv-soon button:hover{border-color:var(--mo-amber);}
@@ -3973,7 +3983,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "e81ff3981010";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "cd914ca737d6";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5461,7 +5471,7 @@ function renderWelcome(){
    HOME
    ============================================================ */
 const tile = (label, value, tone, goTo, pulse) =>
-  '<button type="button" class="tile' + (tone ? " " + tone : "") + (pulse ? " pulse" : "") + '" data-go="' + esc(goTo) + '">' +
+  '<button type="button" class="tile' + (tone ? " " + tone : "") + (pulse ? " pulse" : "") + (goTo ? "" : " still") + '"' + (goTo ? ' data-go="' + esc(goTo) + '"' : ' tabindex="-1"') + ">" +
   '<span class="tile-k">' + esc(label) + '</span><span class="tile-v num">' + value + "</span></button>";
 
 const EMP_PICK = {
@@ -5565,14 +5575,18 @@ function paintMonth(arrive){
    it, so the boxes always add up to the first one. */
 const CAT_TILE = { ok:["cOk","ok"], soon:["cSoon","warn"], expired:["cExpired","bad"], ban:["cBan","ban"],
                    renew:["cRenew","bad"], temp:["cTemp","mute"], pending:["cPending",""], undet:["cUndet","mute"] };
-function permitTiles(view, totalLabel, total, c, show){
+/* THE DASHBOARD ON ONE GRID (12 November 2026: «ظبط تناسق الداشبورد… شكلهم عشوائى جدا»): every row of boxes is seven equal columns,
+   the total first and the standings after it in the same order in every section — so a standing sits in the same column all the way
+   down; a standing a row does not usually have comes after the seven, on the next line. `go` false: the boxes lead nowhere. */
+const DASH_COLS = 7;
+function permitTiles(view, totalLabel, total, c, show, go, tail){
   const cats = show.concat(Object.keys(CAT_TILE).filter(k => show.indexOf(k) === -1 && c[k]));
-  const n = cats.length + 1;
-  return '<div class="tiles" style="--n:' + n + ";--half:" + Math.ceil(n / 2) + '">' +
-    tile(totalLabel, total, "job", view + ":all") +
-    cats.map(k => tile(t(CAT_TILE[k][0]), c[k] || 0, CAT_TILE[k][1], view + ":" + k, k === "soon" && c[k] > 0)).join("") + "</div>";
+  const to = k => go === false ? "" : view + ":" + k;
+  return '<div class="tiles dash" style="--n:' + DASH_COLS + ";--half:4" + '">' +
+    tile(totalLabel, total, "job", to("all")) +
+    cats.map(k => tile(t(CAT_TILE[k][0]), c[k] || 0, CAT_TILE[k][1], to(k), k === "soon" && c[k] > 0)).join("") + (tail || "") + "</div>";
 }
-const sectH = (title, goTo) => '<div class="sect-h">' + title + '<button class="lnk" data-go="' + goTo + '">' + t("openList") + "</button></div>";
+const sectH = (title, goTo) => '<div class="sect-h">' + title + (goTo ? '<button class="lnk" data-go="' + goTo + '">' + t("openList") + "</button>" : "") + "</div>";
 /* «لوحة المتابعة» assembling itself (see «dashin» in the styles): each title, box and chart is given its moment in the order it is
    read, the bars, columns and rows of a chart theirs after it; the boxes' figures run up as each box lands. */
 let dashTimer = null;
@@ -5611,13 +5625,15 @@ function renderHome(){
   if(M.emp){
     const E = M.emp.list, n = k => countBy(E, EMP_PICK[k]);
     const exp = n("expiring"), gone = n("expired");
-    h += sectH(t("navEmp"), "emp:active") + '<div class="tiles">' +
-      tile(t("tActive"), n("active"), "", "emp:active") +
-      tile(t("tResigned"), n("resigned"), "mute", "emp:resigned") +
-      tile(t("tExpiring"), exp, "warn", "emp:expiring", exp > 0) +
-      tile(t("tExpired"), gone, "bad", "emp:expired", gone > 0) +
+    // the same columns as the permits' rows: who is here · valid · ending soon · ended · barred — then the resigned and the foreigners
+    h += sectH(t("navEmp"), "emp:active") + '<div class="tiles dash" style="--n:' + DASH_COLS + ';--half:4">' +
+      tile(t("chActive"), n("active"), "job", "emp:active") +
+      tile(t("chValid"), n("valid"), "ok", "emp:valid") +
+      tile(t("chExpiring"), exp, "warn", "emp:expiring", exp > 0) +
+      tile(t("chExpired"), gone, "bad", "emp:expired", gone > 0) +
       tile(t("tBanned"), n("banned"), "ban", "emp:banned") +
-      tile(t("tForeign"), n("foreign"), "job", "emp:foreign") + "</div>";
+      tile(t("tResigned"), n("resigned"), "mute", "emp:resigned") +
+      tile(t("tForeign"), n("foreign"), "mute", "emp:foreign") + "</div>";
   }
   if(M.ind){
     h += sectH(t("navInd"), "ind:all") +
@@ -5627,18 +5643,16 @@ function renderHome(){
     h += sectH(t("navVeh"), "veh:all") +
       permitTiles("veh", t("vehicles"), M.veh.list.length, catCount(M.veh.list), ["ok", "soon", "expired", "renew", "pending", "undet"]);
   }
-  /* THE TEMPORARY PERMITS (asked for, 12 November 2026: «عايزك تحط التصاريح المؤقته فى الداشبورد بتاعت لوحه المتابعه والمتابعة»): the
-     people's and the vehicles' boxes, as their page counts them — and «أكتر من 3 شهور». Whoever has their page sees them («tind»). */
-  if(can("tind") && (M.tind || M.tveh)){
-    h += sectH(t("navTmp"), "tind:all");
-    [["tind", "tmpInd", M.tind], ["tveh", "tmpVeh", M.tveh]].forEach(([view, word, T]) => {
+  /* THE TEMPORARY PERMITS (asked for, 12 November 2026: «عايزك تحط التصاريح المؤقته فى الداشبورد بتاعت لوحه المتابعه والمتابعة» — and
+     then: «خليها فى صلاحيه لوحه المتابعه والمتابعه مش لوحدهم»): the people's and the vehicles' rows, on the same seven columns, the last
+     one «أكتر من 3 شهور». Shown to whoever has the dashboard; the boxes open the temporary permits' page for whoever has that page too. */
+  if(M.tind || M.tveh){
+    const goes = can("tind");
+    h += sectH(t("navTmp"), goes ? "tind:all" : "");
+    [["tind", "tmpInd", M.tind, ["ok", "soon", "expired", "ban", "pending"]], ["tveh", "tmpVeh", M.tveh, ["ok", "soon", "expired", "renew", "pending"]]].forEach(([view, word, T, show]) => {
       if(!T) return;
       const c = catCount(T.list), over = T.list.filter(tmpOver).length;
-      const cats = ["ok", "soon", "expired"].concat(Object.keys(CAT_TILE).filter(k => ["ok", "soon", "expired"].indexOf(k) === -1 && c[k]));
-      const n = cats.length + 2;
-      h += '<div class="tiles" style="--n:' + n + ";--half:" + Math.ceil(n / 2) + '">' + tile(t(word), T.list.length, "job", view + ":all") +
-        cats.map(k => tile(t(CAT_TILE[k][0]), c[k] || 0, CAT_TILE[k][1], view + ":" + k, k === "soon" && c[k] > 0)).join("") +
-        tile(t("cOver"), over, over ? "warn" : "mute", view + ":over") + "</div>";
+      h += permitTiles(view, t(word), T.list.length, c, show, goes, tile(t("cOver"), over, over ? "warn" : "mute", goes ? view + ":over" : ""));
     });
   }
   if(!M.emp || !M.ind) h += '<div class="note warn">' + t(M.emp ? "perNotLoaded" : "empNotLoaded") + "</div>";
@@ -5693,10 +5707,10 @@ function lvRing(i, name, unit, total, parts){
   let at = 0;
   const segs = on.map((p, k) => {
     const len = C * p.n / sum, d = Math.max(0, len - (on.length > 1 ? 3 : 0));
-    const el = '<circle class="seg" r="92" transform="rotate(-90)" style="--c:' + p.c + ";--d:" + d.toFixed(1) + ";--o:" + (-at).toFixed(1) + ";--k:" + k + '" data-go="' + p.go + '"><title>' + esc(p.label) + " · " + p.n.toLocaleString("en-US") + "</title></circle>";
+    const el = '<circle class="seg" r="92" transform="rotate(-90)" style="--c:' + p.c + ";--d:" + d.toFixed(1) + ";--o:" + (-at).toFixed(1) + ";--k:" + k + '"' + (p.go ? ' data-go="' + p.go + '"' : "") + '><title>' + esc(p.label) + " · " + p.n.toLocaleString("en-US") + "</title></circle>";
     at += len; return el;
   }).join("");
-  const leg = on.map((p, k) => '<button type="button" style="--c:' + p.c + ";--k:" + k + '" data-go="' + p.go + '"><i></i>' + esc(p.label) + "<b>" + p.n.toLocaleString("en-US") + "</b></button>").join("");
+  const leg = on.map((p, k) => '<button type="button" style="--c:' + p.c + ";--k:" + k + '"' + (p.go ? ' data-go="' + p.go + '"' : ' tabindex="-1"') + '><i></i>' + esc(p.label) + "<b>" + p.n.toLocaleString("en-US") + "</b></button>").join("");
   return lvTile(i, "w2 ring", 2, 3, esc(name),
     '<div class="lv-donut"><svg viewBox="-115 -115 230 230" aria-hidden="true"><defs><linearGradient id="lvSheen' + i + '" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>' +
       '<circle class="orb" r="110"/><circle class="trk" r="92"/>' + segs + '<circle class="glow" r="92" stroke-dasharray="60 520" style="stroke:url(#lvSheen' + i + ')"/></svg>' +
@@ -5742,7 +5756,7 @@ function renderLive(){
     const d = depts.get(k); d.n++; d[EMP_PICK.valid(e) ? "valid" : EMP_PICK.expiring(e) ? "expiring" : EMP_PICK.expired(e) ? "expired" : "other"]++; });
   const D = [...depts.entries()].sort((a, b) => b[1].n - a[1].n);
   const sig = JSON.stringify([lang, E.length, M.ind ? M.ind.list.length : 0, M.veh ? M.veh.list.length : 0, ci, cv,
-    can("tind") && M.tind ? catCount(M.tind.list) : 0, can("tind") && M.tveh ? catCount(M.tveh.list) : 0, months.map(m => m.n), n("valid"), n("expiring"), n("expired"), n("banned"), D]);
+    M.tind ? catCount(M.tind.list) : 0, M.tveh ? catCount(M.tveh.list) : 0, can("tind"), months.map(m => m.n), n("valid"), n("expiring"), n("expired"), n("banned"), D]);
   if($("lv") && sig === lvSig) return lvClock();
   lvSig = sig;
   if(!kinds.length){ page(pgHead(t("navLive")), scrollPart('<div class="empty"><h3>' + t(M.emp ? "perNotLoaded" : "empNotLoaded") + "</h3></div>")); return; }
@@ -5760,12 +5774,22 @@ function renderLive(){
     { n: n("valid"), c: LV_COL.ok, label: t("chValid"), go: "emp:valid" }, { n: n("expiring"), c: LV_COL.soon, label: t("chExpiring"), go: "emp:expiring" },
     { n: n("expired"), c: LV_COL.expired, label: t("chExpired"), go: "emp:expired" }, { n: n("banned"), c: LV_COL.ban, label: t("chBanned"), go: "emp:banned" },
     { n: n("nopermit") + n("nodate"), c: LV_COL.undet, label: t("chNoPermit"), go: "emp:nopermit" }]);
-  const parts = (view, c) => Object.keys(LV_COL).map(k => ({ n: c[k] || 0, c: LV_COL[k], label: t(CAT_TILE[k][0]), go: view + ":" + k }));
+  const parts = (view, c, go) => Object.keys(LV_COL).map(k => ({ n: c[k] || 0, c: LV_COL[k], label: t(CAT_TILE[k][0]), go: go === false ? "" : view + ":" + k }));
   if(M.ind) h += lvRing(i++, t("navInd"), t("people"), M.ind.list.length, parts("ind", ci));
   if(M.veh) h += lvRing(i++, t("navVeh"), t("vehicles"), M.veh.list.length, parts("veh", cv));
-  // the temporary permits (12 November 2026), for whoever has their page
-  if(can("tind") && M.tind) h += lvRing(i++, t("navTmp") + " · " + t("tmpInd"), t("people"), M.tind.list.length, parts("tind", catCount(M.tind.list)));
-  if(can("tind") && M.tveh) h += lvRing(i++, t("navTmp") + " · " + t("tmpVeh"), t("vehicles"), M.tveh.list.length, parts("tveh", catCount(M.tveh.list)));
+  /* THE TEMPORARY PERMITS (12 November 2026), a row of their own: their two rings and, beside them, what calls for a look among them —
+     for whoever has this page; the parts open their list for whoever has that page too */
+  if(M.tind || M.tveh){
+    const goes = can("tind"), both = [M.tind, M.tveh].filter(Boolean);
+    if(M.tind) h += lvRing(i++, t("navTmp") + " · " + t("tmpInd"), t("people"), M.tind.list.length, parts("tind", catCount(M.tind.list), goes));
+    if(M.tveh) h += lvRing(i++, t("navTmp") + " · " + t("tmpVeh"), t("vehicles"), M.tveh.list.length, parts("tveh", catCount(M.tveh.list), goes));
+    const cnt = f => both.reduce((n, T) => n + T.list.filter(f).length, 0);
+    const row = (label, v, c, go) => '<button type="button" style="--c:' + c + '"' + (goes && go ? ' data-go="' + go + '"' : ' tabindex="-1"') + "><i></i><span>" + esc(label) + '</span><b data-to="' + v + '">0</b></button>';
+    h += lvTile(i++, "w2 tsum", 2, both.length > 1 ? 3 : 3, esc(t("navTmp")), '<div class="lv-sum">' +
+      row(t("tmpInd"), M.tind ? M.tind.list.length : 0, "#1565c0", "tind:all") + row(t("tmpVeh"), M.tveh ? M.tveh.list.length : 0, "#1565c0", "tveh:all") +
+      row(t("cOk"), cnt(g => g.p.cat === "ok"), LV_COL.ok, "tind:ok") + row(t("cSoon"), cnt(g => g.p.cat === "soon"), LV_COL.soon, "tind:soon") +
+      row(t("cPending"), cnt(g => g.p.cat === "pending"), LV_COL.pending, "tind:pending") + row(t("cOver"), cnt(tmpOver), LV_COL.soon, "tind:over") + "</div>");
+  }
   // the months ahead
   const max = Math.max(1, ...months.map(m => m.n.emp + m.n.ind + m.n.veh));
   const lang0 = isEN() ? "en-GB" : "ar-EG-u-nu-latn";
@@ -5773,9 +5797,10 @@ function renderLive(){
     return '<div class="lv-col' + (k === 0 ? " now" : "") + '" style="--k:' + k + ";--h:" + (100 * tot / max).toFixed(1) + '%" title="' + esc(m.d.toLocaleDateString(lang0, { month: "long", year: "numeric" })) + " · " + tot + '">' +
       (tot ? "<em>" + tot + "</em>" : "") + '<div class="st">' + [["e", m.n.emp], ["p", m.n.ind], ["v", m.n.veh]].filter(x => x[1]).map(x => '<i class="' + x[0] + '" style="--f:' + x[1] + '"></i>').join("") + "</div></div>"; }).join("");
   const key = '<span class="lv-key">' + [["#1565c0", "segEmp", M.emp], ["#2f9a47", "segInd", M.ind], ["#8b96a1", "segVeh", M.veh]].filter(x => x[2]).map(x => '<span><i style="background:' + x[0] + '"></i>' + esc(t(x[1])) + "</span>").join("") + "</span>";
-  h += lvTile(i++, "w4 mo2", 4, 2, esc(t("monthsTitle")) + " " + key, '<div class="lv-cols">' + cols + '</div><div class="lv-mon">' + months.map(m => "<span>" + esc(m.d.toLocaleDateString(lang0, { month: "short" })) + "</span>").join("") + "</div>");
+  const monthsTile = lvTile(i++, "w4 mo2", 4, 2, esc(t("monthsTitle")) + " " + key, '<div class="lv-cols">' + cols + '</div><div class="lv-mon">' + months.map(m => "<span>" + esc(m.d.toLocaleDateString(lang0, { month: "short" })) + "</span>").join("") + "</div>");
   // who ends soonest
   const soon = M.emp ? E.filter(e => !e.resigned && e.permit_status === "ساري" && e.dl !== null && e.dl >= 0 && e.dl <= 60).sort((a, b) => a.dl - b.dl).slice(0, 10) : [];
+  h += monthsTile;
   h += lvTile(i++, "w2 mo2", 2, 2, esc(t("soonTitle")), soon.length ? '<div class="lv-soon">' + soon.map((e, k) => '<button type="button" style="--k:' + k + '" data-open="emp:' + esc(e.emp_code) + '"><b>' + esc(e.full_name) + "</b><small>" + esc(dash(e.department)) + '</small><span class="lv-dl' + (e.dl <= 14 ? " hot" : "") + '">' + esc(countdown(e.dl)) + "</span></button>").join("") + "</div>"
     : '<div class="lv-none">' + esc(t("noSoon")) + "</div>");
   // the companies

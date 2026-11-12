@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-hvlqkSpZKBIO2FHF2XdzQe9wYypIY/BOAY1zGmmL/aE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-NXNVZYwjQENbac9TNWx2K7Mv4IFvW+/0tNc71i/fW9A='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -962,6 +962,45 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
    the processor on «لوحة المتابعة» with nothing touched): the ring is drawn once, on its own layer, and only its opacity moves */
 .tile.pulse{position:relative;}
 .tile.still{cursor:default;}
+/* «لوحة المتابعة», the new look: the four cards of every permit */
+.dh-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:2px 4px 10px;font-size:15px;font-weight:900;color:var(--navy);}
+.dh-h .num{font-size:13px;font-weight:800;color:var(--muted);}
+.dh{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 6px;}
+.dh-k{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:20px;color:#fff;
+  box-shadow:0 16px 34px var(--sh),inset 0 1px 0 rgba(255,255,255,.28);}
+.dh-k.ok{background:linear-gradient(135deg,#34b86a,#13703f);--sh:rgba(19,112,63,.28);}
+.dh-k.warn{background:linear-gradient(135deg,#f5ae40,#cf730a);--sh:rgba(207,115,10,.3);}
+.dh-k.bad{background:linear-gradient(135deg,#ee6d6d,#b93232);--sh:rgba(185,50,50,.3);}
+.dh-k.ban{background:linear-gradient(135deg,#9f2424,#560c0c);--sh:rgba(86,12,12,.35);}
+.dh-k::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(160px 130px at 88% 8%,rgba(255,255,255,.3),transparent 70%),radial-gradient(120px 90px at 0% 100%,rgba(0,0,0,.18),transparent 70%);}
+.dh-k::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;z-index:-1;background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);
+  transform:translateX(-130%);animation:dhSheen 6s ease-in-out infinite;animation-delay:var(--sd,0s);}
+@keyframes dhSheen{0%,62%{transform:translateX(-130%);}100%{transform:translateX(330%);}}
+.dh-ring{position:relative;flex:none;width:68px;height:68px;}
+.dh-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.dh-ring circle{fill:none;stroke-width:4.5;}
+.dh-ring .t{stroke:rgba(255,255,255,.24);}
+.dh-ring .v{stroke:#fff;stroke-linecap:round;}
+.dh-ring em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;font-weight:800;}
+.dh-tx{display:flex;flex-direction:column;min-width:0;}
+.dh-l{font-size:14px;font-weight:800;opacity:.95;}
+.dh-v{font-family:var(--cond);font-size:44px;font-weight:700;line-height:1.05;}
+.dh-tx small{font-size:12px;font-weight:700;opacity:.88;white-space:nowrap;}
+#out.dashin .dh-ring .v{animation:dhRing 1.2s cubic-bezier(.2,.8,.2,1) calc(var(--dd,0ms) + 300ms) both;}
+@keyframes dhRing{from{stroke-dasharray:0 120;}}
+/* each list a card: its title, the bar of how its permits stand, its seven boxes */
+.dsec{margin-top:14px;padding:14px 16px 16px;}
+.dsec .sect-h{margin:0 0 10px;font-size:15px;}
+.dbar{display:flex;gap:2px;height:9px;margin:0 0 12px;border-radius:999px;overflow:hidden;background:var(--line);}
+.dbar + .tiles + .dbar{margin-top:14px;}
+.dbar i{flex:var(--f) 0 0;background:var(--c);transform-origin:right;}
+#out.dashin .dbar i{animation:dbarIn 1s cubic-bezier(.2,.8,.2,1) .5s both;}
+@keyframes dbarIn{from{transform:scaleX(0);}}
+.dsec .tile{border-top:3px solid var(--line-2,var(--line));}
+.dsec .tile.job{border-top-color:var(--blue);}.dsec .tile.ok{border-top-color:var(--ok);}.dsec .tile.warn{border-top-color:#e8900f;}
+.dsec .tile.bad{border-top-color:var(--bad);}.dsec .tile.ban{border-top-color:#8f1d1d;}.dsec .tile.mute{border-top-color:var(--mute-br,#c8d2de);}
+@media (max-width:920px){ .dh{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;} .dh-k{flex-direction:column;align-items:flex-start;padding:12px;gap:6px;min-width:0;} .dh-ring{width:44px;height:44px;} .dh-ring em{font-size:11px;} .dh-v{font-size:30px;} .dh-tx small{white-space:normal;} .dh-h{flex-wrap:wrap;} }
+@media print{ .dh-k{box-shadow:none;} .dh-k::after{display:none;} }
 .tile.still:active{transform:none;}
 .tile.pulse::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 6px var(--pulse);opacity:0;
   animation:tilePulse 1.9s ease-in-out 1.4s infinite;will-change:opacity;}
@@ -1960,6 +1999,25 @@ html.dark{
    soonest to end sliding in, the companies racing out — and under it a second bento, the departments, one tile each, sized by
    how many are in it. Everything in it opens the list it stands for. Its own page key («live»). */
 .lv{position:relative;overflow:hidden;border-radius:22px;padding:22px;background:var(--mo-bg);box-shadow:inset 0 0 0 1px var(--mo-edge);isolation:isolate;perspective:1800px;}
+/* «المتابعة» AS A CONTROL ROOM (12 November 2026: «تصميم تانى خالص… مبهر»): the night colours in either theme — a deep navy board, glass
+   tiles with a light edge, the rings and the figures glowing in their own colour, light moving slowly behind */
+.lv{--mo-bg:radial-gradient(120% 80% at 50% 120%,rgba(47,154,71,.22),transparent 60%),radial-gradient(90% 70% at 10% -20%,rgba(30,117,214,.32),transparent 65%),linear-gradient(165deg,#0d1b2e,#0a1424 55%,#070e19);
+  --mo-edge:rgba(120,170,240,.2);--mo-ink:#eef4fb;--mo-sub:#9fb3c8;--mo-g:#5fd396;--mo-b:#5aa6ee;--mo-amber:#f0b35a;--mo-dot:rgba(140,190,240,.13);--mo-track:rgba(255,255,255,.09);
+  --mo-node:rgba(255,255,255,.05);--panel:#132235;--text:#eef4fb;--text-2:#cfdbe8;--muted:#9fb3c8;--bad:#f08484;
+  color:var(--text);box-shadow:inset 0 0 0 1px rgba(120,170,240,.18),0 24px 60px rgba(7,14,25,.35);}
+.lv .lv-t{background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.02));border-color:rgba(140,190,250,.16);
+  box-shadow:0 18px 40px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07);}
+.lv .lv-t.go:hover{box-shadow:0 22px 46px rgba(0,0,0,.42),0 0 0 1px rgba(140,190,250,.4);}
+.lv .lv-t.clock{background:linear-gradient(140deg,#1f7be0,#0b3f7d);box-shadow:0 18px 44px rgba(31,123,224,.35),inset 0 1px 0 rgba(255,255,255,.2);}
+.lv .lv-donut .seg{filter:drop-shadow(0 0 5px var(--c));}
+.lv .lv-mid b{text-shadow:0 0 22px rgba(120,190,255,.45);}
+.lv .lv-num b{text-shadow:0 0 20px color-mix(in srgb,var(--tc,#5aa6ee) 55%,transparent);}
+.lv .lv-col .st{box-shadow:0 0 16px rgba(90,166,238,.22);}
+.lv .lv-soon .lv-dl{background:rgba(240,179,90,.16);color:#f5bf6b;}
+.lv .lv-soon .lv-dl.hot{background:rgba(240,132,132,.16);color:#f39a9a;}
+.lv .lv-race .fl{box-shadow:0 0 12px rgba(90,166,238,.35);}
+.lv .lv-sum b{text-shadow:0 0 16px color-mix(in srgb,var(--c) 50%,transparent);}
+.lv::after{background:radial-gradient(closest-side,rgba(60,150,240,.28),transparent);}
 .lv::before{content:"";position:absolute;inset:-30px;z-index:-1;background-image:radial-gradient(var(--mo-dot) 1.2px,transparent 1.6px);background-size:26px 26px;opacity:.8;animation:lvDrift 24s linear infinite;}
 .lv::after{content:"";position:absolute;width:70%;height:70%;left:-20%;top:-30%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(21,101,192,.14),transparent);filter:blur(30px);animation:lvAu 18s ease-in-out infinite;}
 @keyframes lvDrift{to{transform:translate(26px,52px);}}
@@ -3983,7 +4041,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cd914ca737d6";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "8984b28f1969";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4326,7 +4384,7 @@ const I18N = {
     connected:"متصل", noConn:"تعذر الاتصال", noConnMini:"— تعذر الاتصال", retry:"إعادة المحاولة", lastRead:"آخر قراية", fallbackPill:"قراية بديلة", fallbackMini:"— قراية ناقصة · المنع ممكن ميظهرش",
     miniPer:"التصاريح", miniEmp:"الموظفين", notYet:"— لسه", pickFiles:"اختيار الملفات",
     openList:"فتح القائمة ←",
-    tActive:"الموظفون الموجودون", tResigned:"الاستقالات", tExpiring:"تصاريح قرب الانتهاء", tExpired:"تصاريح منتهية",
+    tActive:"الموظفون الموجودون", dhTitle:"نظرة عامة — كل التصاريح", dhOk:"سارية", dhSoon:"قرب الانتهاء", dhGone:"منتهية", dhBan:"ممنوع", dhOf:(p, n) => "من " + n, tResigned:"الاستقالات", tExpiring:"تصاريح قرب الانتهاء", tExpired:"تصاريح منتهية",
     tBanned:"الممنوعون", tForeign:"الأجانب", people:"أشخاص", vehicles:"مركبات",
     cOk:"ساري", cSoon:"قرب الانتهاء", cExpired:"منتهي", cBan:"منع", cRenew:"تجديد", cTemp:"مؤقت",
     cPending:"في انتظار الرد", cUndet:"غير محدد", permitUndet:"غير محدد موقفه حتى الآن",
@@ -4476,7 +4534,7 @@ const I18N = {
     connected:"Connected", noConn:"Cannot connect", noConnMini:"— no connection", retry:"Try again", lastRead:"Last read", fallbackPill:"Fallback read", fallbackMini:"— partial read · bans may be missing",
     miniPer:"Permits", miniEmp:"Employees", notYet:"— not yet", pickFiles:"Choose files",
     openList:"Open list ←",
-    tActive:"Active employees", tResigned:"Resignations", tExpiring:"Expiring permits", tExpired:"Expired permits",
+    tActive:"Active employees", dhTitle:"At a glance — every permit", dhOk:"Valid", dhSoon:"Ending soon", dhGone:"Ended", dhBan:"Barred", dhOf:(p, n) => "of " + n, tResigned:"Resignations", tExpiring:"Expiring permits", tExpired:"Expired permits",
     tBanned:"Banned", tForeign:"Foreign staff", people:"People", vehicles:"Vehicles",
     cOk:"Valid", cSoon:"Expiring soon", cExpired:"Expired", cBan:"Banned", cRenew:"Renewal", cTemp:"Temporary",
     cPending:"Awaiting response", cUndet:"Undetermined", permitUndet:"Status not yet determined",
@@ -5595,10 +5653,10 @@ function dashIn(){
   if(!out.classList.contains("enter") || !dashOn()) return;
   let t = 80;
   const at = (el, ms) => el.style.setProperty("--dd", Math.round(ms) + "ms");
-  [].forEach.call(out.querySelectorAll(".sect-h, .tile, .panel"), el => {
+  [].forEach.call(out.querySelectorAll(".dh-k, .sect-h, .tile, .panel"), el => {
     // half the steps of before (5 November 2026: «اسرع ما يمكن»)
     if(el.classList.contains("sect-h")){ at(el, t); t += 55; return; }
-    if(el.classList.contains("tile")){ at(el, t); t += 28; return; }
+    if(el.classList.contains("tile") || el.classList.contains("dh-k")){ at(el, t); t += 28; return; }
     at(el, t); const p = t; t += 75;
     [].forEach.call(el.querySelectorAll(".bar-row"), (r, k) => at(r, p + 165 + k * 30));
     [].forEach.call(el.querySelectorAll(".col"), (c, k) => at(c, p + 150 + k * 22));
@@ -5607,8 +5665,8 @@ function dashIn(){
   out.classList.add("dashin");
   clearTimeout(dashTimer); dashTimer = setTimeout(() => out.classList.remove("dashin"), t + 2200);
   // the figures: each from the moment its box lands
-  const els = [].filter.call(out.querySelectorAll(".tile .tile-v"), el => /^\d+$/.test(el.textContent));
-  const ends = els.map(el => +el.textContent), from = els.map(el => (parseFloat(el.closest(".tile").style.getPropertyValue("--dd")) || 0) + 420);
+  const els = [].filter.call(out.querySelectorAll(".tile .tile-v, .dh-v"), el => /^\d+$/.test(el.textContent));
+  const ends = els.map(el => +el.textContent), from = els.map(el => (parseFloat(el.closest(".tile, .dh-k").style.getPropertyValue("--dd")) || 0) + 420);
   const t0 = performance.now(), RUN = 900;
   const step = now => {
     let more = false;
@@ -5619,41 +5677,67 @@ function dashIn(){
   requestAnimationFrame(step);
   setTimeout(() => els.forEach((el, i) => { if(el.isConnected) el.textContent = ends[i]; }), Math.max(0, ...from) + RUN + 500);
 }
+/* «لوحة المتابعة», A NEW LOOK (12 November 2026: «ممكن تدينى تصميم تانى خالص… المهم يكون مبهر — محتاج اشوف ابداعك»): four figures of
+   every permit at the top, each a card of its own colour with its share in a ring; then each list a card — its title, one bar of how
+   its permits stand, coloured as the boxes under it, and the seven boxes. The boxes, the links and what they open are as they were. */
+const DSEC_COL = { ok: "#2f9a47", soon: "#e8900f", expired: "#d64545", ban: "#8f1d1d", renew: "#c2410c", temp: "#7a8ca0", pending: "#1565c0", undet: "#9aa8b8" };
+function dbar(parts){
+  const on = parts.filter(p => p[1] > 0);
+  if(!on.length) return '<div class="dbar"></div>';
+  return '<div class="dbar">' + on.map(p => '<i style="--f:' + p[1] + ";--c:" + p[2] + '" title="' + esc(p[0]) + " · " + p[1].toLocaleString("en-US") + '"></i>').join("") + "</div>";
+}
+const permitBar = list => { const c = catCount(list); return dbar(Object.keys(DSEC_COL).map(k => [t(CAT_TILE[k][0]), c[k] || 0, DSEC_COL[k]])); };
+function dashHero(){
+  const sets = [];
+  if(M.emp){ const n = k => countBy(M.emp.list, EMP_PICK[k]); sets.push({ total: n("active"), ok: n("valid"), soon: n("expiring"), gone: n("expired"), ban: n("banned") }); }
+  [M.ind, M.veh, M.tind, M.tveh].forEach(T => { if(!T) return; const c = catCount(T.list); sets.push({ total: T.list.length, ok: c.ok || 0, soon: c.soon || 0, gone: c.expired || 0, ban: c.ban || 0 }); });
+  if(!sets.length) return "";
+  const sum = k => sets.reduce((a, x) => a + x[k], 0), all = sum("total") || 1, C = 2 * Math.PI * 19;
+  const card = (tone, word, v, k) => { const pc = Math.round(100 * v / all);
+    return '<div class="dh-k ' + tone + '" style="--sd:' + (k * 1.1).toFixed(1) + 's"><span class="dh-ring"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="t" r="19" cx="22" cy="22"/>' +
+      '<circle class="v" r="19" cx="22" cy="22" style="stroke-dasharray:' + (C * v / all).toFixed(1) + " " + C.toFixed(1) + '"/></svg><em class="num">' + pc + '%</em></span>' +
+      '<span class="dh-tx"><span class="dh-l">' + esc(t(word)) + '</span><b class="dh-v num">' + v + '</b><small>' + esc(t("dhOf", pc, all.toLocaleString("en-US"))) + "</small></span></div>"; };
+  return '<div class="dh-h">' + esc(t("dhTitle")) + '<span class="num">' + esc(fmt(NCM.today0())) + '</span></div><div class="dh">' +
+    card("ok", "dhOk", sum("ok"), 0) + card("warn", "dhSoon", sum("soon"), 1) + card("bad", "dhGone", sum("gone"), 2) + card("ban", "dhBan", sum("ban"), 3) + "</div>";
+}
 function renderHome(){
-  let h = "";
+  let h = dashHero();
 
   if(M.emp){
     const E = M.emp.list, n = k => countBy(E, EMP_PICK[k]);
     const exp = n("expiring"), gone = n("expired");
     // the same columns as the permits' rows: who is here · valid · ending soon · ended · barred — then the resigned and the foreigners
-    h += sectH(t("navEmp"), "emp:active") + '<div class="tiles dash" style="--n:' + DASH_COLS + ';--half:4">' +
+    h += '<section class="panel dsec">' + sectH(t("navEmp"), "emp:active") +
+      dbar([[t("chValid"), n("valid"), DSEC_COL.ok], [t("chExpiring"), exp, DSEC_COL.soon], [t("chExpired"), gone, DSEC_COL.expired], [t("chNoPermit"), n("nopermit") + n("nodate"), DSEC_COL.undet]]) +
+      '<div class="tiles dash" style="--n:' + DASH_COLS + ';--half:4">' +
       tile(t("chActive"), n("active"), "job", "emp:active") +
       tile(t("chValid"), n("valid"), "ok", "emp:valid") +
       tile(t("chExpiring"), exp, "warn", "emp:expiring", exp > 0) +
       tile(t("chExpired"), gone, "bad", "emp:expired", gone > 0) +
       tile(t("tBanned"), n("banned"), "ban", "emp:banned") +
       tile(t("tResigned"), n("resigned"), "mute", "emp:resigned") +
-      tile(t("tForeign"), n("foreign"), "mute", "emp:foreign") + "</div>";
+      tile(t("tForeign"), n("foreign"), "mute", "emp:foreign") + "</div></section>";
   }
   if(M.ind){
-    h += sectH(t("navInd"), "ind:all") +
-      permitTiles("ind", t("people"), M.ind.list.length, catCount(M.ind.list), ["ok", "soon", "expired", "ban", "pending", "undet"]);
+    h += '<section class="panel dsec">' + sectH(t("navInd"), "ind:all") + permitBar(M.ind.list) +
+      permitTiles("ind", t("people"), M.ind.list.length, catCount(M.ind.list), ["ok", "soon", "expired", "ban", "pending", "undet"]) + "</section>";
   }
   if(M.veh){
-    h += sectH(t("navVeh"), "veh:all") +
-      permitTiles("veh", t("vehicles"), M.veh.list.length, catCount(M.veh.list), ["ok", "soon", "expired", "renew", "pending", "undet"]);
+    h += '<section class="panel dsec">' + sectH(t("navVeh"), "veh:all") + permitBar(M.veh.list) +
+      permitTiles("veh", t("vehicles"), M.veh.list.length, catCount(M.veh.list), ["ok", "soon", "expired", "renew", "pending", "undet"]) + "</section>";
   }
   /* THE TEMPORARY PERMITS (asked for, 12 November 2026: «عايزك تحط التصاريح المؤقته فى الداشبورد بتاعت لوحه المتابعه والمتابعة» — and
      then: «خليها فى صلاحيه لوحه المتابعه والمتابعه مش لوحدهم»): the people's and the vehicles' rows, on the same seven columns, the last
      one «أكتر من 3 شهور». Shown to whoever has the dashboard; the boxes open the temporary permits' page for whoever has that page too. */
   if(M.tind || M.tveh){
     const goes = can("tind");
-    h += sectH(t("navTmp"), goes ? "tind:all" : "");
+    h += '<section class="panel dsec">' + sectH(t("navTmp"), goes ? "tind:all" : "");
     [["tind", "tmpInd", M.tind, ["ok", "soon", "expired", "ban", "pending"]], ["tveh", "tmpVeh", M.tveh, ["ok", "soon", "expired", "renew", "pending"]]].forEach(([view, word, T, show]) => {
       if(!T) return;
       const c = catCount(T.list), over = T.list.filter(tmpOver).length;
-      h += permitTiles(view, t(word), T.list.length, c, show, goes, tile(t("cOver"), over, over ? "warn" : "mute", goes ? view + ":over" : ""));
+      h += permitBar(T.list) + permitTiles(view, t(word), T.list.length, c, show, goes, tile(t("cOver"), over, over ? "warn" : "mute", goes ? view + ":over" : ""));
     });
+    h += "</section>";
   }
   if(!M.emp || !M.ind) h += '<div class="note warn">' + t(M.emp ? "perNotLoaded" : "empNotLoaded") + "</div>";
 

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-BXvZKwpY5MCcMcc/ENweyR9kwfznAt1TwDPRcLprNaY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-EDEBZuGQDgADkyh0DoojbWuo1GwJs1ilxYavjvdj7hM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3972,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "1ab264720a41";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "6d2e761b5806";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10530,13 +10530,23 @@ function issBuild(){
     if(r.seg === "emp" && !r.until){ const e = r.emps[0]; r.until = e.pdate ? fmt(e.pdate) : (e.permit_date || ""); }
     rows.push(r);
   });
+  /* ONE ROW A MAN (12 November 2026: «ده واحد موظف انا سلمتة كارت مؤقت… لية ظاهر 2؟»): an employee whose card was printed — a permit card
+     or a temporary one, put down by his id — is that card's row alone; the row by his code (18 October's «they all have theirs», or one
+     just taken on) is not shown beside it, so «تم تسليم التصريح» is pressed on the card he is actually handed. */
+  const printed = new Set();
+  ISS.list.forEach(c => {
+    if(c.kind !== "ind" && c.kind !== "tind") return;
+    const key = ISS.back[c.kind] && ISS.back[c.kind].get(c.ref);
+    ((key && M.emp && M.emp.byNid.get(key)) || []).forEach(e => printed.add(e));
+  });
+  for(let i = rows.length - 1; i >= 0; i--) if(rows[i].seg === "emp" && printed.has(rows[i].emps[0])) rows.splice(i, 1);
   /* A MAN JUST TAKEN ON (asked for, 6 November 2026: «الموظفين الى بتتعين جديد… لما حد يتعين جديد مش بيروح فى كروت الموظفين انه مستلمش»):
      «موظفين» was the employees' cards put down by code on 18 October; anyone on duty since, with no card of that kind, was in none of it.
      He is now, «لسه ماتسلمش», and «تم تسليم التصريح» puts his card down by his code as it does for anyone. */
   if(M.emp && ISS.h){
     const had = new Set(ISS.list.filter(c => c.kind === "emp").map(c => c.ref));
     M.emp.list.forEach(e => {
-      if(e.resigned) return;
+      if(e.resigned || printed.has(e)) return;
       const ref = ISS.h.emp.get(e.emp_code);
       if(!ref || had.has(ref)) return;
       const card = { id: 0, kind: "emp", ref, code: "", until: "", src: "", given: null };

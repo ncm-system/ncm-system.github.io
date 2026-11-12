@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-QDL0NRD1VR4ZNrEYB+kq7FyLZrjlKLbbHh7PftRr98s='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-cyeWgfPmwtnluULb+NbuWYWFvR3iwIEZcjfXOoVliCg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -958,13 +958,14 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 .tile.ban .tile-k{color:rgba(255,255,255,.86);}
 .tile.ban .tile-v{color:#fff;}
 .tile.mute .tile-v{color:var(--text-2);}
-.tile.pulse{animation:tilePulse 1.9s ease-in-out .35s infinite;}
+/* the ring a box that wants a look gives off (12 November 2026: it was a box-shadow that moved, which kept the page restyling — 33% of
+   the processor on «لوحة المتابعة» with nothing touched): the ring is drawn once, on its own layer, and only its opacity moves */
+.tile.pulse{position:relative;}
+.tile.pulse::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 6px var(--pulse);opacity:0;
+  animation:tilePulse 1.9s ease-in-out 1.4s infinite;will-change:opacity;}
 .tile.warn.pulse{--pulse:rgba(214,150,26,.55);}
 .tile.bad.pulse{--pulse:rgba(206,70,70,.45);}
-@keyframes tilePulse{
-  0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 6px 16px rgba(31,78,121,.07), 0 0 0 0 var(--pulse);}
-  55%    {box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 6px 16px rgba(31,78,121,.07), 0 0 0 6px var(--pulse);}
-}
+@keyframes tilePulse{ 0%,100%{opacity:0;} 55%{opacity:1;} }
 
 /* «لوحة المتابعة» ASSEMBLING ITSELF (asked for, 23 October 2026: «الصناديق الى فيها تترص بشكل احترافى — اعملها موشن جيرافيك من
    تصميمك انت»). Opened — not redrawn — the page builds in one run, each thing at its own moment (--dd, set as the page is drawn):
@@ -973,7 +974,7 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
    one by one, the twelve months' columns in a wave, the rows of the list slide in. «x-motion»; none of it where motion is turned off. */
 #out.dashin .sect-h{animation:dashHead .75s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
 #out.dashin .tile{transform-origin:50% 0;animation:dashTile .85s cubic-bezier(.3,1.32,.5,1) var(--dd,0ms) backwards,dashGlow 1.1s ease-out calc(var(--dd,0ms) + 480ms) backwards;}
-#out.dashin .tile.pulse{animation:dashTile .85s cubic-bezier(.3,1.32,.5,1) var(--dd,0ms) backwards,dashGlow 1.1s ease-out calc(var(--dd,0ms) + 480ms) backwards,tilePulse 1.9s ease-in-out calc(var(--dd,0ms) + 1400ms) infinite;}
+#out.dashin .tile.pulse{animation:dashTile .85s cubic-bezier(.3,1.32,.5,1) var(--dd,0ms) backwards,dashGlow 1.1s ease-out calc(var(--dd,0ms) + 480ms) backwards;}
 #out.dashin .panel{animation:dashPanel .95s cubic-bezier(.2,.8,.2,1) var(--dd,0ms) backwards;}
 #out.dashin .bar-row{animation:dashFade .5s ease var(--dd,0ms) backwards;}
 #out.dashin .bar-fill{transform-origin:right center;animation:barGrow 1s cubic-bezier(.2,.8,.2,1) calc(var(--dd,0ms) + 80ms) backwards;}
@@ -1010,7 +1011,7 @@ body.noexp [data-act*="csv"],body.noexp [data-act="print"],body.noexp button[dat
 @keyframes barGrow{from{transform:scaleX(0);}}
 @keyframes colGrow{from{transform:scaleY(0);}}
 .enter .tile{animation:boxIn .3s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards;}
-.enter .tile.pulse{animation:boxIn .3s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards, tilePulse 1.9s ease-in-out .9s infinite;}
+.enter .tile.pulse{animation:boxIn .3s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards;}
 .enter .tiles > :nth-child(2){--d:.025s;} .enter .tiles > :nth-child(3){--d:.05s;} .enter .tiles > :nth-child(4){--d:.075s;}
 .enter .tiles > :nth-child(5){--d:.1s;} .enter .tiles > :nth-child(6){--d:.125s;} .enter .tiles > :nth-child(7){--d:.15s;}
 .enter .tiles > :nth-child(8){--d:.175s;} .enter .tiles > :nth-child(n+9){--d:.2s;}
@@ -3972,7 +3973,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "cc734ecd766d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "289c5ba8659d";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-MFCdXR/+o98slSCY28xhwInGpKWYqAbj/jRtKyx44dI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-BXvZKwpY5MCcMcc/ENweyR9kwfznAt1TwDPRcLprNaY='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3972,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "b48a9ec340f1";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "1ab264720a41";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -9138,7 +9138,8 @@ const DESK_FROM_SYSTEM = "@system";          // an ASE order with no file: the c
 // «خطابات الموظفين من ASE» (asked for, 21 October 2026): this PC's copy only — the employees' sheet and ASE Data are here
 if(st.desk === undefined) st.desk = "";
 // «تجديد بطايق الموظفين» (4 November 2026): this PC's copy only — the cards are in a folder of this PC's
-const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive", "renew", "tidph"]);      // «tidph»: the temporary permits' photos, a box of their own (9 November 2026)          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
+const DESK_KINDS = ["employees", "sheet", "ase"].concat(ONLINE ? [] : ["idph", "letters", "drive", "renew"]);      // «tidph» has no box of its own since 12 November 2026 («رفع الصور المؤقت والعادى يكونو فى مكان واحد»): the one Word file of photos goes to both (tools/photo_word.py)
+      // «tidph»: the temporary permits' photos, a box of their own (9 November 2026)          // «نسخة من شيت الدرايف» (22 October 2026): this PC's copy only
 const DESK_TITLE = { employees: "dkEmp", renew: "dkRenew", sheet: "dkSheet", ase: "dkAse", edits: "dkEdits", idph: "dkIdph", tidph: "dkTidph", letters: "dkLetters", drive: "dkDrive" };
 // the steps an order goes through, by kind: sent · taken up · then its own
 const DESK_STEPS = { employees: ["dkA1", "dkA2", "dkE3", "dkE4", "dkE5"], sheet: ["dkA1", "dkA2", "dkS3", "dkS4"], ase: ["dkA1", "dkA2", "dkA3", "dkA4", "dkA5", "dkA6"], idph: ["dkA1", "dkA2", "dkP3"], tidph: ["dkA1", "dkA2", "dkP3"], letters: ["dkA1", "dkA2", "dkL3", "dkL4"], drive: ["dkA1", "dkA2", "dkD3"], renew: ["dkA1", "dkA2", "dkR3", "dkR4", "dkR5"] };
@@ -10873,6 +10874,9 @@ async function idPhotos(ref){
     const reg = DISK ? (x => x && x[type] && x[type][k])(await idPhotosIndex(false)) : await idPhotosCloud(type, k);
     if(reg && reg.length) sets = reg;
   }
+  /* THE NEWEST ONLY (asked for, 12 November 2026: «لو فى اى حد مكرر نستبدل الجديد بالقديم» — «تتشال من الكارت»): of all the photos
+     sent with him — his permits' and his temporary permits' — the newest send alone, under every request of his */
+  if(sets && sets.length > 1) sets = [sets.slice().sort((a, z) => String(z.day || "").localeCompare(String(a.day || "")))[0]];
   if(drawerRef !== ref) return;
   /* none of his own: «لا يوجد صورة» under every request, as the app shows an employee with no photo (asked for, 19 October
      2026). Only when the answer came back empty — a failed call or no index on this PC says nothing. */

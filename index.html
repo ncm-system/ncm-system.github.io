@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-kw5citkYo7EPdh0pR//FAEXYxnodJ7uxt1GRyS06Zq8='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-shk09DKTt3Y8ea1U7GxYDNpCQn9JaY+JklTFPBFFDVM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -57,6 +57,10 @@
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
+/* NOTHING TURNS BLUE UNDER A CLICK (12 November 2026: «لما بدوس فى اى حته بيحدد الكلام كده زى كلمة permission وانا مش عايز كده»): the
+   page is not text to be chosen — save what is written in a box, and the data of the tables and of a card, which may be copied */
+body{-webkit-user-select:none;user-select:none;}
+input,textarea,select,[contenteditable],.tbl td,#dr-b{-webkit-user-select:text;user-select:text;}
 html{
   background-color:var(--bg);
   /* the same three washes the app carries — the glass needs them to show */
@@ -3968,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "b5a31f8432fe";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "bff0e74a410f";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

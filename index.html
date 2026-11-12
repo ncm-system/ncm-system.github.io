@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-cyeWgfPmwtnluULb+NbuWYWFvR3iwIEZcjfXOoVliCg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-IhPGIM62EBaYzyb7VpKVrF8H4z15OERybEj+46x98UI='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3973,7 +3973,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "289c5ba8659d";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "e81ff3981010";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -5627,6 +5627,20 @@ function renderHome(){
     h += sectH(t("navVeh"), "veh:all") +
       permitTiles("veh", t("vehicles"), M.veh.list.length, catCount(M.veh.list), ["ok", "soon", "expired", "renew", "pending", "undet"]);
   }
+  /* THE TEMPORARY PERMITS (asked for, 12 November 2026: «عايزك تحط التصاريح المؤقته فى الداشبورد بتاعت لوحه المتابعه والمتابعة»): the
+     people's and the vehicles' boxes, as their page counts them — and «أكتر من 3 شهور». Whoever has their page sees them («tind»). */
+  if(can("tind") && (M.tind || M.tveh)){
+    h += sectH(t("navTmp"), "tind:all");
+    [["tind", "tmpInd", M.tind], ["tveh", "tmpVeh", M.tveh]].forEach(([view, word, T]) => {
+      if(!T) return;
+      const c = catCount(T.list), over = T.list.filter(tmpOver).length;
+      const cats = ["ok", "soon", "expired"].concat(Object.keys(CAT_TILE).filter(k => ["ok", "soon", "expired"].indexOf(k) === -1 && c[k]));
+      const n = cats.length + 2;
+      h += '<div class="tiles" style="--n:' + n + ";--half:" + Math.ceil(n / 2) + '">' + tile(t(word), T.list.length, "job", view + ":all") +
+        cats.map(k => tile(t(CAT_TILE[k][0]), c[k] || 0, CAT_TILE[k][1], view + ":" + k, k === "soon" && c[k] > 0)).join("") +
+        tile(t("cOver"), over, over ? "warn" : "mute", view + ":over") + "</div>";
+    });
+  }
   if(!M.emp || !M.ind) h += '<div class="note warn">' + t(M.emp ? "perNotLoaded" : "empNotLoaded") + "</div>";
 
   h += '<div class="grid2">';
@@ -5727,7 +5741,8 @@ function renderLive(){
     if(!depts.has(k)) depts.set(k, { n: 0, valid: 0, expiring: 0, expired: 0, other: 0 });
     const d = depts.get(k); d.n++; d[EMP_PICK.valid(e) ? "valid" : EMP_PICK.expiring(e) ? "expiring" : EMP_PICK.expired(e) ? "expired" : "other"]++; });
   const D = [...depts.entries()].sort((a, b) => b[1].n - a[1].n);
-  const sig = JSON.stringify([lang, E.length, M.ind ? M.ind.list.length : 0, M.veh ? M.veh.list.length : 0, ci, cv, months.map(m => m.n), n("valid"), n("expiring"), n("expired"), n("banned"), D]);
+  const sig = JSON.stringify([lang, E.length, M.ind ? M.ind.list.length : 0, M.veh ? M.veh.list.length : 0, ci, cv,
+    can("tind") && M.tind ? catCount(M.tind.list) : 0, can("tind") && M.tveh ? catCount(M.tveh.list) : 0, months.map(m => m.n), n("valid"), n("expiring"), n("expired"), n("banned"), D]);
   if($("lv") && sig === lvSig) return lvClock();
   lvSig = sig;
   if(!kinds.length){ page(pgHead(t("navLive")), scrollPart('<div class="empty"><h3>' + t(M.emp ? "perNotLoaded" : "empNotLoaded") + "</h3></div>")); return; }
@@ -5748,6 +5763,9 @@ function renderLive(){
   const parts = (view, c) => Object.keys(LV_COL).map(k => ({ n: c[k] || 0, c: LV_COL[k], label: t(CAT_TILE[k][0]), go: view + ":" + k }));
   if(M.ind) h += lvRing(i++, t("navInd"), t("people"), M.ind.list.length, parts("ind", ci));
   if(M.veh) h += lvRing(i++, t("navVeh"), t("vehicles"), M.veh.list.length, parts("veh", cv));
+  // the temporary permits (12 November 2026), for whoever has their page
+  if(can("tind") && M.tind) h += lvRing(i++, t("navTmp") + " · " + t("tmpInd"), t("people"), M.tind.list.length, parts("tind", catCount(M.tind.list)));
+  if(can("tind") && M.tveh) h += lvRing(i++, t("navTmp") + " · " + t("tmpVeh"), t("vehicles"), M.tveh.list.length, parts("tveh", catCount(M.tveh.list)));
   // the months ahead
   const max = Math.max(1, ...months.map(m => m.n.emp + m.n.ind + m.n.veh));
   const lang0 = isEN() ? "en-GB" : "ar-EG-u-nu-latn";

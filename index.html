@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-EDEBZuGQDgADkyh0DoojbWuo1GwJs1ilxYavjvdj7hM='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-JD2l+LLfMSdZnsMAIjNQ+sxaLy9Lj/dYbPN+tJP4WXs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3972,7 +3972,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "6d2e761b5806";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "bfcdfe24c338";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4151,6 +4151,31 @@ function useSources(){
 }
 const photoDir = () => !DISK ? CLOUD.db + "/storage/v1/object/public/" + CLOUD.bucket + "/"
                               : fileURL(SOURCES.photos);  // {code}.jpg and {code}_2.jpg
+/* ONLINE, AN EMPLOYEE'S PHOTOS THROUGH app-gate (12 November 2026, «اقوى امان ممكن»): with the signed-in user's own token, links that last an
+   hour — so the bucket can be closed to the world. <img data-eph="1005.jpg"> is given its link when it is drawn; one that is not there
+   becomes «no photo». */
+const EPH = new Map();
+let ephBusy = 0;
+function ephFill(){
+  ephBusy = 0;
+  if(DISK) return;
+  const imgs = [].slice.call(document.querySelectorAll("img[data-eph]:not([data-eph-asked])"));
+  const l = link();
+  if(!imgs.length || !l) return;
+  const now = Date.now(), ask = [...new Set(imgs.map(im => im.getAttribute("data-eph")).filter(n => { const h = EPH.get(n); return !h || now - h.at > 50 * 60000; }))];
+  const p = ask.length ? fetch(l.db + "/functions/v1/app-gate", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "photo", sys: l.rt, names: ask }) }).then(r => r.json()).then(o => (o && o.ok && o.urls) || {}).catch(() => null) : null;
+  ask.forEach(n => EPH.set(n, { at: now, url: p.then(u => u === null ? undefined : (u[n] || "")) }));
+  imgs.forEach(im => {
+    const n = im.getAttribute("data-eph");
+    im.setAttribute("data-eph-asked", "");
+    EPH.get(n).url.then(u => {
+      if(u){ im.src = u; return; }
+      if(u === undefined){ EPH.delete(n); im.removeAttribute("data-eph-asked"); return; }
+      if(im.parentNode) im.parentNode.innerHTML = '<div class="noshot">' + t("noPhoto") + "</div>";
+    });
+  });
+}
 
 const $ = id => document.getElementById(id);
 const out = $("out");
@@ -4916,7 +4941,17 @@ async function cloudPermits(key, at){
    column names, same order — so one set of rules serves both editions. */
 async function cloudEmployees(key, at){
   const recs = [], PAGE_ROWS = 1000;
-  for(let from = 0; ; from += PAGE_ROWS){
+  /* THROUGH THE USER'S OWN TOKEN (12 November 2026, «اقوى امان ممكن»): system_emp_rows answers a signed-in user alone, so the table itself
+     can be closed to the public key; until it is, a refusal of that call falls back to the way it was read before */
+  const tok = session && session.rt;
+  if(tok){
+    try{
+      const r = await fetch(at.db + "/rest/v1/rpc/system_emp_rows", { method: "POST", cache: "no-store",
+        headers: { apikey: key, Authorization: "Bearer " + key, "Content-Type": "application/json" }, body: JSON.stringify({ p_token: tok }) });
+      if(r.ok){ const all = await r.json(); if(Array.isArray(all)) recs.push(...all); }
+    }catch(e){}
+  }
+  if(!recs.length) for(let from = 0; ; from += PAGE_ROWS){
     const r = await fetch(at.db + "/rest/v1/employees?select=*&order=id.asc&limit=" + PAGE_ROWS + "&offset=" + from,
       { headers: { apikey: key, Authorization: "Bearer " + key }, cache: "no-store" });
     if(r.status === 401 || r.status === 403){ const e = new Error("refused"); e.code = "AUTH"; throw e; }
@@ -7537,7 +7572,7 @@ function empCardHTML(e){
     group(t("grpSecurity"), rowHTML(t("banReason"), e.ban_reason, "bad") +
       rowHTML(t("resignEnd"), NCM.parseStrict(rEnd) ? fmt(NCM.parseStrict(rEnd)) : rEnd, "warn", !!NCM.parseStrict(rEnd))) +
     '<div class="shots">' + [e.emp_code + ".jpg", e.emp_code + "_2.jpg"].map(f =>
-      '<figure class="shot"><img data-shot src="' + esc(photoDir()) + encodeURIComponent(f) + '" alt="' + t("photoAlt") + '" loading="lazy"></figure>').join("") + "</div></article>";
+      '<figure class="shot"><img data-shot ' + (DISK ? 'src="' + esc(photoDir()) + encodeURIComponent(f) + '"' : 'data-eph="' + esc(f) + '"') + ' alt="' + t("photoAlt") + '" loading="lazy"></figure>').join("") + "</div></article>";
 }
 /* A TEMPORARY PERMIT'S CARD SAYS SO AT ITS TOP (asked for, 9 November 2026: «فى الكارت تحت الاسم فى صندوق صغير… او تحت الرقم القومى فى اول
    الكارت يعنى وتبقى شكلها ملفت للانتباه»): a band of its own right under the id (the plate), that catches the eye */
@@ -10463,6 +10498,7 @@ function hasCardRows(again){
   });
 }
 new MutationObserver(() => { if(!hcBusy) hcBusy = requestAnimationFrame(() => { hcBusy = 0; hasCardRows(); }); }).observe($("out"), { childList: true, subtree: true });
+if(!DISK) [$("dr-b"), $("out")].forEach(el => el && new MutationObserver(() => { if(!ephBusy) ephBusy = setTimeout(ephFill, 30); }).observe(el, { childList: true, subtree: true }));
 async function issuedSync(){
   if(!link() || ISS.busy) return;
   ISS.busy = true;

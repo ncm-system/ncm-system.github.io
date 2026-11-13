@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-p45ojXEfZGKZBW6nq5Zv3djK2OXwdBLziDWQ0MbK8DE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-L/xPGqsIB4g3v9IN7t6yFX0ggVrYigr6y3fgH8cov6Y='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -4043,7 +4043,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "d8e61e1a59d8";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "4af3d164583e";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -10627,8 +10627,10 @@ function hasCardRows(again){
 new MutationObserver(() => { if(!hcBusy) hcBusy = requestAnimationFrame(() => { hcBusy = 0; hasCardRows(); }); }).observe($("out"), { childList: true, subtree: true });
 if(!DISK) [$("dr-b"), $("out")].forEach(el => el && new MutationObserver(() => { if(!ephBusy) ephBusy = setTimeout(ephFill, 30); }).observe(el, { childList: true, subtree: true }));
 async function issuedSync(){
-  if(!link() || ISS.busy) return;
-  ISS.busy = true;
+  if(!link()) return;
+  // asked for while a reading is on its way (a card handed over, taken back… while the list was being read): read again after it, not dropped
+  if(ISS.busy){ ISS.again = true; return; }
+  ISS.busy = true; ISS.again = false;
   try{
     const r = await dbCall("system_card_list", {});
     ISS.list = r && Array.isArray(r.cards) ? r.cards : [];
@@ -10643,7 +10645,7 @@ async function issuedSync(){
   }catch(e){ ISS.err = true; }
   finally{ ISS.busy = false; }
   await issIndex();
-  if(await issQuitPull()) return issuedSync();
+  if(await issQuitPull() || ISS.again){ ISS.again = false; return issuedSync(); }
   if(st.view === "issued") paintIssued();
   if(st.view === "cardsx") paintCardsx();
   if($("drawer").classList.contains("on")){ paintGiveBtn(); hasCardPaint(); }
@@ -10665,7 +10667,7 @@ async function issQuitPull(){
   issQuitBusy = true;
   try{ for(const k of kinds) await dbCall("system_card_pull", { p_name: link().u || "", p_kind: k, p_refs: by[k], p_do: "pull" }); return true; }
   catch(e){ return false; }
-  finally{ ISS.busy = false; setTimeout(() => { issQuitBusy = false; }, 60000); }
+  finally{ setTimeout(() => { issQuitBusy = false; }, 60000); }
 }
 // what a row of a page is known by in the database: [sheet, hash] — a man by his id and by his employee's code, a vehicle by its plate
 function issKeys(open){

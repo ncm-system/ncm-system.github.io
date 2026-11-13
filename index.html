@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-RDncRx7H+iwKnkMGVfyZpc6/kGFqcHig5Jmv4tLqY/c='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-MJ/r72Qbd931zubzOnNQ2c8d/RkKQI8+tdsprvNX2CQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -743,7 +743,8 @@ html.dark .rv-card figcaption{background:rgba(21,32,44,.88);color:var(--blue-dee
 .iss-miss{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
 .iss-miss:empty{display:none;}
 #cx-lostbox[hidden]{display:none!important;}
-.cx-lost{display:flex;gap:8px;align-items:center;}.cx-lost .field{flex:1;min-width:0;}
+.cx-lost{display:flex;gap:8px;align-items:center;}.cx-lost .field{flex:1;min-width:0;} .cx-lost #cx-lostwhy{flex:1.4;}
+@media (max-width:620px){ .cx-lost{flex-wrap:wrap;} .cx-lost .field{flex:1 1 100%;} }
 .iss-batch{display:flex;flex-direction:column;align-items:center;gap:6px;}
 .iss-batch:empty{display:none;}
 .iss-batch .b{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;font-size:13px;font-weight:700;color:var(--muted);}
@@ -4044,7 +4045,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "c7ed74624996";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "8f9af4855bd8";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4325,7 +4326,7 @@ const I18N = {
     adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", navCardsx:"الكروت المسحوبة", cxPulled:"مسحوب", cxWaitNew:"معاه لحد تسليم الجديد", cxDead:"اتعدم", cxWhy:"السبب", cxWhyPull:"اتسحب", cxWhyNew:c => "اتبدّل بكارت جديد" + (c ? " (" + c + ")" : ""), cxWhyTmp:"اتبدّل بالكارت العادي", cxWithNew:"مع تسليم الجديد", cxNone:"مفيش كروت مسحوبة ولا معدومة", isSwap:"مستني تسليم الجديد", isOldHeld:"القديم لسه معاه", cxWhyQuit:"استقال", cxEmpCode:"كود الموظف", cxLost:"كروت مفقودة", cxLostIn:"الكود أو الرقم القومي أو رقم اللوحة", cxLostAdd:"تسجيل مفقود", cxLostNo:"مش لاقيه في السيستم", cxLostAlready:"متسجل مفقود قبل كده", cxLostDone:"اتسجل مفقود", cxWhyLost:"ضاع", cxLostDel:"إلغاء", cxLostDelSure:"إلغاء تسجيل الكارت ده مفقود؟", cxOldSure:"إعدام الكارت القديم ده؟ صاحبه لسه ماستلمش الجديد.", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", hasTmpCard:"حاصل على كارت مؤقت", isPart:"القسم", isWho:"الاسم / رقم السيارة", isWhat:"الوظيفة / النوع", isId:"الرقم القومي / تابعه", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", navCardsx:"الكروت المسحوبة", cxPulled:"مسحوب", cxWaitNew:"معاه لحد تسليم الجديد", cxDead:"اتعدم", cxWhy:"السبب", cxWhyPull:"اتسحب", cxWhyNew:c => "اتبدّل بكارت جديد" + (c ? " (" + c + ")" : ""), cxWhyTmp:"اتبدّل بالكارت العادي", cxWithNew:"مع تسليم الجديد", cxNone:"مفيش كروت مسحوبة ولا معدومة", isSwap:"مستني تسليم الجديد", isOldHeld:"القديم لسه معاه", cxWhyQuit:"استقال", cxEmpCode:"كود الموظف", cxLostWhy:"السبب", hasPulled:"كارت مسحوب", hasDead:"كارت اتعدم", hasLost:"كارت مفقود", hasTPulled:"كارت مؤقت مسحوب", hasTDead:"كارت مؤقت اتعدم", hasTLost:"كارت مؤقت مفقود", cxLost:"كروت مفقودة", cxLostIn:"الكود أو الرقم القومي أو رقم اللوحة", cxLostAdd:"تسجيل مفقود", cxLostNo:"مش لاقيه في السيستم", cxLostAlready:"متسجل مفقود قبل كده", cxLostDone:"اتسجل مفقود", cxWhyLost:"ضاع", cxLostDel:"إلغاء", cxLostDelSure:"إلغاء تسجيل الكارت ده مفقود؟", cxOldSure:"إعدام الكارت القديم ده؟ صاحبه لسه ماستلمش الجديد.", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", hasTmpCard:"حاصل على كارت مؤقت", isPart:"القسم", isWho:"الاسم / رقم السيارة", isWhat:"الوظيفة / النوع", isId:"الرقم القومي / تابعه", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -4475,7 +4476,7 @@ const I18N = {
     adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", navCardsx:"Cards taken back", cxPulled:"Taken back", cxWaitNew:"Held until the new one is handed", cxDead:"Destroyed", cxWhy:"Why", cxWhyPull:"Taken back", cxWhyNew:c => "Replaced by a new card" + (c ? " (" + c + ")" : ""), cxWhyTmp:"Replaced by his own card", cxWithNew:"with the new one handed", cxNone:"No cards taken back or destroyed", isSwap:"Waiting for the new one", isOldHeld:"Old one still held", cxWhyQuit:"Resigned", cxEmpCode:"Employee code", cxLost:"Lost cards", cxLostIn:"Employee code, national ID or plate", cxLostAdd:"Record as lost", cxLostNo:"Not found in the system", cxLostAlready:"Already recorded as lost", cxLostDone:"Recorded as lost", cxWhyLost:"Lost", cxLostDel:"Undo", cxLostDelSure:"Undo recording this card as lost?", cxOldSure:"Destroy this old card? Its holder has not been handed the new one yet.", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", hasTmpCard:"Has a temporary card", isPart:"Part", isWho:"Name / plate", isWhat:"Job / type", isId:"National ID / belongs to", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", navCardsx:"Cards taken back", cxPulled:"Taken back", cxWaitNew:"Held until the new one is handed", cxDead:"Destroyed", cxWhy:"Why", cxWhyPull:"Taken back", cxWhyNew:c => "Replaced by a new card" + (c ? " (" + c + ")" : ""), cxWhyTmp:"Replaced by his own card", cxWithNew:"with the new one handed", cxNone:"No cards taken back or destroyed", isSwap:"Waiting for the new one", isOldHeld:"Old one still held", cxWhyQuit:"Resigned", cxEmpCode:"Employee code", cxLostWhy:"Why", hasPulled:"Card taken back", hasDead:"Card destroyed", hasLost:"Card lost", hasTPulled:"Temporary card taken back", hasTDead:"Temporary card destroyed", hasTLost:"Temporary card lost", cxLost:"Lost cards", cxLostIn:"Employee code, national ID or plate", cxLostAdd:"Record as lost", cxLostNo:"Not found in the system", cxLostAlready:"Already recorded as lost", cxLostDone:"Recorded as lost", cxWhyLost:"Lost", cxLostDel:"Undo", cxLostDelSure:"Undo recording this card as lost?", cxOldSure:"Destroy this old card? Its holder has not been handed the new one yet.", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", hasTmpCard:"Has a temporary card", isPart:"Part", isWho:"Name / plate", isWhat:"Job / type", isId:"National ID / belongs to", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -8163,7 +8164,7 @@ function renderLog(){
   paintLog();
   if(link()) logSync();
 }
-const VIEW_NAME = { multi: "navSearch", esrch: "navEsrch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", tind: "navTmp", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued" };
+const VIEW_NAME = { multi: "navSearch", esrch: "navEsrch", home: "navHome", live: "navLive", emp: "navEmp", ind: "navInd", veh: "navVeh", tind: "navTmp", snd: "navSnd", rnw: "navRnw", check: "navCheck", src: "navSrc", today: "navToday", log: "navLog", cards: "navCards", ase: "navAse", spc: "navSpc", adm: "navAdm", cmp: "navCmp", rep: "repTitle", ask: "navAsk", edits: "navEdits", issued: "navIssued", cardsx: "navCardsx" };
 const logOpen = new Set();                          // the lines that stand open
 /* «سجل النشاط» FOLDED (asked for, 23 October 2026: «سجل النشاط والأجهزة يظهر سهم لضغط عليه يعرض القايمه مش تفضل القايمه ثابته»):
    the devices and each visit show their heading only — who, where, when, how many lines — and an arrow; pressing the heading
@@ -10568,10 +10569,15 @@ function hasCardPaint(){
   const ref = drawerRef || "", head = document.querySelector("#dr-b .rec .pills");
   if(!link() || !head || !/^(ind|emp|veh|tind|tveh):/.test(ref)) return;
   if(!ISS.loaded || ISS.of !== M){ if(!ISS.busy && !ISS.err) issuedSync(); else if(ISS.loaded) issIndex().then(() => { if(drawerRef === ref) hasCardPaint(); }); return; }
-  ["dr-hascard", "dr-hastmp"].forEach(x => { const old = document.getElementById(x); if(old) old.remove(); });
+  ["dr-hascard", "dr-hastmp", "dr-cardst", "dr-tcardst"].forEach(x => { const old = document.getElementById(x); if(old) old.remove(); });
   const has = issHolds(ref);
   if(has.reg) head.insertAdjacentHTML("beforeend", '<span class="pill ok" id="dr-hascard">' + esc(t("hasCard")) + "</span>");
   if(has.tmp) head.insertAdjacentHTML("beforeend", '<span class="pill warn" id="dr-hastmp">' + esc(t("hasTmpCard")) + "</span>");
+  const tone = { lost: "bad", pulled: "bad", dead: "mute" }, word = { lost: "hasLost", pulled: "hasPulled", dead: "hasDead" }, tword = { lost: "hasTLost", pulled: "hasTPulled", dead: "hasTDead" };
+  const reg = has.reg ? "" : issStateOf(issKeys(ref).map(k => k[0] + ":" + k[1]).filter(k => !/^t(ind|veh):/.test(k)));
+  if(reg) head.insertAdjacentHTML("beforeend", '<span class="pill ' + tone[reg] + '" id="dr-cardst">' + esc(t(word[reg])) + "</span>");
+  const tk = issTmpRef(ref), tst = has.tmp || !tk ? "" : issStateOf([tk]);
+  if(tst) head.insertAdjacentHTML("beforeend", '<span class="pill ' + tone[tst] + '" id="dr-tcardst">' + esc(t(tword[tst])) + "</span>");
 }
 /* …and in the tables too, for everyone, the admin with them (asked for, 6 November 2026: «اكيد طبعا عايز» — to «في الجداول كمان؟ وليك
    إنت كمان؟»): beside the name (or the plate) of every row of a man or a vehicle with a card handed over and not taken back. On the screen
@@ -10592,6 +10598,18 @@ function issTmpRef(open){
   return x ? kind + ":" + x : "";
 }
 const issOldOf = k => (ISS.oldBy && ISS.oldBy.get(k)) || [];
+// what became of his card, when he holds none: lost · taken back · destroyed (13 November 2026: «اى كارت مسحوب معدوم مفقود تظهر فى كروت الناس»)
+function issStateOf(keys){
+  const rank = { lost: 3, pulled: 2, dead: 1 };
+  let best = "";
+  keys.forEach(k => {
+    let st = "";
+    if((ISS.lost || []).some(l => l.kind + ":" + l.ref === k)) st = "lost";
+    else { const c = ISS.byRef.get(k); if(c && c.dead) st = "dead"; else if(c && c.pulled) st = c.how === "lost" ? "lost" : "pulled"; }
+    if((rank[st] || 0) > (rank[best] || 0)) best = st;
+  });
+  return best;
+}
 function issHolds(open){
   const held = c => !!c && !!c.given && !c.pulled && !c.dead, own = issCards(open), tk = issTmpRef(open);
   // the old card a new one replaced is still his until the new one is handed over (13 November 2026)
@@ -10703,7 +10721,7 @@ function issBuild(){
   ISS.list.forEach(c => {
     const r = issRowFor(c);
     // a resigned man's card is not on «الكروت»: his code's row never was, and a card still in his hand is on «المسحوبة والمعدومة»
-    if(r && !(r.quit && r.seg === "emp")) rows.push(r);
+    if(r && !r.dead && !(r.quit && r.seg === "emp")) rows.push(r);
   });
   /* ONE ROW A MAN (12 November 2026: «ده واحد موظف انا سلمتة كارت مؤقت… لية ظاهر 2؟»): an employee whose card was printed — a permit card
      or a temporary one, put down by his id — is that card's row alone; the row by his code (18 October's «they all have theirs», or one
@@ -10729,6 +10747,11 @@ function issRowFor(c){
     if(!r) r = { out: true, veh: c.kind === "veh" || c.kind === "tveh", temp: c.kind === "tind" || c.kind === "tveh", x: c.x || {} };
     r.card = c; r.cards = [c]; r.given = c.given ? c : null; r.code = c.code || ""; r.until = c.until || ""; r.seg = r.out ? "out" : c.kind;
     r.pulled = +c.pulled || 0; r.dead = +c.dead || 0;
+    // a lost card is not «مسحوب» (13 November 2026: «ولمفقود ميظهرش فى مسحوب»): it is «مفقود», wherever it is shown
+    // — the card that was lost, not a new one printed for him since (it waits to be handed over, and handing it over takes him off «مفقود»)
+    const lostAs = (ISS.lost || []).find(l => l.kind === c.kind && l.ref === c.ref);
+    r.lost = !r.dead && !c.old && (c.how === "lost" || (lostAs && !(+c.at > +lostAs.at))) ? (+(lostAs || {}).at || r.pulled || 1) : 0;
+    if(r.lost) r.pulled = 0;
     // an employee put down by his code: «الكارت ساري حتى» is his permit's own date, «تاريخ التصريح» in the employees' sheet (asked for the same day)
     if(r.seg === "emp" && !r.until){ const e = r.emps[0]; r.until = e.pdate ? fmt(e.pdate) : (e.permit_date || ""); }
     // every employee he is is one who resigned (13 November 2026: «الناس الى حاصل على كارت واستقالت تنقلها فى صفحة الاعدام والسحب»)
@@ -10764,9 +10787,9 @@ function issBuildRest(rows, lost){
 }
 /* «سحب التصريح» (asked for, 6 November 2026: «لما موظف يمشى اسحب منه التصريح ويبقا موجود عندى لحد ما ينتهى واعدمه»): a card taken
    back is kept until the day it runs to, then destroyed — the admin's alone (system_card_pull). Taken back, it is no longer «تم التسليم». */
-const issHeld = r => !!r.given && !r.pulled && !r.dead;
+const issHeld = r => !!r.given && !r.pulled && !r.dead && !r.lost;
 const issOver = r => { const d = NCM.parseStrict(r.until || ""); return !!d && d < NCM.today0(); };
-const issCat = r => r.dead ? "dead" : r.pulled ? "pulled" : r.given ? "given" : "not";
+const issCat = r => r.dead ? "dead" : r.lost ? "lost" : r.pulled ? "pulled" : r.given ? "given" : "not";
 /* «مستني تسليم الجديد» (13 November 2026: «اعمله»): a new card not handed yet, his old one still in his hand */
 const issSwap = r => !r.given && !r.pulled && !r.dead && !!r.card && issOldOf(issCardKey(r.card)).some(o => o.given && !o.pulled && !o.dead);
 /* THE SEARCH, ONE OR MANY — he picks (asked for the same day). «فردي»: what is typed is one thing, every word of it
@@ -10789,11 +10812,11 @@ function issHits(rows, terms){
    its type and whose it is in the name's, job's and id's places. «تم التسليم» green, the day alone under it. */
 const issDayOf = ms => { const d = new Date(+ms); return isNaN(d) ? "" : fmt(d); };
 const ISS_COLS = [
-  { tk:"isState", cls:"nowrap", h:r => r.dead ? '<div class="iss-cell">' + pill("mute", t("isDead")) + '<span class="iss-day num">' + num(issDayOf(r.dead)) + "</span></div>"
+  { tk:"isState", cls:"nowrap", h:r => r.lost ? '<div class="iss-cell">' + pill("bad", t("cxLost")) + '<span class="iss-day num">' + num(issDayOf(r.lost)) + "</span></div>" : r.dead ? '<div class="iss-cell">' + pill("mute", t("isDead")) + '<span class="iss-day num">' + num(issDayOf(r.dead)) + "</span></div>"
       : r.pulled ? '<div class="iss-cell">' + pill("bad", t("isPulled")) + '<span class="iss-day num">' + num(issDayOf(r.pulled)) + "</span>" + (issOver(r) ? pill("warn", t("isReady")) : "") + "</div>"
       : r.given ? '<div class="iss-cell">' + pill("ok", t("isGiven")) + '<span class="iss-day num">' + num(issDayOf(r.given.given)) + "</span></div>"
       : issSwap(r) ? '<div class="iss-cell">' + pill("warn", t("isNot")) + '<span class="iss-day">' + esc(t("isOldHeld")) + "</span></div>" : pill("warn", t("isNot")),
-    x:r => r.dead ? t("isDead") + " " + issDayOf(r.dead) : r.pulled ? t("isPulled") + " " + issDayOf(r.pulled) : r.given ? t("isGiven") + " " + issDayOf(r.given.given) : t("isNot") },
+    x:r => r.lost ? t("cxLost") : r.dead ? t("isDead") + " " + issDayOf(r.dead) : r.pulled ? t("isPulled") + " " + issDayOf(r.pulled) : r.given ? t("isGiven") + " " + issDayOf(r.given.given) : t("isNot") },
   { tk:"isCode", cls:"nowrap", h:r => r.code ? "<b>" + esc(r.code) + "</b>" : dimDash, x:r => r.code },
   { tk:"isUntil", cls:"nowrap", h:r => r.until ? num(r.until) : dimDash, x:r => r.until }
 ];
@@ -10935,11 +10958,11 @@ function paintIssued(){
     return '<button type="button" class="tile' + (k === seg && !all ? " picked job" : "") + '" data-isseg="' + k + '"><span class="tile-k">' + t(k === "emp" ? "navEmp" : k === "veh" ? "segVehicles" : k === "out" ? "isOut" : k === "tind" ? "isTind" : k === "tveh" ? "isTveh" : "segPeople") + "</span>" +
       '<span class="tile-v num">' + num(mine.length) + '</span><span class="tile-s"><span class="g">' + esc(t("isGiven")) + " " + num(g) + '</span><span class="n">' + esc(t("isNot")) + " " + num(nn) + "</span></span></button>";
   }).join("") + "</div>";
-  const n = { given: rows.filter(issHeld).length, not: rows.filter(r => issCat(r) === "not").length, pulled: rows.filter(r => issCat(r) === "pulled").length, dead: rows.filter(r => r.dead).length, swap: rows.filter(issSwap).length };
+  const n = { given: rows.filter(issHeld).length, not: rows.filter(r => issCat(r) === "not").length, pulled: rows.filter(r => issCat(r) === "pulled").length, dead: rows.filter(r => r.dead).length, swap: rows.filter(issSwap).length, lost: rows.filter(r => issCat(r) === "lost").length };
   const lost = built.lost.filter(c => (c.kind === "veh" || c.kind === "tveh") === veh);
   const b = (k, cls, label, count) => '<button type="button" class="pill ' + cls + " sumbtn" + (cat === k ? " on" : "") + '" data-iscat="' + k + '" aria-pressed="' + (cat === k) + '">' + label + " " + num(count) + "</button>";
   const sum = '<div class="sum' + (cat ? " pick" : "") + '">' + b("", "blue", t("isAll"), rows.length) + b("given", "ok", t("isGiven"), n.given) + b("not", "warn", t("isNot"), n.not) + (n.swap ? b("swap", "blue", t("isSwap"), n.swap) : "") +
-    (n.pulled ? b("pulled", "bad", t("isPulled"), n.pulled) : "") + (n.dead ? b("dead", "mute", t("isDead"), n.dead) : "") +
+    (n.pulled ? b("pulled", "bad", t("isPulled"), n.pulled) : "") + (n.lost ? b("lostc", "bad", t("cxLost"), n.lost) : "") + (n.dead ? b("dead", "mute", t("isDead"), n.dead) : "") +
     (lost.length && !terms.length ? b("lost", "bad", t("isLost"), lost.length) : "") + "</div>";
   if(cat === "lost" && lost.length){
     box.innerHTML = '<section class="panel"><div class="panel-h">' + sum + '</div><div class="note">' + t("isLostNote") + "</div>" +
@@ -10948,7 +10971,7 @@ function paintIssued(){
         (c.given ? pill("ok", t("isGiven")) : pill("warn", t("isNot"))) + "</td></tr>").join("") + "</tbody></table></div></section>";
     return;
   }
-  const mine = cat === "swap" ? rows.filter(issSwap) : ["given", "not", "pulled", "dead"].indexOf(cat) >= 0 ? rows.filter(r => issCat(r) === cat) : rows;
+  const mine = cat === "swap" ? rows.filter(issSwap) : cat === "lostc" ? rows.filter(r => issCat(r) === "lost") : ["given", "not", "pulled", "dead"].indexOf(cat) >= 0 ? rows.filter(r => issCat(r) === cat) : rows;
   const cols = all ? ISS_ALL_COLS : seg === "out" ? ISS_OUT_COLS : issCols(veh), shown = mine.slice(0, SPC_SHOW), may = can("x-give");
   /* the same list painted again (a card handed over, the list asked for anew): it stays where it was scrolled to —
      it went back to its top every time (19 October 2026: «لما أجي أسلم حد يطلع في أول الجدول») */
@@ -10986,8 +11009,9 @@ function cardsxRows(){
   ISS.list.forEach(c => {
     const r = issRowFor(c);
     if(!r || (r.seg === "emp" && printed.has(r.emps[0]))) return;        // one row a man, as on «الكروت»
-    if(c.how === "lost" && !r.dead) return;                               // a lost card is under «كروت مفقودة»
-    if(r.pulled || r.dead) out.push(Object.assign(r, { cx: r.dead ? "dead" : "pulled", why: r.dead && c.how === "give" ? "tmp" : r.quit ? "quit" : "pull" }));
+    if(r.lost) return;                                                     // a lost card is under «كروت مفقودة», not «مسحوب»
+    if(r.dead) return;                                                     // destroyed: off the table («يتمسح من الجدول»)
+    if(r.pulled) out.push(Object.assign(r, { cx: "pulled", why: r.quit ? "quit" : "pull" }));
   });
   (ISS.lost || []).forEach(l => {
     const cur = ISS.byRef.get(l.kind + ":" + l.ref) || {};
@@ -11000,7 +11024,8 @@ function cardsxRows(){
     const r = issRowFor(Object.assign({}, o, { old: true }));
     if(!r) return;
     r.oldCard = o; r.code = o.code || ""; r.until = o.until || r.until; r.pulled = +o.pulled || 0; r.dead = +o.dead || 0;
-    r.cx = r.dead ? "dead" : r.pulled ? "pulled" : "wait"; r.why = "new";
+    if(r.dead) return;
+    r.cx = r.pulled ? "pulled" : "wait"; r.why = "new";
     out.push(r);
   });
   /* in the order of the employees' codes (13 November 2026: «رتب الناس اكواد»): the employees first, code by code; then the rest, the newest first */
@@ -11013,7 +11038,7 @@ const CX_STATE = r => r.cx === "dead" ? '<div class="iss-cell">' + pill("mute", 
   : r.cx === "pulled" ? '<div class="iss-cell">' + pill("bad", t("cxPulled")) + '<span class="iss-day num">' + num(issDayOf(r.pulled)) + "</span>" + (issOver(r) ? pill("warn", t("isReady")) : "") + "</div>"
   : r.cx === "lost" ? '<div class="iss-cell">' + pill("bad", t("cxLost")) + '<span class="iss-day num">' + num(issDayOf(r.lostAt)) + "</span></div>"
   : pill("warn", t("cxWaitNew"));
-const CX_WHY = r => r.why === "new" ? t("cxWhyNew", (r.oldCard && r.oldCard.new) || "") : r.why === "tmp" ? t("cxWhyTmp") : r.why === "quit" ? t("cxWhyQuit") : r.why === "lost" ? t("cxWhyLost") : t("cxWhyPull");
+const CX_WHY = r => r.why === "new" ? t("cxWhyNew", (r.oldCard && r.oldCard.new) || "") : r.why === "tmp" ? t("cxWhyTmp") : r.why === "quit" ? t("cxWhyQuit") : r.why === "lost" ? ((r.lostCard && r.lostCard.note) || "") : t("cxWhyPull");      // a lost card: the reason typed, and nothing else («ميكتبش اى حاجه غير السبب»)
 // an employee's code beside his name (13 November 2026: «اى موظف فى الصفحة دى اظهرلى كوده فى الجدول»)
 const cxCodes = r => [...new Set((r.emps || []).map(e => String(e.emp_code || "")).filter(Boolean))].join(" · ");
 const CX_COLS = () => [ISS_ALL_COLS[0], ISS_ALL_COLS[1],
@@ -11028,6 +11053,7 @@ function renderCardsx(){
     '<div class="iss-top"><div id="cx-tiles" style="width:100%;display:flex;justify-content:center"></div>' +
       '<div class="iss-search"><input class="field iss-one" id="cx-q" type="search" spellcheck="false" autocomplete="off" aria-label="' + t("search") + '"></div>' +
       '<div class="iss-search" id="cx-lostbox" hidden><div class="cx-lost"><input class="field" id="cx-lost" spellcheck="false" autocomplete="off" placeholder="' + esc(t("cxLostIn")) + '" aria-label="' + esc(t("cxLostIn")) + '">' +
+        '<input class="field" id="cx-lostwhy" spellcheck="false" autocomplete="off" maxlength="300" placeholder="' + esc(t("cxLostWhy")) + '" aria-label="' + esc(t("cxLostWhy")) + '">' +
         '<button class="btn primary" data-act="cx-lost-add">' + t("cxLostAdd") + '</button></div><div class="iss-miss" id="cx-lostmsg"></div></div></div>' +
     '<div class="pg-table" id="cxv"></div>');
   $("cx-q").value = st.cardsx.q;
@@ -11048,7 +11074,7 @@ function paintCardsx(){
     " " + (r.emps || []).map(e => e.emp_code + " " + e.national_id).join(" ")));
   const found = words.length ? all.filter(r => words.every(w => hay(r).indexOf(w) >= 0)) : all;
   const cat = st.cardsx.cat, rows = cat ? found.filter(r => r.cx === cat) : found;
-  $("cx-tiles").innerHTML = '<div class="tiles" style="--n:4;--half:2">' + [["pulled", "bad", "cxPulled"], ["wait", "warn", "cxWaitNew"], ["dead", "mute", "cxDead"], ["lost", "bad", "cxLost"]].map(([k, tone, w]) =>
+  $("cx-tiles").innerHTML = '<div class="tiles" style="--n:3;--half:3">' + [["pulled", "bad", "cxPulled"], ["wait", "warn", "cxWaitNew"], ["lost", "bad", "cxLost"]].map(([k, tone, w]) =>
     '<button type="button" class="tile ' + tone + (cat === k ? " picked" : "") + '" data-cxcat="' + k + '"><span class="tile-k">' + esc(t(w)) + '</span><span class="tile-v num">' +
       num(found.filter(r => r.cx === k).length) + "</span></button>").join("") + "</div>";
   const admin = isAdmin(), shown = rows.slice(0, SPC_SHOW);
@@ -11098,9 +11124,10 @@ async function cardsxLostAdd(){
   if(!who){ msg.innerHTML = pill("bad", t("cxLostNo")); return; }
   try{
     const ref = await issHash(who.kind, who.key);
-    const r = await dbCall("system_card_lost", { p_name: link().u || "", p_kind: who.kind, p_ref: ref, p_do: "add" });
+    const why = $("cx-lostwhy") ? $("cx-lostwhy").value.trim() : "";
+    const r = await dbCall("system_card_lost", { p_name: link().u || "", p_kind: who.kind, p_ref: ref, p_do: "add", p_note: why });
     msg.innerHTML = pill(r && r.already ? "warn" : "ok", t(r && r.already ? "cxLostAlready" : "cxLostDone"));
-    if(!(r && r.already)) box.value = "";
+    if(!(r && r.already)){ box.value = ""; if($("cx-lostwhy")) $("cx-lostwhy").value = ""; }
   }catch(e){ msg.innerHTML = pill("bad", t(String(e.message || "").indexOf("403") >= 0 || String(e.message || "").indexOf("401") >= 0 ? "isNo" : "noConn")); return; }
   await issuedSync();
 }
@@ -11120,7 +11147,7 @@ async function cardsxKill(id){
 // the button of a row: hand it over · (the admin) take it back · destroy it
 function issActs(r){
   const key = esc(issCardKey(r.card));
-  if(r.dead) return "";
+  if(r.dead || r.lost) return "";
   if(r.pulled) return isAdmin() ? '<button class="btn sm' + (issOver(r) ? " danger" : "") + ' iss-give" data-iss-kill="' + key + '">' + t("isKill") + "</button> " +
     '<button class="btn sm iss-give" data-iss-unpull="' + key + '">' + t("isUnpull") + "</button>" : "";
   if(r.given) return isAdmin() && r.card.id ? '<button class="btn sm danger iss-give" data-iss-pull="' + key + '">' + t("isPull") + "</button>" : "";
@@ -11687,7 +11714,7 @@ setInterval(readerAsk, ONLINE ? 60000 : 30000);
 setTimeout(readerAsk, 4000);
 // the keys and the mouse button that mean "back" everywhere else mean it here too
 window.addEventListener("keydown", e => { if(e.altKey && e.key === "ArrowLeft"){ e.preventDefault(); goBack(); } });
-document.addEventListener("keydown", e => { if(e.key === "Enter" && e.target && e.target.id === "cx-lost"){ e.preventDefault(); cardsxLostAdd(); } });      // «كروت مفقودة»: Enter puts it down
+document.addEventListener("keydown", e => { if(e.key === "Enter" && e.target && (e.target.id === "cx-lost" || e.target.id === "cx-lostwhy")){ e.preventDefault(); cardsxLostAdd(); } });      // «كروت مفقودة»: Enter puts it down
 window.addEventListener("mouseup", e => { if(e.button === 3){ e.preventDefault(); goBack(); } });
 /* Same switch as the app's: the choice is remembered on this PC, and whatever
    is on screen is redrawn in the other language where it stands — the list

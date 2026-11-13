@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-QNZMQjYhesg1OGWpJJC62EU556ahNozK3iOnhfVkDSs='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-svg4Un2eoulwTosK5E92E4xeX+HXYeG8Tss8z8wVpSc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -4041,7 +4041,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "2b9bf246bb17";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "788a25edcada";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4374,7 +4374,7 @@ const I18N = {
     dkEPass:"باسورد شيت ASE Data مش هو", dkECheck:"الفحص ما عدّاش",
     navLog:"سجل النشاط", lgIn:"دخل السيستم", lgOut:"خرج", lgIdle:"اتقفل لعدم الاستخدام", lgWrong:"رمز غلط", lgBlocked:"الجهاز اتقفل", lgUnblocked:"اتفك قفل الجهاز", lgByThree:"بعد 3 محاولات غلط", lgByAdmin:"من الأدمن", roleGate:"قبل الدخول",
     devT:"الأجهزة", devName:"الجهاز", devLast:"آخر مستخدم", devSeen:"آخر مرة", devState:"الحالة", devOpen:"شغال", devLocked:"مقفول", devWrong:n => n + " رمز غلط", devUnlock:"فك القفل", devLock:"قفل الجهاز", devThis:"جهازك ده",
-    devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.",
+    devLockSure:"تقفل الجهاز ده؟ مش هيقدر يفتح السيستم لحد ما تفكه.", devDel:"حذف", devDelSure:"تحذف الجهاز ده نهائياً؟ الحذف مايترجعش، والجهاز لو فتح السيستم تاني هيبان جهاز جديد.", lgDevDel:"الجهاز اتحذف",
     lgPage:"فتح صفحة", lgGive:"تم تسليم التصريح", lgUngive:"إلغاء التسليم", lgSearch:"بحث", lgLines:(n, f) => n + " سطر — موجود " + f, lgCard:"فتح كارت", lgExport:"صدّر Excel", lgPrint:"طبع", lgRenew:"ضغط تجديد", lgUnrenew:"شال من التجديد",
     lgClear:"مسح السجل", lgClearSure:who => who ? "تمسح سجل «" + who + "»؟ مش هيرجع." : "تمسح سجل النشاط كله؟ مش هيرجع.", lgCleared:"اتمسح السجل ✓",
     lgOpenSearch:"افتح البحث", lgPageK:"الصفحة", lgRowsK:"الصفوف", lgByK:"البحث بـ",
@@ -4524,7 +4524,7 @@ const I18N = {
     dkEPass:"The ASE Data sheet's password is not the one known", dkECheck:"The check did not pass",
     navLog:"Activity log", lgIn:"Signed in", lgOut:"Signed out", lgIdle:"Locked after inactivity", lgWrong:"Wrong PIN", lgBlocked:"Device locked", lgUnblocked:"Device unlocked", lgByThree:"after 3 wrong PINs", lgByAdmin:"by the admin", roleGate:"Before sign-in",
     devT:"Devices", devName:"Device", devLast:"Last user", devSeen:"Last seen", devState:"State", devOpen:"Open", devLocked:"Locked", devWrong:n => n + " wrong " + (n === 1 ? "PIN" : "PINs"), devUnlock:"Unlock", devLock:"Lock device", devThis:"This device",
-    devLockSure:"Lock this device? It will not open the system until you unlock it.",
+    devLockSure:"Lock this device? It will not open the system until you unlock it.", devDel:"Delete", devDelSure:"Delete this device for good? It cannot be undone, and if it opens the system again it shows as a new device.", lgDevDel:"Device deleted",
     lgPage:"Opened page", lgGive:"Permit handed over", lgUngive:"Handing over undone", lgSearch:"Search", lgLines:(n, f) => n + (n === 1 ? " line" : " lines") + " — found " + f, lgCard:"Opened card", lgExport:"Exported Excel", lgPrint:"Printed", lgRenew:"Pressed Renew", lgUnrenew:"Took off renewals",
     lgClear:"Clear the log", lgClearSure:who => who ? "Clear the log of “" + who + "”? It cannot be brought back." : "Clear the whole activity log? It cannot be brought back.", lgCleared:"The log is cleared ✓",
     lgOpenSearch:"Open the search", lgPageK:"Page", lgRowsK:"Rows", lgByK:"Searched by",
@@ -8145,6 +8145,13 @@ async function deviceSet(id, lock){
   logBusy = false;
   logSync();
 }
+/* «حذف» (13 November 2026, «زود حذف»): a locked device out of the list for good — the admin only, a locked one only (system_device_del) */
+async function deviceDel(id){
+  if(!confirm(t("devDelSure"))) return;
+  try{ await dbCall("system_device_del", { p_device: id, p_who: link().u }); }catch(e){ toast(t("renewFail"), true); }
+  logBusy = false;
+  logSync();
+}
 function renderLog(){
   if(!isAdmin()){ st.view = "multi"; paintShell(); return renderMulti(); }        // the page is the admin's
   logSig = "";
@@ -8263,6 +8270,7 @@ function logLine(r){
     case "wrong": return [pill("bad", t("lgWrong")), ""];
     case "blocked": return [pill("ban", t("lgBlocked")), esc(t(d.text === "admin" ? "lgByAdmin" : "lgByThree"))];
     case "unblocked": return [pill("ok", t("lgUnblocked")), esc(t("lgByAdmin"))];
+    case "devdel": return [pill("bad", t("lgDevDel")), esc(t("lgByAdmin"))];
     case "page": return [pill("white", t("lgPage")), pageName(d.v) + (d.o ? " — " + esc(d.o) : "")];
     case "search": return [pill("link", t("lgSearch")), esc(d.m === "ase" ? t("navAse") : d.m === "ask" ? t("navAsk") : d.m === "spc" ? t("navSpc") : d.m === "emp" ? t("navEsrch") : t(d.m === "veh" ? "segVeh" : "segInd")) + " · " + esc(t("lgLines", +d.n || 0, +d.f || 0))];
     case "ase": return [pill("warn", t("asUp")), esc(t("asRows", (+d.n || 0).toLocaleString("en-US")))];
@@ -8282,7 +8290,7 @@ function logLine(r){
    each in the colour of what was done. */
 const LOG_KIND = { search: ["search"], out: ["export", "print"], wrong: ["wrong", "blocked"] };
 const logKindOf = r => Object.keys(LOG_KIND).find(k => LOG_KIND[k].indexOf(r.act) !== -1) || "";
-const LOG_TONE = { in: "ok", out: "mute", idle: "mute", wrong: "bad", blocked: "bad", unblocked: "ok", page: "mute", search: "blue", ase: "warn", card: "mute",
+const LOG_TONE = { in: "ok", out: "mute", idle: "mute", wrong: "bad", blocked: "bad", unblocked: "ok", devdel: "bad", page: "mute", search: "blue", ase: "warn", card: "mute",
   export: "warn", print: "warn", renew: "ok", unrenew: "bad", give: "ok", ungive: "bad" };
 // a day as it is said: today · yesterday · the day's name and its date
 function logDay(ms){
@@ -8321,7 +8329,8 @@ async function paintLog(){
     DEVICES.map(d => '<tr' + (d.blocked ? ' class="banrow"' : "") + '><td class="nowrap">' + logOs(d.tag) + '<span class="logdev">' + esc(d.tag || d.device.slice(-6)) + "</span>" + (d.device === mine ? " " + pill("link", t("devThis")) : "") + "</td>" +
       "<td>" + esc(dash(d.last_user)) + '</td><td class="nowrap">' + num(stamp(Date.parse(d.last_at))) + "</td>" +
       "<td>" + (d.blocked ? pill("ban", t("devLocked")) : pill("ok", t("devOpen"))) + (d.wrong && !d.blocked ? " " + pill("warn", t("devWrong", d.wrong)) : "") + "</td>" +
-      '<td class="act">' + (d.blocked ? '<button class="btn sm primary" data-dev-set="' + esc(d.device) + '|0">' + t("devUnlock") + "</button>"
+      '<td class="act">' + (d.blocked ? '<button class="btn sm primary" data-dev-set="' + esc(d.device) + '|0">' + t("devUnlock") + "</button>" +
+                            ' <button class="btn sm danger" data-dev-del="' + esc(d.device) + '">' + t("devDel") + "</button>"
                           : d.device === mine ? "" : '<button class="btn sm danger" data-dev-set="' + esc(d.device) + '|1">' + t("devLock") + "</button>") + "</td></tr>").join("") +
     "</tbody></table></div></section>";
   // what is counted at the top — every visit · the searches · the files and the paper · the wrong PINs at the gate — each pressed
@@ -8341,7 +8350,7 @@ async function paintLog(){
     const list = rows.slice().reverse(), first = list[0], last = list[list.length - 1], a = Date.parse(first.at), z = Date.parse(last.at);
     const day = logDay(a), dayHead = day === dayWas ? "" : '<div class="lg-day"><span>' + esc(day) + "</span></div>";
     dayWas = day;
-    const gate = list.every(r => r.role === "gate" || r.act === "blocked" || r.act === "unblocked");         // what happened at the gate, with nobody signed in
+    const gate = list.every(r => r.role === "gate" || r.act === "blocked" || r.act === "unblocked" || r.act === "devdel");         // what happened at the gate, with nobody signed in
     const role = gate ? pill("bad", t("roleGate")) : pill(first.role === "admin" ? "link" : "white", t(first.role === "admin" ? "roleAdmin" : "roleViewer"));
     const av = '<span class="lg-av' + (gate ? " gate" : "") + '" aria-hidden="true">' + (gate ? '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.500v5.200c0 4.600-3.200 8-8 9.300-4.800-1.300-8-4.700-8-9.300V6.500L12 3z"/><path d="M12 8v5M12 16.500h.01"/></svg>' : esc(initials(first.who || "?"))) + "</span>";
     return dayHead + '<section class="panel logv fold' + (gate ? " gate" : "") + (logFold.has(key) ? " open" : "") + '" data-fold="' + esc(key) + '"><div class="panel-h"><h3 class="panel-t"><span class="lgfold" aria-hidden="true"></span>' + av +
@@ -11563,6 +11572,8 @@ document.addEventListener("click", e => {
   if(deskGone){ DESK.sent = DESK.sent.filter(x => x.id !== deskGone.dataset.deskDrop); deskKeep(); deskNav(); return paintDesk(); }
   const dev = tg.closest("[data-dev-set]");
   if(dev){ const x = dev.dataset.devSet.split("|"); return deviceSet(x[0], x[1] === "1"); }
+  const devDel = tg.closest("[data-dev-del]");
+  if(devDel) return deviceDel(devDel.dataset.devDel);
   /* a row's box: the press lands on the box's own drawing first — that one is let through to the box and opens no
      card — and then on the box itself */
   if(tg.closest("label.pick") && !tg.matches("[data-pick]")) return;

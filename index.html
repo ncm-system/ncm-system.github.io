@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-VA/oEvuLiBlj7wJdJfjILzJ58oAErquA2hpAbfQMOGg='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-RDncRx7H+iwKnkMGVfyZpc6/kGFqcHig5Jmv4tLqY/c='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -742,6 +742,7 @@ html.dark .rv-card figcaption{background:rgba(21,32,44,.88);color:var(--blue-dee
 .iss-search .multi-ta{min-height:110px;}
 .iss-miss{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
 .iss-miss:empty{display:none;}
+#cx-lostbox[hidden]{display:none!important;}
 .cx-lost{display:flex;gap:8px;align-items:center;}.cx-lost .field{flex:1;min-width:0;}
 .iss-batch{display:flex;flex-direction:column;align-items:center;gap:6px;}
 .iss-batch:empty{display:none;}
@@ -4043,7 +4044,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "5a25455c47ad";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "c7ed74624996";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -11002,8 +11003,10 @@ function cardsxRows(){
     r.cx = r.dead ? "dead" : r.pulled ? "pulled" : "wait"; r.why = "new";
     out.push(r);
   });
+  /* in the order of the employees' codes (13 November 2026: «رتب الناس اكواد»): the employees first, code by code; then the rest, the newest first */
   const when = r => r.lostAt || r.dead || r.pulled || +(r.oldCard || {}).at || 0;
-  return out.sort((a, b) => when(b) - when(a));
+  const code = r => { const c = (r.emps || []).map(e => parseInt(e.emp_code, 10)).filter(n => !isNaN(n)); return c.length ? Math.min(...c) : Infinity; };
+  return out.sort((a, b) => (code(a) - code(b)) || (when(b) - when(a)));
 }
 const CX_STATE = r => r.cx === "dead" ? '<div class="iss-cell">' + pill("mute", t("cxDead")) + '<span class="iss-day num">' + num(issDayOf(r.dead)) + "</span>" +
     ((r.oldCard ? r.oldCard.how : r.card.how) === "give" ? '<span class="iss-day">' + esc(t("cxWithNew")) + "</span>" : "") + "</div>"

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-ZlQhFohbwyYlVJQ5VffJKjVh3M0X26Gl1c9bR4Iq9XE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-HQ2loz/c1xM/f4o+8ygDts1UPmhCIOKP2TF7bbEwulw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2781,6 +2781,64 @@ html[dir=ltr] .reel .rl-steps{direction:ltr;}
 .hc-pill,.hc-sz{margin-inline-start:6px;font-size:11px;padding:1px 7px;vertical-align:middle;white-space:nowrap;}
 td.name .hc-pill,td.name .hc-sz{display:inline-block;}
 @media print{ .hc-pill{display:none !important;} }
+
+/* ===== THE DESIGN REVIEW (25 November 2026, «اعتمد واعملهم وانشر»): ===== */
+/* 1 — the page's own name up top, the logo only in the menu (a wide screen; the phone keeps its own bar) */
+@media (min-width:921px){
+  .pg-fixed > .cbrand{display:none !important;}
+  .pg-head{flex-direction:row;justify-content:space-between;align-items:center;text-align:start;margin:6px 4px 12px;padding-inline-start:110px;}
+  .pg-head > div:first-child{font-size:28px;}
+  body.bgmo .pg-head::before{display:none;}
+  .multi-head{margin-top:110px;}
+  #out{padding-inline-end:22px;}
+}
+/* 2 — the cards and the icons going by, faint behind the data (the words stay as they are) */
+#bgmo .gmo-cards,#bgmo .gmo-rings{opacity:.07;}
+#bgmo .gmo-streams,#bgmo .gmo-beam{opacity:.13;}
+/* 3 — the signature at the menu's foot */
+.side-sig{margin:8px 0 0;text-align:center;direction:ltr;line-height:1.35;}
+.side-sig span{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.side-sig b{display:block;font-family:var(--cond);font-size:12px;letter-spacing:.14em;color:var(--blue);}
+body.rail .side-sig{display:none;}
+@media print{ .side-sig{display:none;} }
+/* 4 — one colour for what is chosen: blue */
+.chip.on,:where(body.calm) .chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+.chip.on b{color:#d6e6ff;}
+html.dark .chip.on,html.dark :where(body.calm) .chip.on{background:#2f7fe0;border-color:#2f7fe0;color:#fff;}
+/* 5 — the four overview cards light: the colour on the figure, its ring and the edge */
+.dh-k{background:var(--panel);color:var(--text);border-top:4px solid var(--kc);box-shadow:0 6px 18px rgba(20,40,70,.08),inset 0 0 0 1px var(--line);}
+.dh-k::before,.dh-k::after{display:none;}
+.dh-k.ok{background:var(--panel);--kc:#1e9a52;} .dh-k.warn{background:var(--panel);--kc:#e08a12;}
+.dh-k.bad{background:var(--panel);--kc:#d64545;} .dh-k.ban{background:var(--panel);--kc:#9f2424;}
+.dh-k .dh-v,.dh-k .dh-ring em{color:var(--kc);}
+.dh-k .dh-ring .t{stroke:var(--line);} .dh-k .dh-ring .v{stroke:var(--kc);}
+.dh-k .dh-tx small{color:var(--muted);opacity:1;}
+html.dark .dh-k.ban{--kc:#e06464;}
+/* 6 — «المتابعة» in the system's light colours (the night look stays for the night mode) */
+html:not(.dark) .lv{--mo-bg:linear-gradient(165deg,rgba(255,255,255,.78),rgba(240,246,252,.78));--mo-edge:rgba(20,60,110,.12);--mo-ink:#12304f;--mo-sub:#5f7389;--mo-dot:rgba(21,101,192,.07);
+  --mo-track:rgba(20,40,70,.08);--mo-node:rgba(20,40,70,.03);--panel:#fff;--text:#12304f;--text-2:#2c4560;--muted:#5f7389;--bad:#d64545;
+  box-shadow:inset 0 0 0 1px rgba(20,60,110,.1),0 10px 30px rgba(20,40,70,.06);}
+html:not(.dark) .lv .lv-t{background:rgba(255,255,255,.92);border-color:rgba(20,60,110,.1);box-shadow:0 6px 18px rgba(20,40,70,.06);}
+html:not(.dark) .lv .lv-t.clock{background:linear-gradient(140deg,#1f7be0,#0b3f7d);}
+html:not(.dark) .lv .lv-mid b,html:not(.dark) .lv .lv-num b,html:not(.dark) .lv .lv-sum b{text-shadow:none;}
+html:not(.dark) .lv .lv-donut .seg,html:not(.dark) .lv .lv-col .st,html:not(.dark) .lv .lv-race .fl{filter:none;box-shadow:none;}
+/* 7 — «آخر تحديث» a quiet grey */
+.desk-last{background:rgba(95,115,137,.1);border-color:rgba(95,115,137,.22);color:#4a5d72;}
+html.dark .desk-last{background:rgba(160,180,200,.12);border-color:rgba(160,180,200,.25);color:#c3d0dd;}
+/* 8 — the buttons inside the boxes outlined; «تحديث الشيتات» up top alone filled */
+#desk .desk-card .btn.primary{background:transparent;color:var(--blue);border:1.5px solid color-mix(in srgb,var(--blue) 55%,transparent);box-shadow:none;}
+#desk .desk-card .btn.primary:hover{background:color-mix(in srgb,var(--blue) 8%,transparent);}
+#desk .desk-card .btn.primary:disabled{opacity:.55;}
+/* 10 — the menu's figures upright */
+em.nb{font-style:normal;}
+/* 13 — the last searches under the box */
+.mrecent{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:16px auto 0;max-width:680px;}
+.mrecent[hidden]{display:none;}
+.mrecent > span{font-size:12px;font-weight:800;color:var(--muted);}
+.mrecent button{border:1px solid color-mix(in srgb,var(--blue) 25%,transparent);background:var(--panel);color:var(--blue);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+.mrecent button:hover{border-color:var(--blue);}
+.mrecent button b{color:var(--muted);font-weight:800;}
+@media print{ .mrecent{display:none !important;} }
 </style>
 </head>
 <body>
@@ -2854,17 +2912,14 @@ td.name .hc-pill,td.name .hc-sz{display:inline-block;}
         <div class="su-card"><i class="edge" aria-hidden="true"><i></i></i><i class="su-shine" aria-hidden="true"></i><span class="su-av" id="user-av" aria-hidden="true"></span><span class="su-txt"><span id="user-name"></span><em class="urole" id="user-role"></em></span></div>
         <button class="fab su-out" id="logout" type="button"><i class="edge" aria-hidden="true"><i></i></i><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
       </div>
+      <!-- the signature, at the menu's foot under the name (25 November 2026 — it sat over the data at the page's foot) -->
+      <p class="side-sig"><span>Designed by</span><b>KHALED SABRY</b></p>
     </div>
   </aside>
 
   <div class="main">
     <button type="button" class="backbtn" id="back" disabled><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span data-i18n="back">رجوع</span></button>
     <main id="out"></main>
-    <!-- The signature closes the page, centred under whatever is on screen. -->
-    <footer class="credit">
-      <span class="credit-by">Designed by</span>
-      <span class="credit-name">KHALED SABRY</span>
-    </footer>
   </div>
 </div>
 
@@ -4045,7 +4100,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "bcd674d8400e";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "459b225064b7";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4326,7 +4381,7 @@ const I18N = {
     adUsers:"المستخدمين", adPinAt:"آخر تغيير للباسورد", adAdmPinAt:"باسورد الأدمن", adPinNever:"ماتغيّرش", adOn:"شغال", adOff:"موقوف", adStop:"إيقاف", adStart:"تشغيل", adDel:"حذف نهائي", adDelSure:n => "تحذف «" + n + "» نهائي؟ مش هيقدر يدخل تاني", adNewPin:"باسورد جديد", adAdmPin:"باسورد الأدمن", adPinClash:"الباسورد ده مستخدم عند حد تاني", adPinSaved:"الباسورد اتغيّر ✓",
     adAdded:n => "«" + n + "» اتضاف ✓", adDeleted:"اتحذف ✓", adFail:"العملية ما تمتش", adNameUsed:"الاسم ده موجود", adPinBad:n => "الباسورد لازم " + n + " أرقام", adNameBad:"اكتب الاسم",
     adSealing:"جارٍ الحفظ", canExport:"تصدير وطباعة", canRenew:"زرار التجديد", canAseup:"رفع شيت ASE", canReport:"التقرير", canCard:"طباعة ملف الشخص", canEdit:"تعديل التصريح",
-    navEdits:"تعديلات", navIssued:"الكروت", navCardsx:"الكروت المسحوبة", cxPulled:"مسحوب", cxWaitNew:"معاه لحد تسليم الجديد", cxDead:"اتعدم", cxWhy:"السبب", cxWhyPull:"اتسحب", cxWhyNew:c => "اتبدّل بكارت جديد" + (c ? " (" + c + ")" : ""), cxWhyTmp:"اتبدّل بالكارت العادي", cxWithNew:"مع تسليم الجديد", cxNone:"مفيش كروت مسحوبة ولا معدومة", isSwap:"مستني تسليم الجديد", isOldHeld:"القديم لسه معاه", cxWhyQuit:"استقال", cxEmpCode:"كود الموظف", cxLostWhy:"السبب", hasPulled:"كارت مسحوب", hasDead:"كارت اتعدم", hasLost:"كارت مفقود", hasTPulled:"كارت مؤقت مسحوب", hasTDead:"كارت مؤقت اتعدم", hasTLost:"كارت مؤقت مفقود", cxLost:"كروت مفقودة", cxLostIn:"الكود أو الرقم القومي أو رقم اللوحة", cxLostAdd:"تسجيل مفقود", cxLostNo:"مش لاقيه في السيستم", cxLostAlready:"متسجل مفقود قبل كده", cxLostDone:"اتسجل مفقود", cxWhyLost:"ضاع", cxLostDel:"إلغاء", cxLostDelSure:"إلغاء تسجيل الكارت ده مفقود؟", cxOldSure:"إعدام الكارت القديم ده؟ صاحبه لسه ماستلمش الجديد.", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", hasTmpCard:"حاصل على كارت مؤقت", isPart:"القسم", isWho:"الاسم / رقم السيارة", isWhat:"الوظيفة / النوع", isId:"الرقم القومي / تابعه", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
+    navEdits:"تعديلات", navIssued:"الكروت", navCardsx:"الكروت المسحوبة", cxPulled:"مسحوب", cxWaitNew:"معاه لحد تسليم الجديد", cxDead:"اتعدم", cxWhy:"السبب", cxWhyPull:"اتسحب", cxWhyNew:c => "اتبدّل بكارت جديد" + (c ? " (" + c + ")" : ""), cxWhyTmp:"اتبدّل بالكارت العادي", cxWithNew:"مع تسليم الجديد", cxNone:"مفيش كروت مسحوبة ولا معدومة", isSwap:"مستني تسليم الجديد", isOldHeld:"القديم لسه معاه", cxWhyQuit:"استقال", cxEmpCode:"كود الموظف", cxLostWhy:"السبب", hasPulled:"كارت مسحوب", hasDead:"كارت اتعدم", hasLost:"كارت مفقود", hasTPulled:"كارت مؤقت مسحوب", hasTDead:"كارت مؤقت اتعدم", hasTLost:"كارت مؤقت مفقود", cxLost:"كروت مفقودة", cxLostIn:"الكود أو الرقم القومي أو رقم اللوحة", cxLostAdd:"تسجيل مفقود", cxLostNo:"مش لاقيه في السيستم", cxLostAlready:"متسجل مفقود قبل كده", cxLostDone:"اتسجل مفقود", cxWhyLost:"ضاع", cxLostDel:"إلغاء", cxLostDelSure:"إلغاء تسجيل الكارت ده مفقود؟", cxOldSure:"إعدام الكارت القديم ده؟ صاحبه لسه ماستلمش الجديد.", isGive:"تم تسليم التصريح", isPull:"سحب التصريح", isPulled:"مسحوب", isDead:"اتعدم", isKill:"إعدام", isReady:"انتهى", isPullSure:"سحب التصريح ده؟ هيفضل عندك لحد ما ينتهي.", isKillSure:"إعدام الكارت ده؟", isKillEarly:"الكارت لسه مانتهاش. إعدامه برضو؟", hasCard:"حاصل على كارت", isUnpull:"إلغاء السحب", isUnpullSure:"إلغاء سحب التصريح؟ هيرجع «تم التسليم».", isGiven:"تم التسليم", isNot:"لسه ماتسلمش", isAll:"كل الكروت", isCode:"كود الكارت", isUntil:"الكارت ساري حتى", isState:"التسليم", isLost:"مش لاقيين صاحبها", isLostNote:"كروت في الملف رقمها القومي أو لوحتها مش في شيتاتنا", isSure:n => "تم تسليم التصريح لـ " + n + "؟", isUndo:"إلغاء التسليم؟", isDone:n => "اتسجل التسليم لـ " + n, isNone:"مفيش كروت", isBusy:"جارٍ التحميل…", isNo:"مش مسموح", isMiss:"مش موجود", isOut:"مش في الشيت", isTind:"مؤقت أفراد", isTveh:"مؤقت مركبات", hasTmpCard:"حاصل على كارت مؤقت", isPart:"القسم", isWho:"الاسم / رقم السيارة", isWhat:"الوظيفة / النوع", isId:"الرقم القومي / تابعه", isCompany:"الشركة", isEnd:"نهاية التصريح", isPCode:"كود التصريح", idphInd:"صور البطاقة", idphVeh:"صور الرخصة", idphIndEnd:"البطاقة منتهية", idphVehEnd:"الرخصة منتهية", canPhoto:"صور البطايق والرخص", canNet:"سرعة النت", canMotion:"الشكل والموشن", canRecent:"آخر بحث", recentHead:"آخر بحث:", canPermit:"إجراءات التصريح", netOn:"متصل", netOff:"مش متصل", netSlow:"النت بطيء", isUp:"رفع كروت", isUpSent:"الملف اتبعت للقارئ", isBWait:"مستني القارئ", isBRead:"بيتقري", isBDone:(n, g, k) => "خلص: " + n + " كارت" + (g ? " · اتسلم " + g : "") + (k ? " · اتساب " + k : ""), isBFail:"ماتقراش", dkPermits:"كروت التصاريح", isS3:"الكروت بتتقري وبتتسجل", isDropHere:"افلت PDF الكروت هنا", isOne:"فردي", isMany:"متعدد", canGive:"تم تسليم التصريح", edBtn:"تعديل التصريح", edDate:"يوم/شهر/سنة", edSave:"حفظ", edCancel:"إلغاء", edBadDate:"اكتب التاريخ يوم/شهر/سنة أو اختار كلمة",
     edSaving:"جارٍ الحفظ", edSaved:"التعديل اتسجّل واترفع على الدرايف ✓", edSavedWait:"التعديل اتسجّل — لسه ما اترفعش على الدرايف", edNo:"مش مسموح", edFail:"التعديل ما اتسجّلش",
     edPill:"التصريح ده اتعدّل من السيستم — لسه ما اترفقش في الورك شيت", edApply:"إرفاق التعديلات", edNone:"مفيش تعديلات", edWho:"الاسم / رقم السيارة", edChange:"التعديل",
     edBy:"اللي عدّل", edDrive:"الدرايف", edSheet:"الورك شيت", edDriveDone:"اترفع", edDriveFail:"ما اترفعش", edDriveWait:"مستني", edApplied:"اترفق", edPending:"مستني الإرفاق",
@@ -4476,7 +4531,7 @@ const I18N = {
     adUsers:"Users", adPinAt:"Password last changed", adAdmPinAt:"Admin password", adPinNever:"never changed", adOn:"On", adOff:"Off", adStop:"Switch off", adStart:"Switch on", adDel:"Delete for good", adDelSure:n => "Delete “" + n + "” for good? They will not be able to sign in again", adNewPin:"New password", adAdmPin:"The admin's password", adPinClash:"That password is already in use", adPinSaved:"Password changed ✓",
     adAdded:n => "“" + n + "” added ✓", adDeleted:"Deleted ✓", adFail:"It did not go through", adNameUsed:"That name is taken", adPinBad:n => "The password is " + n + " digits", adNameBad:"Type the name",
     adSealing:"Saving", canExport:"Export and print", canRenew:"The Renew button", canAseup:"Upload an ASE sheet", canReport:"The report", canCard:"Print a person's file", canEdit:"Change a permit",
-    navEdits:"Edits", navIssued:"Cards", navCardsx:"Cards taken back", cxPulled:"Taken back", cxWaitNew:"Held until the new one is handed", cxDead:"Destroyed", cxWhy:"Why", cxWhyPull:"Taken back", cxWhyNew:c => "Replaced by a new card" + (c ? " (" + c + ")" : ""), cxWhyTmp:"Replaced by his own card", cxWithNew:"with the new one handed", cxNone:"No cards taken back or destroyed", isSwap:"Waiting for the new one", isOldHeld:"Old one still held", cxWhyQuit:"Resigned", cxEmpCode:"Employee code", cxLostWhy:"Why", hasPulled:"Card taken back", hasDead:"Card destroyed", hasLost:"Card lost", hasTPulled:"Temporary card taken back", hasTDead:"Temporary card destroyed", hasTLost:"Temporary card lost", cxLost:"Lost cards", cxLostIn:"Employee code, national ID or plate", cxLostAdd:"Record as lost", cxLostNo:"Not found in the system", cxLostAlready:"Already recorded as lost", cxLostDone:"Recorded as lost", cxWhyLost:"Lost", cxLostDel:"Undo", cxLostDelSure:"Undo recording this card as lost?", cxOldSure:"Destroy this old card? Its holder has not been handed the new one yet.", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", hasTmpCard:"Has a temporary card", isPart:"Part", isWho:"Name / plate", isWhat:"Job / type", isId:"National ID / belongs to", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
+    navEdits:"Edits", navIssued:"Cards", navCardsx:"Cards taken back", cxPulled:"Taken back", cxWaitNew:"Held until the new one is handed", cxDead:"Destroyed", cxWhy:"Why", cxWhyPull:"Taken back", cxWhyNew:c => "Replaced by a new card" + (c ? " (" + c + ")" : ""), cxWhyTmp:"Replaced by his own card", cxWithNew:"with the new one handed", cxNone:"No cards taken back or destroyed", isSwap:"Waiting for the new one", isOldHeld:"Old one still held", cxWhyQuit:"Resigned", cxEmpCode:"Employee code", cxLostWhy:"Why", hasPulled:"Card taken back", hasDead:"Card destroyed", hasLost:"Card lost", hasTPulled:"Temporary card taken back", hasTDead:"Temporary card destroyed", hasTLost:"Temporary card lost", cxLost:"Lost cards", cxLostIn:"Employee code, national ID or plate", cxLostAdd:"Record as lost", cxLostNo:"Not found in the system", cxLostAlready:"Already recorded as lost", cxLostDone:"Recorded as lost", cxWhyLost:"Lost", cxLostDel:"Undo", cxLostDelSure:"Undo recording this card as lost?", cxOldSure:"Destroy this old card? Its holder has not been handed the new one yet.", isGive:"Permit handed over", isPull:"Take the permit back", isPulled:"Taken back", isDead:"Destroyed", isKill:"Destroy", isReady:"Expired", isPullSure:"Take this permit back? It stays with you until it runs out.", isKillSure:"Destroy this card?", isKillEarly:"The card has not run out yet. Destroy it anyway?", hasCard:"Has a card", isUnpull:"Undo", isUnpullSure:"Undo taking the permit back? It goes back to «handed over».", isGiven:"Handed over", isNot:"Not handed over yet", isAll:"All cards", isCode:"Card code", isUntil:"Card valid until", isState:"Handed over", isLost:"Owner not found", isLostNote:"Cards in the file whose id or plate is not in our sheets", isSure:n => "Mark " + n + " as handed over?", isUndo:"Undo the handing over?", isDone:n => "Handed over: " + n, isNone:"No cards", isBusy:"Loading…", isNo:"Not allowed", isMiss:"Not found", isOut:"Not in the sheets", isTind:"Temporary people", isTveh:"Temporary vehicles", hasTmpCard:"Has a temporary card", isPart:"Part", isWho:"Name / plate", isWhat:"Job / type", isId:"National ID / belongs to", isCompany:"Company", isEnd:"Permit ends", isPCode:"Permit code", idphInd:"ID card photos", idphVeh:"Licence photos", idphIndEnd:"ID card expired", idphVehEnd:"Licence expired", canPhoto:"ID and licence photos", canNet:"Internet speed", canMotion:"Look and motion", canRecent:"Last searches", recentHead:"Last searches:", canPermit:"Permit actions", netOn:"Online", netOff:"Offline", netSlow:"Slow connection", isUp:"Upload cards", isUpSent:"Sent to the reader", isBWait:"Waiting for the reader", isBRead:"Being read", isBDone:(n, g, k) => "Done: " + n + " cards" + (g ? " · handed " + g : "") + (k ? " · left out " + k : ""), isBFail:"Could not be read", dkPermits:"Permit cards", isS3:"Reading and recording the cards", isDropHere:"Drop the PDF of cards here", isOne:"One", isMany:"Many", canGive:"Permit handed over", edBtn:"Change the permit", edDate:"day/month/year", edSave:"Save", edCancel:"Cancel", edBadDate:"Type the date as day/month/year, or pick a word",
     edSaving:"Saving", edSaved:"The change is recorded and on the Drive sheet ✓", edSavedWait:"The change is recorded — not on the Drive sheet yet", edNo:"Not allowed", edFail:"The change was not recorded",
     edPill:"This permit was changed from the system — not in the work sheet yet", edApply:"Apply the edits", edNone:"No edits", edWho:"Name / plate", edChange:"The change",
     edBy:"Changed by", edDrive:"Drive", edSheet:"Work sheet", edDriveDone:"Sent", edDriveFail:"Not sent", edDriveWait:"Waiting", edApplied:"Applied", edPending:"Waiting to be applied",
@@ -6976,6 +7031,18 @@ function histHTML(){
       '<span class="hist-at num">' + esc(stamp(x.at)) + "</span></button>";
   }).join("") + '<button type="button" class="hist-clear" data-act="hist-clear">' + t("histClear") + "</button>";
 }
+/* THE LAST SEARCHES UNDER THE BOX (25 November 2026, the design review — «اعتمد واعملهم»): the five newest of this page's own kept searches
+   (HIST — this user's, sealed), a press runs it again; shown only while nothing is asked. A permission of its own (x-recent). */
+function mrecentPaint(show){
+  const box = $("mrecent");
+  if(!box) return;
+  const mine = can("x-recent") ? HIST.map((x, i) => [x, i]).filter(o => HIST_PAGE[o[0].m] === "multi").slice(0, 5) : [];
+  box.hidden = !show || !mine.length;
+  box.innerHTML = box.hidden ? "" : '<span>' + t("recentHead") + "</span>" + mine.map(o => {
+    const terms = o[0].t.split("\n");
+    return '<button type="button" data-hist="' + o[1] + '">' + esc(terms[0].slice(0, 40)) + (terms.length > 1 ? " <b>+" + (terms.length - 1) + "</b>" : "") + "</button>";
+  }).join("");
+}
 function histToggle(open){
   const box = $("hist");
   if(!box) return;
@@ -7248,6 +7315,7 @@ function gmsPut(box){ box.innerHTML = ""; bgmoSync(); }
 function paintMulti(keep){
   const res = st.multi.res, box = $("mres");
   if(!box) return;
+  mrecentPaint(!res || !res.terms);
   if(!res || !res.terms){ gmsPut(box); return; }      // nothing asked: nothing under the box
   gmsOff();
   const at = keep ? rowsAt(box) : 0;
@@ -7314,6 +7382,7 @@ function renderMulti(){
         "</div>" +
         '<div class="hist" id="hist" hidden></div>' +
       "</div>" +
+      '<div class="mrecent" id="mrecent" hidden></div>' +
     "</div>",
     '<div class="pg-table" id="mres"></div>');
   $("mt").value = m.text;
@@ -7784,12 +7853,12 @@ const PERM_PAGES = ["multi", "esrch", "spc", "ase", "home", "live", "emp", "ind"
    own here — the report (x-report), a man's file on paper (x-card) — and is not his until the admin presses its
    chip. The red of a transfer letter on «ASE SEARCH» goes with the compare page (cmp), which is where it came from. */
 // what a user may do, as it is kept (the database checks some of these by name — x-edit, x-give, x-photo — so they stay as they are)
-const PERM_KEYS = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion"];
+const PERM_KEYS = ["x-export", "x-renew", "x-aseup", "x-report", "x-card", "x-edit", "x-give", "x-photo", "x-net", "x-motion", "x-recent"];
 // …and as ADMIN shows it: five buttons, each turning a group of them on or off together (asked for, 2 November 2026: «راجع كل
 // الازرار الجديدة… لو متشابهه اجمعها مع بعض»). A list with any one of a group reads as having the whole group.
-const PERM_GROUP = { "x-export": ["x-export", "x-report", "x-card"], "x-permit": ["x-renew", "x-edit", "x-give"], "x-aseup": ["x-aseup"], "x-photo": ["x-photo"], "x-motion": ["x-motion", "x-net"] };
+const PERM_GROUP = { "x-export": ["x-export", "x-report", "x-card"], "x-permit": ["x-renew", "x-edit", "x-give"], "x-aseup": ["x-aseup"], "x-photo": ["x-photo"], "x-motion": ["x-motion", "x-net"], "x-recent": ["x-recent"] };
 const PERM_CAN = Object.keys(PERM_GROUP);
-const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion", "x-permit": "canPermit" };
+const PERM_WORD = { "x-export": "canExport", "x-renew": "canRenew", "x-aseup": "canAseup", "x-report": "canReport", "x-card": "canCard", "x-edit": "canEdit", "x-give": "canGive", "x-photo": "canPhoto", "x-net": "canNet", "x-motion": "canMotion", "x-permit": "canPermit", "x-recent": "canRecent" };
 const ADMIN_VIEWS = { today: 1, log: 1, cards: 1, src: 1, adm: 1, edits: 1 };
 /* ALL THE MOTION, ONE CHIP (asked for, 23 October 2026: «خلى الموشن جيرافك كله فى زر واحد اضغط عليه يظهر لمديرى»): the welcome, the
    waiting, «لوحة المتابعة» assembling and the search box on the sign-in screen's motion are «x-motion». A list saved while they were four

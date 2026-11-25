@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-HQ2loz/c1xM/f4o+8ygDts1UPmhCIOKP2TF7bbEwulw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-NF2IfiuMX4lMN2S5QAYVm8DiAwJCC2DcHa4pfBs5k+0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -2795,12 +2795,6 @@ td.name .hc-pill,td.name .hc-sz{display:inline-block;}
 /* 2 — the cards and the icons going by, faint behind the data (the words stay as they are) */
 #bgmo .gmo-cards,#bgmo .gmo-rings{opacity:.07;}
 #bgmo .gmo-streams,#bgmo .gmo-beam{opacity:.13;}
-/* 3 — the signature at the menu's foot */
-.side-sig{margin:8px 0 0;text-align:center;direction:ltr;line-height:1.35;}
-.side-sig span{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-.side-sig b{display:block;font-family:var(--cond);font-size:12px;letter-spacing:.14em;color:var(--blue);}
-body.rail .side-sig{display:none;}
-@media print{ .side-sig{display:none;} }
 /* 4 — one colour for what is chosen: blue */
 .chip.on,:where(body.calm) .chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
 .chip.on b{color:#d6e6ff;}
@@ -2829,6 +2823,24 @@ html.dark .desk-last{background:rgba(160,180,200,.12);border-color:rgba(160,180,
 #desk .desk-card .btn.primary{background:transparent;color:var(--blue);border:1.5px solid color-mix(in srgb,var(--blue) 55%,transparent);box-shadow:none;}
 #desk .desk-card .btn.primary:hover{background:color-mix(in srgb,var(--blue) 8%,transparent);}
 #desk .desk-card .btn.primary:disabled{opacity:.55;}
+/* 9 — «الكروت»: the table was 1770px on a 1111px window and the delivery state sat cut at its edge (25 November 2026, «اعمل العمود
+   المقطوع»): the long texts wrap in narrower columns, so the state, the card's code and its date are in view as it opens, and the
+   button column stays at the left edge while the rest moves under it */
+#issv .tbl th,#issv .tbl td{padding:8px 8px;}
+#issv .tbl td{white-space:normal;}
+#issv .tbl td:nth-child(2),#issv .tbl th:nth-child(2){min-width:130px;max-width:170px;}
+#issv .tbl td:nth-child(3),#issv .tbl th:nth-child(3){min-width:100px;max-width:130px;}
+#issv .tbl td:nth-child(5),#issv .tbl th:nth-child(5){min-width:130px;max-width:170px;}
+#issv .tbl td:nth-child(6),#issv .tbl th:nth-child(6){min-width:90px;max-width:130px;}
+#issv .tbl td:nth-child(4),#issv .tbl td.num{white-space:nowrap;}
+#issv .tbl tr > :last-child{position:sticky;inset-inline-end:0;z-index:1;background:#f7faff;box-shadow:7px 0 9px -8px rgba(21,101,192,.35);}
+#issv .tbl tbody tr:nth-child(even) > :last-child{background:#f2f7fd;}
+#issv .tbl tbody tr:hover > :last-child{background:#eef4fc;}
+#issv .tbl th:last-child{z-index:3;background:#e9f1fb;}
+#issv .tbl tfoot tr > :last-child{background:transparent;box-shadow:none;}
+html.dark #issv .tbl tr > :last-child,html.dark #issv .tbl tbody tr:nth-child(even) > :last-child,html.dark #issv .tbl tbody tr:hover > :last-child{background:#172331;}
+html.dark #issv .tbl th:last-child{background:#1c2b3c;}
+@media print{ #issv .tbl tr > :last-child{position:static;box-shadow:none;} }
 /* 10 — the menu's figures upright */
 em.nb{font-style:normal;}
 /* 13 — the last searches under the box */
@@ -2912,14 +2924,17 @@ em.nb{font-style:normal;}
         <div class="su-card"><i class="edge" aria-hidden="true"><i></i></i><i class="su-shine" aria-hidden="true"></i><span class="su-av" id="user-av" aria-hidden="true"></span><span class="su-txt"><span id="user-name"></span><em class="urole" id="user-role"></em></span></div>
         <button class="fab su-out" id="logout" type="button"><i class="edge" aria-hidden="true"><i></i></i><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 16l4-4-4-4M19 12H9"/></svg></button>
       </div>
-      <!-- the signature, at the menu's foot under the name (25 November 2026 — it sat over the data at the page's foot) -->
-      <p class="side-sig"><span>Designed by</span><b>KHALED SABRY</b></p>
     </div>
   </aside>
 
   <div class="main">
     <button type="button" class="backbtn" id="back" disabled><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span data-i18n="back">رجوع</span></button>
     <main id="out"></main>
+    <!-- The signature closes the page, centred under whatever is on screen. -->
+    <footer class="credit">
+      <span class="credit-by">Designed by</span>
+      <span class="credit-name">KHALED SABRY</span>
+    </footer>
   </div>
 </div>
 
@@ -4100,7 +4115,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "459b225064b7";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "747ab2f83c93";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;

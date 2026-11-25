@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NGmIepPK5Ao5GR/SG0GHYc3mxTMFLsn8kUjPXhxddTY=' 'sha256-NF2IfiuMX4lMN2S5QAYVm8DiAwJCC2DcHa4pfBs5k+0='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-J+3eVM1XvZGpU7uI1kvwk6jt1V3Z3Zh14pYJj9ysmM4=' 'sha256-RoNYxxtXxuSflRebyEA8S4Gs1kbj8/A/IJiePLdfiiw='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co; connect-src 'self' https://docs.google.com https://*.googleusercontent.com https://*.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Chrome sees Arabic and offers, on every opening, to translate the page.
@@ -3149,9 +3149,17 @@ async function unzip(buf, e){
   const bytes = new Uint8Array(buf, start, e.csize);
   if(e.method === 0) return new TextDecoder("utf-8").decode(bytes);
   if(e.method !== 8) throw fail("NOT_XLSX", "ضغط غير مدعوم جوّه الملف");
-  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
-  return new TextDecoder("utf-8").decode(await new Response(stream).arrayBuffer());
+  // decoded piece by piece as the inflater hands it over (25 November 2026: the first load held the page ~0.3 s decoding one big sheet in one go)
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw")).pipeThrough(new TextDecoderStream("utf-8"));
+  const parts = [], rd = stream.getReader();
+  for(;;){ const { done, value } = await rd.read(); if(done) break; parts.push(value); }
+  return parts.join("");
 }
+/* A breath for the page in the middle of a long read: the page draws and answers, then the read goes on. A message, not a timer
+   (a timer is held back to 4 ms and more once nested); used only when a piece of work has run past its slice. */
+const breathe = (() => { const ch = new MessageChannel(), q = []; ch.port1.onmessage = () => { const r = q.shift(); if(r) r(); };
+  return () => new Promise(r => { q.push(r); ch.port2.postMessage(0); }); })();
+const SLICE = 12;                                   // ms of work before a breath
 const ENT = { amp:"&", lt:"<", gt:">", quot:'"', apos:"'" };
 function xmlText(s){
   // A line break typed inside a cell sits in the file as CR LF. Every XML
@@ -3238,10 +3246,11 @@ function numText(raw){
   return (Number.isInteger(n) && Math.abs(n) < 1e21) ? n.toFixed(0) : String(n);
 }
 /* -> [{n: the row's number in Excel, c: [text per column]}], empty rows dropped */
-function sheetRows(xml, shared, dateXf, maxCol){
+async function sheetRows(xml, shared, dateXf, maxCol){
   const rows = [], rre = /<row\b([^>]*?)(?:\/>|>([\s\S]*?)<\/row>)/g;
-  let m;
+  let m, t0 = performance.now(), n = 0;
   while((m = rre.exec(xml))){
+    if((++n & 63) === 0 && performance.now() - t0 > SLICE){ await breathe(); t0 = performance.now(); }
     if(!m[2]) continue;
     const rn = +(attr(m[1], "r") || 0) || rows.length + 1;
     const cells = []; let any = false, ci = -1, c;
@@ -3308,7 +3317,7 @@ async function readFile(file, onStep){
   const dateXf = ent.has("xl/styles.xml") ? dateStyles(await get("xl/styles.xml")) : [];
   const tab = async (t, maxCol, label) => {
     step("بقرا " + label);
-    const rows = sheetRows(await get(t.path), shared, dateXf, maxCol);
+    const rows = await sheetRows(await get(t.path), shared, dateXf, maxCol);
     const header = rows.length ? rows[0].c : [];
     return { header, rows: rows.slice(1) };
   };
@@ -3656,11 +3665,24 @@ function runChecks(M){
   return out;
 }
 
+/* The model in steps (25 November 2026): buildModel runs them one after another as it always did; buildModelSliced lets the page
+   breathe between them — for a reading of the sheets, so the first load does not hold the page ~0.2 s in one go. */
 function buildModel(data){
+  const it = modelSteps(data); let r;
+  while(!(r = it.next()).done);
+  return r.value;
+}
+async function buildModelSliced(data){
+  const it = modelSteps(data); let r;
+  while(!(r = it.next()).done) await breathe();
+  return r.value;
+}
+function* modelSteps(data){
   const M = { emp: null, ind: null, veh: null, tind: null, tveh: null, checks: [] };
-  if(data.emp) M.emp = buildEmployees(data.emp);
+  if(data.emp){ M.emp = buildEmployees(data.emp); yield; }
   if(data.per){
-    M.ind = buildIndividuals(data.per); M.veh = buildVehicles(data.per);
+    M.ind = buildIndividuals(data.per); yield;
+    M.veh = buildVehicles(data.per); yield;
     // the temporary permits: the same rules as their kind, lists of their own
     if(data.per.sheets.tind){
       M.tind = buildIndividuals({ sheets: { ind: data.per.sheets.tind } }, colsByHead(data.per.sheets.tind.header, "ind"));
@@ -3669,12 +3691,14 @@ function buildModel(data){
     }
     if(data.per.sheets.tveh) M.tveh = buildVehicles({ sheets: { veh: data.per.sheets.tveh } }, colsByHead(data.per.sheets.tveh.header, "veh"));
     [M.tind, M.tveh].forEach(T => { if(T) T.list.forEach(g => g.records.forEach(r => { r.temp = true; })); });
+    yield;
   }
   if(M.emp && M.ind){
     M.emp.list.forEach(e => { e.per = e.foreign ? null : (M.ind.byNid.get(e.nid) || null); });
     M.ind.list.forEach(g => { g.emp = (g.nid && M.emp.byNid.get(g.nid)) || null; });
     if(M.tind) M.tind.list.forEach(g => { g.emp = (g.nid && M.emp.byNid.get(g.nid)) || null; });
   }
+  yield;
   M.checks = runChecks(M);
   M.issues = M.checks.filter(c => c.sev !== "info").reduce((n, c) => n + c.rows.length, 0);
   return M;
@@ -4030,7 +4054,7 @@ async function readAse(file, said){
 }
 
 return { EXPIRY_WINDOW, normalize, digitsOnly, foldArabic, toLatinDigits, fmt, today0,
-         parseStrict, nidInfo, readFile, buildModel, EMP_COLS, writeXLSX, writeForm, zip, readAse };
+         parseStrict, nidInfo, readFile, buildModel, buildModelSliced, EMP_COLS, writeXLSX, writeForm, zip, readAse, breathe };
 })();
 </script>
 
@@ -4115,7 +4139,7 @@ const CLOUD = {
 };
 const KDF_ROUNDS = 600000;                       // must match tools/build-online.js
 const SESSION_V = "6";                           // bump to sign every device out
-const BUILD = "747ab2f83c93";                             // tools/build-online.js writes the published copy's own stamp here
+const BUILD = "750e35074c44";                             // tools/build-online.js writes the published copy's own stamp here
 /*USERS-BEGIN*/
 /*sources-sealed*/
 let PIN_LEN = 0;
@@ -4777,7 +4801,31 @@ const idb = (() => {
       return true;
     }catch(e){ return false; }
   }
-  return { get, set };
+  /* A sheet kept in pieces (25 November 2026): the browser copies what it keeps in one go, and some 4,000 rows of small objects held
+     the page ~0.25 s each time a sheet was read afresh. Its rows go as JSON texts of 400 rows, written with breaths between; a text is
+     copied in a blink. A copy kept the old way (no «packed») is read as it is. */
+  async function setSheet(k, p){
+    if(!p || !p.sheets) return set(k, p);
+    const out = Object.assign({}, p, { sheets: {}, packed: 1 });
+    for(const name of Object.keys(p.sheets)){
+      const sh = p.sheets[name], parts = [];
+      for(let i = 0; i < sh.rows.length; i += 400){ parts.push(JSON.stringify(sh.rows.slice(i, i + 400))); await NCM.breathe(); }
+      out.sheets[name] = { header: sh.header, parts };
+    }
+    return set(k, out);
+  }
+  async function getSheet(k){
+    const p = await get(k);
+    if(!p || !p.packed || !p.sheets) return p;
+    const out = Object.assign({}, p, { sheets: {} }); delete out.packed;
+    for(const name of Object.keys(p.sheets)){
+      const sh = p.sheets[name], rows = [];
+      for(const part of sh.parts || []){ const got = JSON.parse(part); for(let i = 0; i < got.length; i++) rows.push(got[i]); await NCM.breathe(); }
+      out.sheets[name] = { header: sh.header, rows };
+    }
+    return out;
+  }
+  return { get, set, setSheet, getSheet };
 })();
 
 /* ---------- feedback ---------- */
@@ -4833,7 +4881,7 @@ async function takeFiles(items){
       const payload = await NCM.readFile(it.file);
       await new Promise(r => setTimeout(r, 0));
       DATA[payload.kind] = payload;
-      await idb.set(payload.kind, payload);
+      await idb.setSheet(payload.kind, payload);
       if(it.handle){ HANDLES[payload.kind] = it.handle; await idb.set("h_" + payload.kind, it.handle); }
       done.push(sheetName(payload.kind));
     }catch(err){
@@ -4937,7 +4985,7 @@ async function sync(force){
         if(payload.kind !== kind) continue;
         payload.stamp = got.stamp; payload.path = SOURCES[kind];
         DATA[kind] = payload; seen[kind] = got.stamp;
-        idb.set(kind, payload);
+        idb.setSheet(kind, payload);
         fresh.push(kind);
       }catch(e){ console.warn("[PERMISSION SYSTEM] " + kind + " not readable yet", e); }
     }
@@ -4945,7 +4993,9 @@ async function sync(force){
   const was = live;
   live = reached > 0;
   if(fresh.length){
-    rebuild(true);
+    // the model worked out with breaths between its steps; used only if the sheets are still the ones it was worked out from
+    const per = DATA.per, emp = DATA.emp, ready = await NCM.buildModelSliced(withEdits(DATA));
+    rebuild(true, DATA.per === per && DATA.emp === emp ? ready : null);
     // said only for a save that arrives while the system is open, not for the first read
     if(was !== null && !force) toast(t("updated", fresh.map(sheetName).join(t("and"))));
   }
@@ -5413,9 +5463,9 @@ async function startOnline(){
 /* `quiet` is for a sheet that changed underneath an open page: the figures are
    redrawn where they stand, and a box someone is typing in is left alone —
    redrawing the whole page would take the cursor out of his hands. */
-function rebuild(quiet){
+function rebuild(quiet, ready){
   builtDay = NCM.today0().getTime();
-  M = NCM.buildModel(withEdits(DATA));
+  M = ready || NCM.buildModel(withEdits(DATA));
   if(EDITS.of !== DATA.per) editsResolve();      // the sheet was read again: are the rows that were changed still the rows they were?
   if(st.multi.res) runMulti();          // the list stays; its answers come from the new sheets
   paintShell();
@@ -10622,15 +10672,19 @@ async function issIndex(){
   const m = M;
   if(ISS.of === m && ISS.h) return ISS.h;
   if(!link()) return null;
-  const h = { ind: new Map(), emp: new Map(), veh: new Map(), tind: new Map(), tveh: new Map() }, jobs = [];
-  const put = (kind, key) => { if(key && !h[kind].has(key)){ h[kind].set(key, ""); jobs.push(issHash(kind, key).then(x => h[kind].set(key, x))); } };
+  const h = { ind: new Map(), emp: new Map(), veh: new Map(), tind: new Map(), tveh: new Map() }, want = [];
+  const put = (kind, key) => { if(key && !h[kind].has(key)){ h[kind].set(key, ""); want.push([kind, key]); } };
   if(m.ind) m.ind.list.forEach(g => put("ind", g.nid));
   if(m.emp) m.emp.list.forEach(e => { put("emp", e.emp_code); if(!e.foreign) put("ind", e.nid); });
   if(m.veh) m.veh.list.forEach(g => put("veh", g.key));
   // the temporary permits' cards (10 November 2026): kinds of their own, by the temporary sheets
   if(m.tind) m.tind.list.forEach(g => put("tind", g.nid));
   if(m.tveh) m.tveh.list.forEach(g => put("tveh", g.key));
-  await Promise.all(jobs);
+  // worked out 250 at a time, the page breathing between (25 November 2026: some 4,000 at once held it ~0.2 s after the first load)
+  for(let i = 0; i < want.length; i += 250){
+    await Promise.all(want.slice(i, i + 250).map(([kind, key]) => issHash(kind, key).then(x => h[kind].set(key, x))));
+    if(i + 250 < want.length) await NCM.breathe();
+  }
   if(M !== m) return null;
   const back = {};
   Object.keys(h).forEach(k => { back[k] = new Map(); h[k].forEach((x, key) => back[k].set(x, key)); });
@@ -12352,14 +12406,18 @@ async function startLocal(){
   }else{
     render();
     renewSync(); devicesSync(); editsSync();
-    const [emp, per, hEmp, hPer] = await Promise.all([idb.get("emp"), idb.get("per"), idb.get("h_emp"), idb.get("h_per")]);
+    const [emp, per, hEmp, hPer] = await Promise.all([idb.getSheet("emp"), idb.getSheet("per"), idb.get("h_emp"), idb.get("h_per")]);
     if(emp && emp.sheets) DATA.emp = emp;
     if(per && per.sheets) DATA.per = per;
     // only a copy that came off the disk by itself carries a save time worth trusting
     seen.emp = (emp && emp.stamp && emp.path === SOURCES.emp) ? emp.stamp : "";
     seen.per = (per && per.stamp && per.path === SOURCES.per) ? per.stamp : "";
     HANDLES.emp = hEmp || null; HANDLES.per = hPer || null;
-    if(DATA.emp || DATA.per) rebuild(); else paintShell();
+    if(DATA.emp || DATA.per){
+      // the model worked out with breaths between its steps (25 November 2026), then drawn as before
+      const per0 = DATA.per, emp0 = DATA.emp, ready = await NCM.buildModelSliced(withEdits(DATA));
+      rebuild(false, DATA.per === per0 && DATA.emp === emp0 ? ready : null);
+    }else paintShell();
     if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     if(!DATA.emp && !DATA.per) busy(true, t("readingSheets"));
     await sync();
